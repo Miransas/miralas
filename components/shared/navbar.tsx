@@ -8,10 +8,11 @@ import {
   Building2,
   ChevronDown,
   Code2,
+  Cloud,
+  Cpu,
   FileText,
-  GraduationCap,
+  Layers,
   Menu,
-  MessagesSquare,
   MoveRight,
   Rocket,
   ShieldCheck,
@@ -19,9 +20,6 @@ import {
   Users,
   X,
   Zap,
-  Cloud,
-  Layers,
-  Cpu,
   type LucideIcon,
 } from "lucide-react";
 
@@ -59,43 +57,52 @@ export interface MegaMenuNavbarProps
 type DesktopMenu = "features" | "use-cases" | "resources" | null;
 type MobileSection = Exclude<DesktopMenu, null>;
 
-// MİRANSAS ECOSYSTEM DATA
+/* ============================================================
+   DEFAULT DATA
+   ============================================================ */
+
 const DEFAULT_FEATURES: MegaMenuItem[] = [
   {
     title: "Miransas Core",
-    description: "Temel arayüz bileşenleri. Kopyala, özelleştir ve hızla yayına al.",
+    description:
+      "Temel arayüz bileşenleri. Kopyala, özelleştir ve hızla yayına al.",
     href: "/components",
     icon: Layers,
     badge: "v2.0",
   },
   {
     title: "Miransas Motion",
-    description: "Kusursuz etkileşimler ve dikkat dağıtmayan akıcı animasyonlar.",
+    description:
+      "Kusursuz etkileşimler ve dikkat dağıtmayan akıcı animasyonlar.",
     href: "/motion",
     icon: Zap,
     badge: "Yeni",
   },
   {
     title: "Miransas Cloud",
-    description: "Projelerinizi saniyeler içinde global olarak dağıtın ve ölçeklendirin.",
+    description:
+      "Projelerinizi saniyeler içinde global olarak dağıtın ve ölçeklendirin.",
     href: "/cloud",
     icon: Cloud,
   },
   {
     title: "Miransas AI",
-    description: "Yapay zeka entegrasyonları ile uygulamanıza zeka katın.",
+    description:
+      "Yapay zeka entegrasyonları ile uygulamanıza zeka katın.",
     href: "/ai",
     icon: Cpu,
   },
   {
     title: "Dokümantasyon",
-    description: "Temiz kurulum notları, API referansları ve kod örnekleri.",
+    description:
+      "Temiz kurulum notları, API referansları ve kod örnekleri.",
     href: "/docs",
     icon: Code2,
   },
   {
     title: "Açık Kaynak",
-    description: "Geliştirici topluluğu için inşa edilmiş pratik tasarım sistemi.",
+    description:
+      "Geliştirici topluluğu için inşa edilmiş pratik tasarım sistemi.",
     href: "https://github.com/Miransas",
     icon: ShieldCheck,
   },
@@ -104,19 +111,22 @@ const DEFAULT_FEATURES: MegaMenuItem[] = [
 const DEFAULT_USE_CASES: MegaMenuItem[] = [
   {
     title: "Kurumsal Çözümler",
-    description: "Büyük ölçekli uygulamalar için performanslı ve güvenilir mimari.",
+    description:
+      "Büyük ölçekli uygulamalar için performanslı ve güvenilir mimari.",
     href: "/enterprise",
     icon: Building2,
   },
   {
     title: "Startup & SaaS",
-    description: "Fikirlerinizi hızla ürüne dönüştürecek hazır yapı taşları.",
+    description:
+      "Fikirlerinizi hızla ürüne dönüştürecek hazır yapı taşları.",
     href: "/startups",
     icon: Rocket,
   },
   {
     title: "Kişisel Projeler",
-    description: "Portfolyonuzu ve yaratıcı işlerinizi teknik bir zarafetle sunun.",
+    description:
+      "Portfolyonuzu ve yaratıcı işlerinizi teknik bir zarafetle sunun.",
     href: "/personal",
     icon: Briefcase,
   },
@@ -126,20 +136,48 @@ const DEFAULT_RESOURCE_GROUPS: MegaMenuResourceGroup[] = [
   {
     title: "Keşfet",
     links: [
-      { title: "Bileşenler", href: "/components", icon: Layers },
-      { title: "Bloklar", href: "/blocks", icon: BarChart3 },
-      { title: "Şablonlar", href: "/templates", icon: Sparkles },
+      {
+        title: "Bileşenler",
+        href: "/components",
+        icon: Layers,
+      },
+      {
+        title: "Bloklar",
+        href: "/blocks",
+        icon: BarChart3,
+      },
+      {
+        title: "Şablonlar",
+        href: "/templates",
+        icon: Sparkles,
+      },
     ],
   },
   {
     title: "Öğren",
     links: [
-      { title: "Dokümantasyon", href: "/docs", icon: FileText },
-      { title: "Güncellemeler", href: "/changelog", icon: Code2 },
-      { title: "Topluluk", href: "https://discord.gg/miransas", icon: Users },
+      {
+        title: "Dokümantasyon",
+        href: "/docs",
+        icon: FileText,
+      },
+      {
+        title: "Güncellemeler",
+        href: "/changelog",
+        icon: Code2,
+      },
+      {
+        title: "Topluluk",
+        href: "https://discord.gg/miransas",
+        icon: Users,
+      },
     ],
   },
 ];
+
+/* ============================================================
+   NAV ACTION
+   ============================================================ */
 
 function NavAction({
   href,
@@ -159,14 +197,36 @@ function NavAction({
       href={href}
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center justify-center rounded-xl px-4 text-sm font-semibold tracking-tight transition-all duration-300 ease-out active:scale-95",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2",
+        "group inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold tracking-tight",
+        "transition-all duration-300 ease-out active:scale-[0.97]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+
         variant === "primary" &&
-          "bg-zinc-950 text-white shadow-md hover:bg-zinc-800 hover:shadow-lg dark:bg-white dark:text-black dark:hover:bg-zinc-200",
+          [
+            "bg-foreground text-background",
+            "shadow-[0_8px_30px_-12px_color-mix(in_oklab,var(--foreground)_35%,transparent)]",
+            "hover:-translate-y-0.5",
+            "hover:shadow-[0_12px_35px_-12px_color-mix(in_oklab,var(--foreground)_45%,transparent)]",
+          ],
+
         variant === "ghost" &&
-          "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white",
+          [
+            "text-muted-foreground",
+            "hover:bg-foreground/[0.045]",
+            "hover:text-foreground",
+          ],
+
         variant === "outline" &&
-          "border border-zinc-200 bg-white text-zinc-900 shadow-sm hover:bg-zinc-50 dark:border-white/10 dark:bg-black dark:text-zinc-100 dark:hover:bg-white/5",
+          [
+            "border border-border",
+            "bg-card/70",
+            "text-foreground",
+            "shadow-sm",
+            "backdrop-blur-xl",
+            "hover:-translate-y-0.5",
+            "hover:bg-card",
+          ],
+
         className,
       )}
     >
@@ -174,6 +234,10 @@ function NavAction({
     </a>
   );
 }
+
+/* ============================================================
+   BRAND
+   ============================================================ */
 
 function Brand({
   brandName,
@@ -190,19 +254,80 @@ function Brand({
     <a
       href={brandHref}
       onClick={onNavigate}
-      className="group flex shrink-0 items-center gap-3 text-base font-bold tracking-tight text-zinc-950 transition-all dark:text-white"
+      className="
+        group
+        flex
+        shrink-0
+        items-center
+        gap-2.5
+        rounded-full
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-ring
+        focus-visible:ring-offset-2
+        focus-visible:ring-offset-background
+      "
+      aria-label={brandName}
     >
       {logo ?? (
-        <div className="relative flex size-8 items-center justify-center rounded-xl bg-zinc-950 shadow-sm transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-[360deg] group-hover:scale-105 dark:bg-white">
-          <img src="/logo.png" alt="Logo" className="size-4 brightness-0 invert dark:invert-0" />
-        </div>
+        <span
+          className="
+            relative
+            flex
+            size-8
+            items-center
+            justify-center
+            overflow-hidden
+            rounded-[11px]
+            border
+            border-border
+            bg-card
+            shadow-sm
+            transition-all
+            duration-300
+            group-hover:scale-105
+            group-hover:shadow-md
+          "
+        >
+          <span
+            className="
+              absolute
+              inset-0
+              bg-[radial-gradient(circle_at_30%_25%,color-mix(in_oklab,var(--foreground)_10%,transparent),transparent_55%)]
+            "
+          />
+
+          <span
+            className="
+              relative
+              size-3
+              rounded-full
+              bg-foreground
+              shadow-[0_0_18px_color-mix(in_oklab,var(--foreground)_25%,transparent)]
+            "
+          />
+        </span>
       )}
-      <span className="bg-gradient-to-br from-zinc-950 to-zinc-600 bg-clip-text text-transparent transition-colors group-hover:to-zinc-950 dark:from-white dark:to-zinc-400 dark:group-hover:to-white">
+
+      <span
+        className="
+          hidden
+          text-sm
+          font-bold
+          tracking-[-0.02em]
+          text-foreground
+          sm:block
+        "
+      >
         {brandName}
       </span>
     </a>
   );
 }
+
+/* ============================================================
+   MENU TRIGGER
+   ============================================================ */
 
 function MenuTrigger({
   id,
@@ -225,26 +350,51 @@ function MenuTrigger({
       onClick={onToggle}
       onFocus={onOpen}
       className={cn(
-        "group flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ease-out",
-        "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400",
-        "dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white",
-        isOpen && "bg-zinc-100 text-zinc-950 dark:bg-white/10 dark:text-white",
+        "group relative flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold tracking-tight",
+        "text-muted-foreground transition-all duration-300 ease-out",
+        "hover:bg-foreground/[0.045] hover:text-foreground",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        isOpen && "bg-foreground/[0.055] text-foreground",
       )}
     >
       {label}
+
       <ChevronDown
         className={cn(
-          "size-3.5 opacity-50 transition-transform duration-300 ease-out group-hover:opacity-100",
+          "size-3.5 opacity-50 transition-all duration-300",
+          "group-hover:opacity-100",
           isOpen && "rotate-180 opacity-100",
         )}
       />
+
+      {isOpen && (
+        <span
+          className="
+            absolute
+            bottom-0.5
+            left-1/2
+            size-1
+            -translate-x-1/2
+            rounded-full
+            bg-foreground
+          "
+        />
+      )}
     </button>
   );
 }
 
-function FeatureGrid({ items }: { items: MegaMenuItem[] }) {
+/* ============================================================
+   FEATURE GRID
+   ============================================================ */
+
+function FeatureGrid({
+  items,
+}: {
+  items: MegaMenuItem[];
+}) {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-1">
       {items.map((item) => {
         const Icon = item.icon;
 
@@ -252,42 +402,138 @@ function FeatureGrid({ items }: { items: MegaMenuItem[] }) {
           <a
             key={item.title}
             href={item.href}
-            className={cn(
-              "group/item relative flex items-start gap-4 rounded-2xl p-4 transition-all duration-300 ease-out",
-              "hover:-translate-y-1 hover:bg-white hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300",
-              "dark:hover:bg-zinc-900/80 dark:hover:shadow-[0_8px_30px_-4px_rgba(255,255,255,0.03)] dark:focus-visible:ring-white/20",
-            )}
+            className="
+              group/item
+              relative
+              flex
+              gap-3.5
+              rounded-2xl
+              p-3.5
+              transition-all
+              duration-300
+              ease-out
+              hover:-translate-y-0.5
+              hover:bg-foreground/[0.035]
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-ring
+            "
           >
-            {Icon ? (
-              <span className="relative z-10 flex size-12 shrink-0 items-center justify-center rounded-xl border border-zinc-200/50 bg-zinc-50/50 transition-all duration-300 ease-out group-hover/item:scale-110 group-hover/item:border-zinc-300 group-hover/item:bg-white group-hover/item:shadow-sm dark:border-white/5 dark:bg-white/5 dark:group-hover/item:border-white/10 dark:group-hover/item:bg-white/10">
-                <Icon className={cn("size-5 transition-colors duration-300", item.iconClassName ?? "text-zinc-600 group-hover/item:text-zinc-950 dark:text-zinc-400 dark:group-hover/item:text-white")} />
-              </span>
-            ) : null}
+            {Icon && (
+              <span
+                className="
+                  relative
+                  flex
+                  size-10
+                  shrink-0
+                  items-center
+                  justify-center
+                  overflow-hidden
+                  rounded-xl
+                  border
+                  border-border
+                  bg-background
+                  text-muted-foreground
+                  shadow-sm
+                  transition-all
+                  duration-300
+                  group-hover/item:border-foreground/15
+                  group-hover/item:text-foreground
+                  group-hover/item:shadow-md
+                "
+              >
+                <span
+                  className="
+                    absolute
+                    inset-0
+                    bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--foreground)_7%,transparent),transparent_65%)]
+                  "
+                />
 
-            <span className="relative z-10 min-w-0 transition-transform duration-300 ease-out group-hover/item:translate-x-0.5">
+                <Icon
+                  className={cn(
+                    "relative size-[18px]",
+                    item.iconClassName,
+                  )}
+                />
+              </span>
+            )}
+
+            <span className="min-w-0 pt-0.5">
               <span className="flex items-center gap-2">
-                <span className="text-sm font-bold tracking-tight text-zinc-950 dark:text-white">
+                <span
+                  className="
+                    text-sm
+                    font-bold
+                    tracking-tight
+                    text-foreground
+                  "
+                >
                   {item.title}
                 </span>
-                {item.badge ? (
-                  <span className="rounded-full border border-zinc-200 bg-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-zinc-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
+
+                {item.badge && (
+                  <span
+                    className="
+                      rounded-full
+                      border
+                      border-border
+                      bg-background
+                      px-1.5
+                      py-0.5
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[0.12em]
+                      text-muted-foreground
+                    "
+                  >
                     {item.badge}
                   </span>
-                ) : null}
+                )}
               </span>
-              {item.description ? (
-                <span className="mt-1.5 block text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+
+              {item.description && (
+                <span
+                  className="
+                    mt-1
+                    block
+                    max-w-[250px]
+                    text-[11px]
+                    leading-[1.55]
+                    text-muted-foreground
+                  "
+                >
                   {item.description}
                 </span>
-              ) : null}
+              )}
             </span>
+
+            <MoveRight
+              className="
+                absolute
+                right-3
+                top-3
+                size-3.5
+                -translate-x-1
+                opacity-0
+                text-muted-foreground
+                transition-all
+                duration-300
+                group-hover/item:translate-x-0
+                group-hover/item:opacity-100
+              "
+            />
           </a>
         );
       })}
     </div>
   );
 }
+
+/* ============================================================
+   DESKTOP DROPDOWN
+   ============================================================ */
 
 function DesktopDropdown({
   id,
@@ -305,10 +551,12 @@ function DesktopDropdown({
       id={id}
       aria-hidden={!open}
       className={cn(
-        "absolute left-0 top-full z-50 pt-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        "absolute left-0 top-full z-50 pt-3",
+        "origin-top-left",
+        "transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
         open
           ? "visible translate-y-0 scale-100 opacity-100"
-          : "invisible -translate-y-3 scale-95 opacity-0 pointer-events-none",
+          : "pointer-events-none invisible -translate-y-2 scale-[0.97] opacity-0",
         className,
       )}
     >
@@ -316,6 +564,10 @@ function DesktopDropdown({
     </div>
   );
 }
+
+/* ============================================================
+   MOBILE ACCORDION
+   ============================================================ */
 
 function MobileAccordion({
   title,
@@ -334,18 +586,34 @@ function MobileAccordion({
   const contentId = `mobile-${value}-content`;
 
   return (
-    <div className="border-b border-zinc-200 dark:border-white/10">
+    <div className="border-b border-border">
       <button
         type="button"
         aria-expanded={isOpen}
         aria-controls={contentId}
         onClick={() => onToggle(value)}
-        className="flex w-full items-center justify-between py-4 text-sm font-bold tracking-tight text-zinc-950 transition-colors hover:text-zinc-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-white dark:hover:text-zinc-400"
+        className="
+          flex
+          w-full
+          items-center
+          justify-between
+          py-4
+          text-sm
+          font-bold
+          tracking-tight
+          text-foreground
+          transition-colors
+          hover:text-muted-foreground
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-ring
+        "
       >
         {title}
+
         <ChevronDown
           className={cn(
-            "size-4 text-zinc-400 transition-transform duration-300 ease-out",
+            "size-4 text-muted-foreground transition-transform duration-300",
             isOpen && "rotate-180",
           )}
         />
@@ -354,12 +622,14 @@ function MobileAccordion({
       <div
         id={contentId}
         className={cn(
-          "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
-          isOpen ? "grid-rows-[1fr] pb-4 opacity-100" : "grid-rows-[0fr] opacity-0",
+          "grid transition-[grid-template-rows,opacity] duration-300",
+          isOpen
+            ? "grid-rows-[1fr] pb-4 opacity-100"
+            : "grid-rows-[0fr] opacity-0",
         )}
       >
         <div className="overflow-hidden">
-          <div className="ml-2 flex flex-col gap-1 border-l-2 border-zinc-100 pl-4 dark:border-white/10">
+          <div className="ml-1 flex flex-col gap-1 border-l border-border pl-4">
             {children}
           </div>
         </div>
@@ -368,24 +638,72 @@ function MobileAccordion({
   );
 }
 
-function MobileMenuItem({ item, onNavigate }: { item: MegaMenuItem; onNavigate: () => void }) {
+/* ============================================================
+   MOBILE ITEM
+   ============================================================ */
+
+function MobileMenuItem({
+  item,
+  onNavigate,
+}: {
+  item: MegaMenuItem;
+  onNavigate: () => void;
+}) {
   const Icon = item.icon;
 
   return (
     <a
       href={item.href}
       onClick={onNavigate}
-      className="group flex items-center gap-3.5 rounded-xl px-3 py-2.5 text-sm font-semibold tracking-tight text-zinc-600 transition-all duration-200 ease-out hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-white"
+      className="
+        group
+        flex
+        items-center
+        gap-3
+        rounded-xl
+        px-3
+        py-2.5
+        text-sm
+        font-semibold
+        text-muted-foreground
+        transition-all
+        duration-200
+        hover:bg-foreground/[0.04]
+        hover:text-foreground
+      "
     >
-      {Icon ? (
-        <div className="flex size-8 items-center justify-center rounded-lg bg-zinc-50 transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:shadow-sm dark:bg-white/5 dark:group-hover:bg-white/10">
-          <Icon className={cn("size-4", item.iconClassName)} />
-        </div>
-      ) : null}
-      <span className="transition-transform duration-300 group-hover:translate-x-1">{item.title}</span>
+      {Icon && (
+        <Icon className="size-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+      )}
+
+      <span>{item.title}</span>
+
+      {item.badge && (
+        <span
+          className="
+            ml-auto
+            rounded-full
+            border
+            border-border
+            px-1.5
+            py-0.5
+            text-[9px]
+            font-bold
+            uppercase
+            tracking-wider
+            text-muted-foreground
+          "
+        >
+          {item.badge}
+        </span>
+      )}
     </a>
   );
 }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
 
 export function Navbar({
   brandName = "Miransas Projects",
@@ -401,133 +719,337 @@ export function Navbar({
   className,
   ...props
 }: MegaMenuNavbarProps) {
-  const [openMenu, setOpenMenu] = React.useState<DesktopMenu>(null);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mobileSection, setMobileSection] = React.useState<MobileSection | null>(null);
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  
-  const navRef = React.useRef<HTMLElement>(null);
-  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+  const [openMenu, setOpenMenu] =
+    React.useState<DesktopMenu>(null);
+
+  const [mobileOpen, setMobileOpen] =
+    React.useState(false);
+
+  const [mobileSection, setMobileSection] =
+    React.useState<MobileSection | null>(null);
+
+  const [isScrolled, setIsScrolled] =
+    React.useState(false);
+
+  const navRef = React.useRef<HTMLElement | null>(null);
+
+  const closeButtonRef =
+    React.useRef<HTMLButtonElement | null>(null);
+
+  /* ----------------------------------------------------------
+     SCROLL
+     ---------------------------------------------------------- */
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 18);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () =>
+      window.removeEventListener(
+        "scroll",
+        handleScroll,
+      );
   }, []);
 
+  /* ----------------------------------------------------------
+     OUTSIDE CLICK + ESCAPE
+     ---------------------------------------------------------- */
+
   React.useEffect(() => {
-    const onPointerDown = (event: PointerEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) {
+    const handlePointerDown = (event: PointerEvent) => {
+      if (
+        navRef.current &&
+        !navRef.current.contains(event.target as Node)
+      ) {
         setOpenMenu(null);
       }
     };
 
-    const onKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
+
       setOpenMenu(null);
       setMobileOpen(false);
+      setMobileSection(null);
     };
 
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener(
+      "pointerdown",
+      handlePointerDown,
+    );
+
+    document.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
 
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener(
+        "pointerdown",
+        handlePointerDown,
+      );
+
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown,
+      );
     };
   }, []);
+
+  /* ----------------------------------------------------------
+     MOBILE SCROLL LOCK
+     ---------------------------------------------------------- */
 
   React.useEffect(() => {
     if (!mobileOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
+
     document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
+
+    requestAnimationFrame(() => {
+      closeButtonRef.current?.focus();
+    });
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow =
+        previousOverflow;
     };
   }, [mobileOpen]);
+
+  /* ----------------------------------------------------------
+     HELPERS
+     ---------------------------------------------------------- */
 
   const closeMobile = () => {
     setMobileOpen(false);
     setMobileSection(null);
   };
 
-  const toggleDesktopMenu = (menu: Exclude<DesktopMenu, null>) => {
-    setOpenMenu((current) => (current === menu ? null : menu));
+  const toggleDesktopMenu = (
+    menu: Exclude<DesktopMenu, null>,
+  ) => {
+    setOpenMenu((current) =>
+      current === menu ? null : menu,
+    );
   };
 
-  const toggleMobileSection = (section: MobileSection) => {
-    setMobileSection((current) => (current === section ? null : section));
+  const toggleMobileSection = (
+    section: MobileSection,
+  ) => {
+    setMobileSection((current) =>
+      current === section ? null : section,
+    );
   };
+
+  /* ----------------------------------------------------------
+     RENDER
+     ---------------------------------------------------------- */
 
   return (
-    <header
-      {...props}
-      ref={navRef}
-      className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        isScrolled 
-          ? "bg-white/80 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] dark:bg-black/70 dark:border-white/10 dark:shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5)]" 
-          : "bg-transparent border-b border-transparent",
-        className,
-      )}
-      onMouseLeave={(event) => {
-        setOpenMenu(null);
-        props.onMouseLeave?.(event);
-      }}
-    >
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className={cn(
-          "flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-          isScrolled ? "h-16" : "h-24"
-        )}>
-          <div className="flex items-center gap-10">
-            <Brand brandName={brandName} brandHref={brandHref} logo={logo} />
+    <>
+      <header
+        {...props}
+        ref={navRef}
+        className={cn(
+          "fixed inset-x-0 top-0 z-50",
+          "px-3 pt-3 sm:px-5 sm:pt-4",
+          className,
+        )}
+      >
+        {/* ====================================================
+            FLOATING NAVBAR
+            ==================================================== */}
 
-            <nav aria-label="Primary navigation" className="hidden items-center lg:flex">
-              <ul className="flex items-center gap-2">
-                <li className="relative" onMouseEnter={() => setOpenMenu("features")}>
+        <div
+          className={cn(
+            "mx-auto flex max-w-[1400px] items-center justify-between",
+            "rounded-2xl border px-2.5",
+            "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+
+            isScrolled
+              ? [
+                  "h-[58px]",
+                  "border-border/80",
+                  "bg-background/78",
+                  "shadow-[0_12px_50px_-20px_color-mix(in_oklab,var(--foreground)_22%,transparent)]",
+                  "backdrop-blur-2xl",
+                ]
+              : [
+                  "h-16",
+                  "border-transparent",
+                  "bg-background/[0.32]",
+                  "backdrop-blur-xl",
+                ],
+          )}
+        >
+          {/* --------------------------------------------------
+              LEFT
+              -------------------------------------------------- */}
+
+          <div className="flex min-w-0 items-center gap-5">
+            <Brand
+              brandName={brandName}
+              brandHref={brandHref}
+              logo={logo}
+            />
+
+            {/* Desktop navigation */}
+
+            <nav
+              aria-label="Primary navigation"
+              className="hidden lg:block"
+            >
+              <ul className="flex items-center gap-0.5">
+                {/* ECOSYSTEM */}
+
+                <li
+                  className="relative"
+                  onMouseEnter={() =>
+                    setOpenMenu("features")
+                  }
+                >
                   <MenuTrigger
                     id="features-mega-menu"
                     label="Ekosistem"
-                    isOpen={openMenu === "features"}
-                    onToggle={() => toggleDesktopMenu("features")}
-                    onOpen={() => setOpenMenu("features")}
+                    isOpen={
+                      openMenu === "features"
+                    }
+                    onToggle={() =>
+                      toggleDesktopMenu(
+                        "features",
+                      )
+                    }
+                    onOpen={() =>
+                      setOpenMenu("features")
+                    }
                   />
-                  <DesktopDropdown id="features-mega-menu" open={openMenu === "features"} className="w-[720px]">
-                    <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/95 p-4 backdrop-blur-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-zinc-900/5 dark:border-white/10 dark:bg-zinc-950/95 dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]">
-                      <FeatureGrid items={features} />
-                      <div className="mt-4 flex items-center justify-between rounded-2xl border border-zinc-100 bg-zinc-50/50 px-5 py-4 transition-colors hover:bg-zinc-100/50 dark:border-white/5 dark:bg-white/[0.02] dark:hover:bg-white/[0.04]">
-                        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                          Miransas ile bir sonraki büyük projenizi oluşturun.
-                        </span>
+
+                  <DesktopDropdown
+                    id="features-mega-menu"
+                    open={
+                      openMenu === "features"
+                    }
+                    className="w-[720px]"
+                  >
+                    <div
+                      className="
+                        overflow-hidden
+                        rounded-[24px]
+                        border
+                        border-border/80
+                        bg-card/92
+                        p-3
+                        shadow-[0_28px_80px_-25px_color-mix(in_oklab,var(--foreground)_25%,transparent)]
+                        backdrop-blur-2xl
+                      "
+                    >
+                      <div className="rounded-[20px] border border-border/60 bg-background/45 p-1">
+                        <FeatureGrid
+                          items={features}
+                        />
+                      </div>
+
+                      <div
+                        className="
+                          mt-3
+                          flex
+                          items-center
+                          justify-between
+                          gap-5
+                          rounded-2xl
+                          border
+                          border-border/70
+                          bg-foreground/[0.025]
+                          px-4
+                          py-3.5
+                        "
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="flex size-7 items-center justify-center rounded-lg border border-border bg-background">
+                            <Sparkles className="size-3.5 text-muted-foreground" />
+                          </span>
+
+                          <span className="text-xs font-medium text-muted-foreground">
+                            Bir sonraki büyük
+                            projenizi oluşturun.
+                          </span>
+                        </div>
+
                         <a
                           href="/components"
-                          className="group inline-flex items-center gap-2 text-sm font-bold tracking-tight text-zinc-950 transition-colors hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
+                          className="
+                            group
+                            inline-flex
+                            shrink-0
+                            items-center
+                            gap-1.5
+                            text-xs
+                            font-bold
+                            text-foreground
+                            transition-colors
+                            hover:text-muted-foreground
+                          "
                         >
-                          Tüm Kütüphaneyi Gör
-                          <MoveRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+                          Kütüphaneyi keşfet
+                          <MoveRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                         </a>
                       </div>
                     </div>
                   </DesktopDropdown>
                 </li>
 
-                <li className="relative" onMouseEnter={() => setOpenMenu("use-cases")}>
+                {/* SOLUTIONS */}
+
+                <li
+                  className="relative"
+                  onMouseEnter={() =>
+                    setOpenMenu("use-cases")
+                  }
+                >
                   <MenuTrigger
                     id="use-cases-mega-menu"
                     label="Çözümler"
-                    isOpen={openMenu === "use-cases"}
-                    onToggle={() => toggleDesktopMenu("use-cases")}
-                    onOpen={() => setOpenMenu("use-cases")}
+                    isOpen={
+                      openMenu === "use-cases"
+                    }
+                    onToggle={() =>
+                      toggleDesktopMenu(
+                        "use-cases",
+                      )
+                    }
+                    onOpen={() =>
+                      setOpenMenu("use-cases")
+                    }
                   />
-                  <DesktopDropdown id="use-cases-mega-menu" open={openMenu === "use-cases"} className="w-[460px]">
-                    <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/95 p-3 backdrop-blur-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-zinc-900/5 dark:border-white/10 dark:bg-zinc-950/95 dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]">
+
+                  <DesktopDropdown
+                    id="use-cases-mega-menu"
+                    open={
+                      openMenu === "use-cases"
+                    }
+                    className="w-[470px]"
+                  >
+                    <div
+                      className="
+                        overflow-hidden
+                        rounded-[24px]
+                        border
+                        border-border/80
+                        bg-card/92
+                        p-3
+                        shadow-[0_28px_80px_-25px_color-mix(in_oklab,var(--foreground)_25%,transparent)]
+                        backdrop-blur-2xl
+                      "
+                    >
                       <div className="flex flex-col gap-1">
                         {useCases.map((item) => {
                           const Icon = item.icon;
@@ -536,105 +1058,306 @@ export function Navbar({
                             <a
                               key={item.title}
                               href={item.href}
-                              className="group/item relative flex items-center gap-4 rounded-2xl p-3.5 transition-all duration-300 ease-out hover:bg-zinc-50 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 dark:hover:bg-white/5 dark:focus-visible:ring-white/20"
+                              className="
+                                group
+                                flex
+                                gap-3.5
+                                rounded-2xl
+                                p-3.5
+                                transition-all
+                                duration-300
+                                hover:bg-foreground/[0.035]
+                              "
                             >
-                              {Icon ? (
-                                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200/50 bg-white transition-all duration-300 ease-out group-hover/item:scale-110 group-hover/item:border-zinc-300 group-hover/item:shadow-sm dark:border-white/10 dark:bg-zinc-900/50 dark:group-hover/item:border-white/20 dark:group-hover/item:bg-white/5">
-                                  <Icon className="size-5 text-zinc-600 transition-colors duration-300 group-hover/item:text-zinc-950 dark:text-zinc-400 dark:group-hover/item:text-white" />
+                              {Icon && (
+                                <span
+                                  className="
+                                    flex
+                                    size-10
+                                    shrink-0
+                                    items-center
+                                    justify-center
+                                    rounded-xl
+                                    border
+                                    border-border
+                                    bg-background
+                                    text-muted-foreground
+                                    transition-all
+                                    duration-300
+                                    group-hover:border-foreground/15
+                                    group-hover:text-foreground
+                                  "
+                                >
+                                  <Icon className="size-[18px]" />
                                 </span>
-                              ) : null}
-                              <span className="transition-transform duration-300 ease-out group-hover/item:translate-x-0.5">
-                                <span className="block text-sm font-bold tracking-tight text-zinc-950 dark:text-white">
+                              )}
+
+                              <span className="min-w-0">
+                                <span className="block text-sm font-bold tracking-tight text-foreground">
                                   {item.title}
                                 </span>
-                                {item.description ? (
-                                  <span className="mt-1 block text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+
+                                {item.description && (
+                                  <span className="mt-1 block text-[11px] leading-relaxed text-muted-foreground">
                                     {item.description}
                                   </span>
-                                ) : null}
+                                )}
                               </span>
+
+                              <MoveRight className="ml-auto mt-1 size-3.5 shrink-0 -translate-x-1 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                             </a>
                           );
                         })}
                       </div>
 
-                      <div className="mt-2 rounded-2xl border border-zinc-100 bg-zinc-50/80 p-5 dark:border-white/5 dark:bg-white/[0.02]">
-                        <p className="text-sm font-bold tracking-tight text-zinc-950 dark:text-white">Özelleştirilebilir Yapı</p>
-                        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-                          Miransas mimarisini kendi iş modelinize göre esnetin.
+                      <div
+                        className="
+                          mt-2
+                          rounded-2xl
+                          border
+                          border-border
+                          bg-foreground/[0.025]
+                          p-4
+                        "
+                      >
+                        <p className="text-xs font-bold text-foreground">
+                          Özelleştirilebilir yapı
                         </p>
-                        <a href="/components" className="group mt-4 inline-flex items-center gap-1.5 text-xs font-bold tracking-tight text-zinc-900 transition-colors hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300">
-                          Örnekleri İncele 
-                          <MoveRight className="size-3.5 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+
+                        <p className="mt-1.5 max-w-sm text-[11px] leading-relaxed text-muted-foreground">
+                          Miransas mimarisini kendi
+                          ürününüzün ihtiyaçlarına göre
+                          esnetin.
+                        </p>
+
+                        <a
+                          href="/components"
+                          className="
+                            group
+                            mt-3
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            text-xs
+                            font-bold
+                            text-foreground
+                          "
+                        >
+                          Örnekleri incele
+                          <MoveRight className="size-3.5 transition-transform group-hover:translate-x-1" />
                         </a>
                       </div>
                     </div>
                   </DesktopDropdown>
                 </li>
 
+                {/* PRICING */}
+
                 <li>
                   <a
                     href={pricingHref}
-                    className="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold tracking-tight text-zinc-600 transition-all duration-300 ease-out hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                    className="
+                      flex
+                      items-center
+                      rounded-full
+                      px-3.5
+                      py-2
+                      text-sm
+                      font-semibold
+                      tracking-tight
+                      text-muted-foreground
+                      transition-all
+                      duration-300
+                      hover:bg-foreground/[0.045]
+                      hover:text-foreground
+                      focus-visible:outline-none
+                      focus-visible:ring-2
+                      focus-visible:ring-ring
+                    "
                   >
                     Fiyatlandırma
                   </a>
                 </li>
 
-                <li className="relative" onMouseEnter={() => setOpenMenu("resources")}>
+                {/* RESOURCES */}
+
+                <li
+                  className="relative"
+                  onMouseEnter={() =>
+                    setOpenMenu("resources")
+                  }
+                >
                   <MenuTrigger
                     id="resources-mega-menu"
                     label="Kaynaklar"
-                    isOpen={openMenu === "resources"}
-                    onToggle={() => toggleDesktopMenu("resources")}
-                    onOpen={() => setOpenMenu("resources")}
+                    isOpen={
+                      openMenu === "resources"
+                    }
+                    onToggle={() =>
+                      toggleDesktopMenu(
+                        "resources",
+                      )
+                    }
+                    onOpen={() =>
+                      setOpenMenu("resources")
+                    }
                   />
+
                   <DesktopDropdown
                     id="resources-mega-menu"
-                    open={openMenu === "resources"}
-                    className="left-1/2 w-[740px] -translate-x-1/2"
+                    open={
+                      openMenu === "resources"
+                    }
+                    className="left-1/2 w-[740px] -translate-x-1/2 origin-top"
                   >
-                    <div className="grid grid-cols-3 gap-6 rounded-3xl border border-zinc-200/80 bg-white/95 p-6 backdrop-blur-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-zinc-900/5 dark:border-white/10 dark:bg-zinc-950/95 dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)]">
-                      <div className="group flex flex-col justify-between rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 transition-all duration-300 hover:bg-zinc-100/80 dark:border-white/5 dark:bg-white/[0.02] dark:hover:bg-white/[0.05]">
+                    <div
+                      className="
+                        grid
+                        grid-cols-[230px_1fr]
+                        gap-3
+                        overflow-hidden
+                        rounded-[24px]
+                        border
+                        border-border/80
+                        bg-card/92
+                        p-3
+                        shadow-[0_28px_80px_-25px_color-mix(in_oklab,var(--foreground)_25%,transparent)]
+                        backdrop-blur-2xl
+                      "
+                    >
+                      {/* Featured */}
+
+                      <div
+                        className="
+                          group
+                          flex
+                          flex-col
+                          justify-between
+                          rounded-[20px]
+                          border
+                          border-border
+                          bg-foreground/[0.025]
+                          p-5
+                        "
+                      >
                         <div>
-                          <span className="flex size-12 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/50 transition-transform duration-300 ease-out group-hover:scale-110 dark:bg-zinc-900 dark:ring-white/10">
-                            <BookOpen className="size-5 text-zinc-700 dark:text-zinc-300" />
+                          <span
+                            className="
+                              flex
+                              size-10
+                              items-center
+                              justify-center
+                              rounded-xl
+                              border
+                              border-border
+                              bg-background
+                              text-muted-foreground
+                            "
+                          >
+                            <BookOpen className="size-[18px]" />
                           </span>
-                          <h4 className="mt-6 text-sm font-bold tracking-tight text-zinc-950 dark:text-white">
-                            Geliştirici Odaklı Tasarım
+
+                          <h4 className="mt-5 text-sm font-bold tracking-tight text-foreground">
+                            Geliştirici odaklı
+                            tasarım
                           </h4>
-                          <p className="mt-3 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                            Temiz kod, kusursuz dokümantasyon ve limitsiz esneklik.
+
+                          <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+                            Temiz kod, güçlü
+                            dokümantasyon ve limitsiz
+                            esneklik.
                           </p>
                         </div>
-                        <a href="/about" className="mt-8 inline-flex items-center gap-2 text-xs font-bold tracking-tight text-zinc-900 transition-colors hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300">
-                          Miransas Hakkında
-                          <MoveRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+
+                        <a
+                          href="/about"
+                          className="
+                            mt-6
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            text-xs
+                            font-bold
+                            text-foreground
+                          "
+                        >
+                          Miransas hakkında
+                          <MoveRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                         </a>
                       </div>
 
-                      <div className="col-span-2 grid grid-cols-2 gap-8 px-2">
-                        {resourceGroups.map((group) => (
-                          <div key={group.title} className="flex flex-col gap-2">
-                            <h4 className="mb-3 text-xs font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
-                              {group.title}
-                            </h4>
-                            {group.links.map((item) => {
-                              const Icon = item.icon;
+                      {/* Resource links */}
 
-                              return (
-                                <a
-                                  key={item.title}
-                                  href={item.href}
-                                  className="group flex items-center gap-3 rounded-xl p-2.5 text-sm font-semibold text-zinc-600 transition-all duration-300 ease-out hover:bg-zinc-50 hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-white"
-                                >
-                                  {Icon ? <Icon className="size-4.5 text-zinc-400 transition-transform duration-300 group-hover:scale-110 group-hover:text-zinc-950 dark:group-hover:text-white" /> : null}
-                                  <span className="transition-transform duration-300 group-hover:translate-x-1">{item.title}</span>
-                                </a>
-                              );
-                            })}
-                          </div>
-                        ))}
+                      <div className="grid grid-cols-2 gap-5 p-3">
+                        {resourceGroups.map(
+                          (group) => (
+                            <div
+                              key={group.title}
+                            >
+                              <h4
+                                className="
+                                  mb-2.5
+                                  px-2
+                                  text-[9px]
+                                  font-black
+                                  uppercase
+                                  tracking-[0.18em]
+                                  text-muted-foreground
+                                "
+                              >
+                                {group.title}
+                              </h4>
+
+                              <div className="flex flex-col gap-0.5">
+                                {group.links.map(
+                                  (item) => {
+                                    const Icon =
+                                      item.icon;
+
+                                    return (
+                                      <a
+                                        key={
+                                          item.title
+                                        }
+                                        href={
+                                          item.href
+                                        }
+                                        className="
+                                          group
+                                          flex
+                                          items-center
+                                          gap-2.5
+                                          rounded-xl
+                                          px-2.5
+                                          py-2.5
+                                          text-xs
+                                          font-semibold
+                                          text-muted-foreground
+                                          transition-all
+                                          duration-200
+                                          hover:bg-foreground/[0.04]
+                                          hover:text-foreground
+                                        "
+                                      >
+                                        {Icon && (
+                                          <Icon className="size-3.5 transition-transform duration-200 group-hover:scale-110" />
+                                        )}
+
+                                        <span>
+                                          {
+                                            item.title
+                                          }
+                                        </span>
+
+                                        <MoveRight className="ml-auto size-3 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-70" />
+                                      </a>
+                                    );
+                                  },
+                                )}
+                              </div>
+                            </div>
+                          ),
+                        )}
                       </div>
                     </div>
                   </DesktopDropdown>
@@ -643,36 +1366,73 @@ export function Navbar({
             </nav>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* --------------------------------------------------
+              RIGHT
+              -------------------------------------------------- */}
+
+          <div className="flex shrink-0 items-center gap-1.5">
             <ModeToggle />
-            <div className="hidden items-center gap-3 lg:flex">
-              <NavAction href={loginHref} variant="ghost">
+
+            <div className="hidden items-center gap-1.5 lg:flex">
+              <NavAction
+                href={loginHref}
+                variant="ghost"
+              >
                 Giriş Yap
               </NavAction>
-              <NavAction href={ctaHref}>{ctaLabel}</NavAction>
+
+              <NavAction href={ctaHref}>
+                {ctaLabel}
+              </NavAction>
             </div>
 
             <button
               type="button"
-              aria-label="Open navigation menu"
+              aria-label="Menüyü aç"
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen(true)}
-              className="flex size-10 items-center justify-center rounded-xl text-zinc-600 transition-all duration-300 hover:bg-zinc-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:bg-white/10 lg:hidden"
+              className="
+                flex
+                size-10
+                items-center
+                justify-center
+                rounded-full
+                text-muted-foreground
+                transition-all
+                duration-300
+                hover:bg-foreground/[0.045]
+                hover:text-foreground
+                active:scale-95
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-ring
+                lg:hidden
+              "
             >
-              <Menu className="size-5" />
+              <Menu className="size-[19px]" />
             </button>
           </div>
         </div>
-      </div>
+      </header>
+
+      {/* ======================================================
+          MOBILE BACKDROP
+          ====================================================== */}
 
       <div
         aria-hidden={!mobileOpen}
         onClick={closeMobile}
         className={cn(
-          "fixed inset-0 z-50 bg-zinc-950/60 backdrop-blur-md transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden",
-          mobileOpen ? "opacity-100" : "pointer-events-none opacity-0",
+          "fixed inset-0 z-[60] bg-background/70 backdrop-blur-md transition-opacity duration-500 lg:hidden",
+          mobileOpen
+            ? "opacity-100"
+            : "pointer-events-none opacity-0",
         )}
       />
+
+      {/* ======================================================
+          MOBILE DRAWER
+          ====================================================== */}
 
       <aside
         role="dialog"
@@ -681,24 +1441,57 @@ export function Navbar({
         inert={!mobileOpen ? true : undefined}
         aria-label="Mobile navigation"
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col bg-white p-6 shadow-2xl ring-1 ring-zinc-900/5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] dark:bg-black dark:ring-white/10 lg:hidden",
-          mobileOpen ? "translate-x-0" : "translate-x-full",
+          "fixed inset-y-3 right-3 z-[70] flex w-[calc(100%-24px)] max-w-md flex-col overflow-hidden rounded-3xl border border-border bg-background/96 p-5 shadow-[0_30px_100px_-30px_color-mix(in_oklab,var(--foreground)_35%,transparent)] backdrop-blur-2xl transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden",
+          mobileOpen
+            ? "translate-x-0"
+            : "translate-x-[110%]",
         )}
       >
-        <div className="mb-8 flex items-center justify-between">
-          <Brand brandName={brandName} brandHref={brandHref} logo={logo} onNavigate={closeMobile} />
+        {/* Mobile top */}
+
+        <div className="mb-5 flex items-center justify-between">
+          <Brand
+            brandName={brandName}
+            brandHref={brandHref}
+            logo={logo}
+            onNavigate={closeMobile}
+          />
+
           <button
             ref={closeButtonRef}
             type="button"
             onClick={closeMobile}
-            aria-label="Close navigation menu"
-            className="flex size-10 items-center justify-center rounded-xl bg-zinc-50 text-zinc-500 transition-all duration-300 hover:bg-zinc-100 hover:text-zinc-950 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:bg-white/5 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-white"
+            aria-label="Menüyü kapat"
+            className="
+              flex
+              size-10
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-border
+              bg-card
+              text-muted-foreground
+              transition-all
+              duration-300
+              hover:bg-foreground/[0.045]
+              hover:text-foreground
+              active:scale-95
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-ring
+            "
           >
-            <X className="size-5" />
+            <X className="size-[18px]" />
           </button>
         </div>
 
-        <nav aria-label="Mobile navigation" className="-mx-6 flex-1 overflow-y-auto px-6">
+        {/* Mobile nav */}
+
+        <nav
+          aria-label="Mobile navigation"
+          className="-mx-2 flex-1 overflow-y-auto px-2"
+        >
           <MobileAccordion
             title="Ekosistem"
             value="features"
@@ -706,7 +1499,11 @@ export function Navbar({
             onToggle={toggleMobileSection}
           >
             {features.map((item) => (
-              <MobileMenuItem key={item.title} item={item} onNavigate={closeMobile} />
+              <MobileMenuItem
+                key={item.title}
+                item={item}
+                onNavigate={closeMobile}
+              />
             ))}
           </MobileAccordion>
 
@@ -717,14 +1514,29 @@ export function Navbar({
             onToggle={toggleMobileSection}
           >
             {useCases.map((item) => (
-              <MobileMenuItem key={item.title} item={item} onNavigate={closeMobile} />
+              <MobileMenuItem
+                key={item.title}
+                item={item}
+                onNavigate={closeMobile}
+              />
             ))}
           </MobileAccordion>
 
           <a
             href={pricingHref}
             onClick={closeMobile}
-            className="block border-b border-zinc-200 py-5 text-sm font-bold tracking-tight text-zinc-950 transition-colors hover:text-zinc-600 dark:border-white/10 dark:text-white dark:hover:text-zinc-400"
+            className="
+              block
+              border-b
+              border-border
+              py-4
+              text-sm
+              font-bold
+              tracking-tight
+              text-foreground
+              transition-colors
+              hover:text-muted-foreground
+            "
           >
             Fiyatlandırma
           </a>
@@ -735,24 +1547,43 @@ export function Navbar({
             openSection={mobileSection}
             onToggle={toggleMobileSection}
           >
-            {resourceGroups.flatMap((group) =>
-              group.links.map((item) => (
-                <MobileMenuItem key={`${group.title}-${item.title}`} item={item} onNavigate={closeMobile} />
-              )),
+            {resourceGroups.flatMap(
+              (group) =>
+                group.links.map((item) => (
+                  <MobileMenuItem
+                    key={`${group.title}-${item.title}`}
+                    item={item}
+                    onNavigate={closeMobile}
+                  />
+                )),
             )}
           </MobileAccordion>
         </nav>
 
-        <div className="mt-auto grid grid-cols-2 gap-3 pt-6">
-          <NavAction href={loginHref} variant="outline" className="w-full" onClick={closeMobile}>
-            Giriş Yap
-          </NavAction>
-          <NavAction href={ctaHref} className="w-full" onClick={closeMobile}>
-            {ctaLabel}
-          </NavAction>
+        {/* Mobile footer */}
+
+        <div className="mt-5 border-t border-border pt-4">
+          <div className="grid grid-cols-2 gap-2">
+            <NavAction
+              href={loginHref}
+              variant="outline"
+              className="w-full"
+              onClick={closeMobile}
+            >
+              Giriş Yap
+            </NavAction>
+
+            <NavAction
+              href={ctaHref}
+              className="w-full"
+              onClick={closeMobile}
+            >
+              {ctaLabel}
+            </NavAction>
+          </div>
         </div>
       </aside>
-    </header>
+    </>
   );
 }
 

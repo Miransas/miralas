@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Miransas
 
-## Getting Started
+Modern developer infrastructure built for performance, reliability, and exceptional developer experience.
 
-First, run the development server:
+Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+Miransas is building a collection of developer-focused products and infrastructure across cloud, identity, databases, networking, AI, and open-source tooling.
+
+Products
+
+Miransas Cloud
+
+Miransas ID
+
+Miransas DB
+
+Miransas VPN
+
+Miralas
+
+Miransas Chess
+
+Platform
+
+Miransas is designed around a simple principle:
+
+Build infrastructure that stays fast, reliable, and understandable.
+
+Our stack includes high-performance systems written in Rust, modern web applications built with TypeScript and Next.js, and AI services powered by Python where appropriate.
+
+Technology
+
+Rust
+
+TypeScript
+
+Next.js
+
+React
+
+Python
+
+PostgreSQL
+
+Docker
+
+Tauri
+
+Tailwind CSS
+
+Development
+
+Install dependencies:
+
+pnpm install
+
+Run the development server:
+
 pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build for production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+pnpm build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Status
 
-## Learn More
+Miransas is actively developed.
 
-To learn more about Next.js, take a look at the following resources:
+Some products and services are still under development and may change significantly before their stable release.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open Source
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Miransas believes in building with and contributing to the open-source ecosystem.
 
-## Deploy on Vercel
+Individual repositories may use different licenses. See the LICENSE file in each repository for the applicable terms.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Security
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you discover a security vulnerability, please contact:
+
+security@miransas.com
+
+Please do not publicly disclose security vulnerabilities before we have had an opportunity to investigate them.
+
+Contact
+
+General inquiries:
+
+contact@miransas.com
+
+Privacy:
+
+privacy@miransas.com
+
+License
+
+The MIT License applies to the source code of this repository.
+
+Miransas trademarks, logos, product names, and other brand assets are not licensed under the MIT License.
+
+See LICENSE for the full license text.
+
+Copyright © 2026 Miransas.

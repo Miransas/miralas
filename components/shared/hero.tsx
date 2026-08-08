@@ -1,63 +1,1135 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Check, Languages, Mic2, Play, Sparkles, Wand2 } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Code2,
+  Globe2,
+  Mic2,
+  Play,
+  Radio,
+  Sparkles,
+  Wand2,
+  Zap,
+} from "lucide-react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import type { MouseEvent } from "react";
 
-const bars = [38, 62, 46, 84, 58, 96, 44, 72, 54, 88, 66, 42, 78, 92, 50, 70, 40, 82, 60, 74];
-const chips = ["O'zbek", "Ўзбек", "Qaraqalpaq", "English", "Русский"];
-const trust = ["Uzbek Language", "API Access", "Fast Inference", "Enterprise Ready"];
+const bars = [
+  34, 48, 72, 42, 86, 58, 94, 50, 78, 38,
+  68, 96, 56, 82, 44, 74, 92, 52, 66, 40,
+  84, 58, 88, 46, 70, 98, 54, 76, 44, 82,
+  60, 92, 48, 72, 38, 86, 56, 78, 46, 68,
+];
+
+const languages = [
+  "O'zbek",
+  "Ўзбек",
+  "Qaraqalpaq",
+  "English",
+  "Русский",
+];
+
+const trustItems = [
+  "Uzbek-first",
+  "Realtime ready",
+  "API native",
+];
 
 export default function HeroSection() {
   const reduced = useReducedMotion();
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 70, damping: 22 });
-  const sy = useSpring(my, { stiffness: 70, damping: 22 });
-  const rotateX = useTransform(sy, [-0.5, 0.5], [7, -7]);
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-8, 8]);
-  const glowX = useTransform(sx, [-0.5, 0.5], ["36%", "64%"]);
-  const glowY = useTransform(sy, [-0.5, 0.5], ["30%", "58%"]);
 
-  function onMove(event: MouseEvent<HTMLElement>) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springX = useSpring(mouseX, {
+    stiffness: 55,
+    damping: 20,
+    mass: 0.8,
+  });
+
+  const springY = useSpring(mouseY, {
+    stiffness: 55,
+    damping: 20,
+    mass: 0.8,
+  });
+
+  const orbX = useTransform(springX, [-0.5, 0.5], [-22, 22]);
+  const orbY = useTransform(springY, [-0.5, 0.5], [-16, 16]);
+
+  const ringX = useTransform(springX, [-0.5, 0.5], [12, -12]);
+  const ringY = useTransform(springY, [-0.5, 0.5], [8, -8]);
+
+  const floatX = useTransform(springX, [-0.5, 0.5], [-8, 8]);
+  const floatY = useTransform(springY, [-0.5, 0.5], [-6, 6]);
+
+  function handleMouseMove(event: MouseEvent<HTMLElement>) {
     if (reduced) return;
+
     const rect = event.currentTarget.getBoundingClientRect();
-    mx.set((event.clientX - rect.left) / rect.width - 0.5);
-    my.set((event.clientY - rect.top) / rect.height - 0.5);
+
+    mouseX.set(
+      (event.clientX - rect.left) / rect.width - 0.5,
+    );
+
+    mouseY.set(
+      (event.clientY - rect.top) / rect.height - 0.5,
+    );
+  }
+
+  function resetMouse() {
+    mouseX.set(0);
+    mouseY.set(0);
   }
 
   return (
-    <section onMouseMove={onMove} onMouseLeave={() => { mx.set(0); my.set(0); }} className="relative isolate min-h-screen overflow-hidden bg-[#fbfaf8] px-6 pb-24 pt-32 text-zinc-950 dark:bg-black dark:text-white sm:pt-36 lg:px-8 xl:min-h-[940px]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(14,165,233,0.16),transparent_32%),radial-gradient(circle_at_82%_14%,rgba(16,185,129,0.13),transparent_30%),radial-gradient(circle_at_50%_85%,rgba(168,85,247,0.08),transparent_38%)] dark:bg-[radial-gradient(circle_at_18%_18%,rgba(14,165,233,0.24),transparent_32%),radial-gradient(circle_at_82%_14%,rgba(16,185,129,0.14),transparent_30%),radial-gradient(circle_at_50%_85%,rgba(168,85,247,0.12),transparent_38%)]" />
-      <motion.div aria-hidden className="absolute h-[42rem] w-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-[7rem] bg-[radial-gradient(circle,rgba(14,165,233,0.15),transparent_64%)] blur-2xl dark:bg-[radial-gradient(circle,rgba(125,211,252,0.18),transparent_64%)]" style={{ left: glowX, top: glowY }} />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(39,39,42,0.05)_1px,transparent_1px),linear-gradient(rgba(39,39,42,0.05)_1px,transparent_1px)] bg-[length:72px_72px] [mask-image:linear-gradient(to_bottom,transparent,black_14%,black_78%,transparent)] dark:bg-[linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px)]" />
-      <div className="absolute inset-0 opacity-[0.055] [background-image:radial-gradient(circle_at_center,currentColor_1px,transparent_1px)] [background-size:5px_5px]" />
+    <section
+      onMouseMove={handleMouseMove}
+      onMouseLeave={resetMouse}
+      className="
+        relative
+        isolate
+        min-h-screen
+        overflow-hidden
+        bg-background
+        text-foreground
+        transition-colors
+        duration-500
+      "
+    >
+      {/* =====================================================
+          ATMOSPHERE
+          ===================================================== */}
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-[45fr_55fr] xl:max-w-[1500px]">
-        <motion.div initial="hidden" animate="show" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.09 } } }} className="max-w-3xl">
-          <motion.div variants={{ hidden: { opacity: 0, y: 24, filter: "blur(12px)" }, show: { opacity: 1, y: 0, filter: "blur(0px)" } }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} className="inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/70 px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.07] dark:text-zinc-300"><Sparkles className="size-4 text-sky-500" />Premium AI Voice Platform for Uzbek Language</motion.div>
-          <motion.h1 variants={{ hidden: { opacity: 0, y: 24, filter: "blur(12px)" }, show: { opacity: 1, y: 0, filter: "blur(0px)" } }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} className="mt-8 text-5xl font-semibold leading-[0.96] tracking-tight text-zinc-950 dark:text-white sm:text-7xl lg:text-[5.9rem] xl:text-[6.9rem]">Uzbek voice AI that feels alive, precise and unmistakably human.</motion.h1>
-          <motion.p variants={{ hidden: { opacity: 0, y: 24, filter: "blur(12px)" }, show: { opacity: 1, y: 0, filter: "blur(0px)" } }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} className="mt-7 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-300 sm:text-xl sm:leading-9">Generate premium Uzbek speech, prototype expressive voice products, and prepare creator donation moments with a platform crafted for local language at global quality.</motion.p>
-          <motion.div variants={{ hidden: { opacity: 0, y: 24, filter: "blur(12px)" }, show: { opacity: 1, y: 0, filter: "blur(0px)" } }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <Link href="/get-started" className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-zinc-950 px-6 text-sm font-semibold text-white shadow-[0_22px_64px_-28px_rgba(14,165,233,0.95)] outline-none transition hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-sky-500 dark:bg-white dark:text-zinc-950"><span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.35),transparent)] transition-transform duration-700 group-hover:translate-x-full" /><span className="relative flex items-center gap-2">Start Creating <ArrowRight className="size-4" /></span></Link>
-            <Link href="/demo" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-zinc-200/80 bg-white/70 px-6 text-sm font-semibold text-zinc-800 shadow-sm backdrop-blur-xl outline-none transition hover:scale-[1.03] hover:bg-white dark:border-white/10 dark:bg-white/[0.07] dark:text-white dark:hover:bg-white/10"><Play className="size-4" />Watch Demo</Link>
-          </motion.div>
-          <motion.div variants={{ hidden: { opacity: 0, y: 24, filter: "blur(12px)" }, show: { opacity: 1, y: 0, filter: "blur(0px)" } }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} className="mt-8 flex max-w-2xl flex-wrap gap-2.5">{trust.map((item) => <span key={item} className="inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/60 px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.06] dark:text-zinc-300"><Check className="size-4 text-emerald-500" />{item}</span>)}</motion.div>
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          -z-20
+          overflow-hidden
+        "
+      >
+        {/* Central ambient light */}
+
+        <div
+          className="
+            absolute
+            left-1/2
+            top-[34%]
+            size-[46rem]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-full
+            bg-sky-500/[0.045]
+            blur-[120px]
+            dark:bg-sky-400/[0.075]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            left-[8%]
+            top-[12%]
+            size-[24rem]
+            rounded-full
+            bg-cyan-400/[0.025]
+            blur-[100px]
+            dark:bg-cyan-400/[0.04]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            right-[5%]
+            top-[22%]
+            size-[22rem]
+            rounded-full
+            bg-emerald-400/[0.02]
+            blur-[100px]
+            dark:bg-emerald-400/[0.035]
+          "
+        />
+
+        {/* Extremely subtle grid */}
+
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-[0.28]
+            [background-image:linear-gradient(to_right,var(--border-subtle)_1px,transparent_1px),linear-gradient(to_bottom,var(--border-subtle)_1px,transparent_1px)]
+            [background-size:72px_72px]
+            [mask-image:linear-gradient(to_bottom,transparent,black_14%,black_68%,transparent_100%)]
+          "
+        />
+
+        {/* Grain */}
+
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-[0.025]
+            [background-image:radial-gradient(circle_at_center,currentColor_1px,transparent_1px)]
+            [background-size:6px_6px]
+          "
+        />
+      </div>
+
+      {/* =====================================================
+          MAIN
+          ===================================================== */}
+
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          flex
+          min-h-screen
+          max-w-[1500px]
+          flex-col
+          items-center
+          px-6
+          pb-24
+          pt-32
+          sm:pt-36
+          lg:px-8
+          xl:pb-28
+        "
+      >
+        {/* ===================================================
+            TOP BADGE
+            =================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 14,
+            filter: "blur(8px)",
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="
+            relative
+            inline-flex
+            items-center
+            gap-2
+            rounded-full
+            border
+            border-border
+            bg-card/80
+            px-4
+            py-2
+            text-xs
+            font-medium
+            text-muted-foreground
+            shadow-sm
+            backdrop-blur-xl
+          "
+        >
+          <span className="relative flex size-2">
+            <span
+              className="
+                absolute
+                inline-flex
+                size-full
+                animate-ping
+                rounded-full
+                bg-emerald-500/40
+              "
+            />
+
+            <span
+              className="
+                relative
+                inline-flex
+                size-2
+                rounded-full
+                bg-emerald-500
+              "
+            />
+          </span>
+
+          <span>Miralas Voice Infrastructure</span>
+
+          <span className="mx-0.5 h-3 w-px bg-border" />
+
+          <span className="text-foreground">
+            Uzbek-first AI
+          </span>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 28, filter: "blur(16px)" }} animate={{ opacity: 1, x: 0, filter: "blur(0px)" }} transition={{ duration: 0.9, delay: 0.14, ease: [0.16, 1, 0.3, 1] }} className="relative min-h-[540px] [perspective:1700px] lg:min-h-[680px]">
-          <motion.div style={reduced ? undefined : { rotateX, rotateY }} className="relative mx-auto w-full max-w-[760px] rounded-[40px] border border-white/70 bg-white/62 p-3 shadow-[0_70px_190px_-86px_rgba(2,6,23,0.98)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/58">
-            <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(244,244,245,0.72))] p-5 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(24,24,27,0.82),rgba(9,9,11,0.9))] sm:p-6">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.17),transparent_34%),linear-gradient(90deg,rgba(39,39,42,0.045)_1px,transparent_1px),linear-gradient(rgba(39,39,42,0.045)_1px,transparent_1px)] bg-[length:100%_100%,42px_42px,42px_42px] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.22),transparent_34%),linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px)]" />
-              <motion.div aria-hidden className="absolute left-[-45%] top-0 h-px w-[80%] bg-gradient-to-r from-transparent via-white to-transparent opacity-80 dark:via-sky-100" animate={reduced ? undefined : { x: ["0%", "235%"] }} transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.1 }} />
-              <div className="relative flex items-center justify-between"><div className="flex items-center gap-3"><div className="flex size-11 items-center justify-center rounded-2xl bg-zinc-950 text-white dark:bg-white dark:text-zinc-950"><Mic2 className="size-5" /></div><div><p className="text-sm font-semibold">Miralas Live Studio</p><p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Tashkent session - model v0.9</p></div></div><span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">Synthesizing</span></div>
-              <div className="relative mt-8 rounded-[30px] border border-zinc-200/90 bg-white/78 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_76px_-48px_rgba(2,6,23,0.75)] backdrop-blur-xl dark:border-white/10 dark:bg-black/30 sm:p-6"><div className="flex items-center justify-between"><div><p className="text-xs font-medium uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Voice Activity</p><h3 className="mt-2 text-2xl font-semibold tracking-tight">Uzbek Narrator Pro</h3></div><Wand2 className="size-6 text-sky-500" /></div><div className="mt-9 flex h-40 items-center gap-1.5 sm:gap-2">{bars.map((h, i) => <motion.span key={i} className="flex-1 rounded-full bg-gradient-to-t from-zinc-950 via-sky-500 to-emerald-300 shadow-[0_0_26px_rgba(14,165,233,0.24)] dark:from-white dark:via-sky-300 dark:to-emerald-300" animate={reduced ? undefined : { height: [`${h * 0.5}%`, `${h}%`, `${h * 0.66}%`], opacity: [0.62, 1, 0.78] }} transition={{ duration: 2.6, repeat: Infinity, delay: i * 0.045, ease: "easeInOut" }} />)}</div></div>
-              <div className="relative mt-4 grid gap-4 md:grid-cols-[1.2fr_0.8fr]"><div className="rounded-[26px] border border-zinc-200/90 bg-white/72 p-5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5"><div className="flex justify-between text-xs text-zinc-500"><span>00:00</span><span>00:18</span></div><div className="relative mt-4 h-14 rounded-2xl bg-zinc-100 dark:bg-black/40"><motion.div className="absolute inset-y-0 left-0 rounded-2xl bg-gradient-to-r from-sky-500/20 via-emerald-400/20 to-transparent" animate={reduced ? undefined : { width: ["24%", "78%", "42%"] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} /><span className="absolute left-[12%] top-3 h-8 rounded-full border border-white/70 bg-white/85 px-3 py-1.5 text-[11px] font-medium shadow-sm dark:border-white/10 dark:bg-zinc-950/82">Prosody</span><span className="absolute left-[54%] top-3 h-8 rounded-full border border-white/70 bg-white/85 px-3 py-1.5 text-[11px] font-medium shadow-sm dark:border-white/10 dark:bg-zinc-950/82">Tone</span></div></div><div className="rounded-[26px] border border-zinc-200/90 bg-white/72 p-5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5"><div className="flex items-center gap-2 text-xs font-medium text-zinc-500"><Languages className="size-4 text-sky-500" />Languages</div><div className="mt-4 flex flex-wrap gap-2">{chips.map((chip, i) => <motion.span key={chip} animate={reduced ? undefined : { y: [0, -3, 0] }} transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut" }} className={i === 0 ? "rounded-full bg-zinc-950 px-3 py-1.5 text-xs font-semibold text-white dark:bg-white dark:text-zinc-950" : "rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs font-medium dark:border-white/10 dark:bg-white/[0.07]"}>{chip}</motion.span>)}</div></div></div>
+        {/* ===================================================
+            HERO COPY
+            =================================================== */}
+
+        <div className="relative z-20 mt-8 max-w-5xl text-center">
+          <motion.h1
+            initial={{
+              opacity: 0,
+              y: 28,
+              filter: "blur(14px)",
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+            }}
+            transition={{
+              duration: 0.9,
+              delay: 0.08,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="
+              text-balance
+              text-5xl
+              font-semibold
+              leading-[0.92]
+              tracking-[-0.055em]
+              sm:text-7xl
+              lg:text-[6.5rem]
+              xl:text-[7.8rem]
+            "
+          >
+            Voice that
+            <br />
+
+            <span
+              className="
+                bg-gradient-to-r
+                from-foreground
+                via-foreground
+                to-muted-foreground
+                bg-clip-text
+                text-transparent
+              "
+            >
+              feels alive.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{
+              opacity: 0,
+              y: 22,
+              filter: "blur(10px)",
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+            }}
+            transition={{
+              duration: 0.8,
+              delay: 0.2,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="
+              mx-auto
+              mt-7
+              max-w-2xl
+              text-pretty
+              text-base
+              leading-7
+              text-muted-foreground
+              sm:text-lg
+              sm:leading-8
+            "
+          >
+            Uzbek-first AI voice infrastructure for creators,
+            products and developers — built to sound natural,
+            precise and unmistakably human.
+          </motion.p>
+
+          {/* Actions */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 18,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 0.32,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="
+              mt-9
+              flex
+              flex-col
+              items-center
+              justify-center
+              gap-3
+              sm:flex-row
+            "
+          >
+            <Link
+              href="/get-started"
+              className="
+                premium-button
+                group
+                h-12
+                rounded-full
+                px-6
+                text-sm
+                font-semibold
+              "
+            >
+              <span>Start creating</span>
+
+              <ArrowRight
+                className="
+                  size-4
+                  transition-transform
+                  duration-200
+                  group-hover:translate-x-0.5
+                "
+              />
+            </Link>
+
+            <Link
+              href="/demo"
+              className="
+                premium-button-ghost
+                h-12
+                rounded-full
+                px-6
+                text-sm
+                font-semibold
+              "
+            >
+              <Play className="size-4" />
+              Watch the demo
+            </Link>
+          </motion.div>
+
+          {/* Trust */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 14,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 0.42,
+            }}
+            className="
+              mt-7
+              flex
+              flex-wrap
+              items-center
+              justify-center
+              gap-x-5
+              gap-y-2
+              text-xs
+              font-medium
+              text-muted-foreground
+            "
+          >
+            {trustItems.map((item) => (
+              <span
+                key={item}
+                className="inline-flex items-center gap-1.5"
+              >
+                <Check className="size-3.5 text-emerald-500" />
+                {item}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* ===================================================
+            VOICE CORE
+            =================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.94,
+            y: 35,
+            filter: "blur(18px)",
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            filter: "blur(0px)",
+          }}
+          transition={{
+            duration: 1.15,
+            delay: 0.35,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="
+            relative
+            mt-16
+            h-[480px]
+            w-full
+            max-w-[1000px]
+            sm:h-[560px]
+            lg:mt-20
+            lg:h-[620px]
+          "
+        >
+          {/* =================================================
+              ORBITAL RINGS
+              ================================================= */}
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: ringX,
+                    y: ringY,
+                  }
+            }
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              size-[310px]
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              border
+              border-sky-500/[0.12]
+              sm:size-[390px]
+              dark:border-sky-300/[0.12]
+            "
+          />
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: orbX,
+                    y: orbY,
+                    rotate: 360,
+                  }
+            }
+            animate={
+              reduced
+                ? undefined
+                : {
+                    rotate: 360,
+                  }
+            }
+            transition={{
+              rotate: {
+                duration: 30,
+                repeat: Infinity,
+                ease: "linear",
+              },
+            }}
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              size-[420px]
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              border
+              border-dashed
+              border-border
+              sm:size-[510px]
+            "
+          />
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: orbX,
+                    y: orbY,
+                  }
+            }
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              size-[210px]
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              bg-sky-500/[0.08]
+              blur-[70px]
+              dark:bg-sky-400/[0.12]
+              sm:size-[280px]
+            "
+          />
+
+          {/* =================================================
+              CORE
+              ================================================= */}
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: orbX,
+                    y: orbY,
+                  }
+            }
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              size-[180px]
+              -translate-x-1/2
+              -translate-y-1/2
+              sm:size-[230px]
+            "
+          >
+            {/* Outer glow */}
+
+            <div
+              className="
+                absolute
+                inset-[-35px]
+                rounded-full
+                bg-sky-400/[0.06]
+                blur-3xl
+                dark:bg-sky-400/[0.10]
+              "
+            />
+
+            {/* Main core */}
+
+            <div
+              className="
+                relative
+                flex
+                size-full
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-full
+                border
+                border-border
+                bg-card
+                shadow-[0_30px_100px_-40px_rgba(14,165,233,0.35)]
+                dark:shadow-[0_30px_120px_-45px_rgba(56,189,248,0.45)]
+              "
+            >
+              {/* Inner gradient */}
+
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  inset-0
+                  bg-[radial-gradient(circle_at_35%_25%,rgba(56,189,248,0.18),transparent_35%),radial-gradient(circle_at_70%_75%,rgba(16,185,129,0.10),transparent_38%)]
+                  dark:bg-[radial-gradient(circle_at_35%_25%,rgba(125,211,252,0.16),transparent_35%),radial-gradient(circle_at_70%_75%,rgba(52,211,153,0.12),transparent_38%)]
+                "
+              />
+
+              {/* Waveform */}
+
+              <div
+                className="
+                  relative
+                  flex
+                  h-20
+                  w-28
+                  items-center
+                  gap-1
+                  sm:h-24
+                  sm:w-36
+                "
+              >
+                {bars.slice(8, 28).map((height, index) => (
+                  <motion.span
+                    key={index}
+                    className="
+                      flex-1
+                      rounded-full
+                      bg-gradient-to-t
+                      from-sky-500
+                      via-cyan-400
+                      to-emerald-300
+                      dark:from-sky-300
+                      dark:via-cyan-200
+                      dark:to-emerald-200
+                    "
+                    animate={
+                      reduced
+                        ? {
+                            height: `${Math.max(
+                              18,
+                              height * 0.5,
+                            )}%`,
+                          }
+                        : {
+                            height: [
+                              `${Math.max(
+                                18,
+                                height * 0.45,
+                              )}%`,
+                              `${height}%`,
+                              `${Math.max(
+                                20,
+                                height * 0.6,
+                              )}%`,
+                            ],
+                            opacity: [0.5, 1, 0.7],
+                          }
+                    }
+                    transition={{
+                      duration: 2.2,
+                      repeat: Infinity,
+                      delay: index * 0.055,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Core icon */}
+
+              <div
+                className="
+                  absolute
+                  bottom-5
+                  flex
+                  items-center
+                  gap-1.5
+                  rounded-full
+                  border
+                  border-border
+                  bg-background/75
+                  px-3
+                  py-1.5
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.16em]
+                  text-muted-foreground
+                  backdrop-blur-md
+                "
+              >
+                <Mic2 className="size-3" />
+                Voice Core
+              </div>
             </div>
           </motion.div>
+
+          {/* =================================================
+              FLOATING CARD — LANGUAGE
+              ================================================= */}
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: floatX,
+                    y: floatY,
+                  }
+            }
+            animate={
+              reduced
+                ? undefined
+                : {
+                    y: [0, -8, 0],
+                  }
+            }
+            transition={{
+              y: {
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+            }}
+            className="
+              absolute
+              left-[4%]
+              top-[24%]
+              hidden
+              w-48
+              sm:block
+              lg:left-[7%]
+            "
+          >
+            <div className="premium-card p-4">
+              <div className="flex items-center gap-2">
+                <Globe2 className="size-4 text-sky-500" />
+
+                <span className="text-xs font-semibold">
+                  Languages
+                </span>
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {languages.slice(0, 3).map((language) => (
+                  <span
+                    key={language}
+                    className="
+                      rounded-full
+                      border
+                      border-border
+                      bg-background
+                      px-2.5
+                      py-1
+                      text-[10px]
+                      font-medium
+                      text-muted-foreground
+                    "
+                  >
+                    {language}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* =================================================
+              FLOATING CARD — LATENCY
+              ================================================= */}
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: floatX,
+                    y: floatY,
+                  }
+            }
+            animate={
+              reduced
+                ? undefined
+                : {
+                    y: [0, 7, 0],
+                  }
+            }
+            transition={{
+              y: {
+                duration: 4.2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.8,
+              },
+            }}
+            className="
+              absolute
+              right-[4%]
+              top-[22%]
+              hidden
+              w-48
+              sm:block
+              lg:right-[7%]
+            "
+          >
+            <div className="premium-card p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Zap className="size-4 text-amber-500" />
+
+                  <span className="text-xs font-semibold">
+                    Inference
+                  </span>
+                </div>
+
+                <span className="size-2 rounded-full bg-emerald-500" />
+              </div>
+
+              <div className="mt-4 flex items-end gap-2">
+                <span className="text-2xl font-semibold tracking-tight">
+                  24
+                </span>
+
+                <span className="mb-1 text-xs text-muted-foreground">
+                  ms latency
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* =================================================
+              FLOATING CARD — API
+              ================================================= */}
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: floatX,
+                    y: floatY,
+                  }
+            }
+            animate={
+              reduced
+                ? undefined
+                : {
+                    y: [0, -6, 0],
+                  }
+            }
+            transition={{
+              y: {
+                duration: 5.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.3,
+              },
+            }}
+            className="
+              absolute
+              bottom-[13%]
+              left-[10%]
+              hidden
+              w-52
+              sm:block
+              lg:left-[14%]
+            "
+          >
+            <div className="premium-card p-4">
+              <div className="flex items-center gap-2">
+                <Code2 className="size-4 text-violet-500" />
+
+                <span className="text-xs font-semibold">
+                  Developer API
+                </span>
+              </div>
+
+              <div className="mt-3 rounded-lg bg-muted px-3 py-2 font-mono text-[10px] text-muted-foreground">
+                voice.generate()
+              </div>
+            </div>
+          </motion.div>
+
+          {/* =================================================
+              FLOATING CARD — LIVE
+              ================================================= */}
+
+          <motion.div
+            style={
+              reduced
+                ? undefined
+                : {
+                    x: floatX,
+                    y: floatY,
+                  }
+            }
+            animate={
+              reduced
+                ? undefined
+                : {
+                    y: [0, 8, 0],
+                  }
+            }
+            transition={{
+              y: {
+                duration: 4.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.7,
+              },
+            }}
+            className="
+              absolute
+              bottom-[12%]
+              right-[10%]
+              hidden
+              w-52
+              sm:block
+              lg:right-[14%]
+            "
+          >
+            <div className="premium-card p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Radio className="size-4 text-emerald-500" />
+
+                  <span className="text-xs font-semibold">
+                    Live synthesis
+                  </span>
+                </div>
+
+                <span className="text-[10px] font-medium text-emerald-500">
+                  ACTIVE
+                </span>
+              </div>
+
+              <div className="mt-4 flex h-8 items-center gap-1">
+                {bars.slice(0, 14).map((height, index) => (
+                  <motion.span
+                    key={index}
+                    className="
+                      flex-1
+                      rounded-full
+                      bg-emerald-500/60
+                    "
+                    animate={
+                      reduced
+                        ? undefined
+                        : {
+                            height: [
+                              `${height * 0.35}%`,
+                              `${height * 0.7}%`,
+                              `${height * 0.45}%`,
+                            ],
+                          }
+                    }
+                    transition={{
+                      duration: 1.8,
+                      repeat: Infinity,
+                      delay: index * 0.05,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* =================================================
+              ORBIT DOTS
+              ================================================= */}
+
+          <motion.span
+            animate={
+              reduced
+                ? undefined
+                : {
+                    rotate: 360,
+                  }
+            }
+            transition={{
+              duration: 22,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              size-[430px]
+              -translate-x-1/2
+              -translate-y-1/2
+              sm:size-[520px]
+            "
+          >
+            <span
+              className="
+                absolute
+                left-[4%]
+                top-1/2
+                size-2
+                rounded-full
+                bg-sky-400
+                shadow-[0_0_18px_rgba(56,189,248,0.65)]
+              "
+            />
+
+            <span
+              className="
+                absolute
+                right-[8%]
+                top-[22%]
+                size-1.5
+                rounded-full
+                bg-emerald-400
+                shadow-[0_0_16px_rgba(52,211,153,0.65)]
+              "
+            />
+          </motion.span>
+        </motion.div>
+
+        {/* ===================================================
+            BOTTOM SIGNAL
+            =================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 1,
+            delay: 1,
+          }}
+          className="
+            relative
+            z-20
+            mt-2
+            flex
+            items-center
+            gap-3
+            text-xs
+            font-medium
+            text-muted-foreground
+          "
+        >
+          <Sparkles className="size-3.5 text-sky-500" />
+
+          <span>
+            One voice layer.
+          </span>
+
+          <span className="size-1 rounded-full bg-border" />
+
+          <span>
+            Infinite products.
+          </span>
+
+          <Wand2 className="size-3.5 text-emerald-500" />
         </motion.div>
       </div>
+
+      {/* =====================================================
+          BOTTOM FADE
+          ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          bottom-0
+          left-0
+          right-0
+          h-32
+          bg-gradient-to-t
+          from-background
+          to-transparent
+        "
+      />
     </section>
   );
 }
