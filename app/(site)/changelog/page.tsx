@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -253,7 +253,7 @@ void main() {
 }`;
 
 const UNIFORMS = {
-  colors: [[0.00784313725490196,0.00392156862745098,0.0392156862745098],[0.01568627450980392,0.0196078431372549,0.1803921568627451],[0.23921568627450981,0.17254901960784313,0.5529411764705883],[0.5686274509803921,0.4196078431372549,0.7490196078431373],[0.5686274509803921,0.4196078431372549,0.7490196078431373],[0.5686274509803921,0.4196078431372549,0.7490196078431373],[0.5686274509803921,0.4196078431372549,0.7490196078431373],[0.5686274509803921,0.4196078431372549,0.7490196078431373]] as [number, number, number][],
+  colors: [[0.00784313725490196, 0.00392156862745098, 0.0392156862745098], [0.01568627450980392, 0.0196078431372549, 0.1803921568627451], [0.23921568627450981, 0.17254901960784313, 0.5529411764705883], [0.5686274509803921, 0.4196078431372549, 0.7490196078431373], [0.5686274509803921, 0.4196078431372549, 0.7490196078431373], [0.5686274509803921, 0.4196078431372549, 0.7490196078431373], [0.5686274509803921, 0.4196078431372549, 0.7490196078431373], [0.5686274509803921, 0.4196078431372549, 0.7490196078431373]] as [number, number, number][],
   colorCount: 4,
   scale: 1.100,
   intensity: 0.290,
@@ -286,12 +286,12 @@ function ShaderBackground({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current!;
     if (!canvas) return;
     const pendingRelease = pendingContextReleases.get(canvas);
     if (pendingRelease !== undefined) window.clearTimeout(pendingRelease);
     pendingContextReleases.delete(canvas);
-    const gl = canvas.getContext("webgl", { antialias: false });
+    const gl = canvas.getContext("webgl", { antialias: false }) as WebGLRenderingContext;
     if (!gl) return;
 
     const compile = (type: number, src: string) => {
@@ -648,10 +648,10 @@ export default function ChangelogPage() {
       {/* --- TIMELINE / LİSTE --- */}
       <section className="relative z-10 max-w-4xl mx-auto px-6 pb-32">
         <div className="relative border-l border-zinc-300 dark:border-zinc-800 ml-4 sm:ml-8 space-y-16">
-          
+
           {changelogData.map((item, index) => (
             <div key={index} className="relative pl-8 sm:pl-12 group">
-              
+
               {/* Timeline Nuqtasi */}
               <div className="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-white dark:bg-zinc-900 border-2 border-blue-500 flex items-center justify-center shadow-md">
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-600 dark:bg-blue-400" />
@@ -659,7 +659,7 @@ export default function ChangelogPage() {
 
               {/* İçerik Kartı (Light ve Dark modda tek tek belirgin olması için özel arkaplan ve gölgeler) */}
               <div className="p-8 rounded-[2rem] bg-white/90 dark:bg-zinc-900/85 border border-zinc-200 dark:border-zinc-800 shadow-xl dark:shadow-[0_8px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:border-blue-500/50">
-                
+
                 {/* Üst Bilgi (Versiyon, Tarih ve Etiket) */}
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
@@ -671,11 +671,10 @@ export default function ChangelogPage() {
                     </span>
                   </div>
 
-                  <span className={`px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider ${
-                    item.tagType === "new" 
-                      ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20" 
+                  <span className={`px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider ${item.tagType === "new"
+                      ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20"
                       : "bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20"
-                  }`}>
+                    }`}>
                     {item.tagLabel}
                   </span>
                 </div>
@@ -684,7 +683,7 @@ export default function ChangelogPage() {
                 <h3 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-3">
                   {item.title}
                 </h3>
-                
+
                 <p className="text-zinc-600 dark:text-zinc-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
                   {item.description}
                 </p>
