@@ -1,262 +1,92 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import NumberFlow from "@number-flow/react";
-import { Check, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { Check, Sparkles } from "lucide-react";
 
 const plans = [
   {
-    name: "Free",
-    description: "Explore Shaders and see what's possible.",
-    price: 0,
-    yearlyPrice: 0,
-    buttonText: "Get started for free",
-    popular: false,
-    features: [
-      "Try the design editor",
-      "Export preview code (watermarked)",
-      "Upload your own assets",
-      "Community Discord",
-    ],
-    glowColor: "from-blue-500/30 via-cyan-500/20 to-transparent",
+    name: "Starter",
+    price: "Free",
+    description: "For exploring Uzbek voice generation and prototyping early ideas.",
+    features: ["Voice studio preview", "Uzbek TTS experiments", "Community support", "Starter usage limits"],
   },
   {
-    name: "Core",
-    description: "Design and export code for production.",
-    price: 59,
-    yearlyPrice: 49,
-    buttonText: "Unlock Core",
+    name: "Growth",
+    price: "$29",
+    description: "For creators and startups shipping real audio content.",
+    features: ["Higher generation limits", "Donation page readiness", "Commercial usage", "Priority model updates"],
     popular: true,
-    features: [
-      "Full design editor access",
-      "Export code for all supported frameworks",
-      "Export video & images",
-      "One-click install inside Framer",
-      "Shaders MCP for agent workflows",
-      "Commercial use license",
-    ],
-    glowColor: "from-blue-600/40 via-indigo-500/30 to-blue-400/20",
   },
   {
-    name: "Pro",
-    description: "For professionals who ship magic every day.",
-    price: 199,
-    yearlyPrice: 169,
-    buttonText: "Unlock Pro",
-    popular: false,
-    features: [
-      "850+ production-ready presets",
-      "50+ ready-to-use website sections",
-      "Install presets with Shadcn CLI",
-      "Exclusive Discord role & channel",
-      "Priority support",
-      "All future updates",
-    ],
-    glowColor: "from-sky-500/30 via-blue-700/20 to-white/10",
+    name: "Scale",
+    price: "Custom",
+    description: "For companies bringing Miralas into products and teams.",
+    features: ["API access planning", "Custom usage limits", "Security review", "Launch support"],
   },
 ];
 
-const palettes = {
-  dark: {
-    surface: "bg-black text-white",
-    cardBg: "bg-neutral-950/70 border-white/15",
-    heading: "text-white",
-    muted: "text-neutral-400",
-    dotPattern: "radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)",
-    badgeBg: "bg-black/60 border-white/20 text-white",
-  },
-  light: {
-    surface: "bg-white text-neutral-900",
-    cardBg: "bg-white/80 border-neutral-200 shadow-xl shadow-blue-500/5",
-    heading: "text-neutral-900",
-    muted: "text-neutral-600",
-    dotPattern: "radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px)",
-    badgeBg: "bg-neutral-100 border-neutral-300 text-neutral-900",
-  },
-};
-
-export default function PricingSection() {
-  const getRootTheme = () => {
-    if (typeof document === "undefined") return "dark";
-    if (document.documentElement.classList.contains("dark")) return "dark";
-    if (document.documentElement.classList.contains("light")) return "light";
-    if (typeof window !== "undefined" && window.matchMedia) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    return "dark";
-  };
-
-  const [theme, setTheme] = useState<"dark" | "light">(getRootTheme);
-  const [isYearly, setIsYearly] = useState(false);
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const applyThemeFromRoot = () => setTheme(getRootTheme());
-    applyThemeFromRoot();
-
-    const observer = new MutationObserver(applyThemeFromRoot);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class", "data-theme"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const palette = useMemo(() => palettes[theme], [theme]);
-
+export default function PricingPage() {
   return (
-    <div className={`w-full py-24 px-4 relative overflow-hidden transition-colors duration-700 ${palette.surface}`}>
-      {/* Arka Plan Nokta (Dot) Deseni */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 opacity-60"
-        style={{
-          backgroundImage: palette.dotPattern,
-          backgroundSize: "24px 24px",
-        }}
-      />
-
-      {/* Üst Kısım Başlık */}
-      <motion.div
-        initial={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-12 max-w-3xl mx-auto relative z-10"
-      >
-        <h2 className={`md:text-5xl sm:text-4xl text-3xl font-bold tracking-tight mb-4 ${palette.heading}`}>
-          Flexible plans for your <span className="text-blue-500">workflow</span>
-        </h2>
-        <p className={`text-sm sm:text-base ${palette.muted}`}>
-          Choose the perfect plan with lively animated blue gradients and glassmorphism design.
-        </p>
-
-        {/* Aylık / Yıllık Toggle */}
-        <div className="flex justify-center mt-8">
-          <div className={`flex items-center p-1 rounded-full border backdrop-blur-md ${theme === 'dark' ? 'bg-neutral-900/80 border-white/15' : 'bg-neutral-100 border-neutral-200'}`}>
-            <button
-              onClick={() => setIsYearly(false)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                !isYearly ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : `${palette.muted} hover:opacity-100`
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setIsYearly(true)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
-                isYearly ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : `${palette.muted} hover:opacity-100`
-              }`}
-            >
-              Yearly
-              <span className="text-[10px] bg-blue-400/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-400/30">
-                Save 20%
-              </span>
-            </button>
+    <div className="overflow-hidden bg-[#fbfbfa] text-zinc-950 dark:bg-black dark:text-white">
+      <section className="relative px-6 pb-20 pt-36 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(14,165,233,0.16),transparent_32%),radial-gradient(circle_at_78%_10%,rgba(16,185,129,0.12),transparent_28%)] dark:bg-[radial-gradient(circle_at_20%_12%,rgba(14,165,233,0.23),transparent_32%),radial-gradient(circle_at_78%_10%,rgba(16,185,129,0.14),transparent_28%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(39,39,42,0.045)_1px,transparent_1px),linear-gradient(rgba(39,39,42,0.045)_1px,transparent_1px)] bg-[length:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)] dark:bg-[linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px)]" />
+        <motion.div initial={{ opacity: 0, y: 24, filter: "blur(10px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.7 }} className="relative mx-auto max-w-4xl text-center">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/70 px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.07] dark:text-zinc-300">
+            <Sparkles className="size-4 text-sky-500" />
+            Pricing
           </div>
-        </div>
-      </motion.div>
+          <h1 className="mt-7 text-5xl font-semibold leading-[0.98] tracking-tight sm:text-7xl">
+            Plans for every stage of building with Uzbek AI voice.
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-300">
+            Start free, grow with creator workflows, and scale into API-backed voice infrastructure.
+          </p>
+        </motion.div>
+      </section>
 
-      {/* Kartlar Grid */}
-      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 relative z-10">
-        {plans.map((plan, index) => (
-          <motion.div
-            key={plan.name}
-            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.6, delay: index * 0.15 }}
-            className="relative group"
-          >
-            {/* Popüler / Most Popular Badge */}
-            {plan.popular && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-30 px-3 py-1 text-xs font-semibold rounded-full border backdrop-blur-md flex items-center gap-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/30">
-                <Sparkles className="w-3.5 h-3.5" /> Most Popular
-              </div>
-            )}
-
-            <Card
-              className={`relative h-full flex flex-col rounded-3xl overflow-hidden backdrop-blur-2xl transition-all duration-500 hover:-translate-y-1.5 ${palette.cardBg} ${
-                plan.popular ? "ring-2 ring-blue-500/80 shadow-2xl shadow-blue-500/20" : "hover:border-blue-500/40"
+      <section className="px-6 pb-24 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-3">
+          {plans.map((plan, index) => (
+            <motion.article
+              key={plan.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className={`relative overflow-hidden rounded-[32px] border p-7 shadow-[0_35px_110px_-76px_rgba(2,6,23,0.9)] backdrop-blur-2xl transition hover:-translate-y-1 ${
+                plan.popular
+                  ? "border-sky-400/40 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950"
+                  : "border-zinc-200/80 bg-white/74 dark:border-white/10 dark:bg-white/[0.055]"
               }`}
             >
-              {/* CANLI VE HAREKETLİ ARKA PLAN MAVİ/BEYAZ IŞILTILARI (Glow) */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.15, 1],
-                  opacity: [0.4, 0.7, 0.4],
-                  x: [0, 15, -15, 0],
-                  y: [0, -15, 15, 0],
-                }}
-                transition={{
-                  duration: 6 + index * 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className={`absolute -bottom-20 -left-10 -right-10 h-56 bg-gradient-to-t ${plan.glowColor} blur-[70px] pointer-events-none rounded-full`}
-              />
-
-              <CardHeader className="p-8 pb-4 relative z-10">
-                <h3 className={`text-2xl font-bold tracking-tight ${palette.heading}`}>
-                  {plan.name}
-                </h3>
-                <p className={`text-sm leading-relaxed mt-2 mb-6 ${palette.muted}`}>
-                  {plan.description}
-                </p>
-                <div className="flex items-baseline gap-1">
-                  <span className={`text-5xl font-extrabold tracking-tight ${palette.heading}`}>
-                    $
-                    <NumberFlow
-                      value={isYearly ? plan.yearlyPrice : plan.price}
-                      className="inline-block"
-                    />
-                  </span>
-                  <span className={`text-sm font-medium ${palette.muted}`}>
-                    /{isYearly ? "yr" : "mo"}
-                  </span>
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400 to-transparent" />
+              {plan.popular && (
+                <div className="mb-5 inline-flex rounded-full bg-sky-400/15 px-3 py-1 text-xs font-semibold text-sky-300 dark:text-sky-700">
+                  Most Popular
                 </div>
-              </CardHeader>
-
-              <CardContent className="p-8 pt-2 flex flex-col h-full relative z-10 justify-between">
-                <div>
-                  <div className={`h-[1px] w-full my-6 ${theme === 'dark' ? 'bg-white/10' : 'bg-neutral-200'}`} />
-                  <ul className="space-y-3.5 mb-8">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <span className={`p-1 rounded-full border mt-0.5 shrink-0 ${theme === 'dark' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-600'}`}>
-                          <Check className="w-3.5 h-3.5 stroke-[3]" />
-                        </span>
-                        <span className={`text-sm font-medium ${palette.muted}`}>
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <button
-                    className={`w-full py-3.5 px-6 rounded-2xl font-semibold text-sm transition-all duration-300 shadow-lg ${
-                      plan.popular
-                        ? "bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-blue-500/30 border border-blue-400/30"
-                        : theme === 'dark'
-                        ? "bg-white/10 hover:bg-white/15 text-white border border-white/10"
-                        : "bg-neutral-900 hover:bg-neutral-800 text-white"
-                    }`}
-                  >
-                    {plan.buttonText}
-                  </button>
-                  <p className={`text-center text-xs mt-3 ${palette.muted}`}>
-                    {plan.name === "Free" ? "Upgrade whenever you're ready." : "Commercial license included."}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+              )}
+              <h2 className="text-2xl font-semibold tracking-tight">{plan.name}</h2>
+              <p className={`mt-3 min-h-14 text-sm leading-7 ${plan.popular ? "text-white/68 dark:text-zinc-600" : "text-zinc-600 dark:text-zinc-400"}`}>
+                {plan.description}
+              </p>
+              <p className="mt-8 text-5xl font-semibold tracking-tight">{plan.price}</p>
+              <Link href="/get-started" className={`mt-8 inline-flex h-11 w-full items-center justify-center rounded-full text-sm font-semibold transition hover:scale-[1.02] ${plan.popular ? "bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" : "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950"}`}>
+                Start Creating
+              </Link>
+              <div className="mt-8 space-y-3">
+                {plan.features.map((feature) => (
+                  <div key={feature} className="flex items-center gap-3 text-sm">
+                    <Check className="size-4 text-emerald-400" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
-
-export { PricingSection };

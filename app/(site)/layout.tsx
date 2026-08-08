@@ -1,13 +1,13 @@
-import Footer from "../../components/shared/footer"
-import Navbar from "../../components/shared/navbar"
+import { Footer } from "../../components/layout/Footer";
+import { Header } from "../../components/layout/Header";
 
 
 const Sitelayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main>
-    <Navbar/>
+    <main className="min-h-screen bg-white text-zinc-950 dark:bg-black dark:text-white">
+      <Header />
       {children}
-      <Footer/>
+      <Footer />
     </main>
   )
 }

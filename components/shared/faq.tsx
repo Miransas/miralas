@@ -1,72 +1,58 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus, Terminal, Box, Zap, Sparkles } from "lucide-react";
 
-const INTRO_STYLE_ID = "faq1-animations";
-
-const faqs = [
+const faqItems = [
   {
-    question: "How do you decide which problems to solve first?",
-    answer:
-      "We map opportunities across impact, feasibility, and effort, then prototype the riskiest assumption within 72 hours to make sure we are shipping momentum, not guesswork.",
-    meta: "Discovery",
+    id: 1,
+    question: "What are WebGL Shaders and how do I export them?",
+    answer: "WebGL shaders are high-performance visual effects rendered directly on the GPU. Instead of heavy videos, you use math to draw pixels. You can design them in our canvas and export pure React/TSX code instantly.",
+    visualType: "code",
   },
   {
-    question: "What does collaboration look like once we start?",
-    answer:
-      "A dedicated trio of design, engineering, and strategy meets daily in a shared async dashboard. Decisions are recorded in-line, so the team, stakeholders, and audit trail stay perfectly aligned.",
-    meta: "Collaboration",
+    id: 2,
+    question: "Can I integrate these components into Next.js?",
+    answer: "Yes, seamlessly. The exported components are strictly typed with TypeScript and use standard modern hooks. Just copy the snippet, install Framer Motion, and drop it into your Next.js application.",
+    visualType: "frameworks",
   },
   {
-    question: "Can you adapt to an existing design system or stack?",
-    answer:
-      "Yes. We map tokens, components, and build steps into our pipeline on day one. If a gap appears, we patch the system with regression tests so velocity never compromises fidelity.",
-    meta: "Systems",
-  },
-  {
-    question: "How is quality validated before release?",
-    answer:
-      "Accessibility sweeps, automated visual diffs, and performance budgets run on every merge. We ship only after the experience hits the expected thresholds on real devices.",
-    meta: "Quality",
+    id: 3,
+    question: "Are the background animations optimized for performance?",
+    answer: "Absolutely. Every shader runs strictly on the GPU via WebGL, ensuring a stable 60 FPS without interrupting the main JavaScript thread, keeping your UI buttery smooth on all devices.",
+    visualType: "performance",
   },
 ];
 
 const palettes = {
   dark: {
-    surface: "bg-neutral-950 text-neutral-100",
-    panel: "bg-neutral-900/50",
+    bg: "bg-black",
+    text: "text-white",
+    muted: "text-neutral-500",
     border: "border-white/10",
-    heading: "text-white",
-    muted: "text-neutral-400",
-    iconRing: "border-white/20",
-    iconSurface: "bg-white/5",
-    icon: "text-white",
-    toggle: "border-white/20 text-white",
-    toggleSurface: "bg-white/10",
-    glow: "rgba(255, 255, 255, 0.08)",
-    aurora: "radial-gradient(ellipse 50% 100% at 10% 0%, rgba(226, 232, 240, 0.15), transparent 65%), #000000",
-    shadow: "shadow-[0_36px_140px_-60px_rgba(10,10,10,0.95)]",
-    overlay: "linear-gradient(130deg, rgba(255,255,255,0.04) 0%, transparent 65%)",
+    activeBorder: "border-white/20",
+    cardBg: "bg-[#050505]",
+    dotPattern: "radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)",
+    visualBg: "bg-white/[0.02]",
+    hoverText: "group-hover:text-neutral-300",
+    laserColors: "from-transparent via-blue-500 to-white",
   },
   light: {
-    surface: "bg-slate-100 text-neutral-900",
-    panel: "bg-white/70",
+    bg: "bg-white",
+    text: "text-neutral-900",
+    muted: "text-neutral-500",
     border: "border-neutral-200",
-    heading: "text-neutral-900",
-    muted: "text-neutral-600",
-    iconRing: "border-neutral-300",
-    iconSurface: "bg-neutral-900/5",
-    icon: "text-neutral-900",
-    toggle: "border-neutral-200 text-neutral-900",
-    toggleSurface: "bg-white",
-    glow: "rgba(15, 15, 15, 0.08)",
-    aurora: "radial-gradient(ellipse 50% 100% at 10% 0%, rgba(15, 23, 42, 0.08), rgba(255, 255, 255, 0.95) 70%)",
-    shadow: "shadow-[0_36px_120px_-70px_rgba(15,15,15,0.18)]",
-    overlay: "linear-gradient(130deg, rgba(15,23,42,0.08) 0%, transparent 70%)",
+    activeBorder: "border-neutral-300",
+    cardBg: "bg-neutral-50/50",
+    dotPattern: "radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px)",
+    visualBg: "bg-black/[0.02]",
+    hoverText: "group-hover:text-neutral-700",
+    laserColors: "from-transparent via-blue-500 to-blue-800",
   },
 };
 
-function FAQ1() {
+export default function FaqSection() {
   const getRootTheme = () => {
     if (typeof document === "undefined") return "dark";
     if (document.documentElement.classList.contains("dark")) return "dark";
@@ -74,161 +60,15 @@ function FAQ1() {
     if (typeof window !== "undefined" && window.matchMedia) {
       return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
-    return "light";
+    return "dark";
   };
 
-  const [theme, setTheme] = useState(getRootTheme);
-  const [introReady, setIntroReady] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [hasEntered, setHasEntered] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">(getRootTheme);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
-    if (document.getElementById(INTRO_STYLE_ID)) return;
-    const style = document.createElement("style");
-    style.id = INTRO_STYLE_ID;
-    style.innerHTML = `
-      @keyframes faq1-fade-up {
-        0% { transform: translate3d(0, 20px, 0); opacity: 0; filter: blur(6px); }
-        60% { filter: blur(0); }
-        100% { transform: translate3d(0, 0, 0); opacity: 1; filter: blur(0); }
-      }
-      @keyframes faq1-beam-spin {
-        0% { transform: rotate(0deg) scale(1); }
-        100% { transform: rotate(360deg) scale(1); }
-      }
-      @keyframes faq1-pulse {
-        0% { transform: scale(0.7); opacity: 0.55; }
-        60% { opacity: 0.1; }
-        100% { transform: scale(1.25); opacity: 0; }
-      }
-      @keyframes faq1-meter {
-        0%, 20% { transform: scaleX(0); transform-origin: left; }
-        45%, 60% { transform: scaleX(1); transform-origin: left; }
-        80%, 100% { transform: scaleX(0); transform-origin: right; }
-      }
-      @keyframes faq1-tick {
-        0%, 30% { transform: translateX(-6px); opacity: 0.4; }
-        50% { transform: translateX(2px); opacity: 1; }
-        100% { transform: translateX(20px); opacity: 0; }
-      }
-      .faq1-intro {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-        padding: 0.85rem 1.4rem;
-        border-radius: 9999px;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(12, 12, 12, 0.42);
-        color: rgba(248, 250, 252, 0.92);
-        text-transform: uppercase;
-        letter-spacing: 0.35em;
-        font-size: 0.65rem;
-        width: 100%;
-        max-width: 24rem;
-        margin: 0 auto;
-        mix-blend-mode: screen;
-        opacity: 0;
-        transform: translate3d(0, 12px, 0);
-        filter: blur(8px);
-        transition: opacity 720ms ease, transform 720ms ease, filter 720ms ease;
-        isolation: isolate;
-      }
-      .faq1-intro--light {
-        border-color: rgba(17, 17, 17, 0.12);
-        background: rgba(248, 250, 252, 0.88);
-        color: rgba(15, 23, 42, 0.78);
-        mix-blend-mode: multiply;
-      }
-      .faq1-intro--active {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-        filter: blur(0);
-      }
-      .faq1-intro__beam,
-      .faq1-intro__pulse {
-        position: absolute;
-        inset: -110%;
-        pointer-events: none;
-        border-radius: 50%;
-      }
-      .faq1-intro__beam {
-        background: conic-gradient(from 160deg, rgba(226, 232, 240, 0.25), transparent 32%, rgba(148, 163, 184, 0.22) 58%, transparent 78%, rgba(148, 163, 184, 0.18));
-        animation: faq1-beam-spin 18s linear infinite;
-        opacity: 0.55;
-      }
-      .faq1-intro--light .faq1-intro__beam {
-        background: conic-gradient(from 180deg, rgba(15, 23, 42, 0.18), transparent 30%, rgba(71, 85, 105, 0.18) 58%, transparent 80%, rgba(15, 23, 42, 0.14));
-      }
-      .faq1-intro__pulse {
-        border: 1px solid currentColor;
-        opacity: 0.25;
-        animation: faq1-pulse 3.4s ease-out infinite;
-      }
-      .faq1-intro__label {
-        position: relative;
-        z-index: 1;
-        font-weight: 600;
-        letter-spacing: 0.4em;
-      }
-      .faq1-intro__meter {
-        position: relative;
-        z-index: 1;
-        flex: 1 1 auto;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, currentColor 35%, transparent 85%);
-        transform: scaleX(0);
-        transform-origin: left;
-        animation: faq1-meter 5.8s ease-in-out infinite;
-        opacity: 0.7;
-      }
-      .faq1-intro__tick {
-        position: relative;
-        z-index: 1;
-        width: 0.55rem;
-        height: 0.55rem;
-        border-radius: 9999px;
-        background: currentColor;
-        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-        animation: faq1-tick 3.2s ease-in-out infinite;
-      }
-      .faq1-intro--light .faq1-intro__tick {
-        box-shadow: 0 0 0 4px rgba(15, 15, 15, 0.08);
-      }
-      .faq1-fade {
-        opacity: 0;
-        transform: translate3d(0, 24px, 0);
-        filter: blur(12px);
-        transition: opacity 700ms ease, transform 700ms ease, filter 700ms ease;
-      }
-      .faq1-fade--ready {
-        animation: faq1-fade-up 860ms cubic-bezier(0.22, 0.68, 0, 1) forwards;
-      }
-    `;
-
-    document.head.appendChild(style);
-
-    return () => {
-      if (style.parentNode) style.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      setIntroReady(true);
-      return;
-    }
-    const frame = window.requestAnimationFrame(() => setIntroReady(true));
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-
     const applyThemeFromRoot = () => setTheme(getRootTheme());
-
     applyThemeFromRoot();
 
     const observer = new MutationObserver(applyThemeFromRoot);
@@ -237,215 +77,184 @@ function FAQ1() {
       attributeFilter: ["class", "data-theme"],
     });
 
-    const handleStorage = (event) => {
-      if (event.key === "bento-theme") applyThemeFromRoot();
-    };
-
-    window.addEventListener("storage", handleStorage);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("storage", handleStorage);
-    };
+    return () => observer.disconnect();
   }, []);
 
   const palette = useMemo(() => palettes[theme], [theme]);
 
-  const toggleTheme = () => {
-    if (typeof document === "undefined") return;
-    const root = document.documentElement;
-    const next = root.classList.contains("dark") ? "light" : "dark";
-    root.classList.toggle("dark", next === "dark");
-    setTheme(next);
-    try {
-      window.localStorage?.setItem("bento-theme", next);
-    } catch (_err) {
-      /* ignore */
-    }
-  };
-
-  const toggleQuestion = (index) => setActiveIndex((prev) => (prev === index ? -1 : index));
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      setHasEntered(true);
-      return;
-    }
-
-    let timeout;
-    const onLoad = () => {
-      timeout = window.setTimeout(() => setHasEntered(true), 120);
-    };
-
-    if (document.readyState === "complete") {
-      onLoad();
-    } else {
-      window.addEventListener("load", onLoad, { once: true });
-    }
-
-    return () => {
-      window.removeEventListener("load", onLoad);
-      window.clearTimeout(timeout);
-    };
-  }, []);
-
-  const setCardGlow = (event) => {
-    const target = event.currentTarget;
-    const rect = target.getBoundingClientRect();
-    target.style.setProperty("--faq-x", `${event.clientX - rect.left}px`);
-    target.style.setProperty("--faq-y", `${event.clientY - rect.top}px`);
-  };
-
-  const clearCardGlow = (event) => {
-    const target = event.currentTarget;
-    target.style.removeProperty("--faq-x");
-    target.style.removeProperty("--faq-y");
-  };
-
   return (
-    <div className={`relative min-h-screen w-full overflow-hidden transition-colors duration-700 ${palette.surface}`}>
-      <div className="absolute inset-0 z-0" style={{ background: palette.aurora }} />
+    <div className={`w-full min-h-screen py-32 px-6 relative transition-colors duration-700 ${palette.bg}`}>
+      {/* Black / Light Background with Dot Pattern */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-80"
-        style={{ background: palette.overlay, mixBlendMode: theme === "dark" ? "screen" : "multiply" }}
+        className="absolute inset-0 pointer-events-none z-0 opacity-80"
+        style={{
+          backgroundImage: palette.dotPattern,
+          backgroundSize: "24px 24px",
+        }}
       />
 
-      <section
-        className={`relative z-10 mx-auto flex max-w-4xl flex-col gap-12 px-6 py-24 lg:max-w-5xl lg:px-12 ${
-          hasEntered ? "faq1-fade--ready" : "faq1-fade"
-        }`}
-      >
-        <div
-          className={`faq1-intro ${introReady ? "faq1-intro--active" : ""} ${
-            theme === "light" ? "faq1-intro--light" : "faq1-intro--dark"
-          }`}
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Minimalist Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20"
         >
-          <span className="faq1-intro__beam" aria-hidden="true" />
-          <span className="faq1-intro__pulse" aria-hidden="true" />
-          <span className="faq1-intro__label">Signal FAQ</span>
-          <span className="faq1-intro__meter" aria-hidden="true" />
-          <span className="faq1-intro__tick" aria-hidden="true" />
-        </div>
-
-        <header className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-4">
-            <p className={`text-xs uppercase tracking-[0.35em] ${palette.muted}`}>Questions</p>
-            <h1 className={`text-4xl font-semibold leading-tight md:text-5xl ${palette.heading}`}>
-              Focus on the signal, not the noise.
-            </h1>
-            <p className={`max-w-xl text-base ${palette.muted}`}>
-              Everything you need to know about partnering with our team, condensed into calm monochrome clarity.
-            </p>
+          <div className="inline-flex items-center gap-2 text-blue-500 text-sm font-medium mb-4 tracking-wide uppercase">
+            <Sparkles className="w-4 h-4" /> FAQ
           </div>
+          <h2 className={`text-4xl md:text-5xl font-light tracking-tight ${palette.text}`}>
+            Answers to your <br />
+            <span className="font-semibold text-blue-500">frequent questions.</span>
+          </h2>
+        </motion.div>
 
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className={`relative inline-flex h-11 items-center gap-3 rounded-full border px-5 text-sm font-medium transition-colors duration-500 ${palette.toggleSurface} ${palette.toggle}`}
-            aria-pressed={theme === "dark" ? "true" : "false"}
-          >
-            <span className="relative flex h-6 w-6 items-center justify-center">
-              <span
-                className={`pointer-events-none absolute inset-0 rounded-full border opacity-40 ${
-                  theme === "dark" ? "border-white/30 animate-pulse" : "border-neutral-400/50"
-                }`}
-              />
-              <span
-                className={`h-3 w-3 rounded-full transition-all duration-500 ${
-                  theme === "dark" ? "bg-white" : "bg-neutral-900"
-                }`}
-              />
-            </span>
-            {theme === "dark" ? "Night" : "Day"} mode
-          </button>
-        </header>
-
-        <ul className="space-y-4">
-          {faqs.map((item, index) => {
-            const open = activeIndex === index;
-            const panelId = `faq-panel-${index}`;
-            const buttonId = `faq-trigger-${index}`;
+        {/* FAQ List - Unified Expanding Cards */}
+        <div className="space-y-4">
+          {faqItems.map((item, index) => {
+            const isOpen = openIndex === index;
 
             return (
-              <li
-                key={item.question}
-                className={`group relative overflow-hidden rounded-3xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-0.5 focus-within:-translate-y-0.5 ${palette.border} ${palette.panel} ${palette.shadow}`}
-                onMouseMove={setCardGlow}
-                onMouseLeave={clearCardGlow}
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`relative rounded-3xl border backdrop-blur-xl transition-all duration-500 overflow-hidden ${
+                  isOpen ? `${palette.cardBg} ${palette.activeBorder}` : `bg-transparent ${palette.border}`
+                }`}
               >
-                <div
-                  className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
-                    open ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                  }`}
-                  style={{
-                    background: `radial-gradient(240px circle at var(--faq-x, 50%) var(--faq-y, 50%), ${palette.glow}, transparent 70%)`,
-                  }}
-                />
-
-                <button
-                  type="button"
-                  id={buttonId}
-                  aria-controls={panelId}
-                  aria-expanded={open}
-                  onClick={() => toggleQuestion(index)}
-                  style={{ "--faq-outline": theme === "dark" ? "rgba(255,255,255,0.35)" : "rgba(17,17,17,0.25)" }}
-                  className="relative flex w-full items-start gap-6 px-8 py-7 text-left transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--faq-outline)]"
-                >
-                  <span
-                    className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-all duration-500 group-hover:scale-105 ${palette.iconRing} ${palette.iconSurface}`}
-                  >
-                    <span
-                      className={`pointer-events-none absolute inset-0 rounded-full border opacity-30 ${
-                        palette.iconRing
-                      } ${open ? "animate-ping" : ""}`}
+                {/* Horizontal Left-to-Right Laser Animation on Active Card */}
+                {isOpen && (
+                  <div className="absolute top-0 left-0 right-0 h-[1.5px] overflow-hidden z-20">
+                    <motion.div
+                      className={`w-1/2 h-full bg-gradient-to-r ${palette.laserColors}`}
+                      initial={{ x: "-100%" }}
+                      animate={{ x: "200%" }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                     />
-                    <svg
-                      className={`relative h-5 w-5 transition-transform duration-500 ${palette.icon} ${open ? "rotate-45" : ""}`}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M12 5v14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                      <path d="M5 12h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </span>
-
-                  <div className="flex flex-1 flex-col gap-4">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                      <h2 className={`text-lg font-medium leading-tight sm:text-xl ${palette.heading}`}>
-                        {item.question}
-                      </h2>
-                      {item.meta && (
-                        <span
-                          className={`inline-flex w-fit items-center rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.35em] transition-opacity duration-300 sm:ml-auto ${palette.border} ${palette.muted}`}
-                        >
-                          {item.meta}
-                        </span>
-                      )}
-                    </div>
-
-                    <div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={buttonId}
-                      className={`overflow-hidden text-sm leading-relaxed transition-[max-height] duration-500 ease-out ${
-                        open ? "max-h-64" : "max-h-0"
-                      } ${palette.muted}`}
-                    >
-                      <p className="pr-2">
-                        {item.answer}
-                      </p>
-                    </div>
                   </div>
+                )}
+
+                {/* Clickable Header */}
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full py-6 md:py-8 px-6 md:px-8 flex items-center justify-between group focus:outline-none"
+                >
+                  <span className={`text-lg md:text-2xl font-medium tracking-tight transition-colors text-left pr-4 ${
+                    isOpen ? palette.text : `${palette.muted} ${palette.hoverText}`
+                  }`}>
+                    {item.question}
+                  </span>
+                  <span className={`shrink-0 w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                    isOpen 
+                      ? "border-blue-500/50 bg-blue-500/10 text-blue-400 rotate-180" 
+                      : `${palette.border} text-neutral-500 group-hover:border-blue-500/30 group-hover:text-blue-400`
+                  }`}>
+                    {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                  </span>
                 </button>
-              </li>
+
+                {/* Expandable Content (Both Text and Visual collapse together) */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div className="px-6 md:px-8 pb-8 flex flex-col md:flex-row gap-10 items-start">
+                        
+                        {/* Answer Text */}
+                        <div className={`flex-1 text-base md:text-lg leading-relaxed pt-2 ${palette.muted}`}>
+                          {item.answer}
+                        </div>
+
+                        {/* Visual Preview Container */}
+                        <div className={`w-full md:w-[45%] shrink-0 rounded-2xl border ${palette.border} p-5 ${palette.visualBg} relative overflow-hidden shadow-inner`}>
+                          
+                          {/* Type 1: Code Snippet (No Green, Only Blue/White/Black) */}
+                          {item.visualType === "code" && (
+                            <div className="font-mono text-[12px] leading-6">
+                              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                                <span className="text-blue-400 flex items-center gap-2 font-medium">
+                                  <Terminal className="w-4 h-4" /> shader_bg.tsx
+                                </span>
+                                <span className="text-neutral-500 text-[10px] uppercase tracking-widest">TSX</span>
+                              </div>
+                              <div className="text-neutral-300">
+                                <span className="text-blue-400">export const</span> <span className="text-white">ShaderBackground</span> = () =&gt; {'{'}
+                                <br />
+                                &nbsp;&nbsp;<span className="text-blue-400">return</span> (
+                                <br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-blue-400">canvas</span>
+                                <br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-blue-200">className</span>=<span className="text-white">&quot;w-full h-full bg-black&quot;</span>
+                                <br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-blue-200">id</span>=<span className="text-white">&quot;gl-canvas&quot;</span>
+                                <br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;/&gt;
+                                <br />
+                                &nbsp;&nbsp;);
+                                <br />
+                                {'}'};
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Type 2: Framework Badges */}
+                          {item.visualType === "frameworks" && (
+                            <div className="flex flex-col justify-center h-full min-h-[140px]">
+                              <div className="flex flex-wrap gap-2.5">
+                                {["React", "Next.js", "Framer Motion", "TypeScript", "Tailwind CSS", "WebGL"].map((fw) => (
+                                  <div key={fw} className={`px-3 py-2 rounded-xl border ${palette.border} text-xs font-medium flex items-center gap-2 ${palette.text} bg-white/5 backdrop-blur-sm`}>
+                                    <Box className="w-3.5 h-3.5 text-blue-500" />
+                                    {fw}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Type 3: Performance Chart */}
+                          {item.visualType === "performance" && (
+                            <div className="flex flex-col justify-center h-full min-h-[140px] space-y-5">
+                              <div className="flex items-end justify-between">
+                                <div>
+                                  <div className={`text-[11px] uppercase tracking-widest mb-1 font-semibold ${palette.muted}`}>Stable Render</div>
+                                  <div className={`text-4xl font-light tracking-tighter ${palette.text}`}>
+                                    60<span className="text-lg text-blue-500 font-normal ml-1">FPS</span>
+                                  </div>
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                  <Zap className="w-5 h-5 text-blue-500" />
+                                </div>
+                              </div>
+                              <div className={`w-full h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`}>
+                                <motion.div
+                                  className="h-full bg-gradient-to-r from-blue-600 to-white"
+                                  initial={{ width: "0%" }}
+                                  animate={{ width: "100%" }}
+                                  transition={{ duration: 1.5, ease: "easeOut" }}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
-        </ul>
-      </section>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default FAQ1;
-export { FAQ1 };
+export { FaqSection };
