@@ -110,7 +110,7 @@ export default function Footer() {
               <div className="relative flex items-center justify-center">
                 <div className="absolute -inset-2 bg-black/5 dark:bg-white/20 blur-xl rounded-full pointer-events-none" />
                 <div className="relative w-9 h-9 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 flex items-center justify-center shadow-md">
-                  <Image src="/miransas_assets/icon.png" alt="Miransas Logo" width={22} height={22} />
+                  <Image src="/logo.png" alt="Miransas Logo" width={22} height={22} />
                 </div>
               </div>
               <span className="text-zinc-900 dark:text-white font-semibold text-lg tracking-tight">

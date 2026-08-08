@@ -55,7 +55,7 @@ export function Header() {
       >
         <Link href="/" className="group flex items-center gap-3" aria-label="Miralas home">
           <span className="flex size-9 items-center justify-center rounded-xl bg-zinc-950 text-white shadow-lg shadow-zinc-950/15 transition group-hover:scale-105 dark:bg-white dark:text-zinc-950">
-            <Mic2 className="size-4" />
+            <img src="/logo.png" alt="Miralas Logo" className=" object-contain rounded-lg" />
           </span>
           <span className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
             Miralas
