@@ -70,11 +70,11 @@ export const footer = {
     {
       title: "Developers",
       links: [
-        { title: "Documentation", href: "https://docs.miransas.com" },
-        { title: "API Reference", href: "https://docs.miransas.com/api" },
+        { title: "Documentation", href: "/docs" },
+        { title: "API Reference", href: "docs/api" },
         { title: "Status", href: "https://status.miransas.com" },
         { title: "GitHub", href: "https://github.com/miransas" },
-        { title: "Changelog", href: "https://changelog.miransas.com" },
+        { title: "Changelog", href: "/changelog" },
       ],
     },
 
