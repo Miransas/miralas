@@ -1,0 +1,17 @@
+language: "en"
+
+reviews:
+  profile: "chill" # İnceleme tonu: chill, assertive veya strict
+  auto_review:
+    enabled: true
+    drafts: false
+  
+  # AI'ın taramaması gereken dosya ve klasörler
+  path_filters:
+    - "!pnpm-lock.yaml"
+    - "!.next/**"
+    - "!node_modules/**"
+    - "!public/**"
+
+chat:
+  auto_reply: true

@@ -1,0 +1,17 @@
+$schema: https://docs.renovatebot.com/renovate-schema.json
+extends:
+  - config:recommended
+
+pnpm:
+  enabled: true
+
+# PR'lar ile depoyu boğmamak için kurallar
+packageRules:
+  # Minor ve patch güncellemelerini tek bir PR'da topla
+  - matchUpdateTypes: ["minor", "patch"]
+    groupName: "non-major dependencies"
+    automerge: false
+
+  # Next.js ve React çekirdek paketlerini birlikte güncelle
+  - matchPackageNames: ["next", "react", "react-dom"]
+    groupName: "nextjs-core"
