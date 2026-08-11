@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import ComingSoonModal from "../components/modals/comming-soon";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -119,7 +120,8 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) {    
+   const isLocked = true
   return (
     <html
       lang="en"
@@ -133,6 +135,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+   {isLocked && <ComingSoonModal />}
           {children}
         </ThemeProvider>
       </body>

@@ -154,6 +154,7 @@ interface AnimatedSidebarContextValue {
   reduce: boolean;
   setOpen: (open: boolean) => void;
   setOpenMobile: (open: boolean) => void;
+  setTriggerRef: (node: HTMLButtonElement | null) => void;
   state: SidebarState;
   toggleSidebar: () => void;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
@@ -230,6 +231,10 @@ export function AnimatedSidebarProvider({
   const desktopOpen = open ?? internalOpen;
   const mobileOpen = openMobile ?? internalOpenMobile;
 
+  const setTriggerRef = useCallback((node: HTMLButtonElement | null) => {
+    triggerRef.current = node;
+  }, []);
+
   const setOpen = useCallback(
     (nextOpen: boolean) => {
       if (open === undefined) setInternalOpen(nextOpen);
@@ -276,6 +281,7 @@ export function AnimatedSidebarProvider({
         reduce,
         setOpen,
         setOpenMobile,
+        setTriggerRef,
         state: desktopOpen ? "expanded" : "collapsed",
         toggleSidebar,
         triggerRef,
@@ -317,7 +323,10 @@ function MobileSidebar({
   const panelRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setMounted(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     if (!context.openMobile) return;
@@ -422,10 +431,10 @@ function MobileSidebar({
           if (event.key !== "Tab") return;
           const focusable = panelRef.current
             ? Array.from(
-                panelRef.current.querySelectorAll<HTMLElement>(
-                  FOCUSABLE_SELECTOR,
-                ),
-              )
+              panelRef.current.querySelectorAll<HTMLElement>(
+                FOCUSABLE_SELECTOR,
+              ),
+            )
             : [];
 
           if (focusable.length === 0) {
@@ -545,9 +554,9 @@ export const AnimatedSidebar = forwardRef<HTMLElement, AnimatedSidebarProps>(
             "sticky top-0 flex h-svh w-full flex-col overflow-hidden bg-background",
             collapsible === "offcanvas" && "w-[var(--sidebar-width)]",
             variant === "sidebar" &&
-              (side === "left" ? "border-border border-r" : "border-border border-l"),
+            (side === "left" ? "border-border border-r" : "border-border border-l"),
             variant === "floating" &&
-              "m-2 h-[calc(100svh-1rem)] rounded-2xl border border-border shadow-sm",
+            "m-2 h-[calc(100svh-1rem)] rounded-2xl border border-border shadow-sm",
             variant === "inset" && "m-2 h-[calc(100svh-1rem)] rounded-2xl",
             panelClassName,
           )}
@@ -563,8 +572,7 @@ export const AnimatedSidebar = forwardRef<HTMLElement, AnimatedSidebarProps>(
   },
 );
 
-export interface AnimatedSidebarTriggerProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export type AnimatedSidebarTriggerProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const AnimatedSidebarTrigger = forwardRef<
   HTMLButtonElement,
@@ -576,14 +584,19 @@ export const AnimatedSidebarTrigger = forwardRef<
   const context = useAnimatedSidebar();
   const expanded = context.isMobile ? context.openMobile : context.open;
 
+  const setRefs = useCallback(
+    (node: HTMLButtonElement | null) => {
+      context.setTriggerRef(node);
+      if (typeof forwardedRef === "function") forwardedRef(node);
+      else if (forwardedRef) forwardedRef.current = node;
+    },
+    [context, forwardedRef],
+  );
+
   return (
     <button
       {...props}
-      ref={(node) => {
-        context.triggerRef.current = node;
-        if (typeof forwardedRef === "function") forwardedRef(node);
-        else if (forwardedRef) forwardedRef.current = node;
-      }}
+      ref={setRefs}
       type={type}
       aria-label={props["aria-label"] ?? "Toggle sidebar"}
       aria-expanded={expanded}
@@ -602,8 +615,7 @@ export const AnimatedSidebarTrigger = forwardRef<
   );
 });
 
-export interface AnimatedSidebarCloseProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export type AnimatedSidebarCloseProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const AnimatedSidebarClose = forwardRef<
   HTMLButtonElement,
@@ -635,8 +647,7 @@ export const AnimatedSidebarClose = forwardRef<
   );
 });
 
-export interface AnimatedSidebarRailProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export type AnimatedSidebarRailProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const AnimatedSidebarRail = forwardRef<
   HTMLButtonElement,
@@ -671,8 +682,7 @@ export const AnimatedSidebarRail = forwardRef<
   );
 });
 
-export interface AnimatedSidebarInsetProps
-  extends HTMLMotionProps<"main"> {}
+export type AnimatedSidebarInsetProps = HTMLMotionProps<"main">;
 
 export const AnimatedSidebarInset = forwardRef<
   HTMLElement,
