@@ -1,103 +1,58 @@
-Miransas
+# Miralas
 
-Modern developer infrastructure built for performance, reliability, and exceptional developer experience.
+**Give your ideas a voice.** Natural, expressive, production-ready speech — built for Uzbek, and beyond.
 
-Overview
+Miralas is a voice platform by [Miransas](https://miransas.com). It reads live donations and superchats aloud for streamers, and turns text into speech on demand. Uzbek is a first-class language, not an afterthought — a gap most voice tools leave open.
 
-Miransas is building a collection of developer-focused products and infrastructure across cloud, identity, databases, networking, AI, and open-source tooling.
+This repository (`miralas-web`) is the public marketing site for [miralas.io](https://miralas.io). The application itself — accounts, billing, the voice pipeline — lives in a separate, private repository. The **Log in** button here links straight to the console.
 
-Products
+---
 
-Miransas Cloud
+## What Miralas does
 
-Miransas ID
+- **Donation reader** — when a donation or superchat arrives on Kick, YouTube, or Twitch, Miralas speaks it aloud on your stream.
+- **Text to speech** — upload text, get natural audio back, in multiple languages.
+- **Real voices** — a growing library of voice options, with Uzbek at the center.
 
-Miransas DB
+## Status
 
-Miransas VPN
+Early development. The site and product are being built in the open, step by step.
 
-Miralas
+---
 
-Miransas Chess
+## Tech
 
-Platform
+The public site is a [Next.js](https://nextjs.org) app, deployed on Vercel. Dark-mode first, minimal, fast.
 
-Miransas is designed around a simple principle:
+The product behind it is built on a Rust core for a low-latency, long-lived backend, with an isolated Python service for model inference. The site you're looking at is intentionally simple — no auth, no application logic, just the front door.
 
-Build infrastructure that stays fast, reliable, and understandable.
+## Local development
 
-Our stack includes high-performance systems written in Rust, modern web applications built with TypeScript and Next.js, and AI services powered by Python where appropriate.
-
-Technology
-
-Rust
-
-TypeScript
-
-Next.js
-
-React
-
-Python
-
-PostgreSQL
-
-Docker
-
-Tauri
-
-Tailwind CSS
-
-Development
-
-Install dependencies:
-
+```bash
 pnpm install
-
-Run the development server:
-
 pnpm dev
+```
 
-Build for production:
+The site runs at `http://localhost:3000`.
 
-pnpm build
+```bash
+pnpm build      # production build
+pnpm lint       # lint
+```
 
-Status
+## Structure
 
-Miransas is actively developed.
+```
+miralas-web/
+├── app/          # Next.js app router — pages, layout
+├── public/       # static assets, logo
+└── ...
+```
 
-Some products and services are still under development and may change significantly before their stable release.
+## License
 
-Open Source
+MIT — see [LICENSE](./LICENSE).
 
-Miransas believes in building with and contributing to the open-source ecosystem.
+---
 
-Individual repositories may use different licenses. See the LICENSE file in each repository for the applicable terms.
-
-Security
-
-If you discover a security vulnerability, please contact:
-
-security@miransas.com
-
-Please do not publicly disclose security vulnerabilities before we have had an opportunity to investigate them.
-
-Contact
-
-General inquiries:
-
-contact@miransas.com
-
-Privacy:
-
-privacy@miransas.com
-
-License
-
-The MIT License applies to the source code of this repository.
-
-Miransas trademarks, logos, product names, and other brand assets are not licensed under the MIT License.
-
-See LICENSE for the full license text.
-
-Copyright © 2026 Miransas.
+Built by [Miransas](https://miransas.com) · [miralas.io](https://miralas.io)
