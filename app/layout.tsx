@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -120,8 +121,8 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {    
-   const isLocked = true
+}>) {
+  const isLocked = true
   return (
     <html
       lang="en"
@@ -135,7 +136,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-   {isLocked && <ComingSoonModal />}
+          <GoogleAnalytics gaId="G-YV03R6EWKP" />
+          {isLocked && <ComingSoonModal />}
           {children}
         </ThemeProvider>
       </body>

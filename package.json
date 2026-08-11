@@ -2,7 +2,6 @@
   "name": "miralas",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +10,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
+    "@next/third-parties": "^16.3.0",
     "@number-flow/react": "^0.6.2",
     "@paper-design/shaders-react": "^0.0.78",
     "class-variance-authority": "^0.7.1",
@@ -38,5 +38,4 @@
     "typescript": "^5"
   },
   "packageManager": "pnpm@11.18.0"
-   
 }
