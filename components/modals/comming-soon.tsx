@@ -81,7 +81,7 @@ export default function ComingSoonModal() {
                 <input
                   type="email"
                   required
-                  placeholder="E-posta adresiniz..."
+                  placeholder="E-posta adress."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-xl border border-white/10 bg-neutral-900/90 px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"

@@ -9,10 +9,8 @@ permissions:
 jobs:
   dependabot-merge:
     runs-on: ubuntu-latest
-    #
     if: github.actor == 'dependabot[bot]'
     steps:
-   
       - name: Fetch Dependabot Metadata
         id: metadata
         uses: dependabot/fetch-metadata@v2

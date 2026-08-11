@@ -1,8 +1,7 @@
 version: 2
 updates:
-  # 👑 TypeScript / 
   - package-ecosystem: "npm"
-    directory: "/" 
+    directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
