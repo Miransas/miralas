@@ -136,7 +136,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <GoogleAnalytics gaId="G-YV03R6EWKP" />
+         
           {isLocked && <ComingSoonModal />}
           {children}
         </ThemeProvider>
