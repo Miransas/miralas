@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import "./globals.css";
+import { roboto } from "./roboto";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
 
@@ -127,7 +128,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jakarta.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${roboto.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background font-sans text-foreground">
         <ThemeProvider
@@ -136,8 +137,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-         
-          {isLocked && <ComingSoonModal />}
+
+           {isLocked && <ComingSoonModal />} 
           {children}
         </ThemeProvider>
       </body>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -99,10 +100,10 @@ export function Header() {
         <div className="hidden items-center gap-2 lg:flex">
           <LanguageSwitcher />
           <ModeToggle />
-          <Link href="/signin" className="inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white">
+          <Link href="https://console.miralas/auth" className="inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white">
             Sign In
           </Link>
-          <Link href="/get-started" className="inline-flex h-9 items-center justify-center rounded-full bg-zinc-950 px-5 text-sm font-semibold text-white shadow-lg shadow-zinc-950/15 transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-100">
+          <Link href="https://console.miralas/auth" className="inline-flex h-9 items-center justify-center rounded-full bg-zinc-950 px-5 text-sm font-semibold text-white shadow-lg shadow-zinc-950/15 transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-100">
             Get Started
           </Link>
         </div>
