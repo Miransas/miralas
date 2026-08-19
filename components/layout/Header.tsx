@@ -78,7 +78,7 @@ export function Header() {
                   )}
                 >
                   {item.label}
-                  <ChevronDown className="size-3 opacity-45 transition group-hover:rotate-180 group-hover:opacity-80" />
+                  {/* <ChevronDown className="size-3 opacity-45 transition group-hover:rotate-180 group-hover:opacity-80" /> */}
                   <span
                     className={cn(
                       "absolute inset-x-3 -bottom-0.5 h-px origin-left scale-x-0 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-400 transition-transform duration-300 group-hover:scale-x-100",

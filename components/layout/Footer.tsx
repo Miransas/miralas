@@ -1,92 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"react";
-import Image from "next/image";
-import {
-  FaDiscord,
-  FaGithub,
-  FaLinkedin,
-  FaTwitter,
-  FaYoutube,
-} from "react-icons/fa6";
-import type { IconType } from "react-icons";
-import Laser from "../shared/laser";
-
-
-export const footer = {
-  description:
-    "Miransas builds modern developer infrastructure for authentication, databases, cloud networking, AI services and open-source tools focused on performance, reliability and developer experience.",
-
-  columns: [
-    {
-      title: "Products",
-      links: [
-        { title: "Miransas Cloud", href: "/cloud" },
-        { title: "Miransas ID", href: "/id" },
-        { title: "Miransas DB", href: "/db" },
-        { title: "Miransas VPN", href: "/vpn" },
-        { title: "Pricing", href: "/pricing" },
-      ],
-    },
-    {
-      title: "Developers",
-      links: [
-        { title: "Documentation", href: "/docs" },
-        { title: "API Reference", href: "/docs/api" },
-        { title: "Status", href: "https://status.miransas.com" },
-        { title: "Open Source", href: "https://github.com/miransas" },
-        { title: "Changelog", href: "/changelog" },
-      ],
-    },
-    {
-      title: "Resources",
-      links: [
-        { title: "Blog", href: "/blog" },
-        { title: "Guides", href: "/guides" },
-        { title: "Support", href: "/support" },
-        { title: "Community", href: "/community" },
-        { title: "Contact", href: "/contact" },
-      ],
-    },
-    {
-      title: "Company",
-      links: [
-        { title: "About", href: "/about" },
-        { title: "Careers", href: "/careers" },
-        { title: "Privacy", href: "/privacy" },
-        { title: "Terms", href: "/terms" },
-        { title: "Security", href: "/security" },
-      ],
-    },
-  ],
-
-  socials: [
-    { title: "GitHub", href: "https://github.com/miransas", icon: FaGithub },
-    { title: "X", href: "https://x.com/miransaas", icon: FaTwitter },
-    { title: "Discord", href: "https://discord.gg/miransas", icon: FaDiscord },
-    { title: "LinkedIn", href: "https://linkedin.com/company/miransas", icon: FaLinkedin },
-    { title: "YouTube", href: "https://youtube.com/@miransaas", icon: FaYoutube },
-  ],
-} satisfies {
-  description: string;
-  columns: { title: string; links: { title: string; href: string }[] }[];
-  socials: { title: string; href: string; icon: IconType }[];
-};
+import React from "react";
+import { Laser } from "../shared/laser";
 
 export default function Footer() {
-  return (
-    <footer className="relative w-full bg-zinc-50 dark:bg-black text-zinc-600 dark:text-zinc-300 font-sans overflow-hidden border-t border-zinc-200/80 dark:border-white/10 pt-20 pb-10 transition-colors duration-500">
-      
-      {/* Arka Plan Dot Pattern (Hero ve Feature bölümleriyle tam uyumlu) */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-60 dark:opacity-90"
-        style={{
-          backgroundImage: 'radial-gradient(rgba(150, 150, 150, 0.3) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-          maskImage: "radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 100%)",
-          WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 100%)",
-        }}
-      />
+  const footerLinks = [
+    {
+      category: "COMPANY",
+      links: [
+        { name: "About", href: "#" },
+        { name: "Journal", href: "#" },
+        { name: "Careers", href: "#" },
+        { name: "Newsroom", href: "#" },
+        { name: "Contact", href: "#" },
+      ],
+    },
+    {
+      category: "PLATFORM",
+      links: [
+        { name: "Pricing", href: "#" },
+        { name: "Prototype tests", href: "#" },
+        { name: "Live interviews", href: "#", isNew: true },
+        { name: "Session replay", href: "#" },
+        { name: "Surveys", href: "#" },
+      ],
+    },
+    {
+      category: "RESOURCES",
+      links: [
+        { name: "Field guides", href: "#" },
+        { name: "Research library", href: "#" },
+        { name: "Events", href: "#" },
+        { name: "Templates", href: "#" },
+        { name: "Help center", href: "#" },
+      ],
+    },
+    {
+      category: "USE CASES",
+      links: [
+        { name: "Validate concepts", href: "#" },
+        { name: "Test navigation", href: "#" },
+        { name: "Measure sentiment", href: "#" },
+        { name: "Benchmark journeys", href: "#" },
+      ],
+    },
+  ];
 
+  return (
+    <footer className="relative bg-[#0d0d0d] text-white font-sans overflow-hidden px-6 pt-16 pb-8 md:px-12">
       <Laser
         className="absolute inset-0 z-10 w-full"
         color={[0.05, 0.35, 1]}
@@ -100,114 +59,143 @@ export default function Footer() {
         thickness={7}
         core={1.1}
       >
-        <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-20">
 
-          {/* Sol Kolon: Marka ve Açıklama */}
-          <div className="lg:col-span-4 flex flex-col space-y-6">
+        {/* Kapatma Butonu (Sağ Üst Çarpı) */}
+        <button className="absolute top-6 right-6 text-neutral-400 hover:text-white transition-colors">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
 
-            {/* Logo & İsim */}
-            <div className="flex items-center gap-3.5">
-              <div className="relative flex items-center justify-center">
-                <div className="absolute -inset-2 bg-black/5 dark:bg-white/20 blur-xl rounded-full pointer-events-none" />
-                <div className="relative w-9 h-9 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 flex items-center justify-center shadow-md">
-                  <Image src="/logo.png" alt="Miransas Logo" width={22} height={22} />
+        <div className="max-w-[1600px] mx-auto w-full">
+          {/* Üst Kısım: Linkler ve Widget'lar */}
+          <div className="flex flex-col xl:flex-row justify-between gap-16 mb-24">
+
+            {/* Sol: Link Sütunları */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 xl:gap-16 w-full max-w-4xl">
+              {footerLinks.map((column, idx) => (
+                <div key={idx} className="flex flex-col">
+                  {/* Kategori Başlığı (Pill/Badge Tasarımı) */}
+                  <div className="bg-[#222] text-[#999] text-[10px] font-bold tracking-[0.15em] uppercase px-3 py-1 rounded-full w-max mb-6">
+                    {column.category}
+                  </div>
+
+                  {/* Linkler */}
+                  <ul className="flex flex-col space-y-4">
+                    {column.links.map((link, linkIdx) => (
+                      <li key={linkIdx} className="flex items-center">
+                        <a
+                          href={link.href}
+                          className="text-[15px] font-medium text-neutral-200 hover:text-white transition-colors"
+                        >
+                          {link.name}
+                        </a>
+                        {link.isNew && (
+                          <span className="ml-3 bg-white text-black text-[10px] font-bold px-2 py-[2px] rounded-full">
+                            NEW
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Sağ: Kayıt ve Sosyal Medya Widget'ları */}
+            <div className="flex flex-col space-y-4 w-full xl:max-w-md shrink-0">
+              {/* Bülten Kartı */}
+              <div className="bg-[#141414] border border-[#262626] rounded-[24px] p-5">
+                {/* Soyut Görsel Alanı */}
+                <div className="w-full h-40 bg-[#1e1e1e] rounded-xl mb-6 relative overflow-hidden flex items-center justify-center">
+                  {/* Görseli taklit eden çizgiler ve yuvarlak */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform -translate-y-1/2"></div>
+                    <div className="absolute top-0 left-1/2 w-[1px] h-full bg-white transform -translate-x-1/2"></div>
+                    <div className="absolute inset-0 border-[1px] border-white rounded-full scale-150"></div>
+                    <div className="absolute inset-0 border-[1px] border-white rounded-full scale-[2.5]"></div>
+                  </div>
+                  <div className="w-16 h-16 bg-[#2a2a2a] rounded-full flex items-center justify-center z-10 border border-[#333]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#777" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <circle cx="9" cy="9" r="2" />
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                    </svg>
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-white mb-2">Sign up for the field guide</h3>
+                <p className="text-sm text-neutral-400 mb-6 leading-relaxed">
+                  Research patterns and testing rituals from real product teams. Two issues a month, no noise.
+                </p>
+
+                <form className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full bg-[#111] border border-[#333] text-white text-sm rounded-full px-5 py-3 focus:outline-none focus:border-neutral-500 transition-colors placeholder:text-neutral-600"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-white text-black font-semibold text-sm rounded-full px-6 py-3 hover:bg-neutral-200 transition-colors"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+
+              {/* Sosyal Medya Kartı */}
+              <div className="flex items-center justify-between bg-[#141414] border border-[#262626] rounded-[24px] px-6 py-5">
+                <span className="text-[15px] font-semibold text-white">Follow us</span>
+                <div className="flex items-center gap-4 text-neutral-400">
+                  <a href="#" className="hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
+                  </a>
                 </div>
               </div>
-              <span className="text-zinc-900 dark:text-white font-semibold text-lg tracking-tight">
-                Miransas
-              </span>
             </div>
+          </div>
 
-            {/* Açıklama */}
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed max-w-sm">
-              {footer.description}
+          {/* Orta Kısım: Dev "fathom" Yazısı */}
+          <div className="w-full flex justify-center items-center select-none overflow-hidden mb-12">
+            <h1 className="text-[25vw] sm:text-[23vw] leading-none font-black tracking-tighter text-white">
+              Miransas
+            </h1>
+          </div>
+
+          {/* Alt Kısım: Telif Hakkı ve Yasal Linkler */}
+          <div className="border-t border-[#222] pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-[11px] text-neutral-500 font-semibold tracking-wider">
+              © 2026 FATHOM RESEARCH
             </p>
-
-            {/* Sosyal Medya İkonları */}
-            <div className="flex items-center gap-2.5 pt-1">
-              {footer.socials.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.title}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.title}
-                    className="group relative w-10 h-10 rounded-xl 
-                               bg-white/80 dark:bg-zinc-900/60 backdrop-blur-md 
-                               border border-zinc-200/80 dark:border-white/10 
-                               shadow-sm dark:shadow-none
-                               flex items-center justify-center text-zinc-500 dark:text-zinc-400 
-                               hover:text-zinc-900 dark:hover:text-white 
-                               hover:bg-zinc-100 dark:hover:bg-zinc-800 
-                               hover:border-zinc-300 dark:hover:border-white/25 
-                               hover:-translate-y-0.5 transition-all duration-300"
-                  >
-                    <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                  </a>
-                );
-              })}
-            </div>
-
-            {/* Start Building Free Butonu */}
-            <div className="pt-2">
-              <a
-                href="/register"
-                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white/60 dark:bg-zinc-900/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 shadow-sm"
-              >
-                <span>Start building free</span>
-                <span className="text-zinc-400 dark:text-zinc-500">↗</span>
-              </a>
+            <div className="flex flex-wrap justify-center gap-6">
+              <a href="#" className="text-[11px] text-neutral-500 hover:text-white font-semibold tracking-wider transition-colors">PRIVACY</a>
+              <a href="#" className="text-[11px] text-neutral-500 hover:text-white font-semibold tracking-wider transition-colors">TERMS</a>
+              <a href="#" className="text-[11px] text-neutral-500 hover:text-white font-semibold tracking-wider transition-colors">SECURITY</a>
+              <a href="#" className="text-[11px] text-neutral-500 hover:text-white font-semibold tracking-wider transition-colors">COOKIES</a>
             </div>
           </div>
 
-          {/* Sağ Kolonlar (Footer Navigasyon Grupları) */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
-            {footer.columns.map((col) => (
-              <div key={col.title} className="flex flex-col space-y-4">
-                <h3 className="text-zinc-900 dark:text-white font-medium text-xs font-mono uppercase tracking-wider">
-                  {col.title}
-                </h3>
-                <ul className="flex flex-col space-y-3">
-                  {col.links.map((link) => (
-                    <li key={link.title}>
-                      <a
-                        href={link.href}
-                        className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white text-sm transition-colors duration-200"
-                      >
-                        {link.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
         </div>
-
-        {/* Dev Marka Adı ve Aurora Efekti */}
-        <div className="relative z-20 w-full pt-16 pb-4 overflow-hidden flex flex-col items-center justify-center">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-white/10 to-transparent mb-4" />
-          
-          <div className="absolute top-8 w-3/4 h-32 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black/5 dark:from-white/10 via-transparent to-transparent blur-3xl pointer-events-none" />
-
-          <h1 className="text-center font-bold tracking-tighter text-[13vw] leading-none select-none pointer-events-none bg-gradient-to-b from-zinc-300 via-zinc-400/30 dark:from-zinc-200/40 dark:via-zinc-500/10 to-transparent bg-clip-text text-transparent opacity-70">
-            miransas
-          </h1>
-        </div>
-
-        {/* Alt Bilgi Çubuğu */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 border-t border-zinc-200/80 dark:border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500 dark:text-zinc-500">
-          <div>
-            © {new Date().getFullYear()} Miransas. All rights reserved.
-          </div>
-          <div className="flex items-center gap-2 bg-white/60 dark:bg-zinc-900/60 px-3 py-1.5 rounded-full border border-zinc-200/80 dark:border-white/10 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-zinc-700 dark:text-zinc-300">All systems operational</span>
-          </div>
-        </div>
-
       </Laser>
     </footer>
   );
