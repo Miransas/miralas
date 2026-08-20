@@ -133,12 +133,12 @@ export default function RootLayout({
       <body className="min-h-full bg-background font-sans text-foreground">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
 
-           {/* {isLocked && <ComingSoonModal />}  */}
+            {isLocked && <ComingSoonModal />}  
           {children}
         </ThemeProvider>
       </body>

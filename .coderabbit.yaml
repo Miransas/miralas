@@ -1,12 +1,12 @@
 language: "en"
 
 reviews:
-  profile: "chill" # İnceleme tonu: chill, assertive veya strict
+  profile: "chill" 
   auto_review:
     enabled: true
     drafts: false
   
-  # AI'ın taramaması gereken dosya ve klasörler
+ 
   path_filters:
     - "!pnpm-lock.yaml"
     - "!.next/**"

@@ -98,8 +98,8 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <LanguageSwitcher />
-          <ModeToggle />
+          {/* <LanguageSwitcher /> */}
+          {/* <ModeToggle /> */}
           <Link href="https://console.miralas/auth" className="inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white">
             Sign In
           </Link>
@@ -108,7 +108,7 @@ export function Header() {
           </Link>
         </div>
 
-        <button
+         <button
           type="button"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -116,7 +116,7 @@ export function Header() {
           className="inline-flex size-10 items-center justify-center rounded-full border border-zinc-200 bg-white/75 text-zinc-900 shadow-sm backdrop-blur lg:hidden dark:border-white/10 dark:bg-white/5 dark:text-white"
         >
           {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        </button> 
       </div>
 
       <AnimatePresence>
