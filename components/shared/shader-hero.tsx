@@ -17,6 +17,8 @@ const fragmentShader = `
   uniform vec2 resolution;
   uniform float time;
 
+  out vec4 fragColor;
+
   float random(in float x) {
     return fract(sin(x) * 1e4);
   }
@@ -74,7 +76,7 @@ const fragmentShader = `
     float grain = random(gl_FragCoord.xy + time) * 0.03;
     finalColor += grain;
 
-    gl_FragColor = vec4(finalColor, 1.0);
+    fragColor = vec4(finalColor, 1.0);
   }
 `;
 
@@ -101,18 +103,21 @@ export function ShaderAnimation() {
       vertexShader,
       fragmentShader,
       transparent: true,
+      glslVersion: THREE.GLSL3,
     });
 
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
     const renderer = new THREE.WebGLRenderer({
-      antialias: false, // Disable for performance on mobile
+      antialias: false,
       alpha: true,
-      powerPreference: "low-power", // Better battery on mobile
+      powerPreference: "low-power",
     });
 
-    // Cap pixel ratio for performance (especially mobile)
+    renderer.setClearColor(0x000000, 0);
+
+    // Cap pixel ratio for performance
     const dpr = Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2);
     renderer.setPixelRatio(dpr);
 
@@ -137,13 +142,12 @@ export function ShaderAnimation() {
 
     let animationFrameId: number;
     let lastTime = 0;
-    const targetFPS = 30; // Cap FPS for mobile battery
+    const targetFPS = 30;
     const frameInterval = 1000 / targetFPS;
 
     const animate = (currentTime: number) => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Frame skip for performance
       const delta = currentTime - lastTime;
       if (delta < frameInterval) return;
       lastTime = currentTime - (delta % frameInterval);

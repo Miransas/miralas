@@ -6,29 +6,21 @@ import {
   Mic, 
   Globe, 
   Heart,
- 
   Radio,
   Tv,
   Zap,
-  ArrowRight,
-  ChevronRight,
   Play,
   Pause,
-  Volume2,
   Gift,
-  Coins,
   Crown,
   Star,
-  MessageCircle,
-  Users,
-  TrendingUp,
-  Shield,
   Sparkles,
-  Download,
   Copy,
-  Check
+  Check,
+  Languages,
+  BadgeDollarSign
 } from "lucide-react";
-import { IconBrandGithub, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
+import { IconBrandYoutube } from '@tabler/icons-react';
 
 
 // ─── ANIMATION UTILITIES ──────────────────────────────────────
@@ -65,11 +57,12 @@ function FadeIn({ children, className = "", delay = 0, direction = "up" }: {
 
 function AudioWave({ isPlaying }: { isPlaying: boolean }) {
   return (
-    <div className="flex items-end gap-[3px] h-8">
-      {[...Array(12)].map((_, i) => (
+    <div className="flex items-end gap-[2px] h-6">
+      {[...Array(8)].map((_, i) => (
         <div
           key={i}
-          className="w-[3px] rounded-full bg-purple-500/60 transition-all duration-300"
+          // Renkler minimalist: Koyu gri -> Beyaz
+          className={`w-[2px] rounded-full transition-all duration-300 ${isPlaying ? 'bg-white' : 'bg-neutral-700'} group-hover:bg-neutral-900`}
           style={{
             height: isPlaying ? `${20 + Math.random() * 60}%` : '20%',
             animationDelay: `${i * 0.05}s`,
@@ -87,16 +80,9 @@ function AudioWave({ isPlaying }: { isPlaying: boolean }) {
   );
 }
 
-// ─── VOICE DEMO CARD ─────────────────────────────────────────
+// ─── MINIMALIST KRAFT-STYLE VOICE CARD ─────────────────────
 
-function VoiceDemoCard({ 
-  language, 
-  text, 
-  flag,
-  delay = 0 
-}: { 
-  language: string; text: string; flag: string; delay?: number;
-}) {
+function VoiceDemoCard({ language, text, flag, delay = 0, icon: Icon }: { language: string; text: string; flag: string; delay?: number; icon: React.ElementType; }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -107,33 +93,41 @@ function VoiceDemoCard({
 
   return (
     <FadeIn delay={delay}>
-      <div className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl p-5 transition-all duration-500 hover:border-purple-500/20 hover:bg-white/[0.04]">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2.5">
-            <span className="text-lg">{flag}</span>
-            <span className="text-xs font-semibold text-white/60">{language}</span>
+      {/* Kart hover animasyonları ve referanstaki gibi beyazlaşma efekti */}
+      <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-black p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-neutral-200 hover:shadow-2xl hover:shadow-white/10 text-white hover:text-neutral-950">
+        
+        {/* Başlık ve Oynatma Butonu */}
+        <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center gap-3">
+            <span className="text-xl">{flag}</span>
+            <span className="text-sm font-semibold opacity-60 group-hover:opacity-80">{language}</span>
           </div>
           <button 
             onClick={() => setIsPlaying(!isPlaying)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-white/40 transition-all duration-300 hover:border-purple-500/30 hover:text-purple-400 hover:bg-purple-500/5"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 bg-neutral-800 text-neutral-400 transition-all duration-300 hover:border-neutral-400 hover:text-neutral-100 hover:bg-neutral-700 group-hover:border-neutral-300 group-hover:bg-neutral-100 group-hover:text-neutral-800"
           >
-            {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
+            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-1" />}
           </button>
         </div>
 
-        <div className="mb-4 rounded-xl border border-white/[0.04] bg-white/[0.015] p-3">
-          <p className="text-[13px] text-white/50 leading-relaxed">{text}</p>
+        {/* Ana İllüstrasyon İkonu (Büyük ve Ortada) */}
+        <div className="flex justify-center mb-10">
+          <Icon className="w-20 h-20 text-white/90 group-hover:text-neutral-950 transition-colors" />
         </div>
 
+        {/* Özet Metin */}
+        <div className="mb-6 rounded-2xl bg-black/30 group-hover:bg-neutral-100 p-5 pr-10 transition-colors duration-300">
+          <p className="text-sm leading-relaxed opacity-70 group-hover:opacity-90">{text}</p>
+        </div>
+
+        {/* Alt Bilgi */}
         <div className="flex items-center justify-between">
           <AudioWave isPlaying={isPlaying} />
           <button 
             onClick={handleCopy}
-            className="flex items-center gap-1.5 text-[11px] text-white/20 transition-colors hover:text-white/50"
+            className="flex items-center gap-1.5 text-xs opacity-50 transition-colors hover:opacity-90 group-hover:hover:opacity-100"
           >
-            {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
             {copied ? "Copied" : "Copy"}
           </button>
         </div>
@@ -142,51 +136,38 @@ function VoiceDemoCard({
   );
 }
 
-// ─── DONATION TIER CARD ──────────────────────────────────────
+// ─── MINIMALIST KRAFT-STYLE DONATION CARD ──────────────────
 
-function DonationTier({ 
-  icon: Icon,
-  name,
-  amount,
-  color,
-  features,
-  delay = 0
-}: { 
-  icon: React.ElementType; name: string; amount: string; color: string; features: string[]; delay?: number;
-}) {
-  const colorMap: Record<string, { border: string; bg: string; text: string; glow: string }> = {
-    bronze: { border: "border-amber-700/30", bg: "bg-amber-700/10", text: "text-amber-600", glow: "shadow-amber-700/10" },
-    silver: { border: "border-slate-400/30", bg: "bg-slate-400/10", text: "text-slate-400", glow: "shadow-slate-400/10" },
-    gold: { border: "border-yellow-500/30", bg: "bg-yellow-500/10", text: "text-yellow-500", glow: "shadow-yellow-500/10" },
-    diamond: { border: "border-purple-500/30", bg: "bg-purple-500/10", text: "text-purple-400", glow: "shadow-purple-500/10" },
-  };
-  const c = colorMap[color];
-
+function DonationTier({ icon: Icon, name, amount, features, delay = 0 }: { icon: React.ElementType; name: string; amount: string; features: string[]; delay?: number; }) {
   return (
     <FadeIn delay={delay}>
-      <div className={`group relative overflow-hidden rounded-2xl border ${c.border} bg-white/[0.02] backdrop-blur-xl p-6 transition-all duration-500 hover:shadow-2xl ${c.glow} hover:bg-white/[0.04]`}>
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-        <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border ${c.border} ${c.bg} ${c.text} mb-4`}>
-          <Icon className="h-5 w-5" />
+      {/* Kart hover animasyonları ve referanstaki gibi beyazlaşma efekti */}
+      <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-black p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-neutral-200 hover:shadow-2xl hover:shadow-white/10 text-white hover:text-neutral-950">
+        
+        {/* Ana İllüstrasyon İkonu (Büyük ve Ortada) */}
+        <div className="flex justify-center mb-10">
+          <Icon className="w-20 h-20 text-white/90 group-hover:text-neutral-950 transition-colors" />
         </div>
 
-        <h3 className="text-lg font-bold text-white/90">{name}</h3>
-        <div className="mt-1 flex items-baseline gap-1">
-          <span className="text-2xl font-bold text-white">{amount}</span>
-          <span className="text-xs text-white/30">/month</span>
+        {/* Başlık ve Tutar */}
+        <h3 className="text-2xl font-bold mb-2 group-hover:text-neutral-950 transition-colors">{name}</h3>
+        <div className="mb-8 flex items-baseline gap-1.5">
+          <span className="text-3xl font-extrabold group-hover:text-neutral-950 transition-colors">{amount}</span>
+          <span className="text-sm opacity-50 group-hover:opacity-80 transition-colors">/month</span>
         </div>
 
-        <ul className="mt-5 space-y-2.5">
-          {features.map((f, i) => (
-            <li key={i} className="flex items-start gap-2 text-[12px] text-white/40">
-              <Check className="h-3.5 w-3.5 shrink-0 mt-0.5 text-white/20" />
+        {/* Özellikler (Özet) */}
+        <ul className="space-y-3.5 mb-10">
+          {features.slice(0, 3).map((f, i) => ( // Sadece ilk 3 özelliği göstererek özetle
+            <li key={i} className="flex items-start gap-2.5 text-sm opacity-70 group-hover:opacity-90 transition-colors">
+              <Check className="h-4 w-4 shrink-0 mt-0.5 opacity-50 group-hover:opacity-80 transition-colors" />
               {f}
             </li>
           ))}
         </ul>
 
-        <button className={`mt-6 w-full rounded-full border ${c.border} ${c.bg} py-2.5 text-xs font-semibold ${c.text} transition-all duration-300 hover:opacity-80`}>
+        {/* Buton (Hover'da Siyah Arka Plan) */}
+        <button className="w-full rounded-xl bg-white/10 hover:bg-neutral-700 py-3.5 text-sm font-semibold transition-all duration-300 group-hover:bg-neutral-950 group-hover:text-white group-hover:shadow-lg group-hover:shadow-black/10">
           Subscribe
         </button>
       </div>
@@ -194,39 +175,31 @@ function DonationTier({
   );
 }
 
-// ─── PLATFORM INTEGRATION CARD ───────────────────────────────
+// ─── MINIMALIST KRAFT-STYLE PLATFORM CARD ──────────────────
 
-function PlatformCard({ 
-  icon: Icon,
-  name,
-  description,
-  status,
-  color,
-  delay = 0
-}: { 
-  icon: React.ElementType; name: string; description: string; status: string; color: string; delay?: number;
-}) {
+function PlatformCard({ icon: Icon, name, description, status, color, delay = 0 }: { icon: React.ElementType; name: string; description: string; status: string; color: string; delay?: number; }) {
+ 
   const colorMap: Record<string, { border: string; bg: string; text: string; dot: string }> = {
-    red: { border: "border-red-500/20", bg: "bg-red-500/10", text: "text-red-400", dot: "bg-red-400" },
-    green: { border: "border-emerald-500/20", bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
-    purple: { border: "border-purple-500/20", bg: "bg-purple-500/10", text: "text-purple-400", dot: "bg-purple-400" },
+    red: { border: "border-neutral-700/50", bg: "bg-black", text: "text-red-400", dot: "bg-red-400" },
+    green: { border: "border-neutral-700/50", bg: "bg-black", text: "text-emerald-400", dot: "bg-emerald-400" },
+    neutral: { border: "border-neutral-700/50", bg: "bg-black", text: "text-neutral-400", dot: "bg-neutral-400" },
   };
   const c = colorMap[color];
 
   return (
     <FadeIn delay={delay}>
-      <div className="group flex items-center gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 backdrop-blur-sm transition-all duration-300 hover:border-white/[0.1] hover:bg-white/[0.04]">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${c.border} ${c.bg} ${c.text}`}>
-          <Icon className="h-5 w-5" />
+      <div className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-balck p-5 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-700 hover:bg-neutral-900 hover:shadow-[0_4px_20px_-5px_rgba(255,255,255,0.05)]">
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border ${c.border} ${c.bg} ${c.text} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+          <Icon className="w-6 h-6" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-white/80">{name}</span>
+            <span className="text-sm font-semibold text-white/90">{name}</span>
             <span className={`flex h-1.5 w-1.5 rounded-full ${c.dot} animate-pulse`} />
           </div>
-          <p className="text-[11px] text-white/30 mt-0.5">{description}</p>
+          <p className="text-xs text-white/40 mt-0.5 group-hover:text-white/60 transition-colors leading-relaxed">{description}</p>
         </div>
-        <span className={`shrink-0 rounded-full ${c.bg} ${c.text} px-2 py-0.5 text-[10px] font-semibold`}>
+        <span className={`shrink-0 rounded-full ${c.bg} ${c.text} px-2.5 py-1 text-[10px] font-semibold transition-transform duration-300 group-hover:scale-105`}>
           {status}
         </span>
       </div>
@@ -234,60 +207,74 @@ function PlatformCard({
   );
 }
 
-// ─── MAIN PAGE ───────────────────────────────────────────────
+// ─── MAIN PAGE (KRAFT STYLE) ───────────────────────────────
 
-export default function HowItWorks() {
+export default function HowItWorksKraft() {
   const [activeTab, setActiveTab] = useState<"voice" | "donate" | "platforms">("voice");
 
+  // Her sekme için 3, toplamda 9 minimalist kart verisi
   const voiceDemos = [
-    { language: "English (US)", text: "Hello! I'm your AI voice assistant. I can speak naturally in over 50 languages with perfect emotion and tone.", flag: "🇺🇸" },
-    { language: "Uzbek", text: "Salom! Men sizning sun'iy intellekt ovoz yordamchingizman. Men 50 dan ortiq til tabiiy ravishda gapira olaman.", flag: "🇺🇿" },
-    { language: "Russian", text: "Здравствуйте! Я ваш голосовой помощник на базе ИИ. Говорю естественно на 50+ языках.", flag: "🇷🇺" },
-    { language: "Turkish", text: "Merhaba! Ben yapay zeka ses asistanınızım. 50'den fazla dilde doğal bir şekilde konuşabilirim.", flag: "🇹🇷" },
-    { language: "Arabic", text: "مرحباً! أنا مساعدك الصوتي بالذكاء الاصطناعي. يمكنني التحدث بشكل طبيعي بأكثر من 50 لغة.", flag: "🇸🇦" },
-    { language: "Japanese", text: "こんにちは！AI音声アシスタントです。50以上の言語で自然に話せます。", flag: "🇯🇵" },
+    { language: "English (US)", text: "I speak naturally with perfect emotion and tone, just like a human assistant.", flag: "🇺🇸", icon: Mic },
+    { language: "Turkish", text: "Merhaba! 50'den fazla dilde doğal bir şekilde, Türkçe de dahil, iletişim kurabilirim.", flag: "🇹🇷", icon: Languages },
+    { language: "Japanese", text: "こんにちは！ AI音声アシスタントです。 自然な発音で、 日本語を話せます。", flag: "🇯🇵", icon: Globe },
   ];
 
   const donationTiers = [
-    { icon: Heart, name: "Supporter", amount: "$5", color: "bronze", features: ["Priority TTS queue", "Basic voice cloning", "Community Discord access", "Monthly updates"] },
-    { icon: Star, name: "Creator", amount: "$15", color: "silver", features: ["Everything in Supporter", "Advanced voice cloning", "Custom voice presets", "API access (1K req/mo)", "Direct support"] },
-    { icon: Crown, name: "Producer", amount: "$49", color: "gold", features: ["Everything in Creator", "Unlimited voice cloning", "Commercial license", "API access (50K req/mo)", "Early access to features"] },
-    { icon: Sparkles, name: "Enterprise", amount: "$199", color: "diamond", features: ["Everything in Producer", "Dedicated infrastructure", "Custom model training", "Unlimited API", "SLA guarantee", "White-label option"] },
+    { icon: Heart, name: "Supporter", amount: "$5", features: ["Priority TTS queue", "Basic voice cloning", "Community Discord access"] },
+    { icon: Star, name: "Creator", amount: "$15", features: ["Advanced voice cloning", "API access (1K req/mo)", "Direct support"] },
+    { icon: Crown, name: "Producer", amount: "$49", features: ["Unlimited voice cloning", "Commercial license", "API access (50K req/mo)"] },
   ];
 
-  const platforms = [
-    { icon: IconBrandYoutube, name: "YouTube", description: "Super Chat & Membership alerts with AI voice", status: "Live", color: "red" },
-    { icon: Radio, name: "Kick", description: "Stream donations with custom AI voice messages", status: "Live", color: "green" },
-    { icon: Tv, name: "Twitch", description: "Bits & Sub alerts with multilingual TTS", status: "Live", color: "purple" },
+const platforms = [
+    { 
+      icon: IconBrandYoutube, 
+      name: "YouTube", 
+      description: "Instantly have incoming Super Chat messages and new membership alerts read aloud during your live streams using an AI voice of your choice. Elevate viewer interaction with a natural tone.", 
+      status: "Live", 
+      color: "red" 
+    },
+    { 
+      icon: Radio, 
+      name: "Kick", 
+      description: "Display the donations you receive during your stream—along with the donor's message—using fully customizable AI voice characters.", 
+      status: "Live", 
+      color: "green" 
+    },
+    { 
+      icon: Tv, 
+      name: "Twitch", 
+      description: "Integrate alerts for Bits, subscriptions, and gift subscriptions with multilingual TTS (Text-to-Speech) support. Have your global viewers' messages read aloud in their own languages.", 
+      status: "Live", 
+      color: "neutral" 
+    },
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background text-white font-sans">
+    <section className="relative min-h-screen overflow-hidden bg-background text-white font-sans ">
       <div className="relative z-10 mx-auto max-w-full px-5 py-24 sm:px-8 lg:px-16">
-
-        {/* ═══ HEADER ═══ */}
-        <FadeIn className="mb-16 text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.06] bg-white/[0.02] px-4 py-1.5">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(147,51,234,0.5)] animate-pulse" />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/30">How It Works</span>
+        
+        <FadeIn className="mb-20 text-center">
+          <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-neutral-800 bg-neutral-900 px-4 py-1.5 transition-colors hover:bg-neutral-800/80">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)] animate-pulse" />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400">How It Works</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[0.95]">
-            Voice AI for
+            From idea
             <br />
-            <span className="font-serif italic font-light text-white/40">every creator.</span>
+            <span className="font-serif italic font-light text-neutral-500">in simple steps.</span>
           </h1>
-          <div className="mt-5 flex items-start justify-center gap-4 max-w-lg mx-auto">
-            <div className="mt-2.5 h-px w-8 bg-gradient-to-r from-purple-500/50 to-transparent" />
-            <p className="text-sm leading-relaxed text-white/30">
-              Clone your voice in seconds. Speak 50+ languages. Accept donations on YouTube, Kick, and Twitch with AI-powered voice messages.
+          <div className="mt-8 flex items-start justify-center gap-4 max-w-lg mx-auto">
+            <div className="mt-2.5 h-px w-10 bg-neutral-800" />
+            <p className="text-sm leading-relaxed text-neutral-500 max-w-md">
+              Clone your voice. Speak 50+ languages. Connect your YouTube, Kick, or Twitch for AI voice alerts and donations.
             </p>
           </div>
         </FadeIn>
 
-        {/* ═══ TABS ═══ */}
-        <FadeIn delay={0.2} className="mb-12">
+        
+        <FadeIn delay={0.2} className="mb-16">
           <div className="flex justify-center">
-            <div className="inline-flex rounded-full border border-white/[0.06] bg-white/[0.02] p-1 backdrop-blur-xl">
+            <div className="inline-flex rounded-full border border-neutral-800 bg-neutral-900 p-1.5 backdrop-blur-xl">
               {([
                 { id: "voice", label: "Voice Demo", icon: Mic },
                 { id: "donate", label: "Donations", icon: Gift },
@@ -296,10 +283,10 @@ export default function HowItWorks() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-medium transition-all duration-300 ${
+                  className={`flex items-center gap-2.5 rounded-full px-5 py-3 text-xs font-medium transition-all duration-300 ${
                     activeTab === tab.id 
-                      ? "bg-white/[0.08] text-white shadow-lg" 
-                      : "text-white/30 hover:text-white/50"
+                      ? "bg-white text-neutral-950 shadow-lg scale-105" 
+                      : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
                   }`}
                 >
                   <tab.icon className="h-3.5 w-3.5" />
@@ -312,20 +299,20 @@ export default function HowItWorks() {
 
         {/* ═══ TAB: VOICE DEMO ═══ */}
         {activeTab === "voice" && (
-          <div className="space-y-6">
+          <div className="space-y-10">
             <FadeIn>
-              <div className="mb-8 flex items-center justify-between">
+              <div className="mb-10 flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-white/90">Try the Voices</h2>
-                  <p className="mt-1 text-xs text-white/30">Click play to hear AI-generated speech in different languages</p>
+                  <h2 className="text-xl font-bold text-white/90 group-hover:text-neutral-950 transition-colors">Listen to the Voices</h2>
+                  <p className="mt-1 text-sm text-neutral-500">Generate realistic speech instantly in different languages.</p>
                 </div>
-                <div className="flex items-center gap-2 rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1.5">
-                  <Globe className="h-3.5 w-3.5 text-white/30" />
-                  <span className="text-[11px] text-white/40">50+ Languages</span>
+                <div className="flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900 px-3.5 py-1.5 transition-colors duration-300 hover:border-neutral-700">
+                  <Globe className="h-3.5 w-3.5 text-white/70" />
+                  <span className="text-[11px] font-medium text-white/80">50+ Languages</span>
                 </div>
               </div>
             </FadeIn>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {voiceDemos.map((demo, i) => (
                 <VoiceDemoCard key={i} {...demo} delay={i * 0.08} />
               ))}
@@ -335,31 +322,16 @@ export default function HowItWorks() {
 
         {/* ═══ TAB: DONATIONS ═══ */}
         {activeTab === "donate" && (
-          <div className="space-y-6">
+          <div className="space-y-10">
             <FadeIn>
-              <div className="mb-8 text-center">
-                <h2 className="text-xl font-bold text-white/90">Support with Voice</h2>
-                <p className="mt-1 text-xs text-white/30">Monetize your content with AI-powered donation messages</p>
+              <div className="mb-10 text-center">
+                <h2 className="text-xl font-bold text-white/90 group-hover:text-neutral-950 transition-colors">Support with AI Voice</h2>
+                <p className="mt-1 text-sm text-neutral-500 max-w-sm mx-auto">Create custom donation alerts using your cloned AI voice.</p>
               </div>
             </FadeIn>
-
-            {/* Platform integrations */}
-            <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {platforms.map((p, i) => (
-                <PlatformCard key={i} {...p} delay={i * 0.1} />
-              ))}
-            </div>
-
-            {/* Donation tiers */}
-            <FadeIn delay={0.3}>
-              <div className="mb-6 text-center">
-                <h3 className="text-lg font-bold text-white/80">Creator Tiers</h3>
-                <p className="mt-1 text-xs text-white/30">Choose your plan and start earning</p>
-              </div>
-            </FadeIn>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {donationTiers.map((tier, i) => (
-                <DonationTier key={i} {...tier} delay={0.4 + i * 0.1} />
+                <DonationTier key={i} {...tier} delay={i * 0.1} />
               ))}
             </div>
           </div>
@@ -367,134 +339,26 @@ export default function HowItWorks() {
 
         {/* ═══ TAB: PLATFORMS ═══ */}
         {activeTab === "platforms" && (
-          <div className="space-y-6">
+          <div className="space-y-10">
             <FadeIn>
-              <div className="mb-8 text-center">
-                <h2 className="text-xl font-bold text-white/90">Platform Integrations</h2>
-                <p className="mt-1 text-xs text-white/30">Connect your streaming platforms in one click</p>
+              <div className="mb-10 flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold text-white/90 group-hover:text-neutral-950 transition-colors">Connect Integrations</h2>
+                  <p className="mt-1 text-sm text-neutral-500">Connect your preferred streaming services in simple steps.</p>
+                </div>
+                <div className="flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900 px-3.5 py-1.5 transition-colors duration-300 hover:border-neutral-700">
+                  <BadgeDollarSign className="h-3.5 w-3.5 text-white/70" />
+                  <span className="text-[11px] font-medium text-white/80">Alerts & TTS</span>
+                </div>
               </div>
             </FadeIn>
-
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {/* YouTube */}
-              <FadeIn delay={0.1}>
-                <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl p-6">
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/20 to-transparent" />
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-400">
-                    <IconBrandYoutube size={24} color="red" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white/90">YouTube Super Chat</h3>
-                      <p className="mt-1 text-[13px] leading-relaxed text-white/30">
-                        When viewers send Super Chat, Miralas reads their message aloud in your cloned voice. Supports English, Uzbek, Russian, and 47 more languages.
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {["Super Chat", "Memberships", "Premieres", "Live Streams"].map((tag) => (
-                          <span key={tag} className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[10px] text-white/40">{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
-
-              {/* Kick */}
-              <FadeIn delay={0.2}>
-                <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl p-6">
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
-                      <Radio className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white/90">Kick Donations</h3>
-                      <p className="mt-1 text-[13px] leading-relaxed text-white/30">
-                        Automatic TTS for every donation on Kick. Custom triggers, sound effects, and multi-language support for global audiences.
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {["Donations", "Sub Alerts", "Follow Alerts", "Bits"].map((tag) => (
-                          <span key={tag} className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[10px] text-white/40">{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
-
-              {/* Twitch */}
-              <FadeIn delay={0.3}>
-                <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl p-6">
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-500/10 text-purple-400">
-                      <Tv className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white/90">Twitch Integration</h3>
-                      <p className="mt-1 text-[13px] leading-relaxed text-white/30">
-                        Full Twitch EventSub support. Bits, subs, raids, and channel points all trigger AI voice responses in real-time.
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {["Bits", "Subs", "Raids", "Channel Points"].map((tag) => (
-                          <span key={tag} className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[10px] text-white/40">{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
-
-              {/* Stats */}
-              <FadeIn delay={0.4}>
-                <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl p-6">
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                  <h3 className="text-sm font-semibold text-white/40 uppercase tracking-wider mb-4">Live Stats</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {[
-                      { label: "Active Creators", value: "12,847" },
-                      { label: "Messages/Day", value: "2.4M" },
-                      { label: "Languages", value: "50+" },
-                      { label: "Uptime", value: "99.97%" },
-                    ].map((stat, i) => (
-                      <div key={i} className="rounded-xl border border-white/[0.04] bg-white/[0.015] p-3">
-                        <div className="text-lg font-bold text-white/80">{stat.value}</div>
-                        <div className="text-[10px] text-white/25 uppercase tracking-wider">{stat.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {platforms.map((p, i) => (
+                <PlatformCard key={i} {...p} delay={i * 0.1} />
+              ))}
             </div>
           </div>
-        )}
-
-        {/* ═══ BOTTOM CTA ═══ */}
-        <FadeIn delay={0.3} className="mt-20">
-          <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl px-8 py-12 text-center">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[80px] pointer-events-none" />
-
-            <div className="relative z-10">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/20">Ready to Start?</p>
-              <h3 className="mx-auto mt-4 max-w-xl text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                Clone your voice. Go live. Earn more.
-              </h3>
-              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <button className="group relative overflow-hidden rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                  <span className="flex items-center gap-2">
-                    Get Started Free
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </button>
-                <button className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-8 py-3.5 text-sm font-medium text-white/50 backdrop-blur-md transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/70">
-                  <Download className="h-4 w-4" />
-                  Download App
-                </button>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
+        )} 
       </div>
     </section>
   );

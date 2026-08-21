@@ -26,3 +26,13 @@ The MIT License applies only to the source code and other material explicitly
 covered by this license. Miransas trademarks, logos, product names, service
 names, and brand assets are not licensed under the MIT License and may not be
 used to imply endorsement, affiliation, or sponsorship without permission.
+
+Third-Party Model Notice
+
+Miralas uses Resemble AI Chatterbox as a base text-to-speech and voice cloning
+model layer. Chatterbox is distributed by Resemble AI under the MIT License.
+Chatterbox source code, model assets, names, and related notices remain subject
+to their own upstream copyright and license terms:
+
+https://github.com/resemble-ai/chatterbox
+https://www.resemble.ai/learn/models/chatterbox

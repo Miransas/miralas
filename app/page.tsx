@@ -6,17 +6,21 @@ import Faq from '../components/shared/faq'
 import HowItWorks from '../components/shared/how-its-work'
 import FeatureSection from '../components/shared/feature-sections'
 import MediaShowcase from '../components/shared/media_showcase'
+import FaqSection from '../components/shared/faq'
+import VoiceLibrary from '../components/shared/voice-library'
 
 
 const page = () => {
   return (
     <div>
-        <Header/>
-         <Hero/>
-         <FeatureSection/>
-         {/* <MediaShowcase/> */}
-         <HowItWorks/>
-        <Footer/>
+      <Header />
+      <Hero />
+      <VoiceLibrary />
+      <FeatureSection />
+      {/* Video Page */}
+      {/* <HowItWorks /> */}
+      <FaqSection />
+      <Footer />
     </div>
   )
 }

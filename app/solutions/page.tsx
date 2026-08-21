@@ -11,6 +11,7 @@ import {
   TrendingUp,
   ArrowRight,
   Sparkles,
+  Search,
 } from "lucide-react";
 
 import Footer from "../../components/layout/Footer";
@@ -66,142 +67,6 @@ function FadeIn({
       }}
     >
       {children}
-    </div>
-  );
-}
-
-// ─── SOLUTION CARD (GÖRSELE GÖRE YENİLENDİ) ───────────────────
-
-function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
-  const { ref, isInView } = useInView(0.1);
-  const colors = ["purple", "blue", "amber", "emerald"] as const;
-  const color = colors[index % colors.length];
-
-  // Renkler görseldeki gibi daha belirgin neon tonlara çekildi
-  const colorMap = {
-    purple: {
-      border: "border-purple-500/40",
-      bg: "bg-purple-500/[0.03]",
-      text: "text-purple-400",
-      glow: "bg-purple-500/20",
-      dot: "bg-purple-500",
-      hover: "group-hover:border-purple-500/60 group-hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.3)]",
-    },
-    blue: {
-      border: "border-blue-500/40",
-      bg: "bg-blue-500/[0.03]",
-      text: "text-blue-400",
-      glow: "bg-blue-500/20",
-      dot: "bg-blue-500",
-      hover: "group-hover:border-blue-500/60 group-hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.3)]",
-    },
-    amber: {
-      border: "border-amber-500/40",
-      bg: "bg-amber-500/[0.03]",
-      text: "text-amber-400",
-      glow: "bg-amber-500/20",
-      dot: "bg-amber-500",
-      hover: "group-hover:border-amber-500/60 group-hover:shadow-[0_0_30px_-5px_rgba(245,158,11,0.3)]",
-    },
-    emerald: {
-      border: "border-emerald-500/40",
-      bg: "bg-emerald-500/[0.03]",
-      text: "text-emerald-400",
-      glow: "bg-emerald-500/20",
-      dot: "bg-emerald-500",
-      hover: "group-hover:border-emerald-500/60 group-hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]",
-    },
-  };
-  const c = colorMap[color];
-
-  return (
-    <div
-      ref={ref}
-      className="group flex w-full max-w-5xl mx-auto gap-3 sm:gap-5"
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? "translateY(0)" : "translateY(40px)",
-        transition: `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`,
-      }}
-    >
-      {/* SOL KOLON (Sayı ve Ok) */}
-      <div
-        className={`flex w-14 flex-col items-center justify-between rounded-2xl border ${c.border} ${c.bg} py-6 backdrop-blur-md transition-all duration-500 sm:w-20 ${c.hover}`}
-      >
-        <div className={`${c.text} mb-4`}>{item.icon}</div>
-        <div className="text-xl font-light text-white sm:text-3xl">{item.number}</div>
-        <button className={`mt-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/50 transition-colors hover:bg-white/10 hover:text-white`}>
-          <ArrowRight className="h-4 w-4" />
-        </button>
-      </div>
-
-      {/* SAĞ KOLON (Ana İçerik) */}
-      <div
-        className={`relative flex-1 overflow-hidden rounded-2xl border ${c.border} ${c.bg} p-6 backdrop-blur-md transition-all duration-500 sm:p-8 ${c.hover}`}
-      >
-        {/* Arkadaki Glow Efekti */}
-        <div
-          className={`absolute -right-20 -top-20 h-64 w-64 rounded-full ${c.glow} blur-[100px] opacity-30 transition-opacity duration-700 group-hover:opacity-60 pointer-events-none`}
-        />
-
-        {/* Üst Bar: Başlık İkonu ve Badge */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 mb-5">
-          <div className="flex items-center gap-3">
-            <div className={`${c.text}`}>{item.icon}</div>
-            <span className="text-sm font-semibold text-white/80 sm:text-base">
-              {item.badgeTag}
-            </span>
-          </div>
-          <div
-            className={`flex items-center gap-2 rounded-full border ${c.border} bg-black/20 px-3 py-1 text-[10px] sm:text-xs font-medium tracking-wide ${c.text}`}
-          >
-            <div className={`h-1.5 w-1.5 rounded-full ${c.dot} animate-pulse`} />
-            {item.badgeTag.split(" ")[0]} {/* Örnek kısa badge metni */}
-          </div>
-        </div>
-
-        {/* Ana Başlık */}
-        <h2 className="relative z-10 mb-3 text-xl font-bold tracking-tight text-white sm:text-2xl lg:text-3xl">
-          {item.title}
-        </h2>
-
-        {/* Açıklama */}
-        <p className="relative z-10 mb-8 text-sm leading-relaxed text-white/40 sm:text-base max-w-3xl">
-          {item.description}
-        </p>
-
-        {/* Meta Grid (Görseldeki gibi alt alta ve yan yana düzen) */}
-        <div className="relative z-10 mt-auto">
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-white/20">
-            Meta grid
-          </p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {[
-              { key: "bestFor", label: "Best For", icon: Building2 },
-              { key: "product", label: "Product", icon: Cpu },
-              { key: "results", label: "Result", icon: TrendingUp },
-            ].map((meta) => {
-              const Icon = meta.icon;
-              const value = item[meta.key as keyof SolutionItem] as string;
-              return (
-                <div key={meta.key} className="flex items-start gap-3">
-                  <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border ${c.border} bg-white/5`}>
-                    <Icon className={`h-3 w-3 ${c.text}`} />
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-medium uppercase text-white/30 mb-0.5">
-                      {meta.label}
-                    </div>
-                    <div className="text-xs text-white/60 line-clamp-2">
-                      {value}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
@@ -273,71 +138,158 @@ const solutionsData: SolutionItem[] = [
   },
 ];
 
-// ─── MAIN PAGE ───────────────────────────────────────────────
+// ─── SOLUTION CARD (UPDATED FOR TIMELINE LAYOUT) ─────
+
+function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
+  const { ref, isInView } = useInView(0.1);
+
+  return (
+    <div
+      ref={ref}
+      className={`group relative flex gap-6 md:gap-10 ${
+        index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+      }`}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translateY(0)" : "translateY(40px)",
+        transition: `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`,
+      }}
+    >
+      {/* Timeline dot and line */}
+      <div className="flex w-6 flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2 md:top-0 md:h-full">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-neutral-300 bg-neutral-100 text-neutral-950 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white transition-colors duration-300 group-hover:border-neutral-950 group-hover:dark:border-white">
+          <span className="text-sm font-semibold">{item.number}</span>
+        </div>
+        <div className="w-px flex-1 bg-neutral-200 dark:bg-neutral-800 transition-colors duration-300" />
+      </div>
+
+      {/* Card content */}
+      <div className="relative flex-1 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 md:w-[calc(50%-2rem)] md:flex-initial transition-all duration-300 group-hover:border-neutral-300 group-hover:dark:border-neutral-700 group-hover:-translate-y-1 group-hover:shadow-lg dark:group-hover:shadow-[0_4px_24px_-4px_rgba(255,255,255,0.05)]">
+        {/* Top bar: icon and badge */}
+        <div className="flex items-center justify-between gap-4 mb-5">
+          <div className="flex items-center gap-3">
+            <div className="text-neutral-500 dark:text-neutral-400">
+              {item.icon}
+            </div>
+            <span className="text-sm font-semibold text-neutral-950 dark:text-white/80">
+              {item.badgeTag}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 text-xs font-medium tracking-wide text-neutral-700 dark:border-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-300">
+            <Sparkles className="h-3 w-3 text-neutral-500 dark:text-neutral-600" />
+            {item.badgeTag.split(" ")[0]}
+          </div>
+        </div>
+
+        {/* Main heading */}
+        <h2 className="mb-3 text-2xl font-bold tracking-tight text-neutral-950 dark:text-white">
+          {item.title}
+        </h2>
+
+        {/* Description */}
+        <p className="mb-8 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+          {item.description}
+        </p>
+
+        {/* Meta details */}
+        <div className="mt-auto space-y-4">
+          <div className="text-[11px] font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+            DETAILS
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-neutral-700 dark:text-neutral-300">
+            {[
+              { key: "bestFor", label: "Best For", icon: Building2 },
+              { key: "product", label: "Product", icon: Cpu },
+              { key: "results", label: "Result", icon: TrendingUp },
+            ].map((meta) => {
+              const Icon = meta.icon;
+              const value = item[meta.key as keyof SolutionItem] as string;
+              return (
+                <div key={meta.key} className="flex items-center gap-2.5">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-neutral-100 dark:bg-neutral-800">
+                    <Icon className="h-3.5 w-3.5 text-neutral-500 dark:text-neutral-600" />
+                  </div>
+                  <div>
+                    <span className="font-medium text-neutral-950 dark:text-white">
+                      {value}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN PAGE (SIMPLIFIED TIMELINE) ───────────────────
 
 export default function Solutions() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0a0a0c] text-white font-sans">
+    <main className="relative min-h-screen overflow-hidden bg-white text-neutral-950 font-sans transition-colors duration-300 dark:bg-[#0a0a0c] dark:text-white">
       <Header />
       <section className="relative z-10 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
         <div className="mx-auto w-full max-w-7xl">
-          {/* ═══ HEADER ═══ */}
-          <FadeIn className="mb-20 text-center">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-md">
-              <span className="flex h-2 w-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(147,51,234,0.8)] animate-pulse" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
-                Solutions
+          {/* ═══ HEADER (Simple) ═══ */}
+          <FadeIn className="mb-24 text-center">
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 dark:border-neutral-800 dark:bg-neutral-900 transition-colors duration-300">
+              <Sparkles className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300">
+                OUR SOLUTIONS
               </span>
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.1]">
+            <h1 className="text-4xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl leading-[1.1]">
               Turn missed opportunities
               <br />
-              <span className="font-serif italic font-light text-white/50">
+              <span className="font-serif italic font-light text-neutral-500 dark:text-neutral-600">
                 into captured revenue.
               </span>
             </h1>
 
-            <div className="mt-8 flex items-center justify-center gap-4 max-w-xl mx-auto">
-              <div className="h-px w-16 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
-              <p className="text-sm text-white/40">
-                Turn cold opportunities into gradient line
+            <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
+              <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
+              <p className="text-base text-neutral-600 dark:text-neutral-400">
+                Unlock potential and streamline growth in simple steps.
               </p>
-              <div className="h-px w-16 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+              <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
             </div>
           </FadeIn>
 
-          {/* ═══ SOLUTION CARDS ═══ */}
-          <div className="space-y-6 sm:space-y-8">
+          {/* ═══ SOLUTION CARDS (Timeline) ═══ */}
+          <div className="relative space-y-12 md:space-y-20">
+            {/* Background vertical line */}
+            <div className="absolute left-3 top-5 h-[calc(100%-10px)] w-px bg-neutral-200 dark:bg-neutral-800 md:left-1/2 md:-translate-x-1/2" />
             {solutionsData.map((item, index) => (
               <SolutionCard key={item.number} item={item} index={index} />
             ))}
           </div>
 
-          {/* ═══ BOTTOM CTA ═══ */}
-          <FadeIn delay={0.3} className="mt-24">
-            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent px-8 py-16 text-center backdrop-blur-xl sm:px-12">
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
-              <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[600px] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none" />
-
+          {/* ═══ BOTTOM CTA (Minimal) ═══ */}
+          <FadeIn delay={0.3} className="mt-32">
+            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-50 px-8 py-16 text-center dark:border-neutral-800 dark:bg-neutral-900 sm:px-12 transition-colors duration-300">
               <div className="relative z-10">
-                <p className="inline-block rounded-full border border-white/5 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                <p className="inline-block rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600 dark:border-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-400">
                   Ready When You Are
                 </p>
 
-                <h3 className="mx-auto mt-6 text-2xl font-bold tracking-tight text-white sm:text-4xl">
-                  Stop letting good leads disappear.
+                <h3 className="mx-auto mt-7 text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl leading-tight max-w-lg">
+                  Stop letting good leads disappear into nothing.
                 </h3>
 
-                <p className="mx-auto mt-4 max-w-md text-sm text-white/40">
-                  Stop letting good leads disappear in one disappear.
+                <p className="mx-auto mt-5 max-w-md text-base text-neutral-600 dark:text-neutral-400">
+                  Connect Miralas and streamline your lead growth effortlessly today.
                 </p>
 
-                <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                  <button className="w-full sm:w-auto rounded-full bg-white px-8 py-3 text-sm font-semibold text-black transition-transform hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                  <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-neutral-800 hover:shadow-lg dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200">
                     Explore Miralas
+                    <ArrowRight className="h-4 w-4" />
                   </button>
-                  <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10">
+                  <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-8 py-3.5 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-100 hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800 dark:hover:border-neutral-700">
+                    <Search className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
                     Book a Call
                   </button>
                 </div>
