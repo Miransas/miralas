@@ -1,4 +1,4 @@
-name: Dependabot Auto-Merge Engine
+name: Dependency Bot Auto-Merge Engine
 
 on: pull_request
 
@@ -7,11 +7,12 @@ permissions:
   pull-requests: write
 
 jobs:
-  dependabot-merge:
+  dependency-bot-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate[bot]'
     steps:
       - name: Fetch Dependabot Metadata
+        if: github.actor == 'dependabot[bot]'
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:

@@ -5,6 +5,11 @@ extends:
 pnpm:
   enabled: true
 
+labels:
+  - dependencies
+
+assigneesFromCodeOwners: true
+
 # PR'lar ile depoyu boğmamak için kurallar
 packageRules:
   # Minor ve patch güncellemelerini tek bir PR'da topla

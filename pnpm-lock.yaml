@@ -32,6 +32,9 @@ importers:
       '@react-three/fiber':
         specifier: ^9.7.0
         version: 9.7.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(three@0.185.1)
+      '@studio-freight/react-lenis':
+        specifier: ^0.0.47
+        version: 0.0.47(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@tabler/icons-react':
         specifier: ^3.46.0
         version: 3.46.0(react@19.2.8)
@@ -1000,6 +1003,28 @@ packages:
     peerDependencies:
       react: '>= 16.3.0'
 
+  '@studio-freight/hamo@0.6.33':
+    resolution: {integrity: sha512-U3Nvw5wDvB/jps2/ZbGL2TFL+CcZvJF/tkjL7S7ajuzDi9T5VkqCguws6tuWHttZ74Z6DfXxV1b8F1EB30AyJg==}
+    deprecated: 'The ''@studio-freight/hamo'' package has been renamed to ''hamo''. Please update your dependencies: npm install hamo and visit the documentation: https://www.npmjs.com/package/hamo'
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+
+  '@studio-freight/lenis@1.0.42':
+    resolution: {integrity: sha512-HJAGf2DeM+BTvKzHv752z6Z7zy6bA643nZM7W88Ft9tnw2GsJSp6iJ+3cekjyMIWH+cloL2U9X82dKXgdU8kPg==}
+    deprecated: 'The ''@studio-freight/lenis'' package has been renamed to ''lenis''. Please update your dependencies: npm install lenis and visit the documentation: https://www.npmjs.com/package/lenis'
+
+  '@studio-freight/react-lenis@0.0.47':
+    resolution: {integrity: sha512-h+IAqiyiNo8mRo/CA3/sHCqX2IV0tTLyzZRWsdRaLPtM2aBaRqK0+ISYWTUmktQfcf3qvp4hsn0Oeyt9uXwLTQ==}
+    deprecated: 'The ''@studio-freight/react-lenis'' package has been renamed to ''lenis''. Please update your dependencies: npm install lenis and visit the documentation: https://www.npmjs.com/package/lenis'
+    peerDependencies:
+      react: ^17 || ^18
+      react-dom: ^17 || ^18
+
+  '@studio-freight/tempus@0.0.38':
+    resolution: {integrity: sha512-AO1O2fEmfUqWGjEofmPNMQRlwgZ96eB5OFsVJjeH8/RKd1/Yf4zbPnXO+r2TD4aueA6X9JRCJU2GUprI9+m8uQ==}
+    deprecated: 'The ''@studio-freight/tempus'' package has been renamed to ''tempus''. Please update your dependencies: npm install tempus and visit the documentation: https://www.npmjs.com/package/tempus'
+
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
@@ -1135,6 +1160,9 @@ packages:
   '@types/offscreencanvas@2019.7.3':
     resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
 
+  '@types/prop-types@15.7.15':
+    resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
+
   '@types/react-dom@19.2.4':
     resolution: {integrity: sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw==}
     peerDependencies:
@@ -1144,6 +1172,9 @@ packages:
     resolution: {integrity: sha512-HHM3nxyUZ3zAylX8ZEyrDNd2XZOnQ0D5XfunJF5FLQnZbHHYq4UWvW1QfelQNXv1ICNkwYhfxjwfnqivYB6bFg==}
     peerDependencies:
       '@types/react': '*'
+
+  '@types/react@18.3.31':
+    resolution: {integrity: sha512-vfEqpXTvwT91yhmwdfouStN2hSKwTvyRs8qpLfADyrq/kxDw0hZM7Wk9Ug1FELj8hIby+S/+kQCSRFF32nv2Qw==}
 
   '@types/react@19.2.18':
     resolution: {integrity: sha512-AnzbBERsrLKtk2XSfTbYRLjQPdy116Sty4q+T+Bp3IC4l6jNBvreVPAHmpq9qhXQM7CXZPjLVmGMw9sy+hxQ3w==}
@@ -2587,6 +2618,9 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
 
+  just-debounce-it@3.2.0:
+    resolution: {integrity: sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==}
+
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
@@ -2819,6 +2853,10 @@ packages:
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  nanoevents@9.1.0:
+    resolution: {integrity: sha512-Jd0fILWG44a9luj8v5kED4WI+zfkkgwKyRQKItTtlPfEsh7Lznfi1kr8/iZ+XAIss4Qq5GqRB0qtWbaz9ceO/A==}
+    engines: {node: ^18.0.0 || >=20.0.0}
 
   nanoid@3.3.18:
     resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
@@ -4631,6 +4669,30 @@ snapshots:
     dependencies:
       react: 19.2.8
 
+  '@studio-freight/hamo@0.6.33(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      '@studio-freight/tempus': 0.0.38
+      just-debounce-it: 3.2.0
+      nanoevents: 9.1.0
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
+  '@studio-freight/lenis@1.0.42': {}
+
+  '@studio-freight/react-lenis@0.0.47(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      '@studio-freight/hamo': 0.6.33(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@studio-freight/lenis': 1.0.42
+      '@types/react': 18.3.31
+      clsx: 2.1.1
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      zustand: 4.5.7(@types/react@18.3.31)(react@19.2.8)
+    transitivePeerDependencies:
+      - immer
+
+  '@studio-freight/tempus@0.0.38': {}
+
   '@swc/helpers@0.5.15':
     dependencies:
       tslib: 2.8.1
@@ -4743,6 +4805,8 @@ snapshots:
 
   '@types/offscreencanvas@2019.7.3': {}
 
+  '@types/prop-types@15.7.15': {}
+
   '@types/react-dom@19.2.4(@types/react@19.2.18)':
     dependencies:
       '@types/react': 19.2.18
@@ -4750,6 +4814,11 @@ snapshots:
   '@types/react-reconciler@0.28.9(@types/react@19.2.18)':
     dependencies:
       '@types/react': 19.2.18
+
+  '@types/react@18.3.31':
+    dependencies:
+      '@types/prop-types': 15.7.15
+      csstype: 3.2.3
 
   '@types/react@19.2.18':
     dependencies:
@@ -6295,6 +6364,8 @@ snapshots:
       object.assign: 4.1.7
       object.values: 1.2.1
 
+  just-debounce-it@3.2.0: {}
+
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
@@ -6495,6 +6566,8 @@ snapshots:
       react-dom: 19.2.8(react@19.2.8)
 
   ms@2.1.3: {}
+
+  nanoevents@9.1.0: {}
 
   nanoid@3.3.18: {}
 
@@ -7540,6 +7613,13 @@ snapshots:
 
   zustand@3.7.2(react@19.2.8):
     optionalDependencies:
+      react: 19.2.8
+
+  zustand@4.5.7(@types/react@18.3.31)(react@19.2.8):
+    dependencies:
+      use-sync-external-store: 1.6.0(react@19.2.8)
+    optionalDependencies:
+      '@types/react': 18.3.31
       react: 19.2.8
 
   zustand@4.5.7(@types/react@19.2.18)(react@19.2.8):

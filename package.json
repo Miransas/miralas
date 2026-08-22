@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
   },
@@ -17,6 +17,7 @@
     "@paper-design/shaders-react": "^0.0.78",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
+    "@studio-freight/react-lenis": "^0.0.47",
     "@tabler/icons-react": "^3.46.0",
     "@tailwindcss/typography": "^0.5.20",
     "class-variance-authority": "^0.7.1",

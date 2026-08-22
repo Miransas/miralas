@@ -6,6 +6,7 @@ import "./globals.css";
 import { roboto } from "./roboto";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
+import SmoothScroll from "../components/providers/SmoothScroll";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -138,8 +139,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-      {isLocked && <ComingSoonModal />}  
+      {/* {isLocked && <ComingSoonModal />}   */}
+         <SmoothScroll>
           {children}
+        </SmoothScroll>
         </ThemeProvider>
       </body>
     </html>

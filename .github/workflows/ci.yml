@@ -6,22 +6,58 @@ on:
   push:
     branches: [main, master]
 
+permissions:
+  contents: read
+
 jobs:
+  actor-gate:
+    name: Actor Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Allow admins, maintainers and trusted bots
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTOR: ${{ github.actor }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          case "$ACTOR" in
+            "dependabot[bot]"|"renovate[bot]"|"coderabbitai[bot]"|"github-actions[bot]")
+              exit 0
+              ;;
+          esac
+
+          permission="$(
+            gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${REPOSITORY}/collaborators/${ACTOR}/permission" \
+              --jq ".permission"
+          )"
+
+          if [[ "$permission" != "admin" && "$permission" != "maintain" ]]; then
+            echo "::error::Only repository admins, maintainers and trusted bots can push or open CI-eligible PRs."
+            exit 1
+          fi
+
   check-and-build:
+    needs: actor-gate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        # 'version: 9' kaldırıldı, package.json'daki pnpm sürümü otomatik algılanacak
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.18.0 --activate
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile

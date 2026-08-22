@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 // bu joyga keyin qoyiladi odam kim kelsa ham artist bolib hozriga default bor 
@@ -40,7 +41,7 @@ const CREATORS = [
     roleIcon: Mic2,
     color: "#c9a87c",
     image: "/media/creators/aziz.jpg",
-    video: "/media/creators/aziz-preview.mp4",
+    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355850/7509024-uhd_2160_4096_25fps_eacmdw.mp4",
     bio: "Professional Uzbek narrator. 500+ audiobook sessions. Miralas voice partner since 2026.",
     stats: { clips: "1.2K", followers: "45K" },
     tags: ["Uzbek", "Narration", "Audiobook"],
@@ -55,7 +56,7 @@ const CREATORS = [
     roleIcon: Clapperboard,
     color: "#f43f5e",
     image: "/media/creators/nodira.jpg",
-    video: "/media/creators/nodira-preview.mp4",
+    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787354903/12330928-uhd_2160_3840_25fps_mvprvw.mp4",
     bio: "Theatre actress turned voice actor. Leading dubbing artist for Uzbek cinema and streaming content.",
     stats: { clips: "890", followers: "128K" },
     tags: ["Dubbing", "Theatre", "Streaming"],
@@ -70,7 +71,7 @@ const CREATORS = [
     roleIcon: User,
     color: "#0ea5e9",
     image: "/media/creators/timur.jpg",
-    video: "/media/creators/timur-preview.mp4",
+    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355404/5659595-uhd_2160_4096_25fps_qtum4o.mp4",
     bio: "Tech educator building in public. Tutorials on AI voice, automation, and Uzbek tech ecosystem.",
     stats: { clips: "2.4K", followers: "89K" },
     tags: ["Tutorial", "AI", "Education"],
@@ -85,7 +86,7 @@ const CREATORS = [
     roleIcon: Mic2,
     color: "#8b5cf6",
     image: "/media/creators/zarina.jpg",
-    video: "/media/creators/zarina-preview.mp4",
+    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355404/6962492-hd_1080_1920_25fps_f0vzgy.mp4",
     bio: "Emotional storytelling specialist. Documentary voiceovers and podcast production in Uzbek and Russian.",
     stats: { clips: "650", followers: "34K" },
     tags: ["Documentary", "Podcast", "Russian"],
@@ -100,7 +101,7 @@ const CREATORS = [
     roleIcon: Clapperboard,
     color: "#10b981",
     image: "/media/creators/dilshod.jpg",
-    video: "/media/creators/dilshod-preview.mp4",
+    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355935/17752354-uhd_2160_3840_30fps_hjm7lz.mp4",
     bio: "Veteran actor with 15+ years on screen. Now lending his voice to AI training and character work.",
     stats: { clips: "430", followers: "67K" },
     tags: ["Character", "Film", "AI Training"],
@@ -115,7 +116,7 @@ const CREATORS = [
     roleIcon: User,
     color: "#d97706",
     image: "/media/creators/madina.jpg",
-    video: "/media/creators/madina-preview.mp4",
+    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787356204/14988018_2160_3840_30fps_hd9qc0.mp4",
     bio: "Digital storyteller. Creates short-form content about Uzbek culture, language, and modern tech.",
     stats: { clips: "3.1K", followers: "210K" },
     tags: ["Culture", "Short-form", "Language"],
@@ -158,7 +159,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
     const video = videoRef.current;
     if (!video) return;
     if (isHovered) {
-      video.play().catch(() => {});
+      video.play().catch(() => { });
       setIsPlaying(true);
     } else {
       video.pause();
@@ -187,25 +188,27 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
       {/* Media Container — aspect-[4/5] like Instagram */}
       <div className="relative aspect-[4/5] overflow-hidden">
         {/* Image (fallback / poster) */}
-        <img
+        {/* <img
           src={creator.image}
           alt={creator.name}
           className={cn(
             "absolute inset-0 w-full h-full object-cover transition-transform duration-700",
             isHovered ? "scale-105" : "scale-100"
           )}
-        />
+        /> */}
 
         {/* Video overlay (auto-plays on hover) */}
+        {/* Video overlay (plays ONLY on hover) */}
         <video
           ref={videoRef}
           src={creator.video}
+          poster={creator.video.replace(/\.mp4$/, ".jpg")}
           muted
           loop
           playsInline
+          preload="none" // <-- Tarayıcı hover olana kadar videoyu indirmez, belleği şişirmez
           className={cn(
-            "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
-            isHovered ? "opacity-100" : "opacity-0"
+            "absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
           )}
         />
 
@@ -379,7 +382,7 @@ function HeroVideo() {
               className="absolute inset-0 w-full h-full object-cover"
               poster="/media/hero-poster.jpg"
             >
-              <source src="/media/hero-loop.mp4" type="video/mp4" />
+              <source src="https://res.cloudinary.com/dwdk20m6q/video/upload/v1787354584/7088057-uhd_4096_2160_25fps_pt294h.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-t from-[#2d2a26]/80 via-[#2d2a26]/30 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#2d2a26]/40 to-transparent" />
@@ -427,7 +430,7 @@ function HeroVideo() {
                   Explore Creators
                 </a>
                 <a
-                  href="https://instagram.com/miransas"
+                  href="https://instagram.com/miransaas"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-3 text-sm font-medium text-white hover:bg-white/20 transition-colors"
@@ -453,22 +456,22 @@ export default function MediaPage() {
   const filtered = activeFilter === "All"
     ? CREATORS
     : CREATORS.filter((c) => {
-        if (activeFilter === "Voice Artist") return c.role.includes("Voice Artist");
-        if (activeFilter === "Actor & Dubbing") return c.role.includes("Actor") || c.role.includes("Dubbing");
-        if (activeFilter === "Content Creator") return c.role.includes("Content");
-        return true;
-      });
+      if (activeFilter === "Voice Artist") return c.role.includes("Voice Artist");
+      if (activeFilter === "Actor & Dubbing") return c.role.includes("Actor") || c.role.includes("Dubbing");
+      if (activeFilter === "Content Creator") return c.role.includes("Content");
+      return true;
+    });
 
   return (
     <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
       {/* Header */}
-      <Header variant="light"/>
+      <Header variant="light" />
 
       {/* Hero Video */}
       <HeroVideo />
 
       {/* Marquee */}
-      <Marquee items={PRESS_LOGOS} speed={40} />
+      {/* <Marquee items={PRESS_LOGOS} speed={40} /> */}
 
       {/* Creators Section */}
       <section id="creators" className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
@@ -552,7 +555,7 @@ export default function MediaPage() {
                 Apply to Join
               </a>
               <a
-                href="https://instagram.com/miransas"
+                href="https://instagram.com/miransaas"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
@@ -566,7 +569,7 @@ export default function MediaPage() {
       </section>
 
       {/* Footer */}
-     <Footer/>
+      <Footer />
 
       {/* Marquee CSS */}
       <style jsx global>{`

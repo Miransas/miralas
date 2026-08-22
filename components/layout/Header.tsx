@@ -38,7 +38,7 @@ const navItems: NavItem[] = [
     items: [
       {
         label: "Documentation",
-        href: "/resources/guides",
+        href: "/resources/docs",
         description: "Build with the Miralas platform.",
       },
       {
