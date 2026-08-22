@@ -16,6 +16,7 @@ import {
 
 import Footer from "../../components/layout/Footer";
 import { Header } from "../../components/layout/Header";
+import SmoothScroll from "../../components/providers/SmoothScroll";
 
 // ─── ANIMATION UTILITIES ──────────────────────────────────────
 
@@ -146,9 +147,8 @@ function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
   return (
     <div
       ref={ref}
-      className={`group relative flex gap-6 md:gap-10 ${
-        index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-      }`}
+      className={`group relative flex gap-6 md:gap-10 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+        }`}
       style={{
         opacity: isInView ? 1 : 0,
         transform: isInView ? "translateY(0)" : "translateY(40px)",
@@ -228,78 +228,80 @@ function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
 
 export default function Solutions() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-white text-neutral-950 font-sans transition-colors duration-300 dark:bg-[#0a0a0c] dark:text-white">
-      <Header />
-      <section className="relative z-10 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
-        <div className="mx-auto w-full max-w-7xl">
-          {/* ═══ HEADER (Simple) ═══ */}
-          <FadeIn className="mb-24 text-center">
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 dark:border-neutral-800 dark:bg-neutral-900 transition-colors duration-300">
-              <Sparkles className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300">
-                OUR SOLUTIONS
-              </span>
+    <SmoothScroll>
+      <main className="relative min-h-screen overflow-hidden bg-white text-neutral-950 font-sans transition-colors duration-300 dark:bg-[#0a0a0c] dark:text-white">
+        <Header />
+        <section className="relative z-10 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+          <div className="mx-auto w-full max-w-7xl">
+            {/* ═══ HEADER (Simple) ═══ */}
+            <FadeIn className="mb-24 text-center">
+              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 dark:border-neutral-800 dark:bg-neutral-900 transition-colors duration-300">
+                <Sparkles className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300">
+                  OUR SOLUTIONS
+                </span>
+              </div>
+
+              <h1 className="text-4xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl leading-[1.1]">
+                Turn missed opportunities
+                <br />
+                <span className="font-serif italic font-light text-neutral-500 dark:text-neutral-600">
+                  into captured revenue.
+                </span>
+              </h1>
+
+              <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
+                <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
+                <p className="text-base text-neutral-600 dark:text-neutral-400">
+                  Unlock potential and streamline growth in simple steps.
+                </p>
+                <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
+              </div>
+            </FadeIn>
+
+            {/* ═══ SOLUTION CARDS (Timeline) ═══ */}
+            <div className="relative space-y-12 md:space-y-20">
+              {/* Background vertical line */}
+              <div className="absolute left-3 top-5 h-[calc(100%-10px)] w-px bg-neutral-200 dark:bg-neutral-800 md:left-1/2 md:-translate-x-1/2" />
+              {solutionsData.map((item, index) => (
+                <SolutionCard key={item.number} item={item} index={index} />
+              ))}
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl leading-[1.1]">
-              Turn missed opportunities
-              <br />
-              <span className="font-serif italic font-light text-neutral-500 dark:text-neutral-600">
-                into captured revenue.
-              </span>
-            </h1>
+            {/* ═══ BOTTOM CTA (Minimal) ═══ */}
+            <FadeIn delay={0.3} className="mt-32">
+              <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-50 px-8 py-16 text-center dark:border-neutral-800 dark:bg-neutral-900 sm:px-12 transition-colors duration-300">
+                <div className="relative z-10">
+                  <p className="inline-block rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600 dark:border-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-400">
+                    Ready When You Are
+                  </p>
 
-            <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
-              <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
-              <p className="text-base text-neutral-600 dark:text-neutral-400">
-                Unlock potential and streamline growth in simple steps.
-              </p>
-              <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
-            </div>
-          </FadeIn>
+                  <h3 className="mx-auto mt-7 text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl leading-tight max-w-lg">
+                    Stop letting good leads disappear into nothing.
+                  </h3>
 
-          {/* ═══ SOLUTION CARDS (Timeline) ═══ */}
-          <div className="relative space-y-12 md:space-y-20">
-            {/* Background vertical line */}
-            <div className="absolute left-3 top-5 h-[calc(100%-10px)] w-px bg-neutral-200 dark:bg-neutral-800 md:left-1/2 md:-translate-x-1/2" />
-            {solutionsData.map((item, index) => (
-              <SolutionCard key={item.number} item={item} index={index} />
-            ))}
-          </div>
+                  <p className="mx-auto mt-5 max-w-md text-base text-neutral-600 dark:text-neutral-400">
+                    Connect Miralas and streamline your lead growth effortlessly today.
+                  </p>
 
-          {/* ═══ BOTTOM CTA (Minimal) ═══ */}
-          <FadeIn delay={0.3} className="mt-32">
-            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-50 px-8 py-16 text-center dark:border-neutral-800 dark:bg-neutral-900 sm:px-12 transition-colors duration-300">
-              <div className="relative z-10">
-                <p className="inline-block rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600 dark:border-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-400">
-                  Ready When You Are
-                </p>
-
-                <h3 className="mx-auto mt-7 text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl leading-tight max-w-lg">
-                  Stop letting good leads disappear into nothing.
-                </h3>
-
-                <p className="mx-auto mt-5 max-w-md text-base text-neutral-600 dark:text-neutral-400">
-                  Connect Miralas and streamline your lead growth effortlessly today.
-                </p>
-
-                <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                  <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-neutral-800 hover:shadow-lg dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200">
-                    Explore Miralas
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                  <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-8 py-3.5 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-100 hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800 dark:hover:border-neutral-700">
-                    <Search className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
-                    Book a Call
-                  </button>
+                  <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-neutral-800 hover:shadow-lg dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200">
+                      Explore Miralas
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-8 py-3.5 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-100 hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800 dark:hover:border-neutral-700">
+                      <Search className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
+                      Book a Call
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
+            </FadeIn>
+          </div>
+        </section>
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </SmoothScroll>
   );
 }

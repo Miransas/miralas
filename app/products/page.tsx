@@ -1,8 +1,11 @@
 import React from 'react'
+import SmoothScroll from '../../components/providers/SmoothScroll'
 
 const page = () => {
   return (
-    <div>page</div>
+    <SmoothScroll>
+      <div>page</div>
+    </SmoothScroll>
   )
 }
 

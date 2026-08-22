@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import Footer from "../../../components/layout/Footer";
 import { Header } from "../../../components/layout/Header";
+import SmoothScroll from "../../../components/providers/SmoothScroll";
 
 function cn(...classes: (string | false | undefined)[]) {
   return classes.filter(Boolean).join(" ");
@@ -340,207 +341,209 @@ export default function HelpCenterPage() {
   }, [query]);
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
-      <Header variant="light" />
+    <SmoothScroll>
+      <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
+        <Header variant="light" />
 
-      {/* Hero */}
-      <section className="relative pt-16 pb-12 sm:pt-24 sm:pb-16">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#c9a87c]/[0.04] blur-[100px]" />
-        </div>
-        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-6"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278]">
-              <Clock className="size-3" />
-              24/7 Self-Service
-            </span>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#2d2a26] mb-4"
-          >
-            How can we help you?
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base text-[#8a8278] max-w-lg mx-auto mb-8 leading-relaxed"
-          >
-            Search our knowledge base for instant answers. If you can't find what you need, our team is one message away.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <SearchBar query={query} setQuery={setQuery} />
-          </motion.div>
-        </div>
-      </section>
+        {/* Hero */}
+        <section className="relative pt-16 pb-12 sm:pt-24 sm:pb-16">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#c9a87c]/[0.04] blur-[100px]" />
+          </div>
+          <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278]">
+                <Clock className="size-3" />
+                24/7 Self-Service
+              </span>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#2d2a26] mb-4"
+            >
+              How can we help you?
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-base text-[#8a8278] max-w-lg mx-auto mb-8 leading-relaxed"
+            >
+              Search our knowledge base for instant answers. If you can't find what you need, our team is one message away.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <SearchBar query={query} setQuery={setQuery} />
+            </motion.div>
+          </div>
+        </section>
 
-      {/* Search Results */}
-      <AnimatePresence>
-        {query.trim() && (
-          <motion.section
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mx-auto max-w-3xl px-6 mb-12 overflow-hidden"
-          >
-            <div className="rounded-2xl border border-[#e8e0d5]/60 bg-white p-5 shadow-sm">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#a8a095] mb-3">
-                {filtered.length} results for "{query}"
-              </h3>
-              {filtered.length > 0 ? (
-                <ul className="space-y-1">
-                  {filtered.map((item, i) => (
-                    <li key={i}>
-                      <Link
-                        href={`/help/${item.catId}`}
-                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-[#faf6f0] transition-colors"
-                      >
-                        <span
-                          className="size-2 rounded-full shrink-0"
-                          style={{ backgroundColor: item.color }}
-                        />
-                        <span className="text-sm text-[#2d2a26] font-medium">{item.title}</span>
-                        <span className="text-[11px] text-[#a8a095] ml-auto shrink-0">{item.category}</span>
-                        <ChevronRight className="size-3.5 text-[#a8a095] shrink-0" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-center py-6">
-                  <AlertCircle className="size-5 text-[#a8a095] mx-auto mb-2" />
-                  <p className="text-sm text-[#8a8278]">No results found. Try different keywords.</p>
-                </div>
-              )}
+        {/* Search Results */}
+        <AnimatePresence>
+          {query.trim() && (
+            <motion.section
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mx-auto max-w-3xl px-6 mb-12 overflow-hidden"
+            >
+              <div className="rounded-2xl border border-[#e8e0d5]/60 bg-white p-5 shadow-sm">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-[#a8a095] mb-3">
+                  {filtered.length} results for "{query}"
+                </h3>
+                {filtered.length > 0 ? (
+                  <ul className="space-y-1">
+                    {filtered.map((item, i) => (
+                      <li key={i}>
+                        <Link
+                          href={`/help/${item.catId}`}
+                          className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-[#faf6f0] transition-colors"
+                        >
+                          <span
+                            className="size-2 rounded-full shrink-0"
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span className="text-sm text-[#2d2a26] font-medium">{item.title}</span>
+                          <span className="text-[11px] text-[#a8a095] ml-auto shrink-0">{item.category}</span>
+                          <ChevronRight className="size-3.5 text-[#a8a095] shrink-0" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-center py-6">
+                    <AlertCircle className="size-5 text-[#a8a095] mx-auto mb-2" />
+                    <p className="text-sm text-[#8a8278]">No results found. Try different keywords.</p>
+                  </div>
+                )}
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
+
+        <main className="mx-auto max-w-6xl px-6 pb-20">
+          {/* Popular Articles */}
+          {!query.trim() && (
+            <motion.section
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-16"
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <TrendingUp className="size-4 text-[#c9a87c]" />
+                <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+                  Most Popular
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {POPULAR.map((item, i) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05, duration: 0.35 }}
+                  >
+                    <Link
+                      href={`/help/${item.catId}`}
+                      className="group flex items-center gap-3 rounded-xl border border-[#e8e0d5]/60 bg-white p-4 hover:border-[#c9a87c]/30 hover:shadow-sm transition-all duration-200"
+                    >
+                      <span
+                        className="size-2 rounded-full shrink-0"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-[#2d2a26] group-hover:text-[#c9a87c] transition-colors truncate">
+                          {item.title}
+                        </p>
+                        <p className="text-[11px] text-[#a8a095]">{item.category}</p>
+                      </div>
+                      <ChevronRight className="size-4 text-[#e8e0d5] group-hover:text-[#c9a87c] group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {/* Categories Grid */}
+          {!query.trim() && (
+            <section className="mb-16">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+                  Browse by Topic
+                </h2>
+                <span className="text-xs text-[#a8a095]">{CATEGORIES.length} categories</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {CATEGORIES.map((cat, i) => (
+                  <CategoryCard key={cat.id} cat={cat} index={i} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* FAQ */}
+          <section className="mb-16">
+            <div className="flex items-center gap-2 mb-6">
+              <CheckCircle2 className="size-4 text-[#c9a87c]" />
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+                Frequently Asked Questions
+              </h2>
             </div>
-          </motion.section>
-        )}
-      </AnimatePresence>
+            <FaqAccordion faqs={FAQS} />
+          </section>
 
-      <main className="mx-auto max-w-6xl px-6 pb-20">
-        {/* Popular Articles */}
-        {!query.trim() && (
+          {/* Still need help CTA */}
           <motion.section
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-16"
+            className="rounded-3xl border border-[#e8e0d5]/60 bg-white p-8 sm:p-10 text-center relative overflow-hidden"
           >
-            <div className="flex items-center gap-2 mb-5">
-              <TrendingUp className="size-4 text-[#c9a87c]" />
-              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
-                Most Popular
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {POPULAR.map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05, duration: 0.35 }}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/50 to-transparent" />
+            <div className="relative z-10">
+              <MessageSquare className="size-6 text-[#a8a095] mx-auto mb-4" strokeWidth={1.5} />
+              <h3 className="text-xl font-bold text-[#2d2a26] mb-2">Still need help?</h3>
+              <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6">
+                Can't find what you're looking for? Our support team is available 24/7 and usually responds within a few hours.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  href="/support"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors"
                 >
-                  <Link
-                    href={`/help/${item.catId}`}
-                    className="group flex items-center gap-3 rounded-xl border border-[#e8e0d5]/60 bg-white p-4 hover:border-[#c9a87c]/30 hover:shadow-sm transition-all duration-200"
-                  >
-                    <span
-                      className="size-2 rounded-full shrink-0"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-[#2d2a26] group-hover:text-[#c9a87c] transition-colors truncate">
-                        {item.title}
-                      </p>
-                      <p className="text-[11px] text-[#a8a095]">{item.category}</p>
-                    </div>
-                    <ChevronRight className="size-4 text-[#e8e0d5] group-hover:text-[#c9a87c] group-hover:translate-x-0.5 transition-all shrink-0" />
-                  </Link>
-                </motion.div>
-              ))}
+                  <MessageSquare className="size-4" />
+                  Open a Ticket
+                </Link>
+                <a
+                  href="mailto:support.miransas"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
+                >
+                  support.miransas
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </div>
             </div>
           </motion.section>
-        )}
+        </main>
 
-        {/* Categories Grid */}
-        {!query.trim() && (
-          <section className="mb-16">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
-                Browse by Topic
-              </h2>
-              <span className="text-xs text-[#a8a095]">{CATEGORIES.length} categories</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {CATEGORIES.map((cat, i) => (
-                <CategoryCard key={cat.id} cat={cat} index={i} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* FAQ */}
-        <section className="mb-16">
-          <div className="flex items-center gap-2 mb-6">
-            <CheckCircle2 className="size-4 text-[#c9a87c]" />
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
-              Frequently Asked Questions
-            </h2>
-          </div>
-          <FaqAccordion faqs={FAQS} />
-        </section>
-
-        {/* Still need help CTA */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="rounded-3xl border border-[#e8e0d5]/60 bg-white p-8 sm:p-10 text-center relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/50 to-transparent" />
-          <div className="relative z-10">
-            <MessageSquare className="size-6 text-[#a8a095] mx-auto mb-4" strokeWidth={1.5} />
-            <h3 className="text-xl font-bold text-[#2d2a26] mb-2">Still need help?</h3>
-            <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6">
-              Can't find what you're looking for? Our support team is available 24/7 and usually responds within a few hours.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link
-                href="/support"
-                className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors"
-              >
-                <MessageSquare className="size-4" />
-                Open a Ticket
-              </Link>
-              <a
-                href="mailto:support.miransas"
-                className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
-              >
-                support.miransas
-                <ArrowUpRight className="size-4" />
-              </a>
-            </div>
-          </div>
-        </motion.section>
-      </main>
-
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Footer */}
+        <Footer />
+      </div>
+    </SmoothScroll>
   );
 }

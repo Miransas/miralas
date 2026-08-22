@@ -376,7 +376,7 @@ export function Header({ variant }: HeaderProps) {
           >
             <span
               className={cn(
-                "flex size-9 items-center justify-center overflow-hidden rounded-xl shadow-lg shadow-zinc-950/15 transition-transform duration-300 group-hover:scale-105",
+                "flex size-9 items-center justify-center overflow-hidden rounded-full shadow-lg shadow-zinc-950/15 transition-transform duration-300 group-hover:scale-105",
                 t.logoBg,
                 t.logoText,
               )}
@@ -384,8 +384,8 @@ export function Header({ variant }: HeaderProps) {
               <Image
                 src="/logo.png"
                 alt="Miralas Logo"
-                width={36}
-                height={36}
+                width={38}
+                height={38}
                 priority
                 className="size-full object-contain"
               />

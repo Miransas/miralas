@@ -26,6 +26,7 @@ import {
 import { IconBrandInstagram, IconBrandX, IconBrandYoutube } from "@tabler/icons-react";
 import { Header } from "../../../components/layout/Header";
 import Footer from "../../../components/layout/Footer";
+import SmoothScroll from "../../../components/providers/SmoothScroll";
 
 function cn(...classes: (string | false | undefined)[]) {
   return classes.filter(Boolean).join(" ");
@@ -463,116 +464,117 @@ export default function MediaPage() {
     });
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
-      {/* Header */}
-      <Header variant="light" />
+    <SmoothScroll>
+      <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
+        {/* Header */}
+        <Header variant="light" />
 
-      {/* Hero Video */}
-      <HeroVideo />
+        {/* Hero Video */}
+        <HeroVideo />
 
-      {/* Marquee */}
-      {/* <Marquee items={PRESS_LOGOS} speed={40} /> */}
+        {/* Marquee */}
+        {/* <Marquee items={PRESS_LOGOS} speed={40} /> */}
 
-      {/* Creators Section */}
-      <section id="creators" className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278] mb-4">
-            <Mic2 className="size-3" />
-            Featured Creators
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#2d2a26] mb-3">
-            The people behind the voices
-          </h2>
-          <p className="text-base text-[#8a8278] max-w-lg mx-auto leading-relaxed">
-            Uzbek voice artists, actors, and content creators using Miralas to reach millions.
-            Follow their journey.
-          </p>
-        </motion.div>
-
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-2 mb-10"
-        >
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={cn(
-                "rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200",
-                activeFilter === filter
-                  ? "bg-[#2d2a26] text-white shadow-sm"
-                  : "bg-white border border-[#e8e0d5] text-[#5c5548] hover:border-[#c9a87c]/40 hover:text-[#2d2a26]"
-              )}
-            >
-              {filter}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Creator Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((creator, i) => (
-              <CreatorCard key={creator.id} creator={creator} index={i} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Join CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-20 rounded-3xl border border-[#e8e0d5]/60 bg-white p-8 sm:p-10 text-center relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/50 to-transparent" />
-          <div className="relative z-10">
-            <Mic2 className="size-6 text-[#c9a87c] mx-auto mb-4" strokeWidth={1.5} />
-            <h3 className="text-xl font-bold text-[#2d2a26] mb-2">
-              Are you a voice artist or creator?
-            </h3>
-            <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6">
-              Join our creator program. Get early access to new voices, revenue share, and featured placement.
+        {/* Creators Section */}
+        <section id="creators" className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278] mb-4">
+              <Mic2 className="size-3" />
+              Featured Creators
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#2d2a26] mb-3">
+              The people behind the voices
+            </h2>
+            <p className="text-base text-[#8a8278] max-w-lg mx-auto leading-relaxed">
+              Uzbek voice artists, actors, and content creators using Miralas to reach millions.
+              Follow their journey.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a
-                href="mailto:creators@miransas.com"
-                className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors"
+          </motion.div>
+
+          {/* Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-wrap items-center justify-center gap-2 mb-10"
+          >
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={cn(
+                  "rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200",
+                  activeFilter === filter
+                    ? "bg-[#2d2a26] text-white shadow-sm"
+                    : "bg-white border border-[#e8e0d5] text-[#5c5548] hover:border-[#c9a87c]/40 hover:text-[#2d2a26]"
+                )}
               >
-                <MessageSquare className="size-4" />
-                Apply to Join
-              </a>
-              <a
-                href="https://instagram.com/miransaas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
-              >
-                <IconBrandInstagram className="size-4" />
-                Follow on Instagram
-              </a>
+                {filter}
+              </button>
+            ))}
+          </motion.div>
+
+          {/* Creator Grid */}
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filtered.map((creator, i) => (
+                <CreatorCard key={creator.id} creator={creator} index={i} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Join CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-20 rounded-3xl border border-[#e8e0d5]/60 bg-white p-8 sm:p-10 text-center relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/50 to-transparent" />
+            <div className="relative z-10">
+              <Mic2 className="size-6 text-[#c9a87c] mx-auto mb-4" strokeWidth={1.5} />
+              <h3 className="text-xl font-bold text-[#2d2a26] mb-2">
+                Are you a voice artist or creator?
+              </h3>
+              <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6">
+                Join our creator program. Get early access to new voices, revenue share, and featured placement.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a
+                  href="mailto:creators@miransas.com"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors"
+                >
+                  <MessageSquare className="size-4" />
+                  Apply to Join
+                </a>
+                <a
+                  href="https://instagram.com/miransaas"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
+                >
+                  <IconBrandInstagram className="size-4" />
+                  Follow on Instagram
+                </a>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      </section>
+          </motion.div>
+        </section>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
 
-      {/* Marquee CSS */}
-      <style jsx global>{`
+        {/* Marquee CSS */}
+        <style jsx global>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -581,6 +583,7 @@ export default function MediaPage() {
           animation: marquee linear infinite;
         }
       `}</style>
-    </div>
+      </div>
+    </SmoothScroll>
   );
 }

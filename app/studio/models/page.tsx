@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import React from "react";
@@ -11,7 +11,7 @@ import {
   GitBranch,
   Layers,
   ExternalLink,
-  
+
   ArrowRight,
   Sparkles,
   Activity,
@@ -21,6 +21,7 @@ import {
 import { IconBrandGithub } from "@tabler/icons-react";
 import { Header } from "../../../components/layout/Header";
 import Footer from "../../../components/layout/Footer";
+import SmoothScroll from "../../../components/providers/SmoothScroll";
 
 function cn(...classes: (string | false | undefined)[]) {
   return classes.filter(Boolean).join(" ");
@@ -255,195 +256,197 @@ function LinkCard({
 // ─── PAGE ───
 export default function ModelPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white ">
+    <SmoothScroll>
+      <div className="min-h-screen bg-[#0a0a0a] text-white ">
         <Header variant="dark" />
-      {/* Ambient background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[#c9a87c]/[0.03] blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full bg-[#0ea5e9]/[0.02] blur-[100px]" />
-      </div>
+        {/* Ambient background */}
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[#c9a87c]/[0.03] blur-[120px]" />
+          <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full bg-[#0ea5e9]/[0.02] blur-[100px]" />
+        </div>
 
-      <div className="relative z-10">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
-          {/* Overline */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-6"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
-              <Activity className="size-3" />
-              Open Source at Core
-            </span>
-          </motion.div>
+        <div className="relative z-10">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
+            {/* Overline */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                <Activity className="size-3" />
+                Open Source at Core
+              </span>
+            </motion.div>
 
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6 max-w-3xl"
-          >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-              Built on{" "}
-              <span className="text-zinc-500">Chatterbox</span>.
-              <br />
-              Tuned for the world.
-            </h1>
-          </motion.div>
+            {/* Heading */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mb-6 max-w-3xl"
+            >
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+                Built on{" "}
+                <span className="text-zinc-500">Chatterbox</span>.
+                <br />
+                Tuned for the world.
+              </h1>
+            </motion.div>
 
-          {/* Subhead */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed mb-16"
-          >
-            We started with Resemble AI's open-source Chatterbox family — V3 for
-            multilingual depth, Turbo for speed — then trained from scratch on
-            Uzbek and four additional languages no one else supports yet.
-          </motion.p>
+            {/* Subhead */}
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed mb-16"
+            >
+              We started with Resemble AI's open-source Chatterbox family — V3 for
+              multilingual depth, Turbo for speed — then trained from scratch on
+              Uzbek and four additional languages no one else supports yet.
+            </motion.p>
 
-          {/* Model Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-20">
-            {MODELS.map((model, i) => (
-              <ModelCard key={model.id} model={model} index={i} />
-            ))}
-          </div>
+            {/* Model Cards */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-20">
+              {MODELS.map((model, i) => (
+                <ModelCard key={model.id} model={model} index={i} />
+              ))}
+            </div>
 
-          {/* Spec Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-6"
-          >
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-600 mb-6">
-              Technical Specifications
-            </h2>
-          </motion.div>
-          <div className="mb-20">
-            <SpecGrid />
-          </div>
+            {/* Spec Grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-600 mb-6">
+                Technical Specifications
+              </h2>
+            </motion.div>
+            <div className="mb-20">
+              <SpecGrid />
+            </div>
 
-          {/* Uzbek Highlight */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-20 rounded-3xl border border-[#10b981]/20 bg-[#10b981]/[0.03] p-8 sm:p-10 relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#10b981]/10 rounded-full blur-[80px]" />
-            <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
-              <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#10b981]/10 border border-[#10b981]/20">
-                <Radio className="size-6 text-[#10b981]" strokeWidth={1.5} />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Uzbek & Low-Resource Languages
-                </h3>
-                <p className="text-sm leading-relaxed text-zinc-400 max-w-xl mb-4">
-                  While Chatterbox V3 ships with 23+ languages, Uzbek was not among them.
-                  We built a zero-shot MVP from scratch — training on curated Uzbek speech
-                  corpora, designing dialect-aware tokenization, and preserving regional
-                  accent characteristics. Four additional low-resource languages followed
-                  the same pipeline.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {["Uzbek", "Kazakh", "Azerbaijani", "Turkmen", "Kyrgyz"].map((lang) => (
-                    <span
-                      key={lang}
-                      className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-medium text-zinc-300"
-                    >
-                      {lang}
-                    </span>
-                  ))}
+            {/* Uzbek Highlight */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-20 rounded-3xl border border-[#10b981]/20 bg-[#10b981]/[0.03] p-8 sm:p-10 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#10b981]/10 rounded-full blur-[80px]" />
+              <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
+                <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#10b981]/10 border border-[#10b981]/20">
+                  <Radio className="size-6 text-[#10b981]" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Uzbek & Low-Resource Languages
+                  </h3>
+                  <p className="text-sm leading-relaxed text-zinc-400 max-w-xl mb-4">
+                    While Chatterbox V3 ships with 23+ languages, Uzbek was not among them.
+                    We built a zero-shot MVP from scratch — training on curated Uzbek speech
+                    corpora, designing dialect-aware tokenization, and preserving regional
+                    accent characteristics. Four additional low-resource languages followed
+                    the same pipeline.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Uzbek", "Kazakh", "Azerbaijani", "Turkmen", "Kyrgyz"].map((lang) => (
+                      <span
+                        key={lang}
+                        className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-medium text-zinc-300"
+                      >
+                        {lang}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
+            </motion.div>
+
+            {/* Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-600 mb-6">
+                Open Source & References
+              </h2>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-20">
+              {LINKS.map((link, i) => (
+                <LinkCard key={link.label} link={link} index={i} />
+              ))}
             </div>
-          </motion.div>
 
-          {/* Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-6"
-          >
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-600 mb-6">
-              Open Source & References
-            </h2>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-20">
-            {LINKS.map((link, i) => (
-              <LinkCard key={link.label} link={link} index={i} />
-            ))}
-          </div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 sm:p-10 text-center relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
-            <div className="relative z-10">
-              <GitBranch className="size-6 text-zinc-600 mx-auto mb-4" strokeWidth={1.5} />
-              <h3 className="text-xl font-bold text-white mb-2">
-                Fork it. Tune it. Ship it.
-              </h3>
-              <p className="text-sm text-zinc-500 max-w-md mx-auto mb-6">
-                Everything we built on top of Chatterbox is documented. Start from the
-                original weights, apply our fine-tuning recipes, or train your own
-                language from zero.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <a
-                  href="https://github.com/resemble-ai/chatterbox"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#0a0a0a] hover:bg-zinc-200 transition-colors"
-                >
-                  <IconBrandGithub className="size-4" />
-                  View on GitHub
-                </a>
-                <a
-                  href="https://www.resemble.ai/learn/models/chatterbox"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 px-6 text-sm font-medium text-zinc-300 hover:bg-white/5 hover:text-white transition-colors"
-                >
-                  <ExternalLink className="size-4" />
-                  Resemble AI Docs
-                </a>
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 sm:p-10 text-center relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
+              <div className="relative z-10">
+                <GitBranch className="size-6 text-zinc-600 mx-auto mb-4" strokeWidth={1.5} />
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Fork it. Tune it. Ship it.
+                </h3>
+                <p className="text-sm text-zinc-500 max-w-md mx-auto mb-6">
+                  Everything we built on top of Chatterbox is documented. Start from the
+                  original weights, apply our fine-tuning recipes, or train your own
+                  language from zero.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <a
+                    href="https://github.com/resemble-ai/chatterbox"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#0a0a0a] hover:bg-zinc-200 transition-colors"
+                  >
+                    <IconBrandGithub className="size-4" />
+                    View on GitHub
+                  </a>
+                  <a
+                    href="https://www.resemble.ai/learn/models/chatterbox"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 px-6 text-sm font-medium text-zinc-300 hover:bg-white/5 hover:text-white transition-colors"
+                  >
+                    <ExternalLink className="size-4" />
+                    Resemble AI Docs
+                  </a>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Footer note */}
-          <div className="mt-12 text-center">
-            <p className="text-sm text-zinc-700">
-              Licensed under MIT. Chatterbox is developed by{" "}
-              <a
-                href="https://www.resemble.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2"
-              >
-                Resemble AI
-              </a>
-              . Miralas fine-tunes and extensions are independent contributions.
-            </p>
+            {/* Footer note */}
+            <div className="mt-12 text-center">
+              <p className="text-sm text-zinc-700">
+                Licensed under MIT. Chatterbox is developed by{" "}
+                <a
+                  href="https://www.resemble.ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2"
+                >
+                  Resemble AI
+                </a>
+                . Miralas fine-tunes and extensions are independent contributions.
+              </p>
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer/>
-    </div>
+    </SmoothScroll>
   );
 }

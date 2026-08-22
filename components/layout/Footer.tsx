@@ -197,9 +197,7 @@ export default function Footer() {
           <div className="flex-1 lg:max-w-md">
             <Link href="/" className="flex items-center gap-3 mb-6">
               <div className="flex size-9 items-center justify-center rounded-xl bg-white text-[#0a0a0c]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+               <img src="/logo.png" alt="" />
               </div>
               <span className="text-xl font-semibold text-white tracking-tight">
                 Miransas

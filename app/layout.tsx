@@ -6,7 +6,7 @@ import "./globals.css";
 import { roboto } from "./roboto";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
-import SmoothScroll from "../components/providers/SmoothScroll";
+import { openGraphMetadata, twitterMetadata } from "./opengraph";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -80,20 +80,10 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    type: "website",
-    siteName: "Miralas Voice",
-    title: "Miralas Voice — AI Voice Infrastructure",
-    description:
-      "Create natural, expressive and production-ready AI voices with an Uzbek-first voice platform built for developers and creators.",
-    url: "https://miralas.io",
+    ...openGraphMetadata,
   },
 
-  twitter: {
-    card: "summary_large_image",
-    title: "Miralas Voice — AI Voice Infrastructure",
-    description:
-      "AI voice infrastructure for natural, expressive and production-ready speech.",
-  },
+  twitter: twitterMetadata,
 
   robots: {
     index: true,
@@ -139,10 +129,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-      {isLocked && <ComingSoonModal />}   
-         <SmoothScroll>
-          {children}
-        </SmoothScroll>
+          {/*    */}
+          <>
+            {isLocked && <ComingSoonModal />} {children}
+          </>
         </ThemeProvider>
       </body>
     </html>
