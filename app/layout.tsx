@@ -139,7 +139,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-      {/* {isLocked && <ComingSoonModal />}   */}
+      {isLocked && <ComingSoonModal />}   
          <SmoothScroll>
           {children}
         </SmoothScroll>
