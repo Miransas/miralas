@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactLenis } from "@studio-freight/react-lenis";
+import { ReactLenis } from "lenis/react";
 import { ReactNode } from "react";
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
@@ -8,15 +8,15 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     <ReactLenis
       root
       options={{
-        lerp: 0.15, // Yumuşaklık derecesi (0.05 - 0.15 arası idealdir)
-        duration: 1.2, // Scroll süresi
+        lerp: 0.1,
+        duration: 1.15,
         smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
+        wheelMultiplier: 0.92,
+        touchMultiplier: 1.5,
         infinite: false,
       }}
     >
-      <>{children}</>
+      {children}
     </ReactLenis>
   );
 }

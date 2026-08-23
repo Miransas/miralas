@@ -8,6 +8,9 @@ import FeatureSection from '../components/shared/feature-sections'
 import FaqSection from '../components/shared/faq'
 import VoiceLibrary from '../components/shared/voice-library'
 import SmoothScroll from '../components/providers/SmoothScroll'
+import { VideoOffIcon } from 'lucide-react'
+import { VideoSections } from '../components/shared/video-sections'
+
 
 
 const page = () => {
@@ -18,7 +21,7 @@ const page = () => {
         <Hero />
         <VoiceLibrary />
         <FeatureSection />
-        {/* Video Page */}
+         <VideoSections/> 
         {/* <HowItWorks /> */}
         <FaqSection />
         <Footer />

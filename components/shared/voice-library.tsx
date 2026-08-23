@@ -1,22 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
-  Play,
-  Pause,
-  Settings2,
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type CSSProperties,
+  type ElementType,
+} from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Clock,
   FileText,
-  Mic,
-  MessageSquare,
   Globe,
   Headphones,
+  MessageSquare,
+  Mic,
+  Pause,
+  Play,
+  Settings2,
   Volume2,
-  Clock,
 } from "lucide-react";
 
-// --- TIPLER ---
 interface Voice {
   id: string;
   label: string;
@@ -31,33 +37,27 @@ interface Voice {
   delay?: number;
 }
 
-interface Tab {
-  id: string;
-  icon: React.ElementType;
-}
-
-// --- SES VERITABANI ---
 const VOICES: Voice[] = [
   {
     id: "default",
     label: "Narrator",
     title: "Narrator: Deep and Authoritative",
-    desc: "Rich, resonant, and trustworthy tone. Perfect for complex narrations and e-learning.",
-    audio: "/ses-default.mp3",
+    desc: "Rich, resonant, and trustworthy. For narration and e-learning.",
+    audio: "/sounds/tts-miralas-en.mp3",
     tone: 50,
-    colors: ["#c9a87c", "#a89060", "#8b7355"],
-    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#c9a87c,_#a89060,_#1c1917)]",
+    colors: ["#64748b", "#475569", "#1e293b"],
+    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#94a3b8,_#475569,_#0f172a)]",
     pos: { left: "0", top: "0" },
   },
   {
     id: "v1",
     label: "Energetic",
     title: "Energetic: Fast and Dynamic",
-    desc: "High energy tone for commercials, dynamic ads, and action sequences.",
-    audio: "/ses-energetic-1.mp3",
+    desc: "High energy for ads and action sequences.",
+    audio: "/sounds/tts-miralas-en.mp3",
     tone: 85,
-    colors: ["#d97706", "#b45309", "#92400e"],
-    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#d97706,_#b45309,_#1c1917)]",
+    colors: ["#f43f5e", "#e11d48", "#9f1239"],
+    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#fb7185,_#e11d48,_#4c0519)]",
     pos: { left: "18%", top: "25%" },
     size: 60,
     delay: 0,
@@ -66,11 +66,11 @@ const VOICES: Voice[] = [
     id: "v2",
     label: "Dramatic",
     title: "Dramatic: Intense & Dark",
-    desc: "Deep, intense voice tailored for thrillers, audiobooks, and dramatic storytelling.",
-    audio: "/ses-dramatic-1.mp3",
+    desc: "Deep intensity for thrillers and audiobooks.",
+    audio: "/sounds/tts-miralas-en.mp3",
     tone: 20,
-    colors: ["#78716c", "#57534e", "#44403c"],
-    orbGradient: "bg-[radial-gradient(circle_at_40%_20%,_#78716c,_#57534e,_#1c1917)]",
+    colors: ["#71717a", "#52525b", "#27272a"],
+    orbGradient: "bg-[radial-gradient(circle_at_40%_20%,_#a1a1aa,_#52525b,_#18181b)]",
     pos: { left: "26%", bottom: "20%" },
     size: 70,
     delay: 0.5,
@@ -79,11 +79,11 @@ const VOICES: Voice[] = [
     id: "v3",
     label: "Fluid",
     title: "Fluid: Smooth & Calm",
-    desc: "Seamless, smooth voice blending well with AI avatars and virtual assistants.",
-    audio: "/ses-fluid.mp3",
+    desc: "Seamless voice for assistants and avatars.",
+    audio: "/sounds/tts-miralas-en.mp3",
     tone: 60,
-    colors: ["#0ea5e9", "#0284c7", "#0369a1"],
-    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#0ea5e9,_#0284c7,_#0c4a6e)]",
+    colors: ["#0ea5e9", "#0284c7", "#0c4a6e"],
+    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#38bdf8,_#0284c7,_#082f49)]",
     pos: { right: "20%", top: "30%" },
     size: 65,
     delay: 1.2,
@@ -92,18 +92,18 @@ const VOICES: Voice[] = [
     id: "v4",
     label: "Somber",
     title: "Somber: Calm & Melancholic",
-    desc: "Soft and melancholic tone, ideal for emotional scenes and documentaries.",
-    audio: "/ses-somber.mp3",
+    desc: "Soft tone for documentaries and emotional scenes.",
+    audio: "/sounds/tts-miralas-en.mp3",
     tone: 40,
-    colors: ["#6366f1", "#4f46e5", "#3730a3"],
-    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#6366f1,_#4f46e5,_#1e1b4b)]",
+    colors: ["#8b5cf6", "#7c3aed", "#4c1d95"],
+    orbGradient: "bg-[radial-gradient(circle_at_30%_30%,_#a78bfa,_#7c3aed,_#2e1065)]",
     pos: { right: "30%", bottom: "25%" },
     size: 60,
     delay: 0.8,
   },
 ];
 
-const BOTTOM_TABS: Tab[] = [
+const BOTTOM_TABS: { id: string; icon: ElementType }[] = [
   { id: "Sentezleyici", icon: Settings2 },
   { id: "Metin Düzenleyici", icon: FileText },
   { id: "Ses Klonlama", icon: Mic },
@@ -112,167 +112,163 @@ const BOTTOM_TABS: Tab[] = [
   { id: "Dublaj", icon: Headphones },
 ];
 
-// --- CANLI ORB + GLOW ---
-const AliveShaderOrb = ({
+const springSoft = { type: "spring", stiffness: 260, damping: 28, mass: 0.9 } as const;
+const springSnappy = { type: "spring", stiffness: 420, damping: 26 } as const;
+const easeOut = [0.16, 1, 0.3, 1] as const;
+
+const blobRadius = [
+  "40% 60% 70% 30% / 40% 50% 60% 50%",
+  "60% 40% 30% 70% / 60% 30% 70% 40%",
+  "30% 60% 70% 40% / 50% 60% 30% 60%",
+  "60% 40% 60% 40% / 70% 30% 50% 50%",
+  "40% 60% 70% 30% / 40% 50% 60% 50%",
+];
+
+function AliveShaderOrb({
   colors,
+  voiceId,
   isPlaying,
   onClick,
 }: {
   colors: [string, string, string];
+  voiceId: string;
   isPlaying: boolean;
   onClick: () => void;
-}) => {
-  const blobVariants = [
-    { borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%", rotate: 0 },
-    { borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%", rotate: 90 },
-    { borderRadius: "30% 60% 70% 40% / 50% 60% 30% 60%", rotate: 180 },
-    { borderRadius: "60% 40% 60% 40% / 70% 30% 50% 50%", rotate: 270 },
-    { borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%", rotate: 360 },
-  ];
-
-  const primaryColor = colors[0];
+}) {
+  const primary = colors[0];
 
   return (
-    <div className="relative flex items-center justify-center z-10 w-[340px] h-[340px]">
-      {/* AMBIENT GLOW — ses rengine göre pulse */}
+    <div className="relative z-10 flex size-[300px] items-center justify-center sm:size-[340px]">
+      <AnimatePresence>
+        <motion.div
+          key={`${voiceId}-glow-a`}
+          className="absolute inset-0 rounded-full blur-[70px]"
+          style={{ backgroundColor: primary }}
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{
+            opacity: isPlaying ? [0.14, 0.32, 0.14] : 0.1,
+            scale: isPlaying ? [1, 1.16, 1] : 1,
+          }}
+          exit={{ opacity: 0, scale: 1.2 }}
+          transition={{
+            opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+            scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+          }}
+        />
+      </AnimatePresence>
+
       <motion.div
-        className="absolute inset-0 rounded-full blur-[60px]"
-        style={{ backgroundColor: primaryColor }}
+        className="absolute -inset-10 rounded-full blur-[90px]"
+        style={{ backgroundColor: colors[1] }}
         animate={{
-          opacity: isPlaying ? [0.15, 0.35, 0.15] : 0.06,
-          scale: isPlaying ? [1, 1.15, 1] : 1,
+          opacity: isPlaying ? [0.07, 0.18, 0.07] : 0.05,
+          scale: isPlaying ? [1, 1.22, 1] : 1,
+          rotate: isPlaying ? 360 : 0,
         }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute -inset-8 rounded-full blur-[80px]"
-        style={{ backgroundColor: primaryColor }}
-        animate={{
-          opacity: isPlaying ? [0.08, 0.2, 0.08] : 0.03,
-          scale: isPlaying ? [1, 1.2, 1] : 1,
+        transition={{
+          opacity: { duration: 4.4, repeat: Infinity, ease: "easeInOut" },
+          scale: { duration: 4.4, repeat: Infinity, ease: "easeInOut" },
+          rotate: { duration: 28, repeat: Infinity, ease: "linear" },
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
       />
 
-      {/* ORB CONTAINER */}
       <motion.div
-        className="relative flex items-center justify-center w-[320px] h-[320px]"
-        animate={{ scale: isPlaying ? [1, 1.06, 1.03] : 1 }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        className="relative flex size-[280px] items-center justify-center sm:size-[320px]"
+        animate={isPlaying ? { scale: [1, 1.045, 1.02, 1] } : { scale: 1 }}
+        transition={
+          isPlaying
+            ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
+            : springSoft
+        }
       >
-        {/* Katman 1: Ana Blob */}
         <motion.div
-          className="absolute inset-0 opacity-90 mix-blend-multiply blur-[14px]"
+          className="absolute inset-0 opacity-80 blur-[16px]"
           animate={{
-            borderRadius: blobVariants.map((v) => v.borderRadius),
-            rotate: blobVariants.map((v) => v.rotate),
-            scale: [1, 1.1, 0.95, 1.05, 1],
+            borderRadius: blobRadius,
+            rotate: isPlaying ? 360 : 180,
+            scale: isPlaying ? [1, 1.08, 0.96, 1] : [1, 1.03, 1],
           }}
-          transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: isPlaying ? 10 : 18, repeat: Infinity, ease: "linear" }}
           style={{ background: `linear-gradient(45deg, ${colors[0]}, ${colors[1]})` }}
         />
-        {/* Katman 2: İkinci Blob */}
         <motion.div
-          className="absolute inset-4 opacity-80 mix-blend-screen blur-[10px]"
+          className="absolute inset-5 opacity-70 blur-[12px]"
           animate={{
-            borderRadius: [...blobVariants].reverse().map((v) => v.borderRadius),
-            rotate: [360, 270, 180, 90, 0],
-            scale: [1.05, 0.9, 1.15, 1, 1.05],
+            borderRadius: [...blobRadius].reverse(),
+            rotate: isPlaying ? -360 : -120,
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: isPlaying ? 14 : 24, repeat: Infinity, ease: "linear" }}
           style={{ background: `linear-gradient(135deg, ${colors[1]}, ${colors[2]})` }}
         />
-        {/* Katman 3: Merkez Parlaklık */}
         <motion.div
-          className="absolute inset-8 opacity-90 blur-[6px]"
-          animate={{
-            borderRadius: blobVariants.map((v) => v.borderRadius),
-            rotate: [0, 120, 240, 360],
-            scale: [0.9, 1.1, 0.95, 1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-10 opacity-80 blur-[8px]"
+          animate={{ borderRadius: blobRadius, rotate: 360 }}
+          transition={{ duration: isPlaying ? 8 : 14, repeat: Infinity, ease: "linear" }}
           style={{
             background: `conic-gradient(from 90deg, ${colors[2]}, ${colors[0]}, ${colors[1]}, ${colors[2]})`,
           }}
         />
-        {/* Katman 4: İç Nefes */}
         <motion.div
-          className="absolute inset-12 rounded-full opacity-60 blur-[3px]"
+          className="absolute inset-14 rounded-full blur-[4px]"
           animate={{
-            scale: isPlaying ? [0.8, 1.2, 0.8] : [0.9, 1.1, 0.9],
-            opacity: isPlaying ? [0.4, 0.85, 0.4] : [0.3, 0.5, 0.3],
+            scale: isPlaying ? [0.82, 1.18, 0.82] : [0.94, 1.05, 0.94],
+            opacity: isPlaying ? [0.4, 0.85, 0.4] : [0.28, 0.48, 0.28],
           }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          style={{ background: `radial-gradient(circle, ${colors[0]} 0%, transparent 70%)` }}
+          transition={{ duration: isPlaying ? 1.6 : 3.4, repeat: Infinity, ease: "easeInOut" }}
+          style={{ background: `radial-gradient(circle, ${primary} 0%, transparent 70%)` }}
         />
-        {/* Katman 5: Dış Halka */}
-        <motion.div
-          className="absolute -inset-4 rounded-full opacity-40 blur-[18px]"
-          animate={{ rotate: [0, -360], scale: [1, 1.2, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          style={{ background: `radial-gradient(circle, ${colors[2]} 0%, transparent 60%)` }}
-        />
-        {/* Parçacık Halkaları */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        >
-          {[0, 60, 120, 180, 240, 300].map((deg, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2.5 h-2.5 rounded-full"
-              style={{
-                background: colors[i % 3],
-                left: "50%",
-                top: "50%",
-                marginLeft: -5,
-                marginTop: -5,
-              }}
-              animate={{
-                x: Math.cos((deg * Math.PI) / 180) * 145,
-                y: Math.sin((deg * Math.PI) / 180) * 145,
-                scale: [0.5, 1.2, 0.5],
-                opacity: [0.3, 0.9, 0.3],
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-            />
-          ))}
-        </motion.div>
 
-        {/* Cam Merkez ve Buton */}
-        <div className="relative w-[220px] h-[220px] rounded-full bg-white/15 backdrop-blur-2xl shadow-[inset_0_0_50px_rgba(255,255,255,0.3),0_20px_50px_rgba(0,0,0,0.15)] flex items-center justify-center border border-white/50 z-20">
-          {/* İç glow ring */}
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{
-              boxShadow: `inset 0 0 30px ${primaryColor}30`,
-            }}
-            animate={{
-              boxShadow: isPlaying
-                ? [`inset 0 0 30px ${primaryColor}20`, `inset 0 0 50px ${primaryColor}40`, `inset 0 0 30px ${primaryColor}20`]
-                : `inset 0 0 30px ${primaryColor}15`,
-            }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <button
+        <motion.div
+          className="relative z-20 flex size-[200px] items-center justify-center rounded-full border border-white/70 bg-white/50 shadow-[inset_0_0_40px_rgba(255,255,255,0.55),0_18px_40px_rgba(15,23,42,0.08)] backdrop-blur-2xl sm:size-[220px]"
+          animate={{
+            boxShadow: isPlaying
+              ? [
+                  `inset 0 0 36px ${primary}22, 0 18px 40px rgba(15,23,42,0.08)`,
+                  `inset 0 0 56px ${primary}40, 0 22px 48px rgba(15,23,42,0.1)`,
+                  `inset 0 0 36px ${primary}22, 0 18px 40px rgba(15,23,42,0.08)`,
+                ]
+              : `inset 0 0 40px rgba(255,255,255,0.55), 0 18px 40px rgba(15,23,42,0.08)`,
+          }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <motion.button
+            type="button"
             onClick={onClick}
-            className="relative z-10 w-20 h-20 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300 text-[#2d2a26] group"
+            aria-label={isPlaying ? "Pause" : "Play"}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            transition={springSnappy}
+            className="relative flex size-20 items-center justify-center overflow-hidden rounded-full bg-white text-stone-900 shadow-[0_8px_28px_rgba(15,23,42,0.12)]"
           >
-            {isPlaying ? (
-              <Pause className="w-7 h-7 fill-current" />
-            ) : (
-              <Play className="w-7 h-7 fill-current ml-1" />
-            )}
-          </button>
-        </div>
+            <motion.span
+              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent"
+              animate={{ x: ["-120%", "120%"] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
+            />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={isPlaying ? "pause" : "play"}
+                initial={{ scale: 0.6, opacity: 0, rotate: -20 }}
+                animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                exit={{ scale: 0.6, opacity: 0, rotate: 20 }}
+                transition={springSnappy}
+                className="relative z-10"
+              >
+                {isPlaying ? (
+                  <Pause className="size-7 fill-current" />
+                ) : (
+                  <Play className="ml-1 size-7 fill-current" />
+                )}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
+        </motion.div>
       </motion.div>
     </div>
   );
-};
+}
 
-// --- WAVEFORM ---
-const WaveformVisualizer = ({
+function WaveformVisualizer({
   analyser,
   isPlaying,
   color,
@@ -280,75 +276,57 @@ const WaveformVisualizer = ({
   analyser: AnalyserNode | null;
   isPlaying: boolean;
   color: string;
-}) => {
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    const bufferLength = analyser ? analyser.frequencyBinCount : 64;
+    const bufferLength = analyser ? analyser.frequencyBinCount : 48;
     const dataArray = new Uint8Array(bufferLength);
+    let raf = 0;
 
-    const draw = () => {
-      animationRef.current = requestAnimationFrame(draw);
-
-      if (analyser && isPlaying) {
-        analyser.getByteFrequencyData(dataArray);
-      } else {
-        const time = Date.now() / 600;
+    const draw = (now: number) => {
+      raf = requestAnimationFrame(draw);
+      if (analyser && isPlaying) analyser.getByteFrequencyData(dataArray);
+      else {
         for (let i = 0; i < bufferLength; i++) {
-          dataArray[i] = Math.abs(Math.sin(time + i * 0.08)) * 22 + 6;
+          dataArray[i] = Math.abs(Math.sin(now / 700 + i * 0.09)) * 20 + 8;
         }
       }
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const barWidth = (canvas.width / bufferLength) * 2.2;
-      let x = 0;
-
+      const barWidth = canvas.width / bufferLength;
       for (let i = 0; i < bufferLength; i++) {
-        const barHeight = (dataArray[i] / 255) * canvas.height * 0.82;
-        const gradient = ctx.createLinearGradient(0, canvas.height - barHeight, 0, canvas.height);
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(1, `${color}22`);
-
-        ctx.fillStyle = gradient;
+        const h = (dataArray[i] / 255) * canvas.height * 0.82;
+        const g = ctx.createLinearGradient(0, canvas.height - h, 0, canvas.height);
+        g.addColorStop(0, color);
+        g.addColorStop(1, `${color}28`);
+        ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.roundRect(x, canvas.height - barHeight, barWidth - 1, barHeight, 3);
+        ctx.roundRect(i * barWidth + 0.6, canvas.height - h, Math.max(barWidth - 1.2, 1), h, 2);
         ctx.fill();
-        x += barWidth;
       }
     };
 
-    draw();
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
   }, [analyser, isPlaying, color]);
 
   return (
-    <div className="relative">
-      {/* Glow behind canvas */}
-      <motion.div
-        className="absolute inset-0 rounded-2xl blur-xl"
-        style={{ backgroundColor: color }}
-        animate={{ opacity: isPlaying ? [0.1, 0.25, 0.1] : 0 }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <canvas
-        ref={canvasRef}
-        width={56}
-        height={280}
-        className="relative z-10 rounded-2xl bg-white/40 backdrop-blur-md border border-white/50"
-      />
-    </div>
+    <motion.canvas
+      ref={canvasRef}
+      width={56}
+      height={280}
+      initial={{ opacity: 0, x: 18, filter: "blur(8px)" }}
+      animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.7, ease: easeOut, delay: 0.25 }}
+      className="rounded-2xl border border-stone-200/80 bg-white/70 backdrop-blur-md"
+    />
   );
-};
+}
 
-// --- CUSTOM RANGE SLIDER ---
 function RangeSlider({
   value,
   min,
@@ -359,17 +337,17 @@ function RangeSlider({
   value: number;
   min: number;
   max: number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   accentColor: string;
 }) {
   const percent = ((value - min) / (max - min)) * 100;
-
   return (
-    <div className="relative flex-1 h-5 flex items-center">
-      <div className="absolute inset-y-[7px] left-0 right-0 rounded-full bg-[#e8e0d5]" />
-      <div
-        className="absolute inset-y-[7px] left-0 rounded-full transition-all duration-150"
-        style={{ width: `${percent}%`, backgroundColor: accentColor }}
+    <div className="relative flex h-5 flex-1 items-center">
+      <div className="absolute inset-y-[7px] left-0 right-0 rounded-full bg-stone-200" />
+      <motion.div
+        className="absolute inset-y-[7px] left-0 rounded-full"
+        animate={{ width: `${percent}%`, backgroundColor: accentColor }}
+        transition={{ type: "spring", stiffness: 300, damping: 32 }}
       />
       <input
         type="range"
@@ -377,18 +355,25 @@ function RangeSlider({
         max={max}
         value={value}
         onChange={onChange}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+        className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
       />
-      <div
-        className="absolute h-4 w-4 rounded-full bg-white shadow-md border border-[#e8e0d5] pointer-events-none transition-all duration-150"
-        style={{ left: `calc(${percent}% - 8px)` }}
+      <motion.div
+        className="pointer-events-none absolute size-4 rounded-full border border-stone-200 bg-white shadow-sm"
+        animate={{ left: `calc(${percent}% - 8px)` }}
+        transition={{ type: "spring", stiffness: 400, damping: 34 }}
       />
     </div>
   );
 }
 
-// --- ANA UYGULAMA ---
-export default function App() {
+function formatTime(seconds: number) {
+  if (!seconds || Number.isNaN(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+export default function VoiceLibrary() {
   const [activeVoice, setActiveVoice] = useState<Voice>(VOICES[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeView, setActiveView] = useState("library");
@@ -399,29 +384,35 @@ export default function App() {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+
     if (!audioContextRef.current) {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioCtx();
-      audioContextRef.current = ctx;
-      const source = ctx.createMediaElementSource(audio);
-      const gain = ctx.createGain();
-      const analyser = ctx.createAnalyser();
-      analyser.fftSize = 128;
-      analyser.smoothingTimeConstant = 0.85;
-      setAnalyserNode(analyser);
-      source.connect(gain);
-      gain.connect(analyser);
-      analyser.connect(ctx.destination);
+      audioContextRef.current = new Ctx();
     }
-    return () => {
-      if (audioContextRef.current?.state !== "closed") {
-        audioContextRef.current?.close();
+    
+    const ctx = audioContextRef.current;
+
+    if (!sourceNodeRef.current) {
+      try {
+        sourceNodeRef.current = ctx.createMediaElementSource(audio);
+        const analyser = ctx.createAnalyser();
+        analyser.fftSize = 128;
+        analyser.smoothingTimeConstant = 0.85;
+        
+        sourceNodeRef.current.connect(analyser);
+        analyser.connect(ctx.destination);
+        setAnalyserNode(analyser);
+      } catch (error) {
+        console.error("AudioContext connection error:", error);
       }
-    };
+    }
   }, []);
 
   useEffect(() => {
@@ -448,248 +439,254 @@ export default function App() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    const rate = 0.75 + (tone / 100) * 0.5;
-    audio.playbackRate = rate;
-    (audio as any).preservesPitch = false;
-    (audio as any).mozPreservesPitch = false;
-    (audio as any).webkitPreservesPitch = false;
+    audio.playbackRate = 0.75 + (tone / 100) * 0.5;
+    audio.preservesPitch = false;
   }, [tone]);
+
+  const playVoice = async (voice?: Voice) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audioContextRef.current?.state === "suspended") await audioContextRef.current.resume();
+    if (voice) {
+      audio.src = voice.audio;
+      audio.currentTime = 0;
+    }
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch {
+      setIsPlaying(false);
+    }
+  };
 
   const handleVoiceSelect = (voice: Voice) => {
     setActiveVoice(voice);
     setTone(voice.tone);
-    const audio = audioRef.current;
-    if (audio) {
-      audio.src = voice.audio;
-      audio.currentTime = 0;
-      audio.play().then(() => setIsPlaying(true)).catch(() => {});
-    }
+    void playVoice(voice);
   };
 
   const togglePlay = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (audioContextRef.current?.state === "suspended") {
-      audioContextRef.current.resume();
-    }
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
-    } else {
-      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+      return;
     }
+    void playVoice();
   };
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio || !duration) return;
-    const newTime = (parseFloat(e.target.value) / 100) * duration;
-    audio.currentTime = newTime;
-    setProgress(parseFloat(e.target.value));
-  };
-
-  const handleToneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTone(parseInt(e.target.value));
-  };
-
-  const formatTime = (seconds: number) => {
-    if (!seconds || isNaN(seconds)) return "0:00";
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m}:${s.toString().padStart(2, "0")}`;
-  };
-
-  const primaryColor = activeVoice.colors[0];
+  const primary = activeVoice.colors[0];
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] flex items-center justify-center p-4 lg:p-10 font-sans selection:bg-[#c9a87c]/30">
-      <audio ref={audioRef} src={activeVoice.audio} crossOrigin="anonymous" />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, ease: easeOut }}
+      className="flex min-h-screen items-center justify-center bg-[#FAF9F6] p-4 font-sans text-stone-900 selection:bg-violet-200/50 lg:p-10"
+    >
+      <audio ref={audioRef} src={activeVoice.audio} />
 
-      {/* Main Card */}
-      <div className="w-full max-w-[1180px] h-[760px] bg-white/80 backdrop-blur-3xl border border-[#e8e0d5]/60 rounded-[2.5rem] shadow-[0_24px_80px_-20px_rgba(45,42,38,0.08)] flex flex-col relative overflow-hidden">
-
-        {/* Top ambient glow when playing */}
+      <motion.div
+        initial={{ opacity: 0, y: 28, scale: 0.97, filter: "blur(12px)" }}
+        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.85, ease: easeOut }}
+        className="relative flex h-[min(760px,92vh)] w-full max-w-[1180px] flex-col overflow-hidden rounded-[2.5rem] border border-stone-200/80 bg-white/85 shadow-[0_24px_80px_-24px_rgba(15,23,42,0.1)] backdrop-blur-3xl"
+      >
         <motion.div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[100px] pointer-events-none"
-          style={{ backgroundColor: primaryColor }}
-          animate={{ opacity: isPlaying ? [0.06, 0.14, 0.06] : 0.02 }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute left-1/2 top-0 h-[280px] w-[560px] -translate-x-1/2 rounded-full blur-[110px]"
+          animate={{
+            backgroundColor: primary,
+            opacity: isPlaying ? [0.06, 0.14, 0.06] : 0.05,
+            scale: isPlaying ? [1, 1.08, 1] : 1,
+          }}
+          transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Content */}
-        <div className="flex-1 relative w-full overflow-hidden flex flex-col">
+        <div className="relative flex min-h-0 flex-1">
           <AnimatePresence mode="wait">
             {activeView === "library" ? (
               <motion.div
-                key="library-view"
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.97 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="flex-1 flex flex-row w-full h-full"
+                key="library"
+                initial={{ opacity: 0, scale: 0.985, filter: "blur(8px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 1.015, filter: "blur(8px)" }}
+                transition={{ duration: 0.4, ease: easeOut }}
+                className="flex h-full w-full"
               >
-                {/* Sol: Orb + küçük küreler */}
-                <div className="flex-1 relative flex items-center justify-center">
-                  {/* Background subtle grid */}
-                  <div
-                    className="absolute inset-0 opacity-[0.03]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(#2d2a26 1px, transparent 1px), linear-gradient(90deg, #2d2a26 1px, transparent 1px)",
-                      backgroundSize: "40px 40px",
-                    }}
-                  />
-
-                  {VOICES.slice(1).map((voice) => (
-                    <motion.button
-                      key={voice.id}
-                      onClick={() => handleVoiceSelect(voice)}
-                      className="flex flex-col items-center gap-2 absolute z-20 group cursor-pointer"
-                      style={voice.pos as React.CSSProperties}
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: voice.delay || 0,
-                      }}
-                    >
-                      <motion.div
-                        animate={{ rotate: [0, 360] }}
-                        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-                        className={`rounded-full shadow-lg shadow-black/5 ${voice.orbGradient} border-[1.5px] border-white/30 group-hover:scale-110 group-hover:border-white/70 transition-all duration-300`}
-                        style={{
-                          width: voice.size || 56,
-                          height: voice.size || 56,
-                          boxShadow: `inset 0 0 12px rgba(255,255,255,0.3), 0 4px 20px ${voice.colors[0]}20`,
+                <div className="relative flex flex-1 items-center justify-center">
+                  {VOICES.slice(1).map((voice, i) => {
+                    const active = activeVoice.id === voice.id;
+                    return (
+                      <motion.button
+                        key={voice.id}
+                        type="button"
+                        onClick={() => handleVoiceSelect(voice)}
+                        className="group absolute z-20 flex cursor-pointer flex-col items-center gap-2"
+                        style={voice.pos as CSSProperties}
+                        initial={{ opacity: 0, scale: 0.6, y: 18 }}
+                        animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+                        transition={{
+                          opacity: { delay: 0.2 + i * 0.08, duration: 0.5, ease: easeOut },
+                          scale: { delay: 0.2 + i * 0.08, ...springSoft },
+                          y: {
+                            duration: 4 + i * 0.35,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: voice.delay ?? 0,
+                          },
                         }}
-                      />
-                      <span className="text-[11px] font-semibold text-[#5c5548] bg-white/70 px-3 py-1 rounded-full backdrop-blur-md shadow-sm border border-[#e8e0d5]/50">
-                        {voice.label}
-                      </span>
-                    </motion.button>
-                  ))}
+                        whileHover={{ scale: 1.12, y: -14 }}
+                        whileTap={{ scale: 0.94 }}
+                      >
+                        <motion.span
+                          layout
+                          className={`rounded-full border shadow-sm ${voice.orbGradient}`}
+                          animate={{
+                            borderColor: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)",
+                            boxShadow: active
+                              ? `0 0 0 4px ${voice.colors[0]}33, 0 10px 24px ${voice.colors[0]}2a`
+                              : "0 4px 14px rgba(15,23,42,0.08)",
+                            scale: active ? 1.08 : 1,
+                          }}
+                          transition={springSoft}
+                          style={{ width: voice.size ?? 56, height: voice.size ?? 56 }}
+                        />
+                        <motion.span
+                          layout
+                          className="rounded-full border bg-white/80 px-3 py-1 text-[11px] font-semibold backdrop-blur-md"
+                          animate={{
+                            borderColor: active ? `${voice.colors[0]}55` : "rgba(231,229,228,0.8)",
+                            color: active ? voice.colors[1] : "#57534e",
+                          }}
+                        >
+                          {voice.label}
+                        </motion.span>
+                      </motion.button>
+                    );
+                  })}
 
-                  <AliveShaderOrb
-                    colors={activeVoice.colors}
-                    isPlaying={isPlaying}
-                    onClick={togglePlay}
-                  />
+                  <motion.div
+                    key={activeVoice.id}
+                    initial={{ opacity: 0.45, scale: 0.88, filter: "blur(16px)" }}
+                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                    transition={{ duration: 0.55, ease: easeOut }}
+                  >
+                    <AliveShaderOrb
+                      voiceId={activeVoice.id}
+                      colors={activeVoice.colors}
+                      isPlaying={isPlaying}
+                      onClick={togglePlay}
+                    />
+                  </motion.div>
                 </div>
 
-                {/* Sağ: Waveform */}
-                <div className="w-24 flex items-center justify-center pr-10">
+                <div className="hidden w-24 items-center justify-center pr-10 sm:flex">
                   <WaveformVisualizer
                     analyser={analyserNode}
                     isPlaying={isPlaying}
-                    color={primaryColor}
+                    color={primary}
                   />
                 </div>
               </motion.div>
             ) : (
               <motion.div
-                key="tab-view"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="flex-1 p-8 overflow-y-auto"
+                key="tab"
+                initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -16, filter: "blur(8px)" }}
+                transition={{ duration: 0.35, ease: easeOut }}
+                className="flex-1 overflow-y-auto p-8"
               >
-                <div className="w-full h-full bg-[#faf6f0]/60 backdrop-blur-xl border border-[#e8e0d5]/50 rounded-3xl p-8 shadow-inner">
-                  <h2 className="text-2xl font-bold text-[#2d2a26] mb-4">
-                    {activeView}
-                  </h2>
-                  <p className="text-[#8a8278] mb-8">
-                    Bu alan, alt menüden seçtiğiniz taba aittir.
-                  </p>
-                  <div className="w-full h-64 border-2 border-dashed border-[#e8e0d5] rounded-2xl flex items-center justify-center text-[#a8a095]">
-                    Sizin componentiniz buraya gelecek...
-                  </div>
+                <div className="h-full rounded-3xl border border-stone-200 bg-stone-50/70 p-8">
+                  <h2 className="mb-3 text-2xl font-bold text-stone-900">{activeView}</h2>
+                  <p className="mb-8 text-stone-500">Bu alan seçilen taba aittir.</p>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Bottom Info & Controls */}
         {activeView === "library" && (
-          <div className="flex flex-col items-center pb-6 z-10 px-8">
-            <h2 className="text-lg font-bold text-[#2d2a26] mb-1 tracking-tight">
-              {activeVoice.title}
-            </h2>
-            <p className="text-[#8a8278] text-sm max-w-lg text-center mb-5 leading-relaxed">
-              {activeVoice.desc}
-            </p>
+          <div className="z-10 flex flex-col items-center px-8 pb-6">
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={activeVoice.title}
+                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+                transition={{ duration: 0.35, ease: easeOut }}
+                className="mb-1 text-lg font-bold tracking-tight text-stone-900"
+              >
+                {activeVoice.title}
+              </motion.h2>
+            </AnimatePresence>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeVoice.desc}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.32, ease: easeOut }}
+                className="mb-5 max-w-lg text-center text-sm leading-relaxed text-stone-500"
+              >
+                {activeVoice.desc}
+              </motion.p>
+            </AnimatePresence>
 
-            {/* Progress */}
-            <div className="w-full max-w-sm flex items-center gap-3 mb-5">
-              <Clock className="size-3.5 text-[#a8a095]" />
-              <span className="text-[11px] text-[#a8a095] w-10 text-right tabular-nums">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.5, ease: easeOut }}
+              className="mb-5 flex w-full max-w-sm items-center gap-3"
+            >
+              <Clock className="size-3.5 text-stone-400" />
+              <span className="w-10 text-right text-[11px] tabular-nums text-stone-400">
                 {formatTime((progress / 100) * duration)}
               </span>
               <RangeSlider
                 value={progress}
                 min={0}
                 max={100}
-                onChange={handleSeek}
-                accentColor={primaryColor}
+                accentColor={primary}
+                onChange={(e) => {
+                  const audio = audioRef.current;
+                  const v = parseFloat(e.target.value);
+                  if (audio && duration) audio.currentTime = (v / 100) * duration;
+                  setProgress(v);
+                }}
               />
-              <span className="text-[11px] text-[#a8a095] w-10 tabular-nums">
+              <span className="w-10 text-[11px] tabular-nums text-stone-400">
                 {formatTime(duration)}
               </span>
-            </div>
+            </motion.div>
 
-            {/* Tone */}
-            <div className="flex items-center gap-4 text-[11px] text-[#a8a095] font-medium w-full max-w-sm">
-              <Volume2 className="size-3.5 text-[#a8a095]" />
-              <span className="whitespace-nowrap">Warm</span>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.42, duration: 0.5, ease: easeOut }}
+              className="flex w-full max-w-sm items-center gap-4 text-[11px] font-medium text-stone-400"
+            >
+              <Volume2 className="size-3.5" />
+              <span>Warm</span>
               <RangeSlider
                 value={tone}
                 min={0}
                 max={100}
-                onChange={handleToneChange}
-                accentColor={primaryColor}
+                accentColor={primary}
+                onChange={(e) => setTone(parseInt(e.target.value, 10))}
               />
-              <span className="whitespace-nowrap">Bright</span>
-            </div>
+              <span>Bright</span>
+            </motion.div>
           </div>
         )}
-
-        {/* Bottom Tabs */}
-        {/* <div className="border-t border-[#e8e0d5]/60 bg-[#faf6f0]/40 backdrop-blur-xl px-6 py-3">
-          <div className="flex items-center justify-center gap-1">
-            {BOTTOM_TABS.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeView === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveView(tab.id)}
-                  className={`
-                    relative flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-medium transition-all duration-300
-                    ${isActive
-                      ? "bg-white text-[#2d2a26] shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-[#e8e0d5]/50"
-                      : "text-[#a8a095] hover:text-[#5c5548] hover:bg-white/40"
-                    }
-                  `}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTabIndicator"
-                      className="absolute inset-0 rounded-xl border border-[#e8e0d5]/60 bg-white shadow-sm"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10 flex items-center gap-2">
-                    <Icon className="size-4" strokeWidth={isActive ? 2.5 : 1.5} />
-                    {tab.id}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div> */}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
+}
+
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext;
+  }
 }

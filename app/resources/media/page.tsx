@@ -22,6 +22,7 @@ import {
   Globe,
   ArrowUpRight,
   CheckCircle2,
+  ChevronDown,
 } from "lucide-react";
 import { IconBrandInstagram, IconBrandX, IconBrandYoutube } from "@tabler/icons-react";
 import { Header } from "../../../components/layout/Header";
@@ -448,9 +449,112 @@ function HeroVideo() {
   );
 }
 
+// --- 1. TİP TANIMI ---
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+// --- 2. MEDYA SAYFASI İÇİN SORULAR ---
+const MEDIA_FAQS: FaqItem[] = [
+  {
+    question: "Ses sanatçıları ve aktörler için gelir paylaşımı nasıl çalışıyor?",
+    answer:
+      "Miralas ekosisteminde sesinizi lisansladığınızda, modelinizin kullanıldığı her üretimden pay alırsınız. Şeffaf panel üzerinden kullanım istatistiklerini ve gelirinizi anlık takip edebilirsiniz.",
+  },
+  {
+    question: "Ses haklarımı ve teliflerimi nasıl koruyorsunuz?",
+    answer:
+      "Tüm ses modelleri ticari lisans sözleşmeleri ile hukuki güvence altına alınır. Sesinizin yetkisiz kullanımını engellemek için izinsiz klonlama koruması ve filigran (watermark) teknolojisi kullanıyoruz.",
+  },
+  {
+    question: "Kendi ses modelimi eğitmek için nasıl bir stüdyo kaydı gerekiyor?",
+    answer:
+      "Yüksek kalitede sonuç için en az 15-30 dakikalık, arkada gürültü bulunmayan (dry recording) profesyonel stüdyo kaydı yeterlidir. Ekibimiz veri setinizi hazırlamanızda destek olur.",
+  },
+  {
+    question: "Medya, basın veya ajanslar için Miralas marka materyallerine nasıl erişirim?",
+    answer:
+      "Logolarımız, renk paletimiz ve kurumsal kimlik rehberimizi içeren Media Kit dosyamıza doğrudan iletişim kurarak veya basın sayfamızdan ulaşabilirsiniz.",
+  },
+];
+
+// --- 3. GÖRSELDEKİ GİBİ MİNİMALİST AKORDEON BİLEŞENİ ---
+function FaqAccordionItem({
+  item,
+  isOpen,
+  onToggle,
+  index,
+}: {
+  item: FaqItem;
+  isOpen: boolean;
+  onToggle: () => void;
+  index: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ delay: index * 0.04, duration: 0.45, ease: "easeOut" }}
+      className={cn(
+        "transition-all duration-200",
+        isOpen
+          ? "rounded-xl border-2 border-stone-50 bg-white p-1 shadow-sm"
+          : "border-b border-dotted border-stone-300 py-2 hover:border-stone-400"
+      )}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        className={cn(
+          "flex w-full items-center justify-between gap-4 text-left transition-colors",
+          isOpen ? "px-5 py-4" : "py-3 px-1"
+        )}
+      >
+        <span
+          className={cn(
+            "text-base font-normal transition-colors sm:text-[17px]",
+            isOpen ? "text-stone-900 font-medium" : "text-stone-900 "
+          )}
+        >
+          {item.question}
+        </span>
+
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="flex shrink-0 items-center justify-center text-stone-400"
+        >
+          <ChevronDown className="size-4" strokeWidth={1.5} />
+        </motion.span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5 pt-1">
+              <p className="text-[14px] leading-relaxed text-stone-600 sm:text-[15px]">
+                {item.answer}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 // ─── MAIN PAGE ───
 export default function MediaPage() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const filters = ["All", "Voice Artist", "Actor & Dubbing", "Content Creator"];
 
@@ -465,15 +569,13 @@ export default function MediaPage() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
+      {/* Arka plan saf beyaz ve temiz stone tonlarına çekildi */}
+      <div className="min-h-screen bg-white text-stone-900 font-sans selection:bg-stone-200">
         {/* Header */}
         <Header variant="light" />
 
         {/* Hero Video */}
         <HeroVideo />
-
-        {/* Marquee */}
-        {/* <Marquee items={PRESS_LOGOS} speed={40} /> */}
 
         {/* Creators Section */}
         <section id="creators" className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
@@ -485,14 +587,14 @@ export default function MediaPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278] mb-4">
-              <Mic2 className="size-3" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-500 mb-4">
+              <Mic2 className="size-3 text-stone-400" />
               Featured Creators
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#2d2a26] mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-stone-900 mb-3">
               The people behind the voices
             </h2>
-            <p className="text-base text-[#8a8278] max-w-lg mx-auto leading-relaxed">
+            <p className="text-base text-stone-500 max-w-lg mx-auto leading-relaxed">
               Uzbek voice artists, actors, and content creators using Miralas to reach millions.
               Follow their journey.
             </p>
@@ -513,8 +615,8 @@ export default function MediaPage() {
                 className={cn(
                   "rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200",
                   activeFilter === filter
-                    ? "bg-[#2d2a26] text-white shadow-sm"
-                    : "bg-white border border-[#e8e0d5] text-[#5c5548] hover:border-[#c9a87c]/40 hover:text-[#2d2a26]"
+                    ? "bg-stone-900 text-white shadow-sm"
+                    : "bg-stone-50 border border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900"
                 )}
               >
                 {filter}
@@ -537,21 +639,20 @@ export default function MediaPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mt-20 rounded-3xl border border-[#e8e0d5]/60 bg-white p-8 sm:p-10 text-center relative overflow-hidden"
+            className="mt-20 rounded-3xl border border-stone-200 bg-stone-50/50 p-8 sm:p-10 text-center relative overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/50 to-transparent" />
             <div className="relative z-10">
-              <Mic2 className="size-6 text-[#c9a87c] mx-auto mb-4" strokeWidth={1.5} />
-              <h3 className="text-xl font-bold text-[#2d2a26] mb-2">
+              <Mic2 className="size-6 text-stone-700 mx-auto mb-4" strokeWidth={1.5} />
+              <h3 className="text-xl font-bold text-stone-900 mb-2">
                 Are you a voice artist or creator?
               </h3>
-              <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6">
+              <p className="text-sm text-stone-500 max-w-md mx-auto mb-6">
                 Join our creator program. Get early access to new voices, revenue share, and featured placement.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a
                   href="mailto:creators@miransas.com"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-sm font-semibold text-white hover:bg-stone-800 transition-colors shadow-sm"
                 >
                   <MessageSquare className="size-4" />
                   Apply to Join
@@ -560,7 +661,7 @@ export default function MediaPage() {
                   href="https://instagram.com/miransaas"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-6 py-3 text-sm font-medium text-stone-700 hover:bg-stone-100 transition-colors"
                 >
                   <IconBrandInstagram className="size-4" />
                   Follow on Instagram
@@ -570,6 +671,34 @@ export default function MediaPage() {
           </motion.div>
         </section>
 
+        {/* FAQ Section Eklendi */}
+       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-20 px-14 py-12 ">
+          
+          <div className="flex flex-col lg:sticky lg:top-28 lg:col-span-5">
+            <span className="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
+              Creators & Media FAQ
+            </span>
+            <h2 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+              Partnering with<br />our creators
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-stone-500">
+              Ses sanatçıları, ajanslar ve içerik üreticileri için Miralas iş birliği, lisanslama ve telif detayları.
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col gap-1 lg:col-span-7">
+            {MEDIA_FAQS.map((faq, i) => (
+              <FaqAccordionItem
+                key={faq.question}
+                item={faq}
+                index={i}
+                isOpen={openIndex === i}
+                onToggle={() => setOpenIndex((current) => (current === i ? null : i))}
+              />
+            ))}
+          </div>
+
+        </div>
         {/* Footer */}
         <Footer />
 

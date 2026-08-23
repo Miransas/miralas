@@ -30,6 +30,7 @@ type NavItem = {
   items?: SubItem[];
 };
 
+// Numaralandırılmış rotalar ve linkler birebir aynı tutuldu.
 const navItems: NavItem[] = [
   {
     label: "Resources",
@@ -73,7 +74,6 @@ const navItems: NavItem[] = [
     href: "/studio",
     description: "Create, clone and generate.",
     items: [
-
       {
         label: "Text to Speech",
         href: "/studio/tts",
@@ -91,7 +91,6 @@ const navItems: NavItem[] = [
       },
     ],
   },
-
   {
     label: "Products",
     href: "/products",
@@ -129,31 +128,19 @@ const navItems: NavItem[] = [
         href: "https://privacy.miransas.com/miralas/cookie",
         description: "Support for enterprise teams.",
       },
-      
     ],
   },
-
   {
     label: "Solutions",
     href: "/solutions",
     description: "Voice AI for real-world workflows.",
-    // comming sonn items 
+    // coming soon items 
   },
-
-  // {
-  //   label: "Customers",
-  //   href: "/customers",
-  //   comming sonn items 
-  // },
-
-
-
   {
     label: "Pricing",
     href: "/pricing",
   },
 ];
-
 
 const LIGHT_PAGES = ["/studio", "/blog", "/docs", "/guides"];
 
@@ -183,9 +170,6 @@ export function Header({ variant }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
 
-  /*
-   * Scroll state
-   */
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 12);
@@ -202,18 +186,12 @@ export function Header({ variant }: HeaderProps) {
     };
   }, []);
 
-  /*
-   * Close desktop menu after route change
-   */
   useEffect(() => {
     setDesktopOpen(null);
     setMobileOpen(false);
     setMobileSection(null);
   }, [pathname]);
 
-  /*
-   * Escape closes everything
-   */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
@@ -230,9 +208,6 @@ export function Header({ variant }: HeaderProps) {
     };
   }, []);
 
-  /*
-   * Prevent body scroll when mobile menu is open
-   */
   useEffect(() => {
     if (!mobileOpen) return;
 
@@ -245,9 +220,6 @@ export function Header({ variant }: HeaderProps) {
     };
   }, [mobileOpen]);
 
-  /*
-   * Helpers
-   */
   const isPathActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -281,23 +253,20 @@ export function Header({ variant }: HeaderProps) {
     shellBg:
       scrolled || desktopOpen || mobileOpen
         ? isDark
-          ? "bg-zinc-950/75"
-          : "bg-white/80"
+          ? "bg-zinc-950/85"
+          : "bg-white/85"
         : "bg-transparent",
     shellShadow:
       scrolled || desktopOpen || mobileOpen
         ? "shadow-[0_18px_60px_-36px_rgba(24,24,27,0.7)]"
         : "",
 
-    /* text */
     textPrimary: isDark ? "text-white" : "text-zinc-950",
     textSecondary: isDark ? "text-zinc-400" : "text-zinc-600",
     textMuted: isDark ? "text-zinc-500" : "text-zinc-500",
 
-    /* hover text */
     hoverText: isDark ? "hover:text-white" : "hover:text-zinc-950",
 
-    /* bg */
     bgPrimary: isDark ? "bg-zinc-950" : "bg-white",
     bgSecondary: isDark ? "bg-white/5" : "bg-zinc-50",
     bgHover: isDark ? "hover:bg-white/10" : "hover:bg-zinc-100",
@@ -305,11 +274,9 @@ export function Header({ variant }: HeaderProps) {
     bgActive: isDark ? "bg-white/10" : "bg-zinc-100",
     bgActiveBox: isDark ? "bg-white/10" : "bg-white",
 
-    /* border */
     borderPrimary: isDark ? "border-white/10" : "border-zinc-200",
     borderSecondary: isDark ? "border-white/15" : "border-zinc-300",
 
-    /* button */
     btnGhost: isDark
       ? "text-zinc-300 hover:bg-white/10 hover:text-white"
       : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950",
@@ -320,16 +287,13 @@ export function Header({ variant }: HeaderProps) {
       ? "border-white/10 text-zinc-300 hover:bg-white/5"
       : "border-zinc-200 text-zinc-700 hover:bg-zinc-100",
 
-    /* dropdown */
     dropdownBg: isDark ? "bg-zinc-950/95" : "bg-white/95",
     dropdownBorder: isDark ? "border-white/10" : "border-zinc-200/80",
     dropdownShadow: "shadow-[0_24px_80px_-30px_rgba(0,0,0,0.35)]",
 
-    /* mobile menu bg */
     mobileBg: isDark ? "bg-zinc-950/95" : "bg-white/95",
     mobileBorder: isDark ? "border-white/10" : "border-zinc-200/80",
 
-    /* icon box */
     iconBoxBorder: isDark ? "border-white/10" : "border-zinc-200",
     iconBoxBg: isDark ? "bg-white/5" : "bg-zinc-50",
     iconBoxText: isDark ? "text-zinc-400" : "text-zinc-500",
@@ -337,7 +301,6 @@ export function Header({ variant }: HeaderProps) {
     iconBoxActiveBg: isDark ? "bg-white/10" : "bg-white",
     iconBoxActiveText: isDark ? "text-white" : "text-zinc-950",
 
-    /* featured card */
     featuredBg: isDark ? "bg-white" : "bg-zinc-950",
     featuredText: isDark ? "text-zinc-950" : "text-white",
     featuredMuted: isDark ? "text-zinc-600" : "text-zinc-400",
@@ -345,22 +308,26 @@ export function Header({ variant }: HeaderProps) {
     featuredIconBg: isDark ? "bg-zinc-950/10" : "bg-white/10",
     featuredIconText: isDark ? "text-zinc-950" : "text-white",
 
-    /* logo */
     logoBg: isDark ? "bg-white" : "bg-zinc-950",
     logoText: isDark ? "text-zinc-950" : "text-white",
   };
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 px-3 py-3 sm:px-6">
-        <div
-          className={cn(
-            "mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl px-4 transition-all duration-300 backdrop-blur-xl",
-            t.shellBorder,
-            t.shellBg,
-            t.shellShadow,
-          )}
-        >
+      {/* 
+        Artık dış boşlukları olmayan (inset-x-0, top-0) ve border-b (alt çizgi) destekli 
+        tam sayfa genişliğinde (w-full) yapışkan header.
+      */}
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 backdrop-blur-xl",
+          t.shellBorder,
+          t.shellBg,
+          t.shellShadow
+        )}
+      >
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+          
           {/* =========================================================
               LOGO
           ========================================================= */}
@@ -426,7 +393,6 @@ export function Header({ variant }: HeaderProps) {
                     setDesktopOpen(null);
                   }}
                 >
-                  {/* Main nav button/link */}
                   <Link
                     href={item.href}
                     onClick={(event) => {
@@ -497,7 +463,7 @@ export function Header({ variant }: HeaderProps) {
                           duration: 0.18,
                           ease: [0.22, 1, 0.36, 1],
                         }}
-                        className="absolute left-1/2 top-full z-50 w-[350px] -translate-x-1/2 pt-3"
+                        className="absolute left-1/2 top-full z-50 w-[350px] -translate-x-1/2 pt-4"
                       >
                         <div
                           className={cn(
@@ -734,10 +700,12 @@ export function Header({ variant }: HeaderProps) {
             </AnimatePresence>
           </button>
         </div>
+      </header>
 
-        {/* ===========================================================
-            MOBILE MENU
-        =========================================================== */}
+      {/* ===========================================================
+          MOBILE MENU
+      =========================================================== */}
+      <div className="fixed inset-x-0 top-[64px] z-40 mx-4">
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
@@ -761,14 +729,13 @@ export function Header({ variant }: HeaderProps) {
                 ease: [0.22, 1, 0.36, 1],
               }}
               className={cn(
-                "mt-2 overflow-hidden rounded-[24px] p-2 backdrop-blur-2xl lg:hidden",
+                "mt-4 overflow-hidden rounded-[24px] p-2 backdrop-blur-2xl lg:hidden",
                 t.mobileBg,
                 t.mobileBorder,
-                "shadow-[0_24px_90px_-35px_rgba(0,0,0,0.35)]",
+                "border shadow-[0_24px_90px_-35px_rgba(0,0,0,0.35)]",
               )}
             >
-              <div className="max-h-[calc(100dvh-110px)] overflow-y-auto">
-                {/* Mobile main navigation */}
+              <div className="max-h-[calc(100dvh-120px)] overflow-y-auto">
                 <div className="space-y-1">
                   {navItems.map((item) => {
                     const hasChildren = Boolean(item.items?.length);
@@ -784,7 +751,6 @@ export function Header({ variant }: HeaderProps) {
                             active ? t.bgActive : t.bgHoverLight,
                           )}
                         >
-                          {/* Main link */}
                           <Link
                             href={item.href}
                             onClick={() => {
@@ -815,7 +781,6 @@ export function Header({ variant }: HeaderProps) {
                             </span>
                           </Link>
 
-                          {/* Expand button */}
                           {hasChildren && (
                             <button
                               type="button"
@@ -847,7 +812,6 @@ export function Header({ variant }: HeaderProps) {
                           )}
                         </div>
 
-                        {/* Mobile children */}
                         <AnimatePresence initial={false}>
                           {hasChildren && expanded && (
                             <motion.div
@@ -946,7 +910,6 @@ export function Header({ variant }: HeaderProps) {
                   })}
                 </div>
 
-                {/* Mobile footer actions */}
                 <div
                   className={cn(
                     "mt-2 border-t px-2 pt-3",
@@ -977,7 +940,6 @@ export function Header({ variant }: HeaderProps) {
                     </Link>
                   </div>
 
-                  {/* Featured Studio */}
                   <Link
                     href="/studio"
                     onClick={handleMobileLink}
@@ -1045,7 +1007,7 @@ export function Header({ variant }: HeaderProps) {
             </motion.div>
           )}
         </AnimatePresence>
-      </header>
+      </div>
     </>
   );
 }

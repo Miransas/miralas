@@ -62,7 +62,7 @@ export default function FeaturesBento() {
   ];
 
   return (
-    <section className="bg-[#0a0a0c] text-white py-24 px-6 md:px-12 font-sans">
+    <section className="bg-white py-24 px-6 font-sans text-zinc-900 transition-colors duration-300 dark:bg-[#0A0A0A] dark:text-zinc-50 md:px-12">
       <div className="max-w-7xl mx-auto">
         {/* Üst Kısım */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -76,7 +76,7 @@ export default function FeaturesBento() {
           </div>
           <Link
             href="/features"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 text-sm font-medium hover:bg-white/5 transition-colors duration-200 whitespace-nowrap group shrink-0"
+            className="group flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-zinc-200 bg-zinc-50 px-5 py-2.5 text-sm font-medium text-zinc-900 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-100 dark:border-white/5 dark:bg-white/5 dark:text-zinc-50 dark:hover:border-white/10 dark:hover:bg-[#212121]"
           >
             Explore all features
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -84,14 +84,15 @@ export default function FeaturesBento() {
         </div>
 
         {/* Bento Grid */}
-        <div className="border border-white/[0.06] rounded-2xl overflow-hidden bg-white/[0.02] flex flex-col md:grid md:grid-cols-3 gap-px">
+        <div className="flex flex-col gap-px overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-white/5 dark:bg-white/5 md:grid md:grid-cols-3">
           {cards.map((card) => (
             <div
               key={card.id}
               className={`
                 ${card.colSpan}
-                bg-[#0a0a0c] p-8 group relative transition-all duration-300
-                hover:bg-[#111014] flex flex-col justify-between min-h-[240px]
+                bg-white p-8 group relative flex min-h-[240px] flex-col justify-between transition-all duration-300
+                hover:bg-zinc-50/50 dark:bg-[#0A0A0A]
+                dark:hover:bg-[#212121]
                 cursor-pointer
               `}
             >
@@ -113,7 +114,7 @@ export default function FeaturesBento() {
 
                   {/* Icon + Arrow */}
                   <div className="flex items-center justify-between mt-6">
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-white/5 text-neutral-500 group-hover:text-white group-hover:bg-white/10 transition-all duration-300">
+                    <div className="flex size-9 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-500 transition-all duration-300 group-hover:border-zinc-300 group-hover:bg-zinc-100 group-hover:text-zinc-900 dark:border-white/5 dark:bg-white/5 dark:text-zinc-400 dark:group-hover:border-white/10 dark:group-hover:bg-[#212121] dark:group-hover:text-zinc-50">
                       {card.icon && <card.icon className="size-4" />}
                     </div>
                     <ArrowUpRight className="w-4 h-4 text-neutral-700 transition-all duration-300 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1" />
@@ -138,7 +139,7 @@ export default function FeaturesBento() {
                     {["Node", "Python", "Go", "Rust"].map((lang) => (
                       <span
                         key={lang}
-                        className="rounded-md bg-white/5 px-2 py-1 text-[10px] font-medium text-neutral-400 border border-white/5"
+                        className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-[10px] font-medium text-zinc-500 dark:border-white/5 dark:bg-white/5 dark:text-zinc-400"
                       >
                         {lang}
                       </span>

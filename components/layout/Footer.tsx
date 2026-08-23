@@ -10,6 +10,7 @@ import {
   IconBrandX,
   type TablerIcon,
 } from "@tabler/icons-react";
+import { TextHoverEffect } from "./texthoverEffect";
 
 // ─── TIP TANIMLAMALARI ────────────────────────────────────────────────────────
 type FooterLink = {
@@ -153,50 +154,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative w-full bg-[#0a0a0c] font-sans overflow-hidden">
-
-      <div
-        className="relative w-full min-h-[420px] flex flex-col justify-end pb-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, #4a0e2e 0%, #1a0b1a 35%, #0a0a0c 70%)",
-        }}
-      >
-        {/* Ekstra glow layer */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 40% at 50% 10%, rgba(236,72,153,0.15) 0%, transparent 60%)",
-          }}
-        />
-
-        {/* Yatay cizgi */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-pink-500/30 to-transparent" />
-
-        {/* Dev yazı */}
-        <div className="w-full flex justify-center items-end relative z-10 translate-y-10 sm:translate-y-14">
-          <h1
-            className="text-[16vw] sm:text-[14vw] leading-[0.8] font-black tracking-tighter text-transparent bg-clip-text select-none pointer-events-none"
-            style={{
-              backgroundImage:
-                "linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 40%, rgba(10,10,12,0) 100%)",
-            }}
-          >
-            Miransas
-          </h1>
-        </div>
-      </div>
-
-      {/* ================================================
-          ALT KISIM: Newsletter + Linkler
-          ================================================ */}
-      <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-10 bg-[#0a0a0c]">
+    <footer className="relative w-full bg-[#0a0a0a] overflow-hidden">
+      <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-10 bg-background">
         <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-24 mb-16">
           {/* Sol: Newsletter */}
           <div className="flex-1 lg:max-w-md">
             <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="flex size-9 items-center justify-center rounded-xl bg-white text-[#0a0a0c]">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-white text-background">
                <img src="/logo.png" alt="" />
               </div>
               <span className="text-xl font-semibold text-white tracking-tight">
@@ -204,7 +168,7 @@ export default function Footer() {
               </span>
             </Link>
 
-            <p className="text-sm text-neutral-400 mb-2 leading-relaxed">
+            <p className="text-sm text-stone-400 mb-2 leading-relaxed">
               Subscribe to our newsletter for the latest updates on voice AI,
               new features, and developer tips.
             </p>
@@ -246,7 +210,7 @@ export default function Footer() {
                         className="flex items-center gap-2 hover:text-neutral-200 transition-colors group"
                       >
                         {link.icon && (
-                          <link.icon className="w-4 h-4 text-neutral-600 group-hover:text-neutral-300 transition-colors" />
+                          <link.icon className="w-4 h-4 text-stone-400 group-hover:text-neutral-300 transition-colors" />
                         )}
                         <span>{link.label}</span>
                       </Link>
@@ -265,6 +229,7 @@ export default function Footer() {
           </p>
         
         </div>
+        <TextHoverEffect text="MIRANSAS" />
       </div>
     </footer>
   );

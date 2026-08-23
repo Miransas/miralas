@@ -149,10 +149,10 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "relative flex flex-col rounded-3xl border p-7 sm:p-8 transition-all duration-500",
+        "relative flex flex-col rounded-3xl border p-7 sm:p-8 transition-all duration-300 ease-in-out",
         plan.highlighted
-          ? "border-blue-500/30 bg-[#0d1117] shadow-2xl shadow-blue-500/10 scale-[1.02]"
-          : "border-white/[0.06] bg-[#0a0a0c] hover:border-white/10 hover:shadow-xl hover:shadow-white/5",
+          ? "border-zinc-300 bg-zinc-50 shadow-md dark:border-white/10 dark:bg-[#212121] dark:shadow-none"
+          : "border-zinc-200 bg-white shadow-sm hover:border-zinc-300 hover:bg-zinc-50/50 hover:shadow-md dark:border-white/5 dark:bg-[#0A0A0A] dark:shadow-none dark:hover:border-white/10 dark:hover:bg-[#212121]",
       )}
     >
       {/* Glow for highlighted */}
@@ -261,7 +261,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
 export default function PricingPage() {
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#0a0a0c] text-white">
+      <div className="min-h-screen bg-white text-zinc-900 transition-colors duration-300 dark:bg-[#0A0A0A] dark:text-zinc-50">
         <Header variant="dark" />
         {/* ===================== HERO ===================== */}
         <section className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-20">

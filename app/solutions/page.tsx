@@ -164,7 +164,7 @@ function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
       </div>
 
       {/* Card content */}
-      <div className="relative flex-1 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 md:w-[calc(50%-2rem)] md:flex-initial transition-all duration-300 group-hover:border-neutral-300 group-hover:dark:border-neutral-700 group-hover:-translate-y-1 group-hover:shadow-lg dark:group-hover:shadow-[0_4px_24px_-4px_rgba(255,255,255,0.05)]">
+      <div className="relative flex-1 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:border-zinc-300 group-hover:bg-zinc-50/50 group-hover:shadow-md dark:border-white/5 dark:bg-[#0A0A0A] dark:shadow-none dark:group-hover:border-white/10 dark:group-hover:bg-[#212121] dark:group-hover:shadow-none md:w-[calc(50%-2rem)] md:flex-initial">
         {/* Top bar: icon and badge */}
         <div className="flex items-center justify-between gap-4 mb-5">
           <div className="flex items-center gap-3">

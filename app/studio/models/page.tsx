@@ -43,9 +43,9 @@ const MODELS = [
       "Reduced hallucination vs V2",
       "PerTh watermarking on every output",
     ],
-    color: "#c9a87c",
-    gradient: "from-[#c9a87c]/20 via-[#a89060]/10 to-transparent",
-    border: "border-[#c9a87c]/30",
+    // color: "#c9a87c",
+    // gradient: "from-[#c9a87c]/20 via-[#a89060]/10 to-transparent",
+    // border: "border-[#c9a87c]/30",
   },
   {
     id: "chatterbox-turbo",
@@ -61,9 +61,9 @@ const MODELS = [
       "6× real-time inference on GPU",
       "Emotion exaggeration control",
     ],
-    color: "#0ea5e9",
-    gradient: "from-[#0ea5e9]/20 via-[#0284c7]/10 to-transparent",
-    border: "border-[#0ea5e9]/30",
+    // color: "#0ea5e9",
+    // gradient: "from-[#0ea5e9]/20 via-[#0284c7]/10 to-transparent",
+    // border: "border-[#0ea5e9]/30",
   },
   {
     id: "miralas-custom",
@@ -79,9 +79,9 @@ const MODELS = [
       "Dialect-aware tokenizer",
       "Regional accent preservation",
     ],
-    color: "#10b981",
-    gradient: "from-[#10b981]/20 via-[#059669]/10 to-transparent",
-    border: "border-[#10b981]/30",
+    // color: "#10b981",
+    // gradient: "from-[#10b981]/20 via-[#059669]/10 to-transparent",
+    // border: "border-[#10b981]/30",
   },
 ];
 
@@ -131,26 +131,18 @@ function ModelCard({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "group relative rounded-3xl border bg-[#111111]/80 backdrop-blur-xl p-7 sm:p-8 transition-all duration-500 hover:bg-[#161616]",
-        model.border,
+        "group relative rounded-3xl border bg-background backdrop-blur-xl p-7 sm:p-8 transition-all duration-500 hover:bg-[#161616]",
+       
         "hover:shadow-[0_0_60px_-12px_rgba(255,255,255,0.06)]"
       )}
     >
-      {/* Glow */}
-      <div
-        className={cn(
-          "absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-xl",
-          model.gradient
-        )}
-        style={{ background: `radial-gradient(circle at 50% 0%, ${model.color}15, transparent 70%)` }}
-      />
-
+    
       <div className="relative z-10">
         {/* Badge */}
         <div className="mb-5 flex items-center gap-3">
           <span
             className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white"
-            style={{ backgroundColor: `${model.color}22`, color: model.color, border: `1px solid ${model.color}33` }}
+            style={{ backgroundColor: `$`,  border: "border" }}
           >
             {model.badge}
           </span>
@@ -185,7 +177,7 @@ function ModelCard({
             <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-300">
               <span
                 className="mt-1.5 size-1.5 rounded-full shrink-0"
-                style={{ backgroundColor: model.color }}
+                style={{ backgroundColor: "" }}
               />
               {feat}
             </li>
@@ -260,10 +252,10 @@ export default function ModelPage() {
       <div className="min-h-screen bg-[#0a0a0a] text-white ">
         <Header variant="dark" />
         {/* Ambient background */}
-        <div className="fixed inset-0 pointer-events-none">
+        {/* <div className="fixed inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[#c9a87c]/[0.03] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full bg-[#0ea5e9]/[0.02] blur-[100px]" />
-        </div>
+        </div> */}
 
         <div className="relative z-10">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">

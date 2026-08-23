@@ -4,7 +4,6 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft,
   Search,
   Zap,
   CreditCard,
@@ -19,12 +18,8 @@ import {
   FileText,
   CheckCircle2,
   Clock,
-  Globe,
-  Volume2,
-  KeyRound,
-  AlertCircle,
   TrendingUp,
-  Sparkles,
+  AlertCircle,
 } from "lucide-react";
 import Footer from "../../../components/layout/Footer";
 import { Header } from "../../../components/layout/Header";
@@ -122,7 +117,6 @@ const CATEGORIES = [
   },
 ];
 
-// ─── POPULAR ARTICLES (flat list for search) ───
 const ALL_ARTICLES = CATEGORIES.flatMap((cat) =>
   cat.articles.map((title) => ({ title, category: cat.title, catId: cat.id, color: cat.color }))
 );
@@ -135,7 +129,6 @@ const POPULAR = [
   { title: "Audio is choppy or distorted", category: "Troubleshooting", catId: "troubleshooting", color: "#78716c" },
 ];
 
-// ─── FAQ DATA ───
 const FAQS = [
   {
     q: "What is Miralas TTS?",
@@ -168,17 +161,17 @@ const FAQS = [
 function SearchBar({ query, setQuery }: { query: string; setQuery: (s: string) => void }) {
   return (
     <div className="relative max-w-xl mx-auto">
-      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[#a8a095] pointer-events-none" />
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[#8a8278] pointer-events-none" />
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for answers, topics, or keywords..."
-        className="w-full h-12 rounded-full bg-white border border-[#e8e0d5] pl-11 pr-4 text-sm text-[#2d2a26] outline-none focus:border-[#c9a87c] focus:ring-1 focus:ring-[#c9a87c]/20 transition-all placeholder:text-[#a8a095] shadow-sm"
+        className="w-full h-13 rounded-full border border-[#e8e0d5] bg-white pl-11 pr-16 text-sm text-[#2d2a26] shadow-sm outline-none transition-all placeholder:text-[#a8a095] focus:border-[#c9a87c] focus:ring-2 focus:ring-[#c9a87c]/20"
       />
       {query && (
         <button
           onClick={() => setQuery("")}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#a8a095] hover:text-[#2d2a26] text-xs"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-[#8a8278] hover:text-[#2d2a26] bg-[#faf6f0] px-2.5 py-1 rounded-full transition-colors"
         >
           Clear
         </button>
@@ -196,28 +189,28 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
-      className="group rounded-2xl border border-[#e8e0d5]/60 bg-white overflow-hidden hover:border-[#c9a87c]/30 hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.06)] transition-all duration-300"
+      transition={{ delay: index * 0.04, duration: 0.4 }}
+      className="group overflow-hidden rounded-2xl border border-[#e8e0d5]/80 bg-white shadow-sm transition-all duration-300 hover:border-[#c9a87c]/40 hover:shadow-md"
     >
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center gap-4 p-5 text-left"
       >
         <div
-          className="flex size-10 shrink-0 items-center justify-center rounded-xl border transition-colors"
+          className="flex size-11 shrink-0 items-center justify-center rounded-xl border transition-colors"
           style={{
             backgroundColor: `${cat.color}10`,
-            borderColor: `${cat.color}20`,
+            borderColor: `${cat.color}25`,
             color: cat.color,
           }}
         >
-          <Icon className="size-5" strokeWidth={1.5} />
+          <Icon className="size-5" strokeWidth={1.8} />
         </div>
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold text-[#2d2a26] group-hover:text-[#c9a87c] transition-colors">
             {cat.title}
           </h3>
-          <p className="text-xs text-[#a8a095] mt-0.5">{cat.desc}</p>
+          <p className="text-xs text-[#8a8278] mt-0.5">{cat.desc}</p>
         </div>
         <motion.span
           animate={{ rotate: expanded ? 90 : 0 }}
@@ -238,13 +231,13 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 pt-0">
-              <div className="h-px bg-[#e8e0d5]/40 mb-3" />
+              <div className="mb-3 h-px bg-[#e8e0d5]/60" />
               <ul className="space-y-1">
                 {cat.articles.map((article) => (
                   <li key={article}>
                     <Link
                       href={`/help/${cat.id}/${article.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#5c5548] hover:bg-[#faf6f0] hover:text-[#2d2a26] transition-colors"
+                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-[#5c5548] transition-colors hover:bg-[#faf6f0] hover:text-[#2d2a26]"
                     >
                       <FileText className="size-3.5 text-[#a8a095] shrink-0" />
                       <span className="truncate">{article}</span>
@@ -270,15 +263,15 @@ function FaqAccordion({ faqs }: { faqs: typeof FAQS }) {
         return (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.04, duration: 0.4 }}
+            transition={{ delay: i * 0.04, duration: 0.35 }}
             className={cn(
-              "rounded-2xl border transition-all duration-300",
+              "rounded-2xl border transition-all duration-300 bg-white",
               isOpen
-                ? "border-[#e8e0d5] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
-                : "border-[#e8e0d5]/60 bg-white hover:border-[#e8e0d5]"
+                ? "border-[#c9a87c]/50 shadow-[0_4px_20px_rgba(201,168,124,0.08)]"
+                : "border-[#e8e0d5]/80 hover:border-[#c9a87c]/30"
             )}
           >
             <button
@@ -289,7 +282,7 @@ function FaqAccordion({ faqs }: { faqs: typeof FAQS }) {
                 <span
                   className={cn(
                     "mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-colors",
-                    isOpen ? "bg-[#2d2a26] text-white" : "bg-[#faf6f0] text-[#a8a095]"
+                    isOpen ? "bg-[#c9a87c] text-white" : "bg-[#faf6f0] text-[#8a8278]"
                   )}
                 >
                   {String(i + 1).padStart(2, "0")}
@@ -301,7 +294,7 @@ function FaqAccordion({ faqs }: { faqs: typeof FAQS }) {
               <motion.span
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#faf6f0] text-[#a8a095]"
+                className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#faf6f0] text-[#8a8278]"
               >
                 <ChevronDown className="size-4" />
               </motion.span>
@@ -345,10 +338,10 @@ export default function HelpCenterPage() {
       <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
         <Header variant="light" />
 
-        {/* Hero */}
-        <section className="relative pt-16 pb-12 sm:pt-24 sm:pb-16">
+        {/* Hero Section */}
+        <section className="relative pt-20 pb-14 sm:pt-28 sm:pb-18 overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#c9a87c]/[0.04] blur-[100px]" />
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[500px] h-[250px] rounded-full bg-[#c9a87c]/[0.07] blur-[90px]" />
           </div>
           <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
             <motion.div
@@ -357,9 +350,9 @@ export default function HelpCenterPage() {
               transition={{ duration: 0.5 }}
               className="mb-6"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278]">
-                <Clock className="size-3" />
-                24/7 Self-Service
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278] shadow-sm">
+                <Clock className="size-3 text-[#c9a87c]" />
+                24/7 Self-Service Center
               </span>
             </motion.div>
             <motion.h1
@@ -376,7 +369,7 @@ export default function HelpCenterPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-base text-[#8a8278] max-w-lg mx-auto mb-8 leading-relaxed"
             >
-              Search our knowledge base for instant answers. If you can't find what you need, our team is one message away.
+              Search our knowledge base for instant guides, documentation, and answers.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -397,8 +390,8 @@ export default function HelpCenterPage() {
               exit={{ opacity: 0, height: 0 }}
               className="mx-auto max-w-3xl px-6 mb-12 overflow-hidden"
             >
-              <div className="rounded-2xl border border-[#e8e0d5]/60 bg-white p-5 shadow-sm">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-[#a8a095] mb-3">
+              <div className="rounded-2xl border border-[#e8e0d5] bg-white p-5 shadow-md">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8a8278] mb-3">
                   {filtered.length} results for "{query}"
                 </h3>
                 {filtered.length > 0 ? (
@@ -407,14 +400,14 @@ export default function HelpCenterPage() {
                       <li key={i}>
                         <Link
                           href={`/help/${item.catId}`}
-                          className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-[#faf6f0] transition-colors"
+                          className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#faf6f0] transition-colors"
                         >
                           <span
                             className="size-2 rounded-full shrink-0"
                             style={{ backgroundColor: item.color }}
                           />
                           <span className="text-sm text-[#2d2a26] font-medium">{item.title}</span>
-                          <span className="text-[11px] text-[#a8a095] ml-auto shrink-0">{item.category}</span>
+                          <span className="text-[11px] text-[#8a8278] ml-auto shrink-0">{item.category}</span>
                           <ChevronRight className="size-3.5 text-[#a8a095] shrink-0" />
                         </Link>
                       </li>
@@ -422,8 +415,8 @@ export default function HelpCenterPage() {
                   </ul>
                 ) : (
                   <div className="text-center py-6">
-                    <AlertCircle className="size-5 text-[#a8a095] mx-auto mb-2" />
-                    <p className="text-sm text-[#8a8278]">No results found. Try different keywords.</p>
+                    <AlertCircle className="size-5 text-[#8a8278] mx-auto mb-2" />
+                    <p className="text-sm text-[#8a8278]">No results found. Try alternative keywords.</p>
                   </div>
                 )}
               </div>
@@ -443,7 +436,7 @@ export default function HelpCenterPage() {
             >
               <div className="flex items-center gap-2 mb-5">
                 <TrendingUp className="size-4 text-[#c9a87c]" />
-                <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a8278]">
                   Most Popular
                 </h2>
               </div>
@@ -454,11 +447,11 @@ export default function HelpCenterPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.05, duration: 0.35 }}
+                    transition={{ delay: i * 0.04, duration: 0.35 }}
                   >
                     <Link
                       href={`/help/${item.catId}`}
-                      className="group flex items-center gap-3 rounded-xl border border-[#e8e0d5]/60 bg-white p-4 hover:border-[#c9a87c]/30 hover:shadow-sm transition-all duration-200"
+                      className="group flex items-center gap-3 rounded-xl border border-[#e8e0d5]/80 bg-white p-4 hover:border-[#c9a87c]/50 hover:shadow-sm transition-all duration-200"
                     >
                       <span
                         className="size-2 rounded-full shrink-0"
@@ -468,7 +461,7 @@ export default function HelpCenterPage() {
                         <p className="text-sm font-medium text-[#2d2a26] group-hover:text-[#c9a87c] transition-colors truncate">
                           {item.title}
                         </p>
-                        <p className="text-[11px] text-[#a8a095]">{item.category}</p>
+                        <p className="text-[11px] text-[#8a8278]">{item.category}</p>
                       </div>
                       <ChevronRight className="size-4 text-[#e8e0d5] group-hover:text-[#c9a87c] group-hover:translate-x-0.5 transition-all shrink-0" />
                     </Link>
@@ -482,10 +475,10 @@ export default function HelpCenterPage() {
           {!query.trim() && (
             <section className="mb-16">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a8278]">
                   Browse by Topic
                 </h2>
-                <span className="text-xs text-[#a8a095]">{CATEGORIES.length} categories</span>
+                <span className="text-xs text-[#8a8278] font-medium">{CATEGORIES.length} categories</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {CATEGORIES.map((cat, i) => (
@@ -499,49 +492,48 @@ export default function HelpCenterPage() {
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-6">
               <CheckCircle2 className="size-4 text-[#c9a87c]" />
-              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a8278]">
                 Frequently Asked Questions
               </h2>
             </div>
             <FaqAccordion faqs={FAQS} />
           </section>
 
-          {/* Still need help CTA */}
+          {/* Still Need Help CTA */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-3xl border border-[#e8e0d5]/60 bg-white p-8 sm:p-10 text-center relative overflow-hidden"
+            className="rounded-3xl border border-[#e8e0d5] bg-white p-8 sm:p-12 text-center relative overflow-hidden shadow-sm"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/60 to-transparent pointer-events-none" />
             <div className="relative z-10">
-              <MessageSquare className="size-6 text-[#a8a095] mx-auto mb-4" strokeWidth={1.5} />
-              <h3 className="text-xl font-bold text-[#2d2a26] mb-2">Still need help?</h3>
-              <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6">
-                Can't find what you're looking for? Our support team is available 24/7 and usually responds within a few hours.
+              <MessageSquare className="size-6 text-[#c9a87c] mx-auto mb-4" strokeWidth={1.8} />
+              <h3 className="text-xl font-bold text-[#2d2a26] mb-2">Still need assistance?</h3>
+              <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6 leading-relaxed">
+                Can't find what you're looking for? Our dedicated team is available to help resolve your questions.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link
-                  href="/support"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors"
+                  href="/resources/support"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors shadow-sm"
                 >
                   <MessageSquare className="size-4" />
                   Open a Ticket
                 </Link>
                 <a
-                  href="mailto:support.miransas"
+                  href="mailto:support@miransas.com"
                   className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
                 >
-                  support.miransas
-                  <ArrowUpRight className="size-4" />
+                  support@miransas.com
+                  <ArrowUpRight className="size-4 text-[#8a8278]" />
                 </a>
               </div>
             </div>
           </motion.section>
         </main>
 
-        {/* Footer */}
         <Footer />
       </div>
     </SmoothScroll>

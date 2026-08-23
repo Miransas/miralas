@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import "./globals.css";
@@ -7,11 +7,23 @@ import { roboto } from "./roboto";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
+import { cn } from "../lib/utils";
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
 
 const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-jakarta",
   display: "swap",
 });
 
@@ -119,7 +131,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jakarta.variable} ${roboto.variable} h-full antialiased`}
+      className={cn("h-full", "${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased")}
     >
       <body className="min-h-full bg-background font-sans text-foreground">
         <ThemeProvider
@@ -129,9 +141,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-          {/*    */}
+          {/*     */}
           <>
-            {isLocked && <ComingSoonModal />} {children}
+           {isLocked && <ComingSoonModal />} {children}
           </>
         </ThemeProvider>
       </body>
