@@ -80,7 +80,10 @@ function FaqAccordionItem({
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
-      transition={{ delay: index * 0.04, duration: 0.45, ease }}
+      animate={{ height: 'auto', opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.2, ease: 'easeInOut' }}
+      
       className={cn(
         "transition-all duration-200",
         // Görseldeki gibi açıkken etrafında mavi çerçeve oluşur, kapalıyken sadece altında noktalı çizgi olur
@@ -247,7 +250,7 @@ export default function FaqSection() {
     <section className="bg-white py-20 text-stone-900 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-20">
-          
+
           {/* Sol Taraf: Görseldeki Temiz Başlık Yapısı */}
           <div className="flex flex-col lg:sticky lg:top-28 lg:col-span-5">
             <h2 className="text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">

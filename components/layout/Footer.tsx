@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState } from "react";
@@ -63,7 +64,7 @@ const footerSections: FooterSection[] = [
       { label: "API", href: "/products/api" },
       { label: "Pricing", href: "/pricing" },
       { label: "Contact Us", href: "/resources/help-center" },
-       { label: "Streamers", href: "/resources/donate" },
+      { label: "Streamers", href: "/resources/donate" },
     ],
   },
 
@@ -90,10 +91,15 @@ const footerSections: FooterSection[] = [
   {
     title: "Enterprise",
     links: [
+       {
+        label: "Status",
+        href: "https://status.miransas.com",
+      },
+
       {
         label: "Security",
         href: "https://privacy.miransas.com/miralas/security",
-      },
+      }, 
       {
         label: "Miralas Terms",
         href: "https://privacy.miransas.com/miralas/terms",
@@ -120,7 +126,7 @@ const footerSections: FooterSection[] = [
         label: "Strear Donate",
         href: "https://console.miralas.io/donate",
       },
-       {
+      {
         label: "Your Projects",
         href: "https://console.miralas.io/projects",
       },
@@ -159,9 +165,13 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-24 mb-16">
           {/* Sol: Newsletter */}
           <div className="flex-1 lg:max-w-md">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="flex size-9 items-center justify-center rounded-xl bg-white text-background">
-               <img src="/logo.png" alt="" />
+            <Link href="https://miransas.com" className="flex items-center gap-3 mb-6">
+              <div className="flex w-20 h-auto items-center justify-center rounded-xltext-background">
+                <img
+                  src="https://raw.githubusercontent.com/Miransas/miransas/main/public/icons/logo.png"
+                  alt="Miransas Logo"
+                  className="w-20 h-auto"
+                />
               </div>
               <span className="text-xl font-semibold text-white tracking-tight">
                 Miransas
@@ -227,7 +237,7 @@ export default function Footer() {
           <p className="text-xs text-neutral-600">
             &copy; 2024-{new Date().getFullYear()} Miransas. All rights reserved.
           </p>
-        
+
         </div>
         <TextHoverEffect text="MIRANSAS" />
       </div>
