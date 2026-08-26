@@ -141,9 +141,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
 
-          {/*  {isLocked && <ComingSoonModal />}    */}
+          {/*     */}
           <>
-           {children}
+            {isLocked && <ComingSoonModal />}{children}
           </>
         </ThemeProvider>
       </body>
