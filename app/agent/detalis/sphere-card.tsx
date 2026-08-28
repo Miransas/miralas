@@ -1,7 +1,7 @@
+/* eslint-disable prefer-const */
 "use client";
 
 import { useEffect, useRef } from "react";
-
 import { CardShell } from "./card-shell";
 import { usePrefersReducedMotion } from "../../../hooks/use-prefers-reduced-motion";
 
@@ -50,19 +50,27 @@ export function SphereCard() {
     });
 
     let frame = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const { width, height } = canvas.getBoundingClientRect();
-      canvas.width = Math.max(1, width * dpr);
-      canvas.height = Math.max(1, height * dpr);
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, rect.width);
+      const h = Math.max(1, rect.height);
+      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
+
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
     const loop = (now: number) => {
-      const { width, height } = canvas.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
       ctx.clearRect(0, 0, width, height);
       const cx = width / 2;
       const cy = height / 2 - 4;
@@ -160,9 +168,9 @@ export function SphereCard() {
   }, [reduced]);
 
   return (
-    <CardShell label="" overlayLabel className="min-h-72 bg-card-2 md:h-80">
-      <canvas ref={ref} className="absolute inset-0 size-full" />
-      <span className="pointer-events-none absolute right-5 bottom-3 z-10 text-sm text-muted">
+    <CardShell label="" overlayLabel className="min-h-72 bg-stone-900 md:h-80">
+      <canvas ref={ref} className="absolute inset-0 h-full w-full" />
+      <span className="pointer-events-none absolute right-5 bottom-3 z-10 text-sm text-stone-400">
         Explore →
       </span>
     </CardShell>

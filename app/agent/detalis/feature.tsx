@@ -42,23 +42,30 @@ const FEATURES = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6">
-      <p className="text-xs tracking-[0.18em] text-dim uppercase">Capabilities</p>
-      <h2 className="mt-3 max-w-xl text-3xl font-medium tracking-tight text-fg md:text-4xl">
+    <section id="features" className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6 md:py-28">
+      <p className="text-xs font-medium tracking-[0.18em] text-stone-500 uppercase">
+        Capabilities
+      </p>
+      <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
         Every modality. One surface.
       </h2>
-      <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted">
+      <p className="mt-3 max-w-lg text-sm leading-relaxed text-stone-400">
         Chat, code, agents, media, and voice — designed to feel like one product, not a pile of tools.
       </p>
+
       <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map((f) => (
           <article
             key={f.title}
-            className="rounded-card border border-line bg-card p-6"
+            className="group rounded-2xl border border-stone-800 bg-stone-900/60 p-6 backdrop-blur-sm transition-colors hover:border-stone-700 hover:bg-stone-800/60"
           >
-            <f.icon className="size-5 text-fg/80" strokeWidth={1.6} />
-            <h3 className="mt-4 text-base font-medium">{f.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted">{f.body}</p>
+            <div className="flex size-10 items-center justify-center rounded-lg bg-stone-800/80 text-stone-300 transition-colors group-hover:bg-stone-700 group-hover:text-white">
+              <f.icon className="size-5" strokeWidth={1.6} />
+            </div>
+            <h3 className="mt-4 text-base font-medium text-white">{f.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-stone-400">
+              {f.body}
+            </p>
           </article>
         ))}
       </div>

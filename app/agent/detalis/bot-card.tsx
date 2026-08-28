@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-
 import { CardShell } from "./card-shell";
 import { usePrefersReducedMotion } from "../../../hooks/use-prefers-reduced-motion";
 import { useCycle } from "../../../hooks/use-cycle";
@@ -71,8 +70,8 @@ export function BotCard() {
               className={cn(
                 "max-w-[94%] text-[13px] leading-relaxed",
                 m.role === "user"
-                  ? "rounded-full bg-user px-3.5 py-2 font-medium text-ink"
-                  : "rounded-2xl bg-bubble px-3.5 py-2.5 text-fg/85",
+                  ? "rounded-full bg-blue-600 px-3.5 py-2 font-medium text-white"
+                  : "rounded-2xl bg-stone-100 px-3.5 py-2.5 text-stone-600",
               )}
             >
               {m.role === "bot" && m.text.includes("9 receipts") ? (
@@ -95,7 +94,7 @@ function HighlightReceipts({ text }: { text: string }) {
     <>
       {parts.map((p, i) =>
         p === "9 receipts" ? (
-          <span key={i} className="font-medium text-fg">
+          <span key={i} className="font-medium text-stone-900">
             {p}
           </span>
         ) : (

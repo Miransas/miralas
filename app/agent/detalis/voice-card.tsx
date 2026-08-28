@@ -1,66 +1,71 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
 import { CardShell } from "./card-shell";
 import { usePrefersReducedMotion } from "../../../hooks/use-prefers-reduced-motion";
+import { Mic, Activity } from "lucide-react";
 
 export function VoiceCard() {
   const reduced = usePrefersReducedMotion();
-  const ref = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = ref.current;
+    const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    let frame = 0;
-    const bars = 28;
+
+    let frame: number;
+    const bars = 20;
+    const barWidth = 3;
+    const gap = 3;
 
     const resize = () => {
+      const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const { width, height } = canvas.getBoundingClientRect();
-      canvas.width = Math.max(1, width * dpr);
-      canvas.height = Math.max(1, height * dpr);
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
+
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
     const loop = (now: number) => {
-      const { width, height } = canvas.getBoundingClientRect();
-      ctx.clearRect(0, 0, width, height);
-      const mid = height / 2;
-      const gap = 3;
-      const bw = (width * 0.7) / bars;
-      const startX = width * 0.15;
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const totalWidth = bars * (barWidth + gap) - gap;
+      const startX = (w - totalWidth) / 2;
+      const centerY = h / 2;
+
       for (let i = 0; i < bars; i++) {
-        const n = reduced
-          ? 0.25 + Math.abs(Math.sin(i * 0.45)) * 0.35
-          : 0.18 +
-            Math.abs(Math.sin(now / 280 + i * 0.38)) * 0.45 +
-            Math.abs(Math.sin(now / 160 + i * 0.9)) * 0.25;
-        const h = n * height * 0.42;
-        ctx.fillStyle = `rgba(236,236,236,${0.18 + n * 0.35})`;
-        const x = startX + i * (bw + gap);
-        const y = mid - h;
-        const w = Math.max(1.5, bw);
-        const hh = Math.max(2, h * 2);
+        const t = reduced ? 0 : now / 1000;
+        const wave1 = Math.sin(i * 0.6 + t * 4);
+        const wave2 = Math.cos(i * 0.4 - t * 3);
+        const amp = Math.abs(wave1 * wave2);
+        const height = reduced ? 10 : 6 + amp * (h * 0.4);
+
+        const x = startX + i * (barWidth + gap);
+        const y = centerY - height / 2;
+
+        const grad = ctx.createLinearGradient(x, y + height, x, y);
+        grad.addColorStop(0, "rgba(99, 102, 241, 0.15)");
+        grad.addColorStop(0.5, "rgba(139, 92, 246, 0.5)");
+        grad.addColorStop(1, "rgba(236, 72, 153, 0.9)");
+
+        ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.moveTo(x + 2, y);
-        ctx.lineTo(x + w - 2, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + 2);
-        ctx.lineTo(x + w, y + hh - 2);
-        ctx.quadraticCurveTo(x + w, y + hh, x + w - 2, y + hh);
-        ctx.lineTo(x + 2, y + hh);
-        ctx.quadraticCurveTo(x, y + hh, x, y + hh - 2);
-        ctx.lineTo(x, y + 2);
-        ctx.quadraticCurveTo(x, y, x + 2, y);
+        ctx.roundRect(x, y, barWidth, height, 2);
         ctx.fill();
       }
+
       frame = requestAnimationFrame(loop);
     };
+
     frame = requestAnimationFrame(loop);
     return () => {
       cancelAnimationFrame(frame);
@@ -69,8 +74,41 @@ export function VoiceCard() {
   }, [reduced]);
 
   return (
-    <CardShell label="Voice" className="min-h-72 md:h-80">
-      <canvas ref={ref} className="absolute inset-0 size-full" />
+    <CardShell label="Voice" className="h-full min-h-72">
+      <div className="relative flex h-full flex-col items-center justify-between overflow-hidden p-5">
+        {/* Glow arka plan */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-indigo-500/5 via-transparent to-purple-500/5" />
+
+        {/* Üst status bar */}
+        <div className="relative z-10 flex w-full items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </div>
+            <span className="text-xs font-medium text-stone-400">Agent Online</span>
+          </div>
+          <Activity className="size-4 text-stone-600" />
+        </div>
+
+        {/* Orta mikrofon */}
+        <div className="relative z-10 flex flex-col items-center gap-3">
+          <div className="relative">
+            <div className="absolute -inset-4 rounded-full bg-indigo-500/10 blur-xl" />
+            <div className="absolute -inset-2 rounded-full bg-purple-500/10 blur-lg" />
+            <div className="relative flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20">
+              <Mic className="size-6 text-white" />
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-white">Voice Agent</p>
+            <p className="text-xs text-stone-500">Ready to listen</p>
+          </div>
+        </div>
+
+        {/* Ses dalgası */}
+        <canvas ref={canvasRef} className="relative z-10 h-14 w-full" />
+      </div>
     </CardShell>
   );
 }

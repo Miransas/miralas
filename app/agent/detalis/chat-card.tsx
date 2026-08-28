@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-
 import { CardShell } from "./card-shell";
 import { usePrefersReducedMotion } from "../../../hooks/use-prefers-reduced-motion";
 import { useCycle } from "../../../hooks/use-cycle";
@@ -78,6 +77,8 @@ export function ChatCard() {
   let acc = 0;
   let threadIndex = 0;
   let local = clock;
+  
+  // ✅ Düzeltildi: break olmayınca son değerler eziliyordu
   for (let i = 0; i < DURS.length; i++) {
     if (clock < acc + DURS[i]) {
       threadIndex = i;
@@ -85,8 +86,6 @@ export function ChatCard() {
       break;
     }
     acc += DURS[i];
-    threadIndex = i;
-    local = DURS[i];
   }
 
   const planned = useMemo(() => PLANS[threadIndex], [threadIndex]);
@@ -119,10 +118,10 @@ export function ChatCard() {
           >
             <div
               className={cn(
-                "max-w-[92%] text-[13px] leading-relaxed text-fg/85",
+                "max-w-[92%] text-[13px] leading-relaxed",
                 m.role === "user"
-                  ? "rounded-full bg-bubble px-3.5 py-2"
-                  : "rounded-2xl bg-bubble px-3.5 py-2.5",
+                  ? "rounded-full bg-stone-100 px-3.5 py-2 text-stone-900"
+                  : "rounded-2xl bg-stone-100 px-3.5 py-2.5 text-stone-700",
               )}
             >
               {m.text}

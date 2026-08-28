@@ -1,10 +1,10 @@
 "use client";
 
-
 import { CardShell } from "./card-shell";
 import { usePrefersReducedMotion } from "../../../hooks/use-prefers-reduced-motion";
 import { useCycle } from "../../../hooks/use-cycle";
 import { cn } from "../../../lib/utils";
+
 const PERIOD = 16000;
 
 const CODE = [
@@ -15,15 +15,19 @@ const CODE = [
 ];
 
 function colorize(line: string) {
-  return line
-    .replace(/</g, "<")
+  const safe = line
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  return safe
     .replace(
-      /(export|async|function|const|if|return|await)/g,
-      '<span class="text-edit/90">$1</span>',
+      /\b(export|async|function|const|if|return|await)\b/g,
+      '<span class="text-sky-400">$1</span>',
     )
     .replace(
-      /(handler|extractBearer|unauthorized|getSession)/g,
-      '<span class="text-run/80">$1</span>',
+      /\b(handler|extractBearer|unauthorized|getSession)\b/g,
+      '<span class="text-emerald-400">$1</span>',
     );
 }
 
@@ -52,15 +56,16 @@ export function BuildCard() {
   return (
     <CardShell label="Build" className="min-h-96 md:h-[28rem]">
       <div className="flex h-full flex-col">
-        <div className="flex items-center gap-2 border-b border-line bg-ink/40 px-3 py-2.5">
+        {/* Terminal başlık */}
+        <div className="flex items-center gap-2 border-b border-stone-200 bg-stone-50 px-3 py-2.5">
           <span className="size-2.5 rounded-full bg-[#ff5f57]" />
           <span className="size-2.5 rounded-full bg-[#febc2e]" />
           <span className="size-2.5 rounded-full bg-[#28c840]" />
-          <span className="ml-2 font-mono text-[11px] text-muted">projects/main</span>
-          <div className="ml-auto flex items-center gap-2 font-mono text-[11px] text-dim">
-            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-fg/10">
+          <span className="ml-2 font-mono text-[11px] text-stone-500">projects/main</span>
+          <div className="ml-auto flex items-center gap-2 font-mono text-[11px] text-stone-400">
+            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-stone-200">
               <div
-                className="h-full bg-fg/40"
+                className="h-full bg-stone-400 transition-all"
                 style={{ width: `${(progress / 16.15) * 100}%` }}
               />
             </div>
@@ -68,17 +73,18 @@ export function BuildCard() {
           </div>
         </div>
 
-        <div className="flex-1 space-y-1 overflow-hidden p-3 font-mono text-[12px] leading-relaxed text-muted">
-          {showGrep ? <div className="text-done/90">▸ grep session src/ + matches</div> : null}
+        {/* Terminal içerik */}
+        <div className="flex-1 space-y-1 overflow-hidden p-3 font-mono text-[12px] leading-relaxed text-stone-500">
+          {showGrep ? <div className="text-emerald-600">▸ grep session src/ + matches</div> : null}
           {showRead ? (
-            <div className="text-run/80">▸ read_file src/lib/jwt.ts 42 lines</div>
+            <div className="text-amber-600">▸ read_file src/lib/jwt.ts 42 lines</div>
           ) : null}
 
-          <div className="mt-2 space-y-0.5 text-fg/45">
+          <div className="mt-2 space-y-0.5 text-stone-400">
             {task1 ? (
               <div className="flex justify-between gap-2">
                 <span>| Audit auth middleware explore</span>
-                <span className={task1done ? "text-done" : "text-run"}>
+                <span className={task1done ? "text-emerald-600" : "text-amber-600"}>
                   {task1done ? "[done]" : "[running]"}
                 </span>
               </div>
@@ -86,7 +92,7 @@ export function BuildCard() {
             {task2 ? (
               <div className="flex justify-between gap-2">
                 <span>| Design token rotation general</span>
-                <span className={task2done ? "text-done" : "text-run"}>
+                <span className={task2done ? "text-emerald-600" : "text-amber-600"}>
                   {task2done ? "[done]" : "[running]"}
                 </span>
               </div>
@@ -94,7 +100,7 @@ export function BuildCard() {
             {task3 ? (
               <div className="flex justify-between gap-2">
                 <span>| Find session references explore</span>
-                <span className={task3done ? "text-done" : "text-run"}>
+                <span className={task3done ? "text-emerald-600" : "text-amber-600"}>
                   {task3done ? "[done]" : "[running]"}
                 </span>
               </div>
@@ -102,12 +108,12 @@ export function BuildCard() {
           </div>
 
           {thought ? (
-            <div className="pt-3 text-dim">◆ Thought for {thoughtS.toFixed(1)}s</div>
+            <div className="pt-3 text-stone-400">◆ Thought for {thoughtS.toFixed(1)}s</div>
           ) : null}
-          {showEdit ? <div className="text-edit">◆ Edit src/middleware/auth.ts</div> : null}
+          {showEdit ? <div className="text-sky-600">◆ Edit src/middleware/auth.ts</div> : null}
 
           {typedLines[0] ? (
-            <div className="mt-2 overflow-hidden rounded-lg bg-ink/80 p-2.5 text-[11px] text-fg/70">
+            <div className="mt-2 overflow-hidden rounded-lg bg-stone-900 p-2.5 text-[11px] text-stone-300">
               {CODE.map((line, i) => {
                 if (i >= typedLines.length) return null;
                 const shown = typedLines[i] ?? "";
@@ -115,9 +121,9 @@ export function BuildCard() {
                 return (
                   <div
                     key={line.n}
-                    className={cn("px-1", line.neu && shown.length > 4 && "bg-code-new")}
+                    className={cn("px-1", line.neu && shown.length > 4 && "bg-emerald-500/10")}
                   >
-                    <span className="mr-3 inline-block w-4 text-dim">{line.n}</span>
+                    <span className="mr-3 inline-block w-4 text-stone-600">{line.n}</span>
                     <span dangerouslySetInnerHTML={{ __html: colorize(shown) }} />
                     {isLast ? <span className="caret" /> : null}
                   </div>

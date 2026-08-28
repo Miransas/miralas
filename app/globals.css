@@ -640,3 +640,25 @@ html.lenis, html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+@layer components {
+  .caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: #0a0a0a;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+
+@keyframes sound-wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}

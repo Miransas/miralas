@@ -80,15 +80,12 @@ function FaqAccordionItem({
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
-      animate={{ height: 'auto', opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
-      transition={{ duration: 0.2, ease: 'easeInOut' }}
-      
+      transition={{ duration: 0.4, ease, delay: index * 0.05 }}
+      // ❌ transition-all duration-200 kaldırıldı
+      // ❌ animate/exit prop'ları kaldırıldı (dış kart statik olmalı)
       className={cn(
-        "transition-all duration-200",
-        // Görseldeki gibi açıkken etrafında mavi çerçeve oluşur, kapalıyken sadece altında noktalı çizgi olur
         isOpen
-          ? "rounded-xl border-2 border-none bg-white p-1 shadow-sm"
+          ? "rounded-xl bg-white p-1 shadow-sm ring-1 ring-stone-200"
           : "border-b border-dotted border-stone-300 py-2 hover:border-stone-400"
       )}
     >
@@ -97,14 +94,14 @@ function FaqAccordionItem({
         onClick={onToggle}
         aria-expanded={isOpen}
         className={cn(
-          "flex w-full items-center justify-between gap-4 text-left transition-colors",
+          "flex w-full items-center justify-between gap-4 text-left",
           isOpen ? "px-5 py-4" : "py-3 px-1"
         )}
       >
         <span
           className={cn(
             "text-base font-normal transition-colors sm:text-[17px]",
-            isOpen ? "text-stone-900 font-medium" : "text-stone-900 hover:text-blue-600"
+            isOpen ? "font-medium text-stone-900" : "text-stone-900 hover:text-blue-600"
           )}
         >
           {item.question}
@@ -119,9 +116,11 @@ function FaqAccordionItem({
         </motion.span>
       </button>
 
+      {/* ✅ Sadece içerik AnimatePresence ile yüksekliğini değiştirir */}
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
+            key="content"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -136,109 +135,6 @@ function FaqAccordionItem({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
-  );
-}
-function FaqIllustration() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -24 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease }}
-      className="relative flex flex-col items-center lg:items-start"
-    >
-      <div className="pointer-events-none absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2">
-        {/* <div className="size-80 rounded-full bg-amber-200/30 blur-[100px] sm:size-96" /> */}
-      </div>
-
-      <div className="relative z-10 w-full max-w-[340px]">
-        <svg
-          viewBox="0 0 420 420"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-auto w-full"
-        >
-          <circle cx="210" cy="210" r="150" fill="#FFFFFF" stroke="#e7e5e4" strokeWidth="1.2" />
-          <circle cx="210" cy="210" r="120" fill="#FAF9F6" stroke="#e7e5e4" strokeWidth="1" />
-          <rect x="185" y="145" width="50" height="85" rx="25" fill="#0c0a09" />
-          <rect x="195" y="125" width="30" height="45" rx="15" fill="#292524" />
-          <line x1="195" y1="140" x2="225" y2="140" stroke="#d97706" strokeOpacity="0.25" strokeWidth="1" />
-          <line x1="195" y1="150" x2="225" y2="150" stroke="#d97706" strokeOpacity="0.25" strokeWidth="1" />
-          <path
-            d="M165 210C165 234.853 185.147 255 210 255C234.853 255 255 234.853 255 210"
-            stroke="#0c0a09"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-          />
-          <line x1="210" y1="255" x2="210" y2="285" stroke="#0c0a09" strokeWidth="3.5" strokeLinecap="round" />
-          <line x1="185" y1="285" x2="235" y2="285" stroke="#0c0a09" strokeWidth="3.5" strokeLinecap="round" />
-          <motion.path
-            d="M75 210 Q100 165 125 210 Q150 255 175 210"
-            stroke="#a8a29e"
-            strokeWidth="2"
-            strokeLinecap="round"
-            fill="none"
-            animate={{
-              d: [
-                "M75 210 Q100 165 125 210 Q150 255 175 210",
-                "M75 210 Q100 255 125 210 Q150 165 175 210",
-                "M75 210 Q100 165 125 210 Q150 255 175 210",
-              ],
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.path
-            d="M245 210 Q270 165 295 210 Q320 255 345 210"
-            stroke="#a8a29e"
-            strokeWidth="2"
-            strokeLinecap="round"
-            fill="none"
-            animate={{
-              d: [
-                "M245 210 Q270 165 295 210 Q320 255 345 210",
-                "M245 210 Q270 255 295 210 Q320 165 345 210",
-                "M245 210 Q270 165 295 210 Q320 255 345 210",
-              ],
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-          />
-          <circle cx="95" cy="115" r="4" fill="#e7e5e4" />
-          <circle cx="325" cy="105" r="5" fill="#e7e5e4" />
-          <circle cx="340" cy="295" r="3" fill="#e7e5e4" />
-          <circle cx="85" cy="285" r="4" fill="#e7e5e4" />
-          <motion.g animate={{ y: [0, -10, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}>
-            <circle cx="130" cy="85" r="24" fill="#FFFFFF" stroke="#e7e5e4" strokeWidth="1" />
-            <text x="130" y="93" textAnchor="middle" fontSize="20" fontWeight="600" fill="#0c0a09" fontFamily="system-ui, sans-serif">?</text>
-          </motion.g>
-          <motion.g animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}>
-            <circle cx="300" cy="75" r="20" fill="#FFFFFF" stroke="#e7e5e4" strokeWidth="1" />
-            <text x="300" y="81" textAnchor="middle" fontSize="16" fontWeight="600" fill="#0c0a09" fontFamily="system-ui, sans-serif">?</text>
-          </motion.g>
-          <motion.g animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}>
-            <circle cx="320" cy="330" r="18" fill="#FFFFFF" stroke="#e7e5e4" strokeWidth="1" />
-            <text x="320" y="336" textAnchor="middle" fontSize="15" fontWeight="600" fill="#0c0a09" fontFamily="system-ui, sans-serif">?</text>
-          </motion.g>
-        </svg>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-        className="relative z-10 mt-8 text-center lg:text-left"
-      >
-        <p className="text-sm text-stone-400">Still have questions?</p>
-        <a
-          href="mailto:support@miralas.com"
-          className="group mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-stone-700 transition-colors hover:text-stone-950"
-        >
-          <Mail className="size-3.5 text-stone-400 transition-colors group-hover:text-stone-700" />
-          Contact our team
-          <ArrowUpRight className="size-3 text-stone-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-stone-950" />
-        </a>
-      </motion.div>
     </motion.div>
   );
 }

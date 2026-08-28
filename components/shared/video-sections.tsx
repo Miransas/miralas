@@ -1,10 +1,9 @@
 "use client"
+
 import { GlassShaderCard, type ShaderTone } from "./glass-shader-card";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./reval";
-
-
 
 const TONES: ShaderTone[] = ["navy", "coral", "cream"];
 
@@ -44,16 +43,19 @@ function PinnedVideo() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end end"],
+    offset: ["start start", "end start"],
   });
 
-  const inset = useTransform(scrollYProgress, [0.08, 0.78], [0, maxInset]);
-  const radius = useTransform(scrollYProgress, [0.08, 0.78], [0, 28]);
-  const scale = useTransform(scrollYProgress, [0.08, 0.78], [1.08, 1]);
+  // useSpring KALDIRILDI — Lenis zaten smooth scroll yapıyor.
+  // Çift yumuşatma (Lenis + useSpring) "takılma" ve "jelly" hissi yaratır.
+  const inset = useTransform(scrollYProgress, [0, 1], [0, maxInset]);
+  const radius = useTransform(scrollYProgress, [0, 1], [0, 28]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
+  const opacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.4]);
 
   return (
-    <div ref={ref} className="relative h-[220vh]">
-      <div className="sticky top-0 h-screen overflow-hidden bg-void">
+    <div ref={ref} className="relative h-[170vh] md:h-[150vh]">
+      <div className="sticky top-0 h-[100dvh] overflow-hidden bg-void">
         <motion.div
           style={{
             position: "absolute",
@@ -62,6 +64,7 @@ function PinnedVideo() {
             bottom: inset,
             left: inset,
             borderRadius: radius,
+            opacity,
           }}
           className="overflow-hidden bg-navy shadow-[0_40px_80px_-32px_rgba(0,0,0,0.55)]"
         >
@@ -139,28 +142,23 @@ function VideoFrame({ className }: { className?: string }) {
   );
 }
 
-// function CardRow() {
-//   return (
-//     <div className="bg-void px-5 pb-24 pt-6 md:px-8 md:pb-32 md:pt-10">
-//       <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
-//         {VIDEO_CARDS.map((card, i) => (
-//           <Reveal key={card.title} delay={i * 0.08}>
-//             <GlassShaderCard
-//               tone={TONES[i] ?? "navy"}
-//               kicker={card.kicker}
-//               title={card.title}
-//               body={card.body}
-//             />
-//           </Reveal>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
 function CardRow() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "start center"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [60, 0]);
+  const cardOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+
   return (
-    <div className="bg-void px-5 pb-24 pt-6 md:px-8 md:pb-32 md:pt-10">
+    <motion.div 
+      ref={ref}
+      style={{ y, opacity: cardOpacity }}
+      className="bg-void px-5 pb-24 pt-6 md:px-8 md:pb-32 md:pt-10"
+    >
       <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
         {VIDEO_CARDS.map((card, i) => (
           <Reveal key={card.title} delay={i * 0.08}>
@@ -178,7 +176,7 @@ function CardRow() {
           </Reveal>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
