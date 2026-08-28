@@ -146,7 +146,7 @@ export default function Hero() {
         <div className="w-full max-w-5xl">
           <FadeIn delay={0.12}>
             <h1 className="text-[2.5rem] font-bold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Intelligence,
+              Intelligence, ($P_{99}$ latency)
               <br />
               <span className="font-serif font-light italic text-white/50">
                 in motion.

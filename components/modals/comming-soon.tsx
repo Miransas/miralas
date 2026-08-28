@@ -15,7 +15,7 @@ export default function ComingSoonModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 select-none">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black backdrop-blur-2xl p-4 select-none">
       <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-neutral-950/90 p-8 shadow-2xl backdrop-blur-2xl">
         
         {/* Arka Plan Glow Efektleri */}
