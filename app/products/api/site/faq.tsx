@@ -63,7 +63,7 @@ function Item({
         <span className="text-stone-400text-base font-medium tracking-tight text-fg">{q}</span>
         <Plus
           className={cn(
-            "size-4 shrink-0 text-stone-400 transition-transform duration-200 ease-out",
+            "size-4 shrink-0 text-muted-foreground transition-transform duration-200 ease-out",
             open && "rotate-45",
           )}
         />
@@ -77,7 +77,7 @@ function Item({
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <p className="pb-5 text-stone-400text-sm leading-relaxed text-stone-400">{a}</p>
+            <p className="pb-5 text-stone-400text-sm leading-relaxed text-muted-foreground">{a}</p>
           </motion.div>
         ) : null}
       </AnimatePresence>

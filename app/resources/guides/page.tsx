@@ -84,19 +84,19 @@ export default function GuidesPage() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#010101] text-[#FAF9F6] font-sans selection:bg-[#FAF9F6] selection:text-stone-950">
-        <Header variant="dark" />
+      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-foreground selection:text-foreground">
+        <Header />
         {/* Top navigation bar */}
-        {/* <header className="border-b border-[#FAF9F6]/10 bg-[#010101]/60 backdrop-blur-md sticky top-0 z-50">
+        {/* <header className="border-b border-border bg-background/60 backdrop-blur-md sticky top-0 z-50">
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-stone-400 hover:text-[#FAF9F6] transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
           >
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
             Back to Home
           </Link>
-          <div className="flex items-center gap-2 rounded-full border border-[#FAF9F6]/10 bg-stone-950 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 shadow-md">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground shadow-md">
             <BookOpen className="size-3 text-amber-500" />
             Documentation Hub
           </div>
@@ -111,36 +111,36 @@ export default function GuidesPage() {
             <div className="absolute -left-10 -top-10 size-40 rounded-full bg-amber-500/[0.02] blur-3xl pointer-events-none" />
 
             <div className="max-w-xl">
-              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
+              <h1 className="text-4xl font-black tracking-tight text-foreground sm:text-5xl">
                 Guides & Tutorials
               </h1>
-              <p className="mt-4 text-[15px] text-stone-400 leading-relaxed">
+              <p className="mt-4 text-[15px] text-muted-foreground leading-relaxed">
                 Learn how to integrate the Miransas voice core into your apps, optimize your voice models, and dominate text-to-speech synthesis.
               </p>
             </div>
 
             {/* Live search input area */}
             <div className="relative w-full max-w-xs mx-auto lg:mx-0">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-stone-600" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search guides..."
-                className="w-full bg-stone-950 border border-[#FAF9F6]/5 focus:border-[#FAF9F6]/20 text-[#FAF9F6] text-xs rounded-xl py-3 pl-10 pr-4 outline-none transition-all placeholder:text-stone-600 shadow-inner"
+                className="w-full bg-card border border-border focus:border-border text-foreground text-xs rounded-xl py-3 pl-10 pr-4 outline-none transition-all placeholder:text-muted-foreground shadow-inner"
               />
             </div>
           </div>
 
           {/* Category selection tabs */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-10 border-b border-stone-900 pb-6">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-10 border-b border-border pb-6">
             {CATEGORIES.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={`relative px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 ${activeCategory === category
-                  ? "bg-[#FAF9F6] text-stone-950 shadow-md shadow-black/40"
-                  : "text-stone-400 hover:text-white bg-stone-900/30 border border-transparent hover:border-[#FAF9F6]/5"
+                  ? "bg-foreground text-foreground shadow-md shadow-black/40"
+                  : "text-muted-foreground hover:text-foreground bg-card/30 border border-transparent hover:border-border"
                   }`}
               >
                 {category}
@@ -164,37 +164,37 @@ export default function GuidesPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="group rounded-2xl border border-[#FAF9F6]/5 bg-stone-950 p-6 flex flex-col justify-between shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] hover:border-[#FAF9F6]/10 transition-all duration-300"
+                    className="group rounded-2xl border border-border bg-card p-6 flex flex-col justify-between shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] hover:border-border transition-all duration-300"
                   >
                     <div>
                       {/* Top card information */}
                       <div className="flex items-center justify-between gap-3 mb-5">
-                        <div className="flex size-9 items-center justify-center rounded-xl bg-[#FAF9F6]/5 border border-[#FAF9F6]/5 text-amber-400/90 group-hover:bg-[#FAF9F6]/10 transition-colors">
+                        <div className="flex size-9 items-center justify-center rounded-xl bg-foreground/5 border border-border text-amber-400/90 group-hover:bg-foreground/10 transition-colors">
                           <IconComponent className="size-4" strokeWidth={2} />
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-stone-500 uppercase">
-                          <Clock className="size-3 text-stone-600" />
+                        <div className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                          <Clock className="size-3 text-muted-foreground" />
                           <span>{guide.duration}</span>
                         </div>
                       </div>
 
                       {/* Content title and description */}
-                      <h3 className="text-base font-bold text-white group-hover:text-amber-400 transition-colors leading-snug">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-amber-400 transition-colors leading-snug">
                         {guide.title}
                       </h3>
-                      <p className="mt-2.5 text-xs leading-relaxed text-stone-400 line-clamp-3">
+                      <p className="mt-2.5 text-xs leading-relaxed text-muted-foreground line-clamp-3">
                         {guide.description}
                       </p>
                     </div>
 
                     {/* Bottom card detail and button */}
-                    <div className="mt-6 pt-4 border-t border-stone-900/60 flex items-center justify-between">
-                      <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border border-stone-800 text-stone-400 bg-stone-900/40">
+                    <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border border-border text-muted-foreground bg-card/40">
                         {guide.level}
                       </span>
                       <Link
                         href={`/guides/${guide.slug}`}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#FAF9F6]/80 group-hover:text-[#FAF9F6] transition-colors"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-foreground/80 group-hover:text-foreground transition-colors"
                       >
                         Read Guide
                         <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -212,9 +212,9 @@ export default function GuidesPage() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 border border-dashed border-stone-900 rounded-2xl"
+              className="text-center py-20 border border-dashed border-border rounded-2xl"
             >
-              <p className="text-sm text-stone-500">No guides found matching your filters.</p>
+              <p className="text-sm text-muted-foreground">No guides found matching your filters.</p>
             </motion.div>
           )}
 

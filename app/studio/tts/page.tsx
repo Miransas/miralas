@@ -331,7 +331,7 @@ function VoiceOrb({
       className={cn(
         "relative shrink-0 overflow-hidden rounded-full border bg-gradient-to-br",
         sizes[size],
-        active ? "border-[#d4c8b8] shadow-xl" : "border-white/60",
+        active ? "border-border shadow-xl" : "border-white/60",
       )}
       style={{
         backgroundImage: `radial-gradient(circle at 35% 30%, white 0%, ${voice.accentColor}88 28%, ${voice.accentColor} 62%, #2d2a26 125%)`,
@@ -339,11 +339,11 @@ function VoiceOrb({
     >
       <div
         className={cn(
-          "absolute inset-[18%] rounded-full border border-white/30 bg-white/10 backdrop-blur-sm",
+          "absolute inset-[18%] rounded-full border border-white/30 bg-card/10 backdrop-blur-sm",
           active && "animate-pulse",
         )}
       />
-      <div className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-lg" />
+      <div className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-card shadow-lg" />
     </div>
   );
 }
@@ -410,10 +410,10 @@ function VoiceListItem({
       type="button"
       onClick={onSelect}
       className={cn(
-        "group flex w-full items-center gap-3 border-b border-[#f0ebe3] px-3 py-3 text-left transition",
+        "group flex w-full items-center gap-3 border-b border-border px-3 py-3 text-left transition",
         selected
-          ? "bg-[#f5f0e8] text-[#3d3630] border-l-[3px] border-l-[#c9a87c]"
-          : "hover:bg-[#faf6f0]",
+          ? "bg-muted text-foreground border-l-[3px] border-l-[#c9a87c]"
+          : "hover:bg-muted",
       )}
     >
       <div className="relative">
@@ -426,8 +426,8 @@ function VoiceListItem({
           className={cn(
             "absolute -bottom-1 -right-1 flex size-6 items-center justify-center rounded-full border shadow-sm transition",
             selected
-              ? "border-[#d4c8b8] bg-white text-[#3d3630]"
-              : "border-white bg-[#3d3630] text-white opacity-0 group-hover:opacity-100",
+              ? "border-border bg-card text-foreground"
+              : "border-white bg-primary text-primary-foreground opacity-0 group-hover:opacity-100",
           )}
         >
           {playing ? (
@@ -445,7 +445,7 @@ function VoiceListItem({
             <span
               className={cn(
                 "rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider",
-                selected ? "bg-[#e8e0d5] text-[#8a8278]" : "bg-[#f5f0e8] text-[#a8a095]",
+                selected ? "bg-border text-muted-foreground" : "bg-muted text-muted-foreground",
               )}
             >
               Pick
@@ -454,7 +454,7 @@ function VoiceListItem({
         </div>
         <p className={cn(
           "mt-0.5 truncate text-xs",
-          selected ? "text-[#8a8278]" : "text-[#a8a095]",
+          selected ? "text-muted-foreground" : "text-muted-foreground",
         )}>
           {voice.tag}
         </p>
@@ -464,8 +464,8 @@ function VoiceListItem({
         className={cn(
           "size-4 shrink-0 transition-transform",
           selected
-            ? "translate-x-0 text-[#c9a87c]"
-            : "-translate-x-1 text-[#d4c8b8] group-hover:translate-x-0",
+            ? "translate-x-0 text-amber-600"
+            : "-translate-x-1 text-muted-foreground group-hover:translate-x-0",
         )}
       />
     </button>
@@ -488,8 +488,8 @@ function FilterChip({
       className={cn(
         "whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-medium transition",
         active
-          ? "border-[#3d3630] bg-[#3d3630] text-white"
-          : "border-[#e8e0d5] bg-white text-[#8a8278] hover:border-[#d4c8b8] hover:text-[#3d3630]",
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border bg-card text-muted-foreground hover:border-border hover:text-foreground",
       )}
     >
       {label}
@@ -537,37 +537,37 @@ function VoiceExplorer({
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-5 flex flex-col gap-4">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#a8a095]">
+            <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
               <Mic className="size-3.5" />
               Voice Library
             </div>
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
               <div>
-                <h2 className="text-2xl font-semibold tracking-tight text-[#2d2a26] sm:text-3xl">
+                <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                   Choose a voice.
                 </h2>
-                <p className="mt-1 max-w-xl text-sm leading-6 text-[#8a8278]">
+                <p className="mt-1 max-w-xl text-sm leading-6 text-muted-foreground">
                   No long cards. Browse voices on the left, preview your
                   selected voice on the right, and send it straight to Miralas Studio.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-xs text-[#a8a095]">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span>{filteredVoices.length} voices</span>
-                <span className="size-1 rounded-full bg-[#d4c8b8]" />
+                <span className="size-1 rounded-full bg-border" />
                 <span>29+ languages</span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 rounded-2xl border border-[#e8e0d5] bg-white p-3 shadow-sm sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-3 shadow-sm sm:flex-row sm:items-center">
             <div className="relative min-w-0 flex-1">
-              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#a8a095]" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search by voice, character, or use case..."
-                className="h-10 w-full rounded-xl bg-[#faf6f0] pl-9 pr-4 text-sm text-[#2d2a26] outline-none ring-0 placeholder:text-[#a8a095] focus:bg-[#f5f0e8]"
+                className="h-10 w-full rounded-xl bg-muted pl-9 pr-4 text-sm text-foreground outline-none ring-0 placeholder:text-muted-foreground focus:bg-muted"
               />
             </div>
 
@@ -581,7 +581,7 @@ function VoiceExplorer({
 
             <button
               type="button"
-              className="hidden h-10 items-center justify-center gap-2 rounded-xl border border-[#e8e0d5] px-3 text-xs font-medium text-[#8a8278] transition hover:bg-[#faf6f0] sm:flex"
+              className="hidden h-10 items-center justify-center gap-2 rounded-xl border border-border px-3 text-xs font-medium text-muted-foreground transition hover:bg-muted sm:flex"
             >
               <SlidersHorizontal className="size-3.5" />
               Filter
@@ -589,13 +589,13 @@ function VoiceExplorer({
           </div>
         </div>
 
-        <div className="grid min-h-[640px] overflow-hidden rounded-[28px] border border-[#e8e0d5] bg-white shadow-[0_20px_70px_-35px_rgba(45,42,38,0.28)] lg:grid-cols-[330px_minmax(0,1fr)]">
-          <aside className="border-b border-[#e8e0d5] bg-[#fdfbf7] lg:border-b-0 lg:border-r">
-            <div className="flex items-center justify-between border-b border-[#e8e0d5] px-4 py-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a8a095]">
+        <div className="grid min-h-[640px] overflow-hidden rounded-[28px] border border-border bg-card shadow-[0_20px_70px_-35px_rgba(45,42,38,0.28)] lg:grid-cols-[330px_minmax(0,1fr)]">
+          <aside className="border-b border-border bg-background lg:border-b-0 lg:border-r">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                 Voices
               </div>
-              <span className="rounded-full bg-[#f5f0e8] px-2 py-1 text-[10px] font-medium text-[#8a8278]">
+              <span className="rounded-full bg-muted px-2 py-1 text-[10px] font-medium text-muted-foreground">
                 Explore
               </span>
             </div>
@@ -622,9 +622,9 @@ function VoiceExplorer({
 
               {filteredVoices.length === 0 && (
                 <div className="px-5 py-12 text-center">
-                  <Search className="mx-auto mb-3 size-5 text-[#d4c8b8]" />
-                  <p className="text-sm font-medium text-[#5c5548]">No voices found</p>
-                  <p className="mt-1 text-xs text-[#a8a095]">
+                  <Search className="mx-auto mb-3 size-5 text-muted-foreground" />
+                  <p className="text-sm font-medium text-foreground">No voices found</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Try changing your search or filters.
                   </p>
                 </div>
@@ -648,19 +648,19 @@ function VoiceExplorer({
                   <VoiceOrb voice={selected} active size="lg" />
                   <div>
                     <div className="mb-1 flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-[#f5f0e8] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#8a8278]">
+                      <span className="rounded-full bg-muted px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                         {selected.tag}
                       </span>
                       {selected.featured && (
-                        <span className="rounded-full bg-[#3d3630] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                        <span className="rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
                           Miralas Pick
                         </span>
                       )}
                     </div>
-                    <h3 className="text-3xl font-semibold tracking-tight text-[#2d2a26] sm:text-4xl">
+                    <h3 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                       {selected.name}
                     </h3>
-                    <p className="mt-1 max-w-lg text-sm leading-6 text-[#8a8278]">
+                    <p className="mt-1 max-w-lg text-sm leading-6 text-muted-foreground">
                       {selected.description}
                     </p>
                   </div>
@@ -668,15 +668,15 @@ function VoiceExplorer({
 
                 <button
                   type="button"
-                  className="flex size-10 items-center justify-center rounded-full border border-[#e8e0d5] bg-white text-[#a8a095] transition hover:border-[#d4c8b8] hover:text-[#3d3630]"
+                  className="flex size-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition hover:border-border hover:text-foreground"
                   aria-label="Add to favorites"
                 >
                   <Heart className="size-4" />
                 </button>
               </div>
 
-              <div className="mt-10 rounded-3xl border border-[#e8e0d5] bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6">
-                <div className="mb-4 flex items-center justify-between text-xs text-[#a8a095]">
+              <div className="mt-10 rounded-3xl border border-border bg-card/80 p-4 shadow-sm backdrop-blur sm:p-6">
+                <div className="mb-4 flex items-center justify-between text-xs text-muted-foreground">
                   <span>Voice preview</span>
                   <div className="flex items-center gap-3">
                     <span className="inline-flex items-center gap-1">
@@ -688,13 +688,13 @@ function VoiceExplorer({
                   </div>
                 </div>
 
-                <div className="rounded-2xl bg-[#faf6f0] px-4 py-5 sm:px-6">
+                <div className="rounded-2xl bg-muted px-4 py-5 sm:px-6">
                   <MiniWaveform
                     voice={selected}
                     isPlaying={playingId === selected.id}
                     large
                   />
-                  <div className="mt-4 flex items-center justify-between text-[10px] font-medium uppercase tracking-widest text-[#a8a095]">
+                  <div className="mt-4 flex items-center justify-between text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
                     <span>Preview</span>
                     <span>{playingId === selected.id ? "Playing" : "Ready"}</span>
                   </div>
@@ -702,10 +702,10 @@ function VoiceExplorer({
 
                 <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
                   <div>
-                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a8a095]">
+                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                       Demo text
                     </div>
-                    <p className="max-w-2xl text-base leading-7 text-[#5c5548]">
+                    <p className="max-w-2xl text-base leading-7 text-foreground">
                       "{selected.demoText}"
                     </p>
                   </div>
@@ -713,7 +713,7 @@ function VoiceExplorer({
                   <button
                     type="button"
                     onClick={() => togglePlay(selected.id)}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#3d3630] px-5 text-sm font-semibold text-white transition hover:bg-[#2d2a26]"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary"
                   >
                     {playingId === selected.id ? (
                       <>
@@ -730,20 +730,20 @@ function VoiceExplorer({
                 </div>
               </div>
 
-              <div className="mt-auto flex flex-col gap-4 border-t border-[#e8e0d5] pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="mt-auto flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <div className="flex items-center gap-2 text-sm font-medium text-[#2d2a26]">
+                  <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                     <Wand2 className="size-4" />
                     Move this voice to Miralas Studio
                   </div>
-                  <p className="mt-1 text-xs text-[#a8a095]">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Enter your text, adjust the tone, and start generating.
                   </p>
                 </div>
 
                 <a
                   href="https://console.miralas/auth"
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#3d3630] px-6 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#2d2a26]"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-primary"
                 >
                   Use Voice
                   <ArrowRight className="size-4" />
@@ -751,8 +751,8 @@ function VoiceExplorer({
               </div>
             </div>
 
-            <div className="border-t border-[#e8e0d5] bg-white/80 px-5 py-3 backdrop-blur sm:px-8">
-              <div className="flex items-center gap-2 text-xs text-[#a8a095]">
+            <div className="border-t border-border bg-card/80 px-5 py-3 backdrop-blur sm:px-8">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Volume2 className="size-3.5" />
                 Preview player · Miralas Voice Library
               </div>
@@ -766,8 +766,8 @@ function VoiceExplorer({
 
 function FeatureStrip() {
   return (
-    <section className="border-y border-[#e8e0d5] bg-[#fdfbf7] py-12 sm:py-16">
-      <div className="mx-auto grid max-w-7xl gap-px overflow-hidden rounded-2xl border border-[#e8e0d5] bg-[#e8e0d5] px-0 sm:grid-cols-3">
+    <section className="border-y border-border bg-background py-12 sm:py-16">
+      <div className="mx-auto grid max-w-7xl gap-px overflow-hidden rounded-2xl border border-border bg-border px-0 sm:grid-cols-3">
         {[
           {
             icon: Sparkles,
@@ -787,10 +787,10 @@ function FeatureStrip() {
         ].map((item) => {
           const Icon = item.icon;
           return (
-            <div key={item.title} className="bg-white p-6 sm:p-7">
-              <Icon className="mb-5 size-5 text-[#3d3630]" />
-              <h3 className="text-sm font-semibold text-[#2d2a26]">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-[#8a8278]">{item.description}</p>
+            <div key={item.title} className="bg-card p-6 sm:p-7">
+              <Icon className="mb-5 size-5 text-foreground" />
+              <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.description}</p>
             </div>
           );
         })}
@@ -803,16 +803,16 @@ function LoginWall() {
   return (
     <section className="py-12 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="relative overflow-hidden rounded-[28px] bg-[#2d2a26] px-6 py-12 text-center sm:px-10 sm:py-16">
-          <div className="absolute left-1/2 top-0 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.06] blur-3xl" />
+        <div className="relative overflow-hidden rounded-[28px] bg-primary px-6 py-12 text-center sm:px-10 sm:py-16">
+          <div className="absolute left-1/2 top-0 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-card/[0.06] blur-3xl" />
           <div className="relative z-10">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/40">
               Miralas TTS
             </p>
-            <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
               Start bringing your voice to life.
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/45 sm:text-base">
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-primary-foreground/45 sm:text-base">
               Take your selected voice from the Voice Library straight into Studio
               and create your first generation in seconds.
             </p>
@@ -820,19 +820,19 @@ function LoginWall() {
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <a
                 href="https://console.miralas.io/auth"
-                className="inline-flex h-11 items-center justify-center rounded-full bg-[#f5f0e8] px-6 text-sm font-semibold text-[#2d2a26] transition hover:bg-white"
+                className="inline-flex h-11 items-center justify-center rounded-full bg-muted px-6 text-sm font-semibold text-foreground transition hover:bg-card"
               >
                 Start for Free
               </a>
               <a
                 href="https://console.miralas.io/auth"
-                className="inline-flex h-11 items-center justify-center rounded-full border border-white/15 px-6 text-sm font-medium text-white transition hover:bg-white/5"
+                className="inline-flex h-11 items-center justify-center rounded-full border border-white/15 px-6 text-sm font-medium text-primary-foreground transition hover:bg-card/5"
               >
                 Log In
               </a>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-white/35">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-primary-foreground/35">
               <span className="inline-flex items-center gap-1.5">
                 <CheckCircle2 className="size-3.5" /> No credit card required
               </span>
@@ -863,14 +863,14 @@ export default function TTSPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#3d3630]">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
 
       <main>
-        <section className="relative overflow-hidden border-b border-[#f0ebe3] pt-28 sm:pt-36">
+        <section className="relative overflow-hidden border-b border-border pt-28 sm:pt-36">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-[10%] top-10 size-64 rounded-full bg-[#f5f0e8] blur-3xl" />
-            <div className="absolute right-[8%] top-20 size-72 rounded-full bg-[#e8ddd0] blur-3xl" />
+            <div className="absolute left-[10%] top-10 size-64 rounded-full bg-muted blur-3xl" />
+            <div className="absolute right-[8%] top-20 size-72 rounded-full bg-muted blur-3xl" />
           </div>
 
           <div className="relative mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20">
@@ -880,18 +880,18 @@ export default function TTSPage() {
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="max-w-3xl"
             >
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-3 py-1.5 text-[11px] font-medium text-[#8a8278] shadow-sm">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-medium text-muted-foreground shadow-sm">
                 <Sparkles className="size-3.5" />
                 Miralas Voice Library
               </div>
 
-              <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#2d2a26] sm:text-6xl">
+              <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-6xl">
                 Find the right voice.
                 <br />
                 Then make it speak.
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-7 text-[#8a8278] sm:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
                 The new Voice Library built for Miralas TTS lets you explore
                 voices like a real product panel instead of browsing them one
                 long card at a time.
@@ -902,25 +902,25 @@ export default function TTSPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.08 }}
-              className="mt-10 flex flex-wrap items-center gap-3 text-xs text-[#a8a095]"
+              className="mt-10 flex flex-wrap items-center gap-3 text-xs text-muted-foreground"
             >
               <span className="inline-flex items-center gap-1.5">
-                <CheckCircle2 className="size-3.5 text-[#b8956a]" />
+                <CheckCircle2 className="size-3.5 text-amber-700" />
                 Natural speech
               </span>
-              <span className="size-1 rounded-full bg-[#d4c8b8]" />
+              <span className="size-1 rounded-full bg-border" />
               <span className="inline-flex items-center gap-1.5">
-                <CheckCircle2 className="size-3.5 text-[#b8956a]" />
+                <CheckCircle2 className="size-3.5 text-amber-700" />
                 23+ languages
               </span>
-              <span className="size-1 rounded-full bg-[#d4c8b8]" />
+              <span className="size-1 rounded-full bg-border" />
               <span className="inline-flex items-center gap-1.5">
-                <CheckCircle2 className="size-3.5 text-[#b8956a]" />
+                <CheckCircle2 className="size-3.5 text-amber-700" />
                 Voice cloning
               </span>
-              <span className="size-1 rounded-full bg-[#d4c8b8]" />
+              <span className="size-1 rounded-full bg-border" />
               <span className="inline-flex items-center gap-1.5">
-                <CheckCircle2 className="size-3.5 text-[#b8956a]" />
+                <CheckCircle2 className="size-3.5 text-amber-700" />
                 API
               </span>
             </motion.div>

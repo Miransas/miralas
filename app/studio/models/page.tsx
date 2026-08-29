@@ -131,33 +131,32 @@ function ModelCard({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "group relative rounded-3xl border bg-background backdrop-blur-xl p-7 sm:p-8 transition-all duration-500 hover:bg-[#161616]",
-       
-        "hover:shadow-[0_0_60px_-12px_rgba(255,255,255,0.06)]"
+        "group relative rounded-3xl border border-border bg-card backdrop-blur-xl p-7 sm:p-8 transition-all duration-500 hover:bg-accent",
+
+        "hover:shadow-[0_0_60px_-12px_rgba(0,0,0,0.06)]"
       )}
     >
-    
+
       <div className="relative z-10">
         {/* Badge */}
         <div className="mb-5 flex items-center gap-3">
           <span
-            className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white"
-            style={{ backgroundColor: `$`,  border: "border" }}
+            className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider bg-primary text-primary-foreground"
           >
             {model.badge}
           </span>
-          <span className="text-[11px] text-zinc-600 font-medium tabular-nums">
+          <span className="text-[11px] text-muted-foreground font-medium tabular-nums">
             {model.params} params
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold text-white mb-2 tracking-tight">
+        <h3 className="text-xl font-bold text-foreground mb-2 tracking-tight">
           {model.name}
         </h3>
 
         {/* Meta */}
-        <div className="mb-4 flex items-center gap-4 text-xs text-zinc-500">
+        <div className="mb-4 flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <Zap className="size-3" /> {model.latency}
           </span>
@@ -167,18 +166,15 @@ function ModelCard({
         </div>
 
         {/* Desc */}
-        <p className="text-sm leading-relaxed text-zinc-400 mb-6">
+        <p className="text-sm leading-relaxed text-muted-foreground mb-6">
           {model.desc}
         </p>
 
         {/* Features */}
         <ul className="space-y-2.5">
           {model.features.map((feat, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-300">
-              <span
-                className="mt-1.5 size-1.5 rounded-full shrink-0"
-                style={{ backgroundColor: "" }}
-              />
+            <li key={i} className="flex items-start gap-2.5 text-sm text-foreground">
+              <span className="mt-1.5 size-1.5 rounded-full shrink-0 bg-foreground/50" />
               {feat}
             </li>
           ))}
@@ -190,7 +186,7 @@ function ModelCard({
 
 function SpecGrid() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-px rounded-3xl border border-white/10 overflow-hidden bg-white/5">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-px rounded-3xl border border-border overflow-hidden bg-border">
       {SPECS.map((spec, i) => {
         const Icon = spec.icon;
         return (
@@ -200,11 +196,11 @@ function SpecGrid() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.05, duration: 0.4 }}
-            className="bg-[#0a0a0a] p-5 sm:p-6 group hover:bg-[#111111] transition-colors"
+            className="bg-background p-5 sm:p-6 group hover:bg-accent transition-colors"
           >
-            <Icon className="size-5 text-zinc-600 mb-3 group-hover:text-zinc-400 transition-colors" strokeWidth={1.5} />
-            <div className="text-xs text-zinc-600 mb-1 uppercase tracking-wider">{spec.label}</div>
-            <div className="text-sm font-semibold text-zinc-200">{spec.value}</div>
+            <Icon className="size-5 text-muted-foreground mb-3 group-hover:text-foreground transition-colors" strokeWidth={1.5} />
+            <div className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">{spec.label}</div>
+            <div className="text-sm font-semibold text-foreground">{spec.value}</div>
           </motion.div>
         );
       })}
@@ -229,17 +225,17 @@ function LinkCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: 0.2 + index * 0.08, duration: 0.4 }}
-      className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300"
+      className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 hover:bg-accent hover:border-border transition-all duration-300"
     >
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
-        <Icon className="size-4.5 text-zinc-400 group-hover:text-white transition-colors" strokeWidth={1.5} />
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-background border border-border group-hover:bg-accent transition-colors">
+        <Icon className="size-4.5 text-muted-foreground group-hover:text-foreground transition-colors" strokeWidth={1.5} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2 text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors">
+        <div className="flex items-center gap-2 text-sm font-semibold text-foreground group-hover:text-foreground transition-colors">
           {link.label}
           <ArrowRight className="size-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
         </div>
-        <p className="text-xs text-zinc-600 mt-0.5 truncate">{link.desc}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 truncate">{link.desc}</p>
       </div>
     </motion.a>
   );
@@ -249,8 +245,8 @@ function LinkCard({
 export default function ModelPage() {
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#0a0a0a] text-white ">
-        <Header variant="dark" />
+      <div className="min-h-screen bg-background text-foreground ">
+        <Header />
         {/* Ambient background */}
         {/* <div className="fixed inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[#c9a87c]/[0.03] blur-[120px]" />
@@ -266,7 +262,7 @@ export default function ModelPage() {
               transition={{ duration: 0.5 }}
               className="mb-6"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 <Activity className="size-3" />
                 Open Source at Core
               </span>
@@ -279,9 +275,9 @@ export default function ModelPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-6 max-w-3xl"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
                 Built on{" "}
-                <span className="text-zinc-500">Chatterbox</span>.
+                <span className="text-muted-foreground">Chatterbox</span>.
                 <br />
                 Tuned for the world.
               </h1>
@@ -292,7 +288,7 @@ export default function ModelPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed mb-16"
+              className="text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-16"
             >
               We started with Resemble AI's open-source Chatterbox family — V3 for
               multilingual depth, Turbo for speed — then trained from scratch on
@@ -314,7 +310,7 @@ export default function ModelPage() {
               transition={{ duration: 0.5 }}
               className="mb-6"
             >
-              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-600 mb-6">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-6">
                 Technical Specifications
               </h2>
             </motion.div>
@@ -336,10 +332,10 @@ export default function ModelPage() {
                   <Radio className="size-6 text-[#10b981]" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">
+                  <h3 className="text-xl font-bold text-foreground mb-2">
                     Uzbek & Low-Resource Languages
                   </h3>
-                  <p className="text-sm leading-relaxed text-zinc-400 max-w-xl mb-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground max-w-xl mb-4">
                     While Chatterbox V3 ships with 23+ languages, Uzbek was not among them.
                     We built a zero-shot MVP from scratch — training on curated Uzbek speech
                     corpora, designing dialect-aware tokenization, and preserving regional
@@ -350,7 +346,7 @@ export default function ModelPage() {
                     {["Uzbek", "Kazakh", "Azerbaijani", "Turkmen", "Kyrgyz"].map((lang) => (
                       <span
                         key={lang}
-                        className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-medium text-zinc-300"
+                        className="rounded-full bg-card border border-border px-3 py-1 text-xs font-medium text-foreground"
                       >
                         {lang}
                       </span>
@@ -368,7 +364,7 @@ export default function ModelPage() {
               transition={{ duration: 0.5 }}
               className="mb-6"
             >
-              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-600 mb-6">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-6">
                 Open Source & References
               </h2>
             </motion.div>
@@ -384,15 +380,15 @@ export default function ModelPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 sm:p-10 text-center relative overflow-hidden"
+              className="rounded-3xl border border-border bg-card p-8 sm:p-10 text-center relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-foreground/[0.02] to-transparent" />
               <div className="relative z-10">
-                <GitBranch className="size-6 text-zinc-600 mx-auto mb-4" strokeWidth={1.5} />
-                <h3 className="text-xl font-bold text-white mb-2">
+                <GitBranch className="size-6 text-muted-foreground mx-auto mb-4" strokeWidth={1.5} />
+                <h3 className="text-xl font-bold text-foreground mb-2">
                   Fork it. Tune it. Ship it.
                 </h3>
-                <p className="text-sm text-zinc-500 max-w-md mx-auto mb-6">
+                <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">
                   Everything we built on top of Chatterbox is documented. Start from the
                   original weights, apply our fine-tuning recipes, or train your own
                   language from zero.
@@ -402,7 +398,7 @@ export default function ModelPage() {
                     href="https://github.com/resemble-ai/chatterbox"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#0a0a0a] hover:bg-zinc-200 transition-colors"
+                    className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
                   >
                     <IconBrandGithub className="size-4" />
                     View on GitHub
@@ -411,7 +407,7 @@ export default function ModelPage() {
                     href="https://www.resemble.ai/learn/models/chatterbox"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 px-6 text-sm font-medium text-zinc-300 hover:bg-white/5 hover:text-white transition-colors"
+                    className="inline-flex h-11 items-center gap-2 rounded-full border border-border px-6 text-sm font-medium text-foreground hover:bg-accent transition-colors"
                   >
                     <ExternalLink className="size-4" />
                     Resemble AI Docs
@@ -422,13 +418,13 @@ export default function ModelPage() {
 
             {/* Footer note */}
             <div className="mt-12 text-center">
-              <p className="text-sm text-zinc-700">
+              <p className="text-sm text-muted-foreground">
                 Licensed under MIT. Chatterbox is developed by{" "}
                 <a
                   href="https://www.resemble.ai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2"
+                  className="text-foreground hover:text-foreground/80 transition-colors underline underline-offset-2"
                 >
                   Resemble AI
                 </a>

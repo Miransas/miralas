@@ -6,22 +6,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@custom-variant dark (&:is(.dark *));
-
 
 @theme {
-  --color-bg: #050505;
-  --color-elevated: #0c0c0e;
-  --color-surface: #121214;
-  --color-fg: #f2f2f3;
-  --color-muted: #9a9aa3;
-  --color-subtle: #6d6d75;
-  --color-border: #1c1c20;
-  --color-line: #2a2a30;
-  --color-accent: #f2f2f3;
-  --color-accent-fg: #050505;
-  --color-code: #8b96a8;
-
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
@@ -101,6 +87,13 @@
   --color-midnight: #0d1726;
   --color-surface: var(--surface);
   --color-surface-hover: var(--surface-hover);
+  --color-bg: var(--background);
+  --color-elevated: var(--card);
+  --color-fg: var(--foreground);
+  --color-subtle: var(--muted-foreground);
+  --color-line: var(--border);
+  --color-accent-fg: var(--accent-foreground);
+  --color-code: var(--muted-foreground);
   --radius-sm: 8px;
   --radius-md: 8px;
   --radius-lg: 8px;
@@ -148,10 +141,10 @@
   --secondary: #f5f5f5;
   --secondary-foreground: #0a0a0a;
   --muted: #f5f5f5;
-  --muted-foreground: #7d8187;
+  --muted-foreground: #52565d;
   --accent: #f4f4f5;
   --accent-foreground: #0a0a0a;
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: #ef4444;
   --border: #e8e8ea;
   --input: #e8e8ea;
   --ring: #0a0a0a;
@@ -200,7 +193,7 @@
   --secondary: #1a1c20;
   --secondary-foreground: #ffffff;
   --muted: #1a1c20;
-  --muted-foreground: #7d8187;
+  --muted-foreground: #a1a5ab;
   --accent: #212121;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
@@ -391,7 +384,7 @@ section {
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Light mode card */
+/* Light mode card override */
 :root:not(.dark) .premium-card {
   background:
     linear-gradient(
@@ -400,15 +393,12 @@ section {
       rgba(250, 250, 250, 0.9)
     ),
     var(--surface);
-
   border-color: var(--border-subtle);
 }
 
 :root:not(.dark) .premium-card:hover {
   background: var(--surface);
-
   border-color: var(--border-strong);
-
   box-shadow: var(--shadow-card-hover);
 }
 

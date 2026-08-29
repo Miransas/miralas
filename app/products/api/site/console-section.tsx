@@ -49,10 +49,10 @@ export function ConsoleSection() {
         <div className="grid gap-3 sm:grid-cols-2">
           {FEATURES.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.05}>
-              <article className="h-full rounded-2xl bg-elevated p-5 shadow-[var(--shadow-border)]">
-                <item.icon className="size-4 text-fg" strokeWidth={1.5} />
-                <h3 className="mt-4 text-sm font-semibold text-fg">{item.title}</h3>
-                <p className="mt-1.5 text-stone-400 text-sm leading-relaxed text-muted">
+              <article className="h-full rounded-2xl bg-card p-5 shadow-[var(--shadow-border)]">
+                <item.icon className="size-4 text-foreground" strokeWidth={1.5} />
+                <h3 className="mt-4 text-sm font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-1.5 text-muted-foreground text-sm leading-relaxed">
                   {item.body}
                 </p>
               </article>

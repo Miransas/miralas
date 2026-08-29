@@ -31,7 +31,7 @@ const FloatingParticle = ({ delay }: { delay: number }) => {
 
   return (
     <motion.div
-      className="absolute w-1 h-1 bg-white rounded-full"
+      className="absolute w-1 h-1 bg-foreground rounded-full"
       style={{
         x: `${Math.random() * 100}%`,
         y: ySpring,
@@ -70,7 +70,7 @@ export default function About() {
           <AsciiBackground variant="waves" />
           <section ref={containerRef} className="min-h-screen relative overflow-hidden">
             <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/50 to-black"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-muted/50 to-background"></div>
               {[...Array(50)].map((_, i) => (
                 <FloatingParticle key={i} delay={i * 100} />
               ))}
@@ -85,17 +85,17 @@ export default function About() {
                   className="text-center mb-16"
                 >
                   <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight relative">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-500">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground">
                       Elevate Your Sound
                     </span>
                     <motion.span
-                      className="absolute -inset-1 bg-white rounded-full blur-3xl"
+                      className="absolute -inset-1 bg-foreground rounded-full blur-3xl"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: [0, 0.1, 0] }}
                       transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
                     />
                   </h1>
-                  <p className="text-xl md:text-2xl mb-8 text-zinc-400 max-w-3xl mx-auto">
+                  <p className="text-xl md:text-2xl mb-8 text-muted-foreground max-w-3xl mx-auto">
                     Crafting unique beats that help artists stand out. From trap to lo-fi, find your perfect sound and take
                     your music to the next level.
                   </p>
@@ -103,14 +103,14 @@ export default function About() {
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative z-10">
                       <Button
                         size="lg"
-                        className="bg-white text-black hover:bg-zinc-200 text-lg px-8 py-6 rounded-full transition-colors relative overflow-hidden group"
+                        className="bg-primary text-primary-foreground hover:opacity-90 text-lg px-8 py-6 rounded-full transition-colors relative overflow-hidden group"
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                         onClick={() => window.open("https://drqnnel.beatstars.com", "_blank", "noopener,noreferrer")}
                       >
                         <span className="relative z-10">Visit BeatStars</span>
                         <motion.span
-                          className="absolute inset-0 bg-gradient-to-r from-zinc-200 to-white"
+                          className="absolute inset-0 bg-gradient-to-r from-primary to-primary"
                           initial={{ x: "100%" }}
                           animate={{ x: isHovered ? "0%" : "100%" }}
                           transition={{ duration: 0.3 }}
@@ -138,9 +138,9 @@ export default function About() {
                     >
                       <motion.div
                         whileHover={{ scale: 1.05 }}
-                        className="bg-zinc-900/50 rounded-xl p-6 backdrop-blur-lg border border-white/10 transition-colors hover:border-white/20"
+                        className="bg-card/50 rounded-xl p-6 backdrop-blur-lg border border-border transition-colors hover:border-border/80"
                       >
-                        <div className="mb-2 text-white/70 flex justify-center">{stat.icon}</div>
+                        <div className="mb-2 text-muted-foreground flex justify-center">{stat.icon}</div>
                         <motion.div
                           className="text-3xl font-bold mb-1"
                           initial={{ opacity: 0 }}
@@ -149,7 +149,7 @@ export default function About() {
                         >
                           {stat.value}
                         </motion.div>
-                        <div className="text-sm text-zinc-400">{stat.label}</div>
+                        <div className="text-sm text-muted-foreground">{stat.label}</div>
                       </motion.div>
                     </motion.div>
                   ))}

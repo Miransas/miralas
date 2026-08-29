@@ -86,9 +86,9 @@ export function VoiceCard() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
             </div>
-            <span className="text-xs font-medium text-stone-400">Agent Online</span>
+            <span className="text-xs font-medium text-muted-foreground">Agent Online</span>
           </div>
-          <Activity className="size-4 text-stone-600" />
+          <Activity className="size-4 text-muted-foreground" />
         </div>
 
         {/* Orta mikrofon */}
@@ -97,12 +97,12 @@ export function VoiceCard() {
             <div className="absolute -inset-4 rounded-full bg-indigo-500/10 blur-xl" />
             <div className="absolute -inset-2 rounded-full bg-purple-500/10 blur-lg" />
             <div className="relative flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20">
-              <Mic className="size-6 text-white" />
+              <Mic className="size-6 text-foreground" />
             </div>
           </div>
           <div className="text-center">
-            <p className="text-sm font-semibold text-white">Voice Agent</p>
-            <p className="text-xs text-stone-500">Ready to listen</p>
+            <p className="text-sm font-semibold text-foreground">Voice Agent</p>
+            <p className="text-xs text-muted-foreground">Ready to listen</p>
           </div>
         </div>
 

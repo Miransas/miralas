@@ -34,14 +34,14 @@ export function Cloud() {
       <div className="mt-12 grid gap-4 md:grid-cols-3">
         {CLOUDS.map((cloud, i) => (
           <Reveal key={cloud.name} delay={i * 0.06}>
-            <article className="flex h-full flex-col rounded-2xl bg-elevated p-6 shadow-[var(--shadow-border)]">
-              <p className="text-xs font-medium tracking-caps text-subtle uppercase">
+            <article className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-[var(--shadow-border)]">
+              <p className="text-xs font-medium tracking-caps text-muted-foreground uppercase">
                 {cloud.name}
               </p>
-              <h3 className="mt-3 text-lg font-semibold tracking-tight text-fg">
+              <h3 className="mt-3 text-lg font-semibold tracking-tight text-foreground">
                 {cloud.product}
               </h3>
-              <p className="mt-2 text-stone-400 text-sm leading-relaxed text-muted">{cloud.body}</p>
+              <p className="mt-2 text-muted-foreground text-sm leading-relaxed">{cloud.body}</p>
             </article>
           </Reveal>
         ))}

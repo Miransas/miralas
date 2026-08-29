@@ -136,10 +136,10 @@ const PRESS_LOGOS = [
 // ─── MARQUEE ───
 function Marquee({ items, speed = 35 }: { items: string[]; speed?: number }) {
   return (
-    <div className="relative overflow-hidden py-5 border-y border-[#e8e0d5]/40 bg-white/40">
+    <div className="relative overflow-hidden py-5 border-y border-border/40 bg-card/40">
       <div className="flex w-max animate-marquee" style={{ animationDuration: `${speed}s` }}>
         {[...items, ...items].map((item, i) => (
-          <span key={i} className="mx-8 text-sm font-semibold text-[#a8a095] tracking-tight whitespace-nowrap select-none">
+          <span key={i} className="mx-8 text-sm font-semibold text-muted-foreground tracking-tight whitespace-nowrap select-none">
             {item}
           </span>
         ))}
@@ -185,7 +185,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
       transition={{ delay: index * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-3xl overflow-hidden border border-[#e8e0d5]/60 bg-white shadow-sm hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] transition-all duration-500"
+      className="group relative rounded-3xl overflow-hidden border border-border/60 bg-card shadow-sm hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] transition-all duration-500"
     >
       {/* Media Container — aspect-[4/5] like Instagram */}
       <div className="relative aspect-[4/5] overflow-hidden">
@@ -217,14 +217,14 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
         {/* Top bar — role badge + verified */}
         <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
           <span
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-md"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground backdrop-blur-md"
             style={{ backgroundColor: `${creator.color}CC` }}
           >
             <RoleIcon className="size-3" />
             {creator.role}
           </span>
           {creator.verified && (
-            <span className="flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md px-2 py-1 text-[10px] font-semibold text-white">
+            <span className="flex items-center gap-1 rounded-full bg-card/20 backdrop-blur-md px-2 py-1 text-[10px] font-semibold text-foreground">
               <CheckCircle2 className="size-3" />
               Verified
             </span>
@@ -239,7 +239,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               onClick={toggleMute}
-              className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white hover:bg-black/50 transition-colors"
+              className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-full bg-background/30 backdrop-blur-md text-foreground hover:bg-background/50 transition-colors"
             >
               {isMuted ? <VolumeX className="size-3.5" /> : <Volume2 className="size-3.5" />}
             </motion.button>
@@ -253,8 +253,8 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
             isHovered ? "opacity-0" : "opacity-100"
           )}
         >
-          <div className="flex size-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/30">
-            <Play className="size-6 text-white fill-white ml-0.5" />
+          <div className="flex size-14 items-center justify-center rounded-full bg-card/20 backdrop-blur-md border border-border">
+            <Play className="size-6 text-foreground fill-white ml-0.5" />
           </div>
         </div>
 
@@ -263,16 +263,16 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
           {/* Name & Handle */}
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-lg font-bold text-white tracking-tight">{creator.name}</h3>
+              <h3 className="text-lg font-bold text-foreground tracking-tight">{creator.name}</h3>
               {creator.verified && (
                 <CheckCircle2 className="size-4 text-[#0ea5e9] fill-[#0ea5e9]" />
               )}
             </div>
-            <p className="text-xs text-white/70 font-mono">{creator.handle}</p>
+            <p className="text-xs text-foreground/70 font-mono">{creator.handle}</p>
           </div>
 
           {/* Bio */}
-          <p className="text-[13px] text-white/80 leading-relaxed mb-4 line-clamp-2">
+          <p className="text-[13px] text-foreground/80 leading-relaxed mb-4 line-clamp-2">
             {creator.bio}
           </p>
 
@@ -281,7 +281,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
             {creator.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-white/15 backdrop-blur-sm px-2.5 py-0.5 text-[10px] font-medium text-white/90 border border-white/10"
+                className="rounded-full bg-card/15 backdrop-blur-sm px-2.5 py-0.5 text-[10px] font-medium text-foreground/90 border border-border"
               >
                 {tag}
               </span>
@@ -290,7 +290,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
 
           {/* Stats + Actions */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 text-xs text-white/60">
+            <div className="flex items-center gap-4 text-xs text-foreground/60">
               <span className="flex items-center gap-1">
                 <Mic2 className="size-3" /> {creator.stats.clips}
               </span>
@@ -303,12 +303,12 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
                 onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
                 className={cn(
                   "flex size-8 items-center justify-center rounded-full backdrop-blur-md transition-all",
-                  liked ? "bg-red-500/80 text-white" : "bg-white/15 text-white/80 hover:bg-white/25"
+                  liked ? "bg-red-500/80 text-foreground" : "bg-card/15 text-foreground/80 hover:bg-card/25"
                 )}
               >
                 <Heart className={cn("size-3.5", liked && "fill-current")} />
               </button>
-              <button className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white/80 hover:bg-white/25 backdrop-blur-md transition-all">
+              <button className="flex size-8 items-center justify-center rounded-full bg-card/15 text-foreground/80 hover:bg-card/25 backdrop-blur-md transition-all">
                 <Share2 className="size-3.5" />
               </button>
             </div>
@@ -317,7 +317,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
       </div>
 
       {/* Card Footer — Social Links (visible below image) */}
-      <div className="px-5 py-4 bg-white">
+      <div className="px-5 py-4 bg-card">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {creator.social.instagram && (
@@ -325,7 +325,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
                 href={creator.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs text-[#8a8278] hover:text-[#c9a87c] transition-colors"
+                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-amber-600 transition-colors"
               >
                 <IconBrandInstagram className="size-3.5" />
                 <span className="hidden sm:inline">Instagram</span>
@@ -336,7 +336,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
                 href={creator.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs text-[#8a8278] hover:text-red-500 transition-colors"
+                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-red-500 transition-colors"
               >
                 <IconBrandYoutube className="size-3.5" />
                 <span className="hidden sm:inline">YouTube</span>
@@ -347,7 +347,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
                 href={creator.social.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs text-[#8a8278] hover:text-sky-500 transition-colors"
+                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-sky-500 transition-colors"
               >
                 <IconBrandX className="size-3.5" />
                 <span className="hidden sm:inline">Twitter</span>
@@ -358,7 +358,7 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
             href={creator.social.instagram || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-[#2d2a26] hover:text-[#c9a87c] transition-colors"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-foreground hover:text-amber-600 transition-colors"
           >
             Follow
             <ArrowUpRight className="size-3" />
@@ -372,9 +372,9 @@ function CreatorCard({ creator, index }: { creator: (typeof CREATORS)[0]; index:
 // ─── HERO VIDEO ───
 function HeroVideo() {
   return (
-    <section className="relative w-full bg-[#fdfbf7] pt-20">
+    <section className="relative w-full bg-background pt-20">
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <div className="relative rounded-[2.5rem] overflow-hidden border border-[#e8e0d5]/60 shadow-[0_20px_60px_-20px_rgba(45,42,38,0.08)]">
+        <div className="relative rounded-[2.5rem] overflow-hidden border border-border/60 shadow-[0_20px_60px_-20px_rgba(45,42,38,0.08)]">
           <div className="relative aspect-[16/9] sm:aspect-[21/9]">
             <video
               autoPlay
@@ -395,7 +395,7 @@ function HeroVideo() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80 mb-6">
+                <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/10 backdrop-blur-md px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/80 mb-6">
                   <Sparkles className="size-3" />
                   Our Creator Community
                 </span>
@@ -404,17 +404,17 @@ function HeroVideo() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.35 }}
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white max-w-3xl"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground max-w-3xl"
               >
                 Voices that move
                 <br />
-                <span className="text-white/70">the world forward</span>
+                <span className="text-foreground/70">the world forward</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="mt-5 text-sm sm:text-base text-white/60 max-w-lg leading-relaxed"
+                className="mt-5 text-sm sm:text-base text-foreground/60 max-w-lg leading-relaxed"
               >
                 Meet the artists, actors, and creators shaping the future of voice in Uzbekistan and beyond.
               </motion.p>
@@ -426,7 +426,7 @@ function HeroVideo() {
               >
                 <a
                   href="#creators"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#2d2a26] hover:bg-white/90 transition-colors shadow-lg"
+                  className="inline-flex items-center gap-2 rounded-full bg-card px-6 py-3 text-sm font-semibold text-foreground hover:bg-card/90 transition-colors shadow-lg"
                 >
                   <User className="size-4" />
                   Explore Creators
@@ -435,7 +435,7 @@ function HeroVideo() {
                   href="https://instagram.com/miransaas"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-3 text-sm font-medium text-white hover:bg-white/20 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card/10 backdrop-blur-sm px-6 py-3 text-sm font-medium text-foreground hover:bg-card/20 transition-colors"
                 >
                   <IconBrandInstagram className="size-4" />
                   Follow Us
@@ -500,8 +500,8 @@ function FaqAccordionItem({
       className={cn(
         "transition-all duration-200",
         isOpen
-          ? "rounded-xl border-2 border-stone-50 bg-white p-1 shadow-sm"
-          : "border-b border-dotted border-stone-300 py-2 hover:border-stone-400"
+          ? "rounded-xl border-2 border-stone-50 bg-card p-1 shadow-sm"
+          : "border-b border-dotted border-border py-2 hover:border-stone-400"
       )}
     >
       <button
@@ -516,7 +516,7 @@ function FaqAccordionItem({
         <span
           className={cn(
             "text-base font-normal transition-colors sm:text-[17px]",
-            isOpen ? "text-stone-900 font-medium" : "text-stone-900 "
+            isOpen ? "text-foreground font-medium" : "text-foreground "
           )}
         >
           {item.question}
@@ -525,7 +525,7 @@ function FaqAccordionItem({
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="flex shrink-0 items-center justify-center text-stone-400"
+          className="flex shrink-0 items-center justify-center text-muted-foreground"
         >
           <ChevronDown className="size-4" strokeWidth={1.5} />
         </motion.span>
@@ -541,7 +541,7 @@ function FaqAccordionItem({
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 pt-1">
-              <p className="text-[14px] leading-relaxed text-stone-600 sm:text-[15px]">
+              <p className="text-[14px] leading-relaxed text-muted-foreground sm:text-[15px]">
                 {item.answer}
               </p>
             </div>
@@ -570,9 +570,9 @@ export default function MediaPage() {
   return (
     <SmoothScroll>
       {/* Arka plan saf beyaz ve temiz stone tonlarına çekildi */}
-      <div className="min-h-screen bg-white text-stone-900 font-sans selection:bg-stone-200">
+      <div className="min-h-screen bg-card text-foreground font-sans selection:bg-stone-200">
         {/* Header */}
-        <Header variant="light" />
+        <Header />
 
         {/* Hero Video */}
         <HeroVideo />
@@ -587,14 +587,14 @@ export default function MediaPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-500 mb-4">
-              <Mic2 className="size-3 text-stone-400" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-4">
+              <Mic2 className="size-3 text-muted-foreground" />
               Featured Creators
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-stone-900 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
               The people behind the voices
             </h2>
-            <p className="text-base text-stone-500 max-w-lg mx-auto leading-relaxed">
+            <p className="text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
               Uzbek voice artists, actors, and content creators using Miralas to reach millions.
               Follow their journey.
             </p>
@@ -615,8 +615,8 @@ export default function MediaPage() {
                 className={cn(
                   "rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200",
                   activeFilter === filter
-                    ? "bg-stone-900 text-white shadow-sm"
-                    : "bg-stone-50 border border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900"
+                    ? "bg-card text-foreground shadow-sm"
+                    : "bg-muted border border-border text-muted-foreground hover:border-border hover:text-foreground"
                 )}
               >
                 {filter}
@@ -639,20 +639,20 @@ export default function MediaPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mt-20 rounded-3xl border border-stone-200 bg-stone-50/50 p-8 sm:p-10 text-center relative overflow-hidden"
+            className="mt-20 rounded-3xl border border-border bg-muted/50 p-8 sm:p-10 text-center relative overflow-hidden"
           >
             <div className="relative z-10">
-              <Mic2 className="size-6 text-stone-700 mx-auto mb-4" strokeWidth={1.5} />
-              <h3 className="text-xl font-bold text-stone-900 mb-2">
+              <Mic2 className="size-6 text-muted-foreground mx-auto mb-4" strokeWidth={1.5} />
+              <h3 className="text-xl font-bold text-foreground mb-2">
                 Are you a voice artist or creator?
               </h3>
-              <p className="text-sm text-stone-500 max-w-md mx-auto mb-6">
+              <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">
                 Join our creator program. Get early access to new voices, revenue share, and featured placement.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a
                   href="mailto:creators@miransas.com"
-                  className="inline-flex items-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-sm font-semibold text-white hover:bg-stone-800 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-card px-6 py-3 text-sm font-semibold text-foreground hover:bg-card transition-colors shadow-sm"
                 >
                   <MessageSquare className="size-4" />
                   Apply to Join
@@ -661,7 +661,7 @@ export default function MediaPage() {
                   href="https://instagram.com/miransaas"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-6 py-3 text-sm font-medium text-stone-700 hover:bg-stone-100 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors"
                 >
                   <IconBrandInstagram className="size-4" />
                   Follow on Instagram
@@ -675,13 +675,13 @@ export default function MediaPage() {
        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-20 px-14 py-12 ">
           
           <div className="flex flex-col lg:sticky lg:top-28 lg:col-span-5">
-            <span className="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-400">
+            <span className="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               Creators & Media FAQ
             </span>
-            <h2 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Partnering with<br />our creators
             </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-stone-500">
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
               Ses sanatçıları, ajanslar ve içerik üreticileri için Miralas iş birliği, lisanslama ve telif detayları.
             </p>
           </div>

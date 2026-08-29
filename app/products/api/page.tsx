@@ -14,7 +14,7 @@ import { Cloud } from './site/cloud'
 const page = () => {
   return (
     <div>
-      <Header variant='dark' />
+      <Header />
       <div>
         <Hero />
         <GettingStarted />

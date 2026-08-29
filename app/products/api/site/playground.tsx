@@ -57,18 +57,18 @@ export function Playground() {
       </Reveal>
 
       <Reveal delay={0.08}>
-        <div className="mt-10 overflow-hidden rounded-2xl bg-elevated shadow-[var(--shadow-border)]">
+        <div className="mt-10 overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-border)]">
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <div className="flex items-center gap-2">
-              <span className="size-1.5 rounded-full bg-fg/70" />
-              <span className="font-mono text-xs text-stone-300">grok-4.6</span>
+              <span className="size-1.5 rounded-full bg-foreground/70" />
+              <span className="font-mono text-xs text-muted-foreground">grok-4.6</span>
             </div>
-            <span className="text-xs text-subtle">Playground · demo</span>
+            <span className="text-xs text-muted-foreground">Playground · demo</span>
           </div>
 
           <div className="grid md:grid-cols-2">
             <div className="flex min-h-72 flex-col border-b border-border p-4 md:border-b-0 md:border-r">
-              <label htmlFor="prompt" className="text-xs font-medium text-subtle">
+              <label htmlFor="prompt" className="text-xs font-medium text-muted-foreground">
                 Prompt
               </label>
               <textarea
@@ -76,7 +76,7 @@ export function Playground() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 rows={6}
-                className="mt-2 min-h-32 w-full resize-none bg-transparent text-sm leading-relaxed text-fg outline-none placeholder:text-subtle"
+                className="mt-2 min-h-32 w-full resize-none bg-transparent text-sm leading-relaxed text-foreground outline-none placeholder:text-muted-foreground"
                 placeholder="Ask Grok anything…"
               />
               <div className="mt-auto flex flex-wrap gap-2 pt-3">
@@ -85,7 +85,7 @@ export function Playground() {
                     key={p}
                     type="button"
                     onClick={() => setPrompt(p)}
-                    className="h-8 rounded-full px-3 text-xs  shadow-[var(--shadow-border)] transition-[color,box-shadow] duration-150 ease-out text-fg hover:text-stone-400 hover:shadow-[var(--shadow-border-hover)]"
+                    className="h-8 rounded-full px-3 text-xs shadow-[var(--shadow-border)] transition-[color,box-shadow] duration-150 ease-out text-foreground hover:text-muted-foreground hover:shadow-[var(--shadow-border-hover)]"
                   >
                     {p}
                   </button>
@@ -107,19 +107,19 @@ export function Playground() {
             </div>
 
             <div className="flex min-h-72 flex-col p-4">
-              <p className="text-xs font-medium text-subtle">Response</p>
-              <p className="mt-2 flex-1 text-pretty text-sm leading-relaxed text-fg">
+              <p className="text-xs font-medium text-muted-foreground">Response</p>
+              <p className="mt-2 flex-1 text-pretty text-sm leading-relaxed text-foreground">
                 {out || (
-                  <span className="text-subtle">
+                  <span className="text-muted-foreground">
                     Run a prompt to stream a sample Grok reply in this browser.
                   </span>
                 )}
                 {running ? (
-                  <span className="ml-0.5 inline-block h-3 w-px translate-y-px bg-fg align-middle" />
+                  <span className="ml-0.5 inline-block h-3 w-px translate-y-px bg-foreground align-middle" />
                 ) : null}
               </p>
               {out ? (
-                <p className="mt-3 font-mono text-xs text-subtle tabular-nums">
+                <p className="mt-3 font-mono text-xs text-muted-foreground tabular-nums">
                   {out.split(/\s+/).filter(Boolean).length} words · demo output
                 </p>
               ) : null}

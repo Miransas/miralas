@@ -85,8 +85,8 @@ function FaqAccordionItem({
       // ❌ animate/exit prop'ları kaldırıldı (dış kart statik olmalı)
       className={cn(
         isOpen
-          ? "rounded-xl bg-white p-1 shadow-sm ring-1 ring-stone-200"
-          : "border-b border-dotted border-stone-300 py-2 hover:border-stone-400"
+          ? "rounded-xl bg-card p-1 shadow-sm ring-1 ring-border"
+          : "border-b border-dotted border-border py-2 hover:border-foreground/40"
       )}
     >
       <button
@@ -101,7 +101,7 @@ function FaqAccordionItem({
         <span
           className={cn(
             "text-base font-normal transition-colors sm:text-[17px]",
-            isOpen ? "font-medium text-stone-900" : "text-stone-900 hover:text-blue-600"
+            isOpen ? "font-medium text-foreground" : "text-foreground hover:text-blue-600"
           )}
         >
           {item.question}
@@ -110,7 +110,7 @@ function FaqAccordionItem({
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.25, ease }}
-          className="flex shrink-0 items-center justify-center text-stone-400"
+          className="flex shrink-0 items-center justify-center text-muted-foreground"
         >
           <ChevronDown className="size-4" strokeWidth={1.5} />
         </motion.span>
@@ -128,7 +128,7 @@ function FaqAccordionItem({
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 pt-1">
-              <p className="text-[14px] leading-relaxed text-stone-600 sm:text-[15px]">
+              <p className="text-[14px] leading-relaxed text-muted-foreground sm:text-[15px]">
                 {item.answer}
               </p>
             </div>
@@ -143,16 +143,16 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="bg-white py-20 text-stone-900 sm:py-28">
+    <section className="bg-background py-20 text-foreground sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-20">
 
           {/* Sol Taraf: Görseldeki Temiz Başlık Yapısı */}
           <div className="flex flex-col lg:sticky lg:top-28 lg:col-span-5">
-            <h2 className="text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+            <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Everything youneed to know
             </h2>
-            <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-stone-500">
+            <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-muted-foreground">
               Can&apos;t find what you&apos;re looking for? Reach out to our support
               team and we&apos;ll get back to you within 24 hours.
             </p>
@@ -178,22 +178,22 @@ export default function FaqSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1, duration: 0.4 }}
-              className="mt-12 flex flex-col items-start justify-between gap-4 rounded-xl border border-stone-200 bg-stone-50/60 p-6 sm:flex-row sm:items-center sm:p-7"
+              className="mt-12 flex flex-col items-start justify-between gap-4 rounded-xl border border-border bg-muted/40 p-6 sm:flex-row sm:items-center sm:p-7"
             >
               <div>
-                <p className="text-base font-medium text-stone-900">
+                <p className="text-base font-medium text-foreground">
                   Still have questions?
                 </p>
-                <p className="mt-0.5 text-sm text-stone-500">
+                <p className="mt-0.5 text-sm text-muted-foreground">
                   Our team is here to help you get started with Miralas TTS.
                 </p>
               </div>
 
               <a
                 href="mailto:support@miralas.com"
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-900 shadow-sm transition-all hover:bg-stone-100 hover:text-stone-950"
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-accent"
               >
-                <Mail className="size-4 text-stone-600" strokeWidth={1.75} />
+                <Mail className="size-4 text-muted-foreground" strokeWidth={1.75} />
                 Contact Support
               </a>
             </motion.div>

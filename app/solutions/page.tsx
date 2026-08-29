@@ -157,46 +157,46 @@ function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
     >
       {/* Timeline dot and line */}
       <div className="flex w-6 flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2 md:top-0 md:h-full">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-neutral-300 bg-neutral-100 text-neutral-950 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white transition-colors duration-300 group-hover:border-neutral-950 group-hover:dark:border-white">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-border bg-muted text-foreground transition-colors duration-300 group-hover:border-foreground">
           <span className="text-sm font-semibold">{item.number}</span>
         </div>
-        <div className="w-px flex-1 bg-neutral-200 dark:bg-neutral-800 transition-colors duration-300" />
+        <div className="w-px flex-1 bg-border transition-colors duration-300" />
       </div>
 
       {/* Card content */}
-      <div className="relative flex-1 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:border-zinc-300 group-hover:bg-zinc-50/50 group-hover:shadow-md dark:border-white/5 dark:bg-[#0A0A0A] dark:shadow-none dark:group-hover:border-white/10 dark:group-hover:bg-[#212121] dark:group-hover:shadow-none md:w-[calc(50%-2rem)] md:flex-initial">
+      <div className="relative flex-1 rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:bg-accent group-hover:shadow-md md:w-[calc(50%-2rem)] md:flex-initial">
         {/* Top bar: icon and badge */}
         <div className="flex items-center justify-between gap-4 mb-5">
           <div className="flex items-center gap-3">
-            <div className="text-neutral-500 dark:text-neutral-400">
+            <div className="text-muted-foreground">
               {item.icon}
             </div>
-            <span className="text-sm font-semibold text-neutral-950 dark:text-white/80">
+            <span className="text-sm font-semibold text-foreground">
               {item.badgeTag}
             </span>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 text-xs font-medium tracking-wide text-neutral-700 dark:border-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-300">
-            <Sparkles className="h-3 w-3 text-neutral-500 dark:text-neutral-600" />
+          <div className="flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground">
+            <Sparkles className="h-3 w-3 text-muted-foreground" />
             {item.badgeTag.split(" ")[0]}
           </div>
         </div>
 
         {/* Main heading */}
-        <h2 className="mb-3 text-2xl font-bold tracking-tight text-neutral-950 dark:text-white">
+        <h2 className="mb-3 text-2xl font-bold tracking-tight text-foreground">
           {item.title}
         </h2>
 
         {/* Description */}
-        <p className="mb-8 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+        <p className="mb-8 text-base leading-relaxed text-muted-foreground">
           {item.description}
         </p>
 
         {/* Meta details */}
         <div className="mt-auto space-y-4">
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+          <div className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
             DETAILS
           </div>
-          <div className="flex flex-wrap gap-4 text-sm text-neutral-700 dark:text-neutral-300">
+          <div className="flex flex-wrap gap-4 text-sm text-foreground/80">
             {[
               { key: "bestFor", label: "Best For", icon: Building2 },
               { key: "product", label: "Product", icon: Cpu },
@@ -206,11 +206,11 @@ function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
               const value = item[meta.key as keyof SolutionItem] as string;
               return (
                 <div key={meta.key} className="flex items-center gap-2.5">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-neutral-100 dark:bg-neutral-800">
-                    <Icon className="h-3.5 w-3.5 text-neutral-500 dark:text-neutral-600" />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted">
+                    <Icon className="h-3.5 w-3.5 text-muted-foreground" />
                   </div>
                   <div>
-                    <span className="font-medium text-neutral-950 dark:text-white">
+                    <span className="font-medium text-foreground">
                       {value}
                     </span>
                   </div>
@@ -229,40 +229,40 @@ function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
 export default function Solutions() {
   return (
     <SmoothScroll>
-      <main className="relative min-h-screen overflow-hidden bg-white text-neutral-950 font-sans transition-colors duration-300 dark:bg-[#0a0a0c] dark:text-white">
+      <main className="relative min-h-screen overflow-hidden bg-background text-foreground font-sans transition-colors duration-300">
         <Header />
         <section className="relative z-10 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
           <div className="mx-auto w-full max-w-7xl">
             {/* ═══ HEADER (Simple) ═══ */}
             <FadeIn className="mb-24 text-center">
-              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 dark:border-neutral-800 dark:bg-neutral-900 transition-colors duration-300">
-                <Sparkles className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300">
+              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-border bg-muted px-4 py-2 transition-colors duration-300">
+                <Sparkles className="h-4 w-4 text-muted-foreground" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   OUR SOLUTIONS
                 </span>
               </div>
 
-              <h1 className="text-4xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl leading-[1.1]">
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-[1.1]">
                 Turn missed opportunities
                 <br />
-                <span className="font-serif italic font-light text-neutral-500 dark:text-neutral-600">
+                <span className="font-serif italic font-light text-muted-foreground">
                   into captured revenue.
                 </span>
               </h1>
 
               <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
-                <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
-                <p className="text-base text-neutral-600 dark:text-neutral-400">
+                <div className="h-px w-16 bg-border" />
+                <p className="text-base text-muted-foreground">
                   Unlock potential and streamline growth in simple steps.
                 </p>
-                <div className="h-px w-16 bg-neutral-200 dark:bg-neutral-800" />
+                <div className="h-px w-16 bg-border" />
               </div>
             </FadeIn>
 
             {/* ═══ SOLUTION CARDS (Timeline) ═══ */}
             <div className="relative space-y-12 md:space-y-20">
               {/* Background vertical line */}
-              <div className="absolute left-3 top-5 h-[calc(100%-10px)] w-px bg-neutral-200 dark:bg-neutral-800 md:left-1/2 md:-translate-x-1/2" />
+              <div className="absolute left-3 top-5 h-[calc(100%-10px)] w-px bg-border md:left-1/2 md:-translate-x-1/2" />
               {solutionsData.map((item, index) => (
                 <SolutionCard key={item.number} item={item} index={index} />
               ))}
@@ -270,27 +270,27 @@ export default function Solutions() {
 
             {/* ═══ BOTTOM CTA (Minimal) ═══ */}
             <FadeIn delay={0.3} className="mt-32">
-              <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-50 px-8 py-16 text-center dark:border-neutral-800 dark:bg-neutral-900 sm:px-12 transition-colors duration-300">
+              <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-border bg-card px-8 py-16 text-center sm:px-12 transition-colors duration-300">
                 <div className="relative z-10">
-                  <p className="inline-block rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600 dark:border-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-400">
+                  <p className="inline-block rounded-full border border-border bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Ready When You Are
                   </p>
 
-                  <h3 className="mx-auto mt-7 text-3xl font-bold tracking-tight text-neutral-950 dark:text-white sm:text-4xl leading-tight max-w-lg">
+                  <h3 className="mx-auto mt-7 text-3xl font-bold tracking-tight text-foreground sm:text-4xl leading-tight max-w-lg">
                     Stop letting good leads disappear into nothing.
                   </h3>
 
-                  <p className="mx-auto mt-5 max-w-md text-base text-neutral-600 dark:text-neutral-400">
+                  <p className="mx-auto mt-5 max-w-md text-base text-muted-foreground">
                     Connect Miralas and streamline your lead growth effortlessly today.
                   </p>
 
                   <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-neutral-800 hover:shadow-lg dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200">
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 hover:shadow-lg">
                       Explore Miralas
                       <ArrowRight className="h-4 w-4" />
                     </button>
-                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-8 py-3.5 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-100 hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800 dark:hover:border-neutral-700">
-                      <Search className="h-4 w-4 text-neutral-500 dark:text-neutral-600" />
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-border bg-card px-8 py-3.5 text-sm font-medium text-foreground transition-colors hover:bg-accent">
+                      <Search className="h-4 w-4 text-muted-foreground" />
                       Book a Call
                     </button>
                   </div>

@@ -161,17 +161,17 @@ const FAQS = [
 function SearchBar({ query, setQuery }: { query: string; setQuery: (s: string) => void }) {
   return (
     <div className="relative max-w-xl mx-auto">
-      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[#8a8278] pointer-events-none" />
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for answers, topics, or keywords..."
-        className="w-full h-13 rounded-full border border-[#e8e0d5] bg-white pl-11 pr-16 text-sm text-[#2d2a26] shadow-sm outline-none transition-all placeholder:text-[#a8a095] focus:border-[#c9a87c] focus:ring-2 focus:ring-[#c9a87c]/20"
+        className="w-full h-13 rounded-full border border-border bg-card pl-11 pr-16 text-sm text-foreground shadow-sm outline-none transition-all placeholder:text-muted-foreground focus:border-[#c9a87c] focus:ring-2 focus:ring-[#c9a87c]/20"
       />
       {query && (
         <button
           onClick={() => setQuery("")}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-[#8a8278] hover:text-[#2d2a26] bg-[#faf6f0] px-2.5 py-1 rounded-full transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground hover:text-foreground bg-muted px-2.5 py-1 rounded-full transition-colors"
         >
           Clear
         </button>
@@ -190,7 +190,7 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.04, duration: 0.4 }}
-      className="group overflow-hidden rounded-2xl border border-[#e8e0d5]/80 bg-white shadow-sm transition-all duration-300 hover:border-[#c9a87c]/40 hover:shadow-md"
+      className="group overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:border-[#c9a87c]/40 hover:shadow-md"
     >
       <button
         onClick={() => setExpanded(!expanded)}
@@ -207,15 +207,15 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
           <Icon className="size-5" strokeWidth={1.8} />
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-semibold text-[#2d2a26] group-hover:text-[#c9a87c] transition-colors">
+          <h3 className="text-sm font-semibold text-foreground group-hover:text-amber-600 transition-colors">
             {cat.title}
           </h3>
-          <p className="text-xs text-[#8a8278] mt-0.5">{cat.desc}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">{cat.desc}</p>
         </div>
         <motion.span
           animate={{ rotate: expanded ? 90 : 0 }}
           transition={{ duration: 0.2 }}
-          className="text-[#a8a095] shrink-0"
+          className="text-muted-foreground shrink-0"
         >
           <ChevronRight className="size-4" />
         </motion.span>
@@ -231,15 +231,15 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 pt-0">
-              <div className="mb-3 h-px bg-[#e8e0d5]/60" />
+              <div className="mb-3 h-px bg-border/60" />
               <ul className="space-y-1">
                 {cat.articles.map((article) => (
                   <li key={article}>
                     <Link
                       href={`/help/${cat.id}/${article.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-[#5c5548] transition-colors hover:bg-[#faf6f0] hover:text-[#2d2a26]"
+                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted hover:text-foreground"
                     >
-                      <FileText className="size-3.5 text-[#a8a095] shrink-0" />
+                      <FileText className="size-3.5 text-muted-foreground shrink-0" />
                       <span className="truncate">{article}</span>
                     </Link>
                   </li>
@@ -268,10 +268,10 @@ function FaqAccordion({ faqs }: { faqs: typeof FAQS }) {
             viewport={{ once: true }}
             transition={{ delay: i * 0.04, duration: 0.35 }}
             className={cn(
-              "rounded-2xl border transition-all duration-300 bg-white",
+              "rounded-2xl border transition-all duration-300 bg-card",
               isOpen
                 ? "border-[#c9a87c]/50 shadow-[0_4px_20px_rgba(201,168,124,0.08)]"
-                : "border-[#e8e0d5]/80 hover:border-[#c9a87c]/30"
+                : "border-border/80 hover:border-[#c9a87c]/30"
             )}
           >
             <button
@@ -282,19 +282,19 @@ function FaqAccordion({ faqs }: { faqs: typeof FAQS }) {
                 <span
                   className={cn(
                     "mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-colors",
-                    isOpen ? "bg-[#c9a87c] text-white" : "bg-[#faf6f0] text-[#8a8278]"
+                    isOpen ? "bg-[#c9a87c] text-foreground" : "bg-muted text-muted-foreground"
                   )}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className={cn("text-sm font-semibold", isOpen ? "text-[#2d2a26]" : "text-[#5c5548]")}>
+                <span className={cn("text-sm font-semibold", isOpen ? "text-foreground" : "text-foreground")}>
                   {faq.q}
                 </span>
               </span>
               <motion.span
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#faf6f0] text-[#8a8278]"
+                className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"
               >
                 <ChevronDown className="size-4" />
               </motion.span>
@@ -311,7 +311,7 @@ function FaqAccordion({ faqs }: { faqs: typeof FAQS }) {
                 >
                   <div className="px-5 pb-5">
                     <div className="h-px bg-gradient-to-r from-[#e8e0d5] to-transparent mb-4 ml-9" />
-                    <p className="ml-9 text-sm leading-relaxed text-[#8a8278] max-w-2xl">{faq.a}</p>
+                    <p className="ml-9 text-sm leading-relaxed text-muted-foreground max-w-2xl">{faq.a}</p>
                   </div>
                 </motion.div>
               )}
@@ -335,8 +335,8 @@ export default function HelpCenterPage() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#fdfbf7] text-[#2d2a26] font-sans selection:bg-[#c9a87c]/30">
-        <Header variant="light" />
+      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-[#c9a87c]/30">
+        <Header />
 
         {/* Hero Section */}
         <section className="relative pt-20 pb-14 sm:pt-28 sm:pb-18 overflow-hidden">
@@ -350,8 +350,8 @@ export default function HelpCenterPage() {
               transition={{ duration: 0.5 }}
               className="mb-6"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8a8278] shadow-sm">
-                <Clock className="size-3 text-[#c9a87c]" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground shadow-sm">
+                <Clock className="size-3 text-amber-600" />
                 24/7 Self-Service Center
               </span>
             </motion.div>
@@ -359,7 +359,7 @@ export default function HelpCenterPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#2d2a26] mb-4"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4"
             >
               How can we help you?
             </motion.h1>
@@ -367,7 +367,7 @@ export default function HelpCenterPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base text-[#8a8278] max-w-lg mx-auto mb-8 leading-relaxed"
+              className="text-base text-muted-foreground max-w-lg mx-auto mb-8 leading-relaxed"
             >
               Search our knowledge base for instant guides, documentation, and answers.
             </motion.p>
@@ -390,8 +390,8 @@ export default function HelpCenterPage() {
               exit={{ opacity: 0, height: 0 }}
               className="mx-auto max-w-3xl px-6 mb-12 overflow-hidden"
             >
-              <div className="rounded-2xl border border-[#e8e0d5] bg-white p-5 shadow-md">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8a8278] mb-3">
+              <div className="rounded-2xl border border-border bg-card p-5 shadow-md">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
                   {filtered.length} results for "{query}"
                 </h3>
                 {filtered.length > 0 ? (
@@ -400,23 +400,23 @@ export default function HelpCenterPage() {
                       <li key={i}>
                         <Link
                           href={`/help/${item.catId}`}
-                          className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#faf6f0] transition-colors"
+                          className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
                         >
                           <span
                             className="size-2 rounded-full shrink-0"
                             style={{ backgroundColor: item.color }}
                           />
-                          <span className="text-sm text-[#2d2a26] font-medium">{item.title}</span>
-                          <span className="text-[11px] text-[#8a8278] ml-auto shrink-0">{item.category}</span>
-                          <ChevronRight className="size-3.5 text-[#a8a095] shrink-0" />
+                          <span className="text-sm text-foreground font-medium">{item.title}</span>
+                          <span className="text-[11px] text-muted-foreground ml-auto shrink-0">{item.category}</span>
+                          <ChevronRight className="size-3.5 text-muted-foreground shrink-0" />
                         </Link>
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <div className="text-center py-6">
-                    <AlertCircle className="size-5 text-[#8a8278] mx-auto mb-2" />
-                    <p className="text-sm text-[#8a8278]">No results found. Try alternative keywords.</p>
+                    <AlertCircle className="size-5 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">No results found. Try alternative keywords.</p>
                   </div>
                 )}
               </div>
@@ -435,8 +435,8 @@ export default function HelpCenterPage() {
               className="mb-16"
             >
               <div className="flex items-center gap-2 mb-5">
-                <TrendingUp className="size-4 text-[#c9a87c]" />
-                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a8278]">
+                <TrendingUp className="size-4 text-amber-600" />
+                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   Most Popular
                 </h2>
               </div>
@@ -451,19 +451,19 @@ export default function HelpCenterPage() {
                   >
                     <Link
                       href={`/help/${item.catId}`}
-                      className="group flex items-center gap-3 rounded-xl border border-[#e8e0d5]/80 bg-white p-4 hover:border-[#c9a87c]/50 hover:shadow-sm transition-all duration-200"
+                      className="group flex items-center gap-3 rounded-xl border border-border/80 bg-card p-4 hover:border-[#c9a87c]/50 hover:shadow-sm transition-all duration-200"
                     >
                       <span
                         className="size-2 rounded-full shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-[#2d2a26] group-hover:text-[#c9a87c] transition-colors truncate">
+                        <p className="text-sm font-medium text-foreground group-hover:text-amber-600 transition-colors truncate">
                           {item.title}
                         </p>
-                        <p className="text-[11px] text-[#8a8278]">{item.category}</p>
+                        <p className="text-[11px] text-muted-foreground">{item.category}</p>
                       </div>
-                      <ChevronRight className="size-4 text-[#e8e0d5] group-hover:text-[#c9a87c] group-hover:translate-x-0.5 transition-all shrink-0" />
+                      <ChevronRight className="size-4 text-muted-foreground group-hover:text-amber-600 group-hover:translate-x-0.5 transition-all shrink-0" />
                     </Link>
                   </motion.div>
                 ))}
@@ -475,10 +475,10 @@ export default function HelpCenterPage() {
           {!query.trim() && (
             <section className="mb-16">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a8278]">
+                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   Browse by Topic
                 </h2>
-                <span className="text-xs text-[#8a8278] font-medium">{CATEGORIES.length} categories</span>
+                <span className="text-xs text-muted-foreground font-medium">{CATEGORIES.length} categories</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {CATEGORIES.map((cat, i) => (
@@ -491,8 +491,8 @@ export default function HelpCenterPage() {
           {/* FAQ */}
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-6">
-              <CheckCircle2 className="size-4 text-[#c9a87c]" />
-              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#8a8278]">
+              <CheckCircle2 className="size-4 text-amber-600" />
+              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 Frequently Asked Questions
               </h2>
             </div>
@@ -505,29 +505,29 @@ export default function HelpCenterPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-3xl border border-[#e8e0d5] bg-white p-8 sm:p-12 text-center relative overflow-hidden shadow-sm"
+            className="rounded-3xl border border-border bg-card p-8 sm:p-12 text-center relative overflow-hidden shadow-sm"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/60 to-transparent pointer-events-none" />
             <div className="relative z-10">
-              <MessageSquare className="size-6 text-[#c9a87c] mx-auto mb-4" strokeWidth={1.8} />
-              <h3 className="text-xl font-bold text-[#2d2a26] mb-2">Still need assistance?</h3>
-              <p className="text-sm text-[#8a8278] max-w-md mx-auto mb-6 leading-relaxed">
+              <MessageSquare className="size-6 text-amber-600 mx-auto mb-4" strokeWidth={1.8} />
+              <h3 className="text-xl font-bold text-foreground mb-2">Still need assistance?</h3>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
                 Can't find what you're looking for? Our dedicated team is available to help resolve your questions.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link
                   href="/resources/support"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#2d2a26] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1c1917] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-foreground hover:opacity-90 transition-colors shadow-sm"
                 >
                   <MessageSquare className="size-4" />
                   Open a Ticket
                 </Link>
                 <a
                   href="mailto:support@miransas.com"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#e8e0d5] px-6 py-3 text-sm font-medium text-[#5c5548] hover:bg-[#faf6f0] transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors"
                 >
                   support@miransas.com
-                  <ArrowUpRight className="size-4 text-[#8a8278]" />
+                  <ArrowUpRight className="size-4 text-muted-foreground" />
                 </a>
               </div>
             </div>

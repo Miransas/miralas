@@ -9,16 +9,16 @@ import { ArrowRight } from "lucide-react";
 
 export function BentoSection() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-3 py-16 md:px-6 md:py-24 bg-black">
+    <section className="mx-auto w-full max-w-7xl px-3 py-16 md:px-6 md:py-24 bg-background">
       {/* Header: Başlık + Açıklama + Button */}
       <div className="mb-10 flex flex-col items-start gap-4 md:mb-16">
-        <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+        <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl md:text-5xl">
           Everything you need to ship faster
         </h2>
-        <p className="max-w-xl text-base text-stone-400 md:text-lg">
+        <p className="max-w-xl text-base text-muted-foreground md:text-lg">
           Voice agents, autonomous coding, and real-time AI — all in one platform.
         </p>
-        <button className="group mt-2 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition-all hover:bg-stone-200">
+        <button className="group mt-2 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:opacity-90">
           Get started
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
         </button>
@@ -44,18 +44,18 @@ export function BentoSection() {
         </div>
         <div className="h-full min-h-72 md:col-span-3">
           {/* Imagine placeholder — istersen ImagineCard'i buraya aç */}
-          <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-stone-800 bg-stone-900/80 p-6 text-center">
+          <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-border bg-card p-6 text-center">
             <div className="mb-3 text-3xl">🎨</div>
-            <p className="text-sm font-medium text-white">Imagine</p>
-            <p className="mt-1 text-xs text-stone-500">Generate images from text</p>
+            <p className="text-sm font-medium text-foreground">Imagine</p>
+            <p className="mt-1 text-xs text-muted-foreground">Generate images from text</p>
           </div>
         </div>
         <div className="h-full min-h-72 md:col-span-2">
           {/* Media placeholder */}
-          <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-stone-800 bg-stone-900/80 p-6 text-center">
+          <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-border bg-card/80 p-6 text-center">
             <div className="mb-3 text-3xl">🎬</div>
-            <p className="text-sm font-medium text-white">Media</p>
-            <p className="mt-1 text-xs text-stone-500">Video & audio tools</p>
+            <p className="text-sm font-medium text-foreground">Media</p>
+            <p className="mt-1 text-xs text-muted-foreground">Video & audio tools</p>
           </div>
         </div>
         <div className="h-full min-h-72 md:col-span-3">

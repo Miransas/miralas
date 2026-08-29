@@ -29,13 +29,13 @@ export function News() {
                 href="#news"
                 className="group flex min-h-16 items-baseline justify-between gap-6 py-5 no-underline"
               >
-                <span className="w-28 shrink-0 font-mono text-xs text-stone-400 tabular-nums">
+                <span className="w-28 shrink-0 font-mono text-xs text-muted-foreground tabular-nums">
                   {post.date}
                 </span>
-                <span className="flex-1 text-base font-medium tracking-tight text-fg transition-colors duration-150 ease-out group-hover:text-muted">
+                <span className="flex-1 text-base font-medium tracking-tight text-foreground transition-colors duration-150 ease-out group-hover:text-muted-foreground">
                   {post.title}
                 </span>
-                <ArrowUpRight className="size-4 shrink-0 text-stone-400 transition-[color,transform] duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-fg" />
+                <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-[color,transform] duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
               </a>
             </Reveal>
           </li>

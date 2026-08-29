@@ -23,10 +23,10 @@ export default function AboutSection() {
   const scale = useTransform(scrollYProgress, [0, 0.3], [0.96, 1])
 
   return (
-    <section ref={ref} id="about" className="relative overflow-hidden bg-black py-24 sm:py-32">
+    <section ref={ref} id="about" className="relative overflow-hidden bg-background py-24 sm:py-32">
       {/* Ambient background glow — ana sayfadaki parçacıklarla uyum */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/4 top-1/3 size-96 rounded-full bg-zinc-800/20 blur-[120px]" />
+        <div className="absolute left-1/4 top-1/3 size-96 rounded-full bg-card/20 blur-[120px]" />
         <div className="absolute right-1/4 bottom-1/4 size-80 rounded-full bg-zinc-700/10 blur-[100px]" />
       </div>
 
@@ -40,7 +40,7 @@ export default function AboutSection() {
             transition={{ duration: 0.6 }}
             className="mb-4 text-center"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-400 backdrop-blur-md">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/5 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground backdrop-blur-md">
               <Play className="size-3" />
               The Story
             </span>
@@ -52,9 +52,9 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-16 text-center text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
+            className="mb-16 text-center text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl"
           >
-            About <span className="text-zinc-500">drannel</span>
+            About <span className="text-muted-foreground">drannel</span>
           </motion.h2>
 
           <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16 lg:gap-20">
@@ -63,7 +63,7 @@ export default function AboutSection() {
               {/* Glow behind video */}
               <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-white/5 to-transparent blur-2xl" />
               
-              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-950 shadow-2xl">
+              <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
                 {/* Top reflection bar */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 
@@ -86,10 +86,10 @@ export default function AboutSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4, type: "spring" }}
-                className="absolute -bottom-4 -right-4 rounded-2xl border border-white/10 bg-zinc-900/90 p-4 backdrop-blur-xl sm:-bottom-6 sm:-right-6 sm:p-5"
+                className="absolute -bottom-4 -right-4 rounded-2xl border border-border bg-card/90 p-4 backdrop-blur-xl sm:-bottom-6 sm:-right-6 sm:p-5"
               >
-                <div className="text-2xl font-bold text-white">10+</div>
-                <div className="text-xs text-zinc-400">Years in the game</div>
+                <div className="text-2xl font-bold text-foreground">10+</div>
+                <div className="text-xs text-muted-foreground">Years in the game</div>
               </motion.div>
             </motion.div>
 
@@ -101,11 +101,11 @@ export default function AboutSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <p className="text-lg leading-8 text-zinc-300 sm:text-xl">
+                <p className="text-lg leading-8 text-muted-foreground sm:text-xl">
                   drannel is not just a beat maker; he&apos;s a sonic architect crafting the soundscapes of tomorrow. 
                   With a decade of experience and an ear for innovation, he pushes the boundaries of what&apos;s possible in music production.
                 </p>
-                <p className="mt-4 text-base leading-7 text-zinc-500">
+                <p className="mt-4 text-base leading-7 text-muted-foreground">
                   From chart-topping hits to underground anthems, drannel&apos;s versatile style and meticulous attention to detail ensure that each beat is not just a track, but a journey waiting to be explored by the right artist.
                 </p>
               </motion.div>
@@ -122,17 +122,17 @@ export default function AboutSection() {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.3 + index * 0.08 }}
                       whileHover={{ y: -2, transition: { duration: 0.2 } }}
-                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-white/20 hover:bg-white/[0.06] sm:p-5"
+                      className="group relative overflow-hidden rounded-2xl border border-border bg-card/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-border hover:bg-card/[0.06] sm:p-5"
                     >
                       {/* Hover glow */}
                       <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                       
                       <div className="relative">
-                        <div className="mb-3 inline-flex rounded-xl bg-white/5 p-2.5 text-zinc-300 transition-colors group-hover:text-white group-hover:bg-white/10">
+                        <div className="mb-3 inline-flex rounded-xl bg-card/5 p-2.5 text-muted-foreground transition-colors group-hover:text-foreground group-hover:bg-card/10">
                           <Icon className="size-5" />
                         </div>
-                        <div className="text-2xl font-bold text-white sm:text-3xl">{achievement.value}</div>
-                        <div className="mt-1 text-xs text-zinc-500 sm:text-sm">{achievement.label}</div>
+                        <div className="text-2xl font-bold text-foreground sm:text-3xl">{achievement.value}</div>
+                        <div className="mt-1 text-xs text-muted-foreground sm:text-sm">{achievement.label}</div>
                       </div>
                     </motion.div>
                   )

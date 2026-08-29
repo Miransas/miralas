@@ -57,12 +57,12 @@ export function BuildCard() {
     <CardShell label="Build" className="min-h-96 md:h-[28rem]">
       <div className="flex h-full flex-col">
         {/* Terminal başlık */}
-        <div className="flex items-center gap-2 border-b border-stone-200 bg-stone-50 px-3 py-2.5">
+        <div className="flex items-center gap-2 border-b border-border bg-muted px-3 py-2.5">
           <span className="size-2.5 rounded-full bg-[#ff5f57]" />
           <span className="size-2.5 rounded-full bg-[#febc2e]" />
           <span className="size-2.5 rounded-full bg-[#28c840]" />
-          <span className="ml-2 font-mono text-[11px] text-stone-500">projects/main</span>
-          <div className="ml-auto flex items-center gap-2 font-mono text-[11px] text-stone-400">
+          <span className="ml-2 font-mono text-[11px] text-muted-foreground">projects/main</span>
+          <div className="ml-auto flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
             <div className="h-1.5 w-16 overflow-hidden rounded-full bg-stone-200">
               <div
                 className="h-full bg-stone-400 transition-all"
@@ -74,13 +74,13 @@ export function BuildCard() {
         </div>
 
         {/* Terminal içerik */}
-        <div className="flex-1 space-y-1 overflow-hidden p-3 font-mono text-[12px] leading-relaxed text-stone-500">
+        <div className="flex-1 space-y-1 overflow-hidden p-3 font-mono text-[12px] leading-relaxed text-muted-foreground">
           {showGrep ? <div className="text-emerald-600">▸ grep session src/ + matches</div> : null}
           {showRead ? (
             <div className="text-amber-600">▸ read_file src/lib/jwt.ts 42 lines</div>
           ) : null}
 
-          <div className="mt-2 space-y-0.5 text-stone-400">
+          <div className="mt-2 space-y-0.5 text-muted-foreground">
             {task1 ? (
               <div className="flex justify-between gap-2">
                 <span>| Audit auth middleware explore</span>
@@ -108,12 +108,12 @@ export function BuildCard() {
           </div>
 
           {thought ? (
-            <div className="pt-3 text-stone-400">◆ Thought for {thoughtS.toFixed(1)}s</div>
+            <div className="pt-3 text-muted-foreground">◆ Thought for {thoughtS.toFixed(1)}s</div>
           ) : null}
           {showEdit ? <div className="text-sky-600">◆ Edit src/middleware/auth.ts</div> : null}
 
           {typedLines[0] ? (
-            <div className="mt-2 overflow-hidden rounded-lg bg-stone-900 p-2.5 text-[11px] text-stone-300">
+            <div className="mt-2 overflow-hidden rounded-lg bg-card p-2.5 text-[11px] text-muted-foreground">
               {CODE.map((line, i) => {
                 if (i >= typedLines.length) return null;
                 const shown = typedLines[i] ?? "";
@@ -123,7 +123,7 @@ export function BuildCard() {
                     key={line.n}
                     className={cn("px-1", line.neu && shown.length > 4 && "bg-emerald-500/10")}
                   >
-                    <span className="mr-3 inline-block w-4 text-stone-600">{line.n}</span>
+                    <span className="mr-3 inline-block w-4 text-muted-foreground">{line.n}</span>
                     <span dangerouslySetInnerHTML={{ __html: colorize(shown) }} />
                     {isLast ? <span className="caret" /> : null}
                   </div>

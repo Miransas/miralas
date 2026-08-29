@@ -43,13 +43,13 @@ const FEATURES = [
 export function FeaturesSection() {
   return (
     <section id="features" className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6 md:py-28">
-      <p className="text-xs font-medium tracking-[0.18em] text-stone-500 uppercase">
+      <p className="text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase">
         Capabilities
       </p>
-      <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight text-white md:text-4xl">
+      <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
         Every modality. One surface.
       </h2>
-      <p className="mt-3 max-w-lg text-sm leading-relaxed text-stone-400">
+      <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
         Chat, code, agents, media, and voice — designed to feel like one product, not a pile of tools.
       </p>
 
@@ -57,13 +57,13 @@ export function FeaturesSection() {
         {FEATURES.map((f) => (
           <article
             key={f.title}
-            className="group rounded-2xl border border-stone-800 bg-stone-900/60 p-6 backdrop-blur-sm transition-colors hover:border-stone-700 hover:bg-stone-800/60"
+            className="group rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-sm transition-colors hover:border-border hover:bg-card/60"
           >
-            <div className="flex size-10 items-center justify-center rounded-lg bg-stone-800/80 text-stone-300 transition-colors group-hover:bg-stone-700 group-hover:text-white">
+            <div className="flex size-10 items-center justify-center rounded-lg bg-card/80 text-muted-foreground transition-colors group-hover:bg-stone-700 group-hover:text-foreground">
               <f.icon className="size-5" strokeWidth={1.6} />
             </div>
-            <h3 className="mt-4 text-base font-medium text-white">{f.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-stone-400">
+            <h3 className="mt-4 text-base font-medium text-foreground">{f.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               {f.body}
             </p>
           </article>

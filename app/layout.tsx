@@ -112,11 +112,11 @@ export const viewport: Viewport = {
   themeColor: [
     {
       media: "(prefers-color-scheme: light)",
-      color: "#ffffff",
+      color: "#fff",
     },
     {
       media: "(prefers-color-scheme: dark)",
-      color: "#050505",
+      color: "#0a0a0a",
     },
   ],
 };
@@ -131,20 +131,16 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full", "${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased")}
-    >
+      className={cn("h-full", `${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased`)}>
       <body className="min-h-full bg-background font-sans text-foreground">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-
           {/*      {isLocked && <ComingSoonModal />}   */}
-          <>
-         {children}
-          </>
+          {children}
         </ThemeProvider>
       </body>
     </html>

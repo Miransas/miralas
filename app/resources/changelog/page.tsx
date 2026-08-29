@@ -55,18 +55,18 @@ export default function ChangelogPage() {
   return (
 
     <SmoothScroll>
-      <div className="min-h-screen bg-[#010101] text-[#FAF9F6] font-sans selection:bg-[#FAF9F6] selection:text-stone-950">
-        <Header variant="dark" />
-        {/* <header className="border-b border-[#FAF9F6]/10 bg-[#010101]/60 backdrop-blur-md sticky mt-24 top-0 z-50">
+      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-foreground selection:text-foreground">
+        <Header />
+        {/* <header className="border-b border-border bg-background/60 backdrop-blur-md sticky mt-24 top-0 z-50">
         <div className="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
           <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-sm font-medium text-stone-400 hover:text-[#FAF9F6] transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
           >
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
             Back to Home
           </Link>
-          <div className="flex items-center gap-2 rounded-full border border-[#FAF9F6]/10 bg-stone-950 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 shadow-md">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground shadow-md">
             <Cpu className="size-3 text-amber-500 animate-pulse" />
             Ecosystem Active
           </div>
@@ -80,13 +80,13 @@ export default function ChangelogPage() {
           <div className="mb-20 text-center sm:text-left relative">
             <div className="absolute -left-10 -top-10 size-40 rounded-full bg-amber-500/[0.03] blur-3xl pointer-events-none" />
 
-            <div className="mb-4 inline-flex size-10 items-center justify-center rounded-xl bg-stone-950 border border-[#FAF9F6]/10 text-[#FAF9F6] shadow-md">
+            <div className="mb-4 inline-flex size-10 items-center justify-center rounded-xl bg-card border border-border text-foreground shadow-md">
               <Sparkles className="size-5 text-amber-400" />
             </div>
-            <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
+            <h1 className="text-4xl font-black tracking-tight text-foreground sm:text-5xl">
               Changelog
             </h1>
-            <p className="mt-4 text-[15px] text-stone-400 max-w-xl leading-relaxed">
+            <p className="mt-4 text-[15px] text-muted-foreground max-w-xl leading-relaxed">
               Tracking the technical evolution of the Miransas ecosystem. From high-performance Rust/gRPC pipelines to premium Next.js interfaces.
             </p>
           </div>
@@ -103,27 +103,27 @@ export default function ChangelogPage() {
                 className="relative pl-12 sm:pl-16 group"
               >
                 {/* Left timeline round icon */}
-                <div className="absolute left-1.5 sm:left-3 top-1 flex size-6 items-center justify-center rounded-full bg-stone-950 border-2 border-[#FAF9F6]/20 text-[#FAF9F6] group-hover:border-amber-500 transition-colors z-10 shadow-md">
-                  <div className="size-1.5 rounded-full bg-[#FAF9F6] group-hover:bg-amber-500 transition-colors" />
+                <div className="absolute left-1.5 sm:left-3 top-1 flex size-6 items-center justify-center rounded-full bg-card border-2 border-border text-foreground group-hover:border-amber-500 transition-colors z-10 shadow-md">
+                  <div className="size-1.5 rounded-full bg-foreground group-hover:bg-amber-500 transition-colors" />
                 </div>
 
                 {/* Version card with premium stone-950 structure */}
-                <div className="rounded-2xl border border-[#FAF9F6]/5 bg-stone-950 p-6 sm:p-7 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-[#FAF9F6]/10">
+                <div className="rounded-2xl border border-border bg-card p-6 sm:p-7 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-border">
 
                   {/* Top row: version, date, and tags */}
                   <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                     <div className="flex items-center gap-3">
-                      <span className="text-sm font-black text-[#FAF9F6] bg-[#FAF9F6]/10 px-2.5 py-1 rounded-md tracking-wider">
+                      <span className="text-sm font-black text-foreground bg-foreground/10 px-2.5 py-1 rounded-md tracking-wider">
                         {item.version}
                       </span>
-                      <span className="text-xs font-medium text-stone-500">
+                      <span className="text-xs font-medium text-muted-foreground">
                         {item.date}
                       </span>
                     </div>
 
                     <div className="flex gap-2">
                       {item.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-stone-800 text-stone-400 bg-stone-900/50">
+                        <span key={tag} className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-border text-muted-foreground bg-card/50">
                           {tag}
                         </span>
                       ))}
@@ -131,17 +131,17 @@ export default function ChangelogPage() {
                   </div>
 
                   {/* Title and description */}
-                  <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-amber-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-stone-400">
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {item.description}
                   </p>
 
                   {/* Change list */}
-                  <ul className="mt-5 space-y-2.5 border-t border-stone-900 pt-4">
+                  <ul className="mt-5 space-y-2.5 border-t border-border pt-4">
                     {item.changes.map((change, cIdx) => (
-                      <li key={cIdx} className="flex items-start gap-3 text-[13px] text-stone-300 leading-relaxed">
+                      <li key={cIdx} className="flex items-start gap-3 text-[13px] text-muted-foreground leading-relaxed">
                         <CheckCircle2 className="size-4 text-emerald-500/80 shrink-0 mt-0.5" strokeWidth={2.5} />
                         <span>{change}</span>
                       </li>
@@ -155,8 +155,8 @@ export default function ChangelogPage() {
         </main>
 
         {/* Footer */}
-        <footer className="mx-auto max-w-3xl px-6 py-16 border-t border-stone-900 text-center">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-600">
+        <footer className="mx-auto max-w-3xl px-6 py-16 border-t border-border text-center">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
             <p>&copy; {new Date().getFullYear()} Miransas Software. Build in public.</p>
             <div className="flex gap-3 items-center">
               <Terminal className="size-3.5" />

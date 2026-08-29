@@ -65,7 +65,7 @@ export function GettingStarted() {
               <h3 className="mt-4 text-lg font-semibold tracking-tight text-fg">
                 {step.title}
               </h3>
-              <p className="mt-2 text-pretty text-sm leading-relaxed text-stone-400">{step.body}</p>
+              <p className="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">{step.body}</p>
             </article>
           </Reveal>
         ))}
@@ -80,7 +80,7 @@ export function GettingStarted() {
               </span>
               <div>
                 <p className="text-sm font-medium text-fg">Try a demo key locally</p>
-                <p className="mt-1 text-sm text-stone-400">
+                <p className="mt-1 text-sm text-muted-foreground">
                   Generates a sample key in this browser — nothing is sent to a server.
                 </p>
               </div>

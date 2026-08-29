@@ -21,9 +21,9 @@ export function Hero() {
           <FadeItem>
             <a
               href="#pricing"
-              className="mb-8 inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-xs text-stone-300 no-underline shadow-[var(--shadow-border)] transition-[color,box-shadow] duration-150 ease-out hover:text-stone-100 hover:shadow-[var(--shadow-border-hover)]"
+              className="mb-8 inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 text-xs text-muted-foreground no-underline shadow-[var(--shadow-border)] transition-[color,box-shadow] duration-150 ease-out hover:text-foreground hover:shadow-[var(--shadow-border-hover)]"
             >
-              <span className="rounded-full bg-fg/10 px-1.5 py-0.5 font-medium text-stone-300">
+              <span className="rounded-full bg-foreground/10 px-1.5 py-0.5 font-medium text-muted-foreground">
                 New
               </span>
               Grok 4.6 is live — 500K context, from $2/M
@@ -32,13 +32,13 @@ export function Hero() {
           </FadeItem>
 
           <FadeItem>
-            <p className="text-xs font-medium tracking-caps text-stone-300 uppercase">
+            <p className="text-xs font-medium tracking-caps text-muted-foreground uppercase">
               Build with Grok
             </p>
           </FadeItem>
 
           <FadeItem>
-            <h1 className="mt-4 max-w-4xl text-balance text-display font-semibold text-fg">
+            <h1 className="mt-4 max-w-4xl text-balance text-display font-semibold text-foreground">
               Generate text and code, create images and video, build voice agents, and search
               the web in real time — all through one API.
             </h1>
@@ -47,8 +47,8 @@ export function Hero() {
           <FadeItem>
             <ul className="mt-8 flex max-w-3xl flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
               {PILLS.map((pill) => (
-                <li key={pill} className="flex items-center gap-2 text-sm text-stone-400">
-                  <span className="size-1 shrink-0 rounded-full bg-muted" />
+                <li key={pill} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span className="size-1 shrink-0 rounded-full bg-muted-foreground" />
                   {pill}
                 </li>
               ))}

@@ -52,13 +52,13 @@ export function Capabilities() {
 
       <div className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-border shadow-[var(--shadow-border)] sm:grid-cols-2 lg:grid-cols-3">
         {ITEMS.map((item, i) => (
-          <Reveal key={item.title} delay={i * 0.04} className="h-full bg-elevated">
-            <article className="flex h-full flex-col p-6 transition-[background-color] duration-150 ease-out hover:bg-surface cursor-pointer">
-              <item.icon className="size-5 text-fg" strokeWidth={1.5} />
-              <h3 className="mt-5 text-base font-semibold tracking-tight text-fg">
+          <Reveal key={item.title} delay={i * 0.04} className="h-full bg-card">
+            <article className="flex h-full flex-col p-6 transition-[background-color] duration-150 ease-out hover:bg-accent cursor-pointer">
+              <item.icon className="size-5 text-foreground" strokeWidth={1.5} />
+              <h3 className="mt-5 text-base font-semibold tracking-tight text-foreground">
                 {item.title}
               </h3>
-              <p className="mt-2 text-stone-400 text-sm leading-relaxed text-muted">{item.body}</p>
+              <p className="mt-2 text-muted-foreground text-sm leading-relaxed">{item.body}</p>
             </article>
           </Reveal>
         ))}

@@ -120,8 +120,8 @@ export function ChatCard() {
               className={cn(
                 "max-w-[92%] text-[13px] leading-relaxed",
                 m.role === "user"
-                  ? "rounded-full bg-stone-100 px-3.5 py-2 text-stone-900"
-                  : "rounded-2xl bg-stone-100 px-3.5 py-2.5 text-stone-700",
+                  ? "rounded-full bg-muted px-3.5 py-2 text-foreground"
+                  : "rounded-2xl bg-muted px-3.5 py-2.5 text-muted-foreground",
               )}
             >
               {m.text}

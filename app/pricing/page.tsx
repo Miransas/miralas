@@ -151,8 +151,8 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
       className={cn(
         "relative flex flex-col rounded-3xl border p-7 sm:p-8 transition-all duration-300 ease-in-out",
         plan.highlighted
-          ? "border-zinc-300 bg-zinc-50 shadow-md dark:border-white/10 dark:bg-[#212121] dark:shadow-none"
-          : "border-zinc-200 bg-white shadow-sm hover:border-zinc-300 hover:bg-zinc-50/50 hover:shadow-md dark:border-white/5 dark:bg-[#0A0A0A] dark:shadow-none dark:hover:border-white/10 dark:hover:bg-[#212121]",
+          ? "border-border bg-muted shadow-md dark:border-border dark:bg-accent dark:shadow-none"
+          : "border-border bg-card shadow-sm hover:border-border hover:bg-muted/50 hover:shadow-md dark:border-border dark:bg-background dark:shadow-none dark:hover:border-border dark:hover:bg-accent",
       )}
     >
       {/* Glow for highlighted */}
@@ -168,7 +168,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
               "inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide",
               plan.highlighted
                 ? "bg-blue-500/15 text-blue-400 border border-blue-500/20"
-                : "bg-white/5 text-neutral-400 border border-white/10",
+                : "bg-card/5 text-muted-foreground border border-border",
             )}
           >
             {plan.badge}
@@ -182,25 +182,25 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
           "flex size-11 items-center justify-center rounded-xl mb-5",
           plan.highlighted
             ? "bg-blue-500/10 text-blue-400"
-            : "bg-white/5 text-neutral-500",
+            : "bg-card/5 text-muted-foreground",
         )}
       >
         <Icon className="size-5" />
       </div>
 
       {/* Name */}
-      <h3 className="text-lg font-semibold text-white mb-1">{plan.name}</h3>
+      <h3 className="text-lg font-semibold text-foreground mb-1">{plan.name}</h3>
 
       {/* Price */}
       <div className="flex items-baseline gap-1.5 mb-3">
-        <span className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+        <span className="text-4xl sm:text-5xl font-bold text-foreground tracking-tight">
           {plan.price}
         </span>
-        <span className="text-sm text-neutral-500">/ {plan.period}</span>
+        <span className="text-sm text-muted-foreground">/ {plan.period}</span>
       </div>
 
       {/* Description */}
-      <p className="text-sm text-neutral-500 leading-relaxed mb-6">
+      <p className="text-sm text-muted-foreground leading-relaxed mb-6">
         {plan.description}
       </p>
 
@@ -209,9 +209,9 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
         {plan.stats.map((stat) => (
           <span
             key={stat.label}
-            className="inline-flex items-center rounded-lg bg-white/5 border border-white/[0.06] px-3 py-1.5 text-xs font-medium text-neutral-300"
+            className="inline-flex items-center rounded-lg bg-card/5 border border-white/[0.06] px-3 py-1.5 text-xs font-medium text-muted-foreground"
           >
-            <span className="text-white font-semibold mr-1">{stat.value}</span>
+            <span className="text-foreground font-semibold mr-1">{stat.value}</span>
             {stat.label}
           </span>
         ))}
@@ -229,12 +229,12 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
                 "flex size-5 shrink-0 items-center justify-center rounded-full mt-0.5",
                 plan.highlighted
                   ? "bg-blue-500/15 text-blue-400"
-                  : "bg-white/5 text-neutral-500",
+                  : "bg-card/5 text-muted-foreground",
               )}
             >
               <Check className="size-3" />
             </div>
-            <span className="text-neutral-400">{feature}</span>
+            <span className="text-muted-foreground">{feature}</span>
           </li>
         ))}
       </ul>
@@ -245,8 +245,8 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
         className={cn(
           "flex h-12 items-center justify-center rounded-xl text-sm font-semibold transition-all duration-300",
           plan.highlighted
-            ? "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/20"
-            : "bg-white/5 text-white border border-white/10 hover:bg-white/10",
+            ? "bg-blue-600 text-foreground hover:bg-blue-500 shadow-lg shadow-blue-600/20"
+            : "bg-card/5 text-foreground border border-border hover:bg-card/10",
         )}
       >
         {plan.cta}
@@ -261,8 +261,8 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
 export default function PricingPage() {
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-white text-zinc-900 transition-colors duration-300 dark:bg-[#0A0A0A] dark:text-zinc-50">
-        <Header variant="dark" />
+      <div className="min-h-screen bg-card text-foreground transition-colors duration-300 dark:bg-background dark:text-foreground">
+        <Header />
         {/* ===================== HERO ===================== */}
         <section className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-20">
           <div className="absolute inset-0 -z-10">
@@ -279,14 +279,14 @@ export default function PricingPage() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="text-center max-w-3xl mx-auto"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]">
                 Plans for all{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
                   businesses
                 </span>
                 , Suitable for everyone.
               </h1>
-              <p className="text-lg text-neutral-500 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                 Our pricing plans are designed to make getting started as effortless as possible.
                 Pay-as-you-go with no monthly fees. Start with $25 and scale as you grow.
               </p>
@@ -311,10 +311,10 @@ export default function PricingPage() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="mt-12 text-center"
             >
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 All plans include the same API quality. You only pay for characters synthesized.
                 Need more?{" "}
-                <Link href="/enterprise/contact" className="text-neutral-400 hover:text-white transition-colors underline underline-offset-4">
+                <Link href="/enterprise/contact" className="text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
                   Contact our sales team
                 </Link>
                 .
@@ -324,7 +324,7 @@ export default function PricingPage() {
         </section>
 
         {/* ===================== COMPARISON TABLE ===================== */}
-        <section className="py-20 sm:py-28 bg-[#08080a]">
+        <section className="py-20 sm:py-28 bg-background">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -333,10 +333,10 @@ export default function PricingPage() {
               transition={{ duration: 0.5 }}
               className="text-center mb-14"
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
                 Compare Plans
               </h2>
-              <p className="text-neutral-500 text-lg">
+              <p className="text-muted-foreground text-lg">
                 A side-by-side look at what each plan includes.
               </p>
             </motion.div>
@@ -350,15 +350,15 @@ export default function PricingPage() {
             >
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left py-4 pr-4 text-neutral-500 font-medium">Feature</th>
-                    <th className="text-center py-4 px-4 text-neutral-400 font-medium">Free</th>
-                    <th className="text-center py-4 px-4 text-neutral-400 font-medium">Starter</th>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-4 pr-4 text-muted-foreground font-medium">Feature</th>
+                    <th className="text-center py-4 px-4 text-muted-foreground font-medium">Free</th>
+                    <th className="text-center py-4 px-4 text-muted-foreground font-medium">Starter</th>
                     <th className="text-center py-4 px-4 text-blue-400 font-medium">Pro</th>
-                    <th className="text-center py-4 px-4 text-neutral-400 font-medium">Enterprise</th>
+                    <th className="text-center py-4 px-4 text-muted-foreground font-medium">Enterprise</th>
                   </tr>
                 </thead>
-                <tbody className="text-neutral-400">
+                <tbody className="text-muted-foreground">
                   {[
                     { feature: "Starting Credit", free: "$0", starter: "$25", pro: "$100", enterprise: "Custom" },
                     { feature: "Characters / Month", free: "10K", starter: "250K", pro: "1.2M", enterprise: "Unlimited" },
@@ -373,10 +373,10 @@ export default function PricingPage() {
                     { feature: "SLA", free: "—", starter: "—", pro: "99.9%", enterprise: "99.99%" },
                   ].map((row, i) => (
                     <tr key={row.feature} className="border-b border-white/[0.04]">
-                      <td className="py-3.5 pr-4 text-neutral-300">{row.feature}</td>
+                      <td className="py-3.5 pr-4 text-muted-foreground">{row.feature}</td>
                       <td className="py-3.5 px-4 text-center">{row.free}</td>
                       <td className="py-3.5 px-4 text-center">{row.starter}</td>
-                      <td className="py-3.5 px-4 text-center text-white font-medium">{row.pro}</td>
+                      <td className="py-3.5 px-4 text-center text-foreground font-medium">{row.pro}</td>
                       <td className="py-3.5 px-4 text-center">{row.enterprise}</td>
                     </tr>
                   ))}
@@ -395,22 +395,22 @@ export default function PricingPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-3xl font-bold text-foreground mb-4">
                 Questions?
               </h2>
-              <p className="text-neutral-500 mb-8">
+              <p className="text-muted-foreground mb-8">
                 Everything you need to know about pricing and billing.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/faq"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-white/10 px-6 text-sm font-medium text-neutral-300 hover:bg-white/5 transition"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-border px-6 text-sm font-medium text-muted-foreground hover:bg-card/5 transition"
                 >
                   Read FAQ
                 </Link>
                 <Link
                   href="mailto:support@miralas.com"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-black hover:bg-neutral-200 transition"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-card px-6 text-sm font-semibold text-foreground hover:bg-neutral-200 transition"
                 >
                   Contact Support
                 </Link>

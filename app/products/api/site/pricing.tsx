@@ -210,7 +210,7 @@ export function Pricing() {
       </Reveal>
 
       <Reveal delay={0.06}>
-        <div className="mt-10 flex w-full rounded-xl bg-elevated p-1 shadow-[var(--shadow-border)]">
+        <div className="mt-10 flex w-full rounded-xl bg-card p-1 shadow-[var(--shadow-border)]">
           {TABS.map((item) => {
             const active = item.id === tab;
             return (
@@ -220,7 +220,7 @@ export function Pricing() {
                 onClick={() => setTab(item.id)}
                 className={cn(
                   "relative h-10 min-h-10 flex-1 rounded-lg px-2 text-sm font-medium transition-[color] duration-150 ease-out",
-                  active ? "text-stone-400" : "text-stone-200 hover:text-fg",
+                  active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {active ? (
@@ -270,7 +270,7 @@ function Th({ children, className }: { children: ReactNode; className?: string }
 
 function Td({ children, className }: { children?: ReactNode; className?: string }) {
   return (
-    <td className={cn("px-3 py-3.5 align-top text-sm text-stone-400 sm:px-4", className)}>
+    <td className={cn("px-3 py-3.5 align-top text-sm text-muted-foreground sm:px-4", className)}>
       {children}
     </td>
   );
@@ -503,7 +503,7 @@ function Estimator() {
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium text-fg">Estimate a request</p>
-          <p className="mt-1 text-sm text-stone-300">
+          <p className="mt-1 text-sm text-muted-foreground">
             Token volumes in millions. Toggle long context if the prompt is ≥ 200K tokens.
           </p>
         </div>

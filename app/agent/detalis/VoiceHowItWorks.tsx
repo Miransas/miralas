@@ -65,7 +65,7 @@ function WaveIcon() {
 
 function LayersIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-stone-500">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted-foreground">
       <path d="M12 2L2 7l10 5 10-5-10-5z" />
       <path d="M2 17l10 5 10-5" />
       <path d="M2 12l10 5 10-5" />
@@ -94,12 +94,12 @@ export function VoiceHowItWorks() {
   }, []);
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6 md:py-28 bg-[#0a0a0a]">
+    <section className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6 md:py-28 bg-background">
       {/* Header */}
       <div className="text-center mb-16">
-        <p className="text-xs font-medium tracking-[0.2em] text-stone-500 uppercase mb-4">Voice Agent</p>
-        <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-4">How it works</h2>
-        <p className="text-stone-400 max-w-xl mx-auto text-base md:text-lg leading-relaxed">
+        <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-4">Voice Agent</p>
+        <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground mb-4">How it works</h2>
+        <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg leading-relaxed">
           Your AI phone agent goes live in minutes. No code, no hardware, no headaches.
         </p>
       </div>
@@ -114,10 +114,10 @@ export function VoiceHowItWorks() {
               key={step.title}
               onClick={() => setActiveStep(i)}
               className={cn(
-                "relative rounded-2xl border p-6 md:p-8 text-left transition-all duration-300 hover:border-stone-700",
+                "relative rounded-2xl border p-6 md:p-8 text-left transition-all duration-300 hover:border-border/80",
                 isActive
                   ? "border-indigo-500/50 bg-indigo-500/[0.04]"
-                  : "border-stone-800 bg-stone-900/50"
+                  : "border-border bg-card"
               )}
             >
               <div className="flex items-center gap-3 mb-5">
@@ -125,16 +125,16 @@ export function VoiceHowItWorks() {
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-300",
                     isActive
-                      ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)]"
-                      : "bg-stone-800 text-stone-400"
+                      ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-foreground shadow-[0_0_20px_rgba(99,102,241,0.4)]"
+                      : "bg-muted text-muted-foreground"
                   )}
                 >
                   {i + 1}
                 </div>
                 <Icon />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-              <p className="text-sm leading-relaxed text-stone-400">{step.body}</p>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">{step.body}</p>
             </button>
           );
         })}
@@ -142,10 +142,10 @@ export function VoiceHowItWorks() {
 
       {/* Live Badge */}
       <div className="mb-20 flex justify-center">
-        <div className="flex items-center gap-2 rounded-full border border-stone-800 bg-stone-900/80 px-5 py-2.5">
+        <div className="flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5">
           <div className="h-2 w-2 rounded-full bg-emerald-400" />
-          <span className="text-xs font-medium text-stone-300">
-            Currently handling calls for <span className="text-white">1,240+</span> businesses
+          <span className="text-xs font-medium text-muted-foreground">
+            Currently handling calls for <span className="text-foreground">1,240+</span> businesses
           </span>
         </div>
       </div>
@@ -153,16 +153,16 @@ export function VoiceHowItWorks() {
       {/* FAQ */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
         <div className="lg:col-span-4">
-          <p className="text-xs font-medium tracking-[0.2em] text-stone-500 uppercase mb-4">FAQ</p>
-          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mb-4">
+          <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-4">FAQ</p>
+          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-4">
             Everything you need to know
           </h3>
-          <p className="text-sm leading-relaxed text-stone-400 mb-6">
+          <p className="text-sm leading-relaxed text-muted-foreground mb-6">
             Can't find what you're looking for? Our team is here to help you get your voice agent running in under 10 minutes.
           </p>
           <a
             href="mailto:miralas@miransas.com"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black px-4 py-2 text-sm font-medium text-stone-300 transition-all hover:bg-stone-800 hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-accent hover:text-foreground"
           >
             <Mail className="size-3.5" strokeWidth={1.5} />
             Contact Support
@@ -173,18 +173,18 @@ export function VoiceHowItWorks() {
           {FAQS.map((faq, i) => {
             const isOpen = openFaq === i;
             return (
-              <div key={i} className="border-b border-white/5">
+              <div key={i} className="border-b border-border">
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
                   className="flex w-full items-center justify-between gap-4 py-5 text-left group"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-[15px] font-normal text-stone-200 transition-colors group-hover:text-white">
+                  <span className="text-[15px] font-normal text-foreground/80 transition-colors group-hover:text-foreground">
                     {faq.q}
                   </span>
                   <ChevronDown
                     className={cn(
-                      "size-4 text-stone-500 transition-transform duration-300 shrink-0",
+                      "size-4 text-muted-foreground transition-transform duration-300 shrink-0",
                       isOpen && "rotate-180"
                     )}
                   />
@@ -196,7 +196,7 @@ export function VoiceHowItWorks() {
                   )}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-5 text-sm leading-relaxed text-stone-400">{faq.a}</p>
+                    <p className="pb-5 text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
                   </div>
                 </div>
               </div>

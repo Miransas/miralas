@@ -118,8 +118,8 @@ export default function StreamerLandingPage() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#0a0a0a] text-white font-sans overflow-hidden">
-        <Header variant="dark" />
+      <div className="min-h-screen bg-background text-foreground font-sans overflow-hidden">
+        <Header />
         {/* 1. HERO SECTION */}
         <section className="max-w-7xl mx-auto px-6 pt-24 pb-20">
           {/* HERO COPY */}
@@ -131,30 +131,30 @@ export default function StreamerLandingPage() {
               transition={{ duration: 0.7 }}
               className="lg:col-span-7"
             >
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1.5">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[11px] uppercase tracking-[0.18em] text-neutral-400">
+                <span className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   AI voice alerts
                 </span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-[72px] font-medium tracking-[-0.04em] leading-[0.98] text-white">
+              <h1 className="text-5xl md:text-6xl lg:text-[72px] font-medium tracking-[-0.04em] leading-[0.98] text-foreground">
                 Turn every alert
                 <br />
                 into a moment.
               </h1>
 
-              <p className="mt-7 max-w-2xl text-base md:text-lg leading-8 text-neutral-400">
+              <p className="mt-7 max-w-2xl text-base md:text-lg leading-8 text-muted-foreground">
                 Let premium AI voices read donations, memberships, Super Chats and
                 more live on stream — directly through OBS.
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-4">
-                <button className="bg-white hover:bg-neutral-200 text-black rounded-full px-7 py-3.5 text-sm md:text-base font-medium transition-all hover:scale-[1.03] active:scale-[0.98]">
+                <button className="bg-card hover:bg-neutral-200 text-foreground rounded-full px-7 py-3.5 text-sm md:text-base font-medium transition-all hover:scale-[1.03] active:scale-[0.98]">
                   Start monetizing for free
                 </button>
 
-                <div className="flex items-center gap-2 text-sm text-neutral-500">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Zap className="w-4 h-4 text-yellow-500" />
                   <span>Setup in under 2 minutes</span>
                 </div>
@@ -168,13 +168,13 @@ export default function StreamerLandingPage() {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="lg:col-span-5"
             >
-              <div className="rounded-[2rem] border border-neutral-800 bg-[#0a0a0a] p-6 md:p-7">
-                <div className="flex items-center justify-between pb-5 border-b border-neutral-800">
+              <div className="rounded-[2rem] border border-border bg-background p-6 md:p-7">
+                <div className="flex items-center justify-between pb-5 border-b border-border">
                   <div>
-                    <p className="text-sm font-medium text-white">
+                    <p className="text-sm font-medium text-foreground">
                       Stream integration
                     </p>
-                    <p className="text-xs text-neutral-600 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Everything connected in one place
                     </p>
                   </div>
@@ -210,33 +210,33 @@ export default function StreamerLandingPage() {
                       className="flex items-center justify-between gap-4"
                     >
                       <div>
-                        <p className="text-sm text-neutral-200">
+                        <p className="text-sm text-foreground">
                           {item.name}
                         </p>
-                        <p className="text-xs text-neutral-600 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           {item.detail}
                         </p>
                       </div>
 
-                      <span className="text-[10px] uppercase tracking-wider text-neutral-600">
+                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
                         {item.status}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="rounded-2xl border border-neutral-800 bg-[#080808] px-4 py-3">
+                <div className="rounded-2xl border border-border bg-background px-4 py-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-neutral-500">
+                    <span className="text-xs text-muted-foreground">
                       OBS Browser Source
                     </span>
 
-                    <span className="font-mono text-[10px] text-neutral-700">
+                    <span className="font-mono text-[10px] text-muted-foreground">
                       HTTPS
                     </span>
                   </div>
 
-                  <div className="mt-2 font-mono text-xs text-neutral-400 truncate">
+                  <div className="mt-2 font-mono text-xs text-muted-foreground truncate">
                     console.miralas.io/stream
                   </div>
                 </div>
@@ -254,7 +254,7 @@ export default function StreamerLandingPage() {
               type: "spring",
               bounce: 0.12,
             }}
-            className="relative w-full aspect-video rounded-[2rem] overflow-hidden bg-neutral-900 border border-neutral-800 group"
+            className="relative w-full aspect-video rounded-[2rem] overflow-hidden bg-card border border-border group"
           >
             <video
               autoPlay
@@ -273,16 +273,16 @@ export default function StreamerLandingPage() {
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 to-transparent" />
 
             <div className="absolute left-5 bottom-5 md:left-7 md:bottom-7">
-              <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/50 backdrop-blur-md px-3 py-1.5">
+              <div className="flex items-center gap-2 rounded-full border border-border bg-background/50 backdrop-blur-md px-3 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[0.18em] text-white/70">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-foreground/70">
                   Live voice alert
                 </span>
               </div>
             </div>
 
             <div className="absolute right-5 bottom-5 md:right-7 md:bottom-7 hidden sm:block">
-              <span className="rounded-full border border-white/10 bg-black/50 backdrop-blur-md px-3 py-1.5 text-[10px] font-mono text-white/60">
+              <span className="rounded-full border border-border bg-background/50 backdrop-blur-md px-3 py-1.5 text-[10px] font-mono text-foreground/60">
                 1920 × 1080
               </span>
             </div>
@@ -291,7 +291,7 @@ export default function StreamerLandingPage() {
 
         {/* 2. PLATFORM FEATURES */}
         {/* 2. FEATURES */}
-        <section className="max-w-7xl mx-auto px-6 py-28 border-t border-neutral-800">
+        <section className="max-w-7xl mx-auto px-6 py-28 border-t border-border">
           <div className="mb-14 max-w-2xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -299,7 +299,7 @@ export default function StreamerLandingPage() {
               viewport={{ once: true }}
               className="mb-4"
             >
-              <span className="text-xs uppercase tracking-[0.22em] text-neutral-500">
+              <span className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 Built for creators
               </span>
             </motion.div>
@@ -309,11 +309,11 @@ export default function StreamerLandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.05 }}
-              className="text-4xl md:text-5xl font-medium tracking-tight text-white"
+              className="text-4xl md:text-5xl font-medium tracking-tight text-foreground"
             >
               Everything you need
               <br />
-              <span className="text-neutral-500">
+              <span className="text-muted-foreground">
                 to make your stream sound better.
               </span>
             </motion.h2>
@@ -330,7 +330,7 @@ export default function StreamerLandingPage() {
               <motion.div
                 variants={itemVariants}
                 key={feat.id}
-                className="group relative overflow-hidden rounded-[2rem] border border-neutral-800 bg-[#0a0a0a] p-7 md:p-8 transition-all duration-500 hover:-translate-y-1 hover:border-neutral-700"
+                className="group relative overflow-hidden rounded-[2rem] border border-border bg-background p-7 md:p-8 transition-all duration-500 hover:-translate-y-1 hover:border-border"
               >
                 {/* ambient glow */}
                 <div
@@ -341,36 +341,36 @@ export default function StreamerLandingPage() {
                   {/* top row */}
                   <div className="flex items-start justify-between gap-4">
                     <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr ${feat.gradient} border border-white/10`}
+                      className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr ${feat.gradient} border border-border`}
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#090909] text-white">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-foreground">
                         {feat.icon}
                       </div>
                     </div>
 
-                    <span className="font-mono text-xs tracking-[0.2em] text-neutral-600">
+                    <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground">
                       0{index + 1}
                     </span>
                   </div>
 
                   {/* content */}
                   <div className="mt-10 max-w-xl">
-                    <h3 className="text-2xl font-medium tracking-tight text-white">
+                    <h3 className="text-2xl font-medium tracking-tight text-foreground">
                       {feat.title}
                     </h3>
 
-                    <p className="mt-3 max-w-lg text-[15px] leading-7 text-neutral-400">
+                    <p className="mt-3 max-w-lg text-[15px] leading-7 text-muted-foreground">
                       {feat.desc}
                     </p>
                   </div>
 
                   {/* bottom */}
-                  <div className="mt-10 flex items-center justify-between border-t border-neutral-800 pt-5">
-                    <span className="text-xs uppercase tracking-[0.18em] text-neutral-600">
+                  <div className="mt-10 flex items-center justify-between border-t border-border pt-5">
+                    <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                       Miralas
                     </span>
 
-                    <div className="flex items-center gap-2 text-xs text-neutral-500 transition-colors group-hover:text-neutral-300">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground transition-colors group-hover:text-muted-foreground">
                       <span>Built into the platform</span>
                       <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
@@ -382,7 +382,7 @@ export default function StreamerLandingPage() {
         </section>
 
         {/* 3. OBS INTEGRATION */}
-        <section className="border-y border-neutral-800 bg-[#070707]">
+        <section className="border-y border-border bg-background">
           <div className="max-w-7xl mx-auto px-6 py-28">
             {/* heading */}
             <motion.div
@@ -391,19 +391,19 @@ export default function StreamerLandingPage() {
               viewport={{ once: true }}
               className="max-w-3xl mb-16"
             >
-              <span className="text-xs uppercase tracking-[0.22em] text-neutral-500">
+              <span className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 OBS integration
               </span>
 
-              <h2 className="mt-5 text-4xl md:text-6xl font-medium tracking-tight text-white">
+              <h2 className="mt-5 text-4xl md:text-6xl font-medium tracking-tight text-foreground">
                 One URL.
                 <br />
-                <span className="text-neutral-500">
+                <span className="text-muted-foreground">
                   That&apos;s all OBS needs.
                 </span>
               </h2>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-400">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
                 No virtual cables. No desktop bridge. No extra software running in the
                 background. Add the Miralas source once and let OBS handle the rest.
               </p>
@@ -415,7 +415,7 @@ export default function StreamerLandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative overflow-hidden rounded-[2rem] border border-neutral-800 bg-[#0a0a0a]"
+              className="relative overflow-hidden rounded-[2rem] border border-border bg-background"
             >
               {/* glow */}
               <div className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-blue-500/[0.07] blur-3xl" />
@@ -423,29 +423,29 @@ export default function StreamerLandingPage() {
 
               <div className="relative grid grid-cols-1 lg:grid-cols-12">
                 {/* left info */}
-                <div className="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-neutral-800 p-7 md:p-10">
+                <div className="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-border p-7 md:p-10">
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-neutral-800 bg-neutral-900">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card">
                       <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium text-foreground">
                         Browser Source
                       </p>
-                      <p className="text-xs text-neutral-600">
+                      <p className="text-xs text-muted-foreground">
                         Native OBS integration
                       </p>
                     </div>
                   </div>
 
-                  <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-white">
+                  <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-foreground">
                     Add Miralas directly
                     <br />
                     to your scene.
                   </h3>
 
-                  <p className="mt-4 text-[15px] leading-7 text-neutral-500">
+                  <p className="mt-4 text-[15px] leading-7 text-muted-foreground">
                     Miralas runs through an OBS Browser Source, so the generated voice
                     becomes part of your scene without touching your desktop audio.
                   </p>
@@ -460,20 +460,20 @@ export default function StreamerLandingPage() {
                         transition={{ delay: idx * 0.08 }}
                         className="flex gap-4"
                       >
-                        <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-neutral-800 bg-neutral-900 text-xs font-mono text-neutral-400">
+                        <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-card text-xs font-mono text-muted-foreground">
                           {String(idx + 1).padStart(2, "0")}
 
                           {idx !== obsSteps.length - 1 && (
-                            <span className="absolute left-1/2 top-full h-6 w-px -translate-x-1/2 bg-neutral-800" />
+                            <span className="absolute left-1/2 top-full h-6 w-px -translate-x-1/2 bg-card" />
                           )}
                         </div>
 
                         <div className="pt-0.5">
-                          <h4 className="text-sm font-medium text-neutral-200">
+                          <h4 className="text-sm font-medium text-foreground">
                             {step.title}
                           </h4>
 
-                          <p className="mt-1 text-sm leading-6 text-neutral-500">
+                          <p className="mt-1 text-sm leading-6 text-muted-foreground">
                             {step.desc}
                           </p>
                         </div>
@@ -484,15 +484,15 @@ export default function StreamerLandingPage() {
 
                 {/* right visual */}
                 <div className="lg:col-span-7 p-6 md:p-10">
-                  <div className="h-full rounded-3xl border border-neutral-800 bg-[#080808] overflow-hidden">
+                  <div className="h-full rounded-3xl border border-border bg-background overflow-hidden">
                     {/* fake browser header */}
-                    <div className="flex h-12 items-center gap-2 border-b border-neutral-800 px-4">
+                    <div className="flex h-12 items-center gap-2 border-b border-border px-4">
                       <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-neutral-800" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-neutral-800" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-card" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-card" />
 
-                      <div className="ml-4 flex-1 rounded-lg border border-neutral-800 bg-neutral-900/60 px-3 py-1.5">
-                        <span className="font-mono text-[10px] text-neutral-600">
+                      <div className="ml-4 flex-1 rounded-lg border border-border bg-card/60 px-3 py-1.5">
+                        <span className="font-mono text-[10px] text-muted-foreground">
                           console.miralas.io/embed/stream
                         </span>
                       </div>
@@ -502,10 +502,10 @@ export default function StreamerLandingPage() {
                     <div className="p-5 md:p-7">
                       <div className="mb-5 flex items-center justify-between">
                         <div>
-                          <p className="text-xs uppercase tracking-[0.18em] text-neutral-600">
+                          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                             OBS Studio
                           </p>
-                          <p className="mt-1 text-sm text-neutral-300">
+                          <p className="mt-1 text-sm text-muted-foreground">
                             Browser Source
                           </p>
                         </div>
@@ -516,38 +516,38 @@ export default function StreamerLandingPage() {
                       </div>
 
                       {/* source url */}
-                      <div className="rounded-2xl border border-neutral-800 bg-[#0d0d0d] p-5">
+                      <div className="rounded-2xl border border-border bg-card p-5">
                         <div className="mb-3 flex items-center justify-between">
-                          <span className="text-xs text-neutral-500">
+                          <span className="text-xs text-muted-foreground">
                             URL
                           </span>
 
-                          <span className="font-mono text-[10px] text-neutral-700">
+                          <span className="font-mono text-[10px] text-muted-foreground">
                             HTTPS
                           </span>
                         </div>
 
-                        <div className="rounded-xl border border-neutral-800 bg-black px-4 py-3">
-                          <span className="font-mono text-xs text-neutral-400">
+                        <div className="rounded-xl border border-border bg-background px-4 py-3">
+                          <span className="font-mono text-xs text-muted-foreground">
                             https://console.miralas.io/embed/stream
                           </span>
                         </div>
 
                         <div className="mt-5 grid grid-cols-2 gap-3">
-                          <div className="rounded-xl border border-neutral-800 bg-black p-4">
-                            <p className="text-[10px] uppercase tracking-wider text-neutral-600">
+                          <div className="rounded-xl border border-border bg-background p-4">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                               Width
                             </p>
-                            <p className="mt-1 text-sm text-neutral-300">
+                            <p className="mt-1 text-sm text-muted-foreground">
                               1920
                             </p>
                           </div>
 
-                          <div className="rounded-xl border border-neutral-800 bg-black p-4">
-                            <p className="text-[10px] uppercase tracking-wider text-neutral-600">
+                          <div className="rounded-xl border border-border bg-background p-4">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                               Height
                             </p>
-                            <p className="mt-1 text-sm text-neutral-300">
+                            <p className="mt-1 text-sm text-muted-foreground">
                               1080
                             </p>
                           </div>
@@ -555,34 +555,34 @@ export default function StreamerLandingPage() {
                       </div>
 
                       {/* audio control */}
-                      <div className="mt-4 rounded-2xl border border-neutral-800 bg-[#0d0d0d] p-5">
+                      <div className="mt-4 rounded-2xl border border-border bg-card p-5">
                         <div className="flex items-center justify-between gap-4">
                           <div>
-                            <p className="text-sm font-medium text-neutral-200">
+                            <p className="text-sm font-medium text-foreground">
                               Control audio via OBS
                             </p>
-                            <p className="mt-1 text-xs leading-5 text-neutral-600">
+                            <p className="mt-1 text-xs leading-5 text-muted-foreground">
                               Send the generated voice directly into the OBS mixer.
                             </p>
                           </div>
 
-                          <div className="relative h-6 w-11 shrink-0 rounded-full border border-neutral-700 bg-neutral-800">
-                            <span className="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm" />
+                          <div className="relative h-6 w-11 shrink-0 rounded-full border border-border bg-card">
+                            <span className="absolute right-1 top-1 h-4 w-4 rounded-full bg-card shadow-sm" />
                           </div>
                         </div>
                       </div>
 
                       {/* status */}
-                      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-neutral-800 bg-[#0d0d0d] px-5 py-4">
+                      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4">
                         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/[0.08]">
                           <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
                         </div>
 
                         <div>
-                          <p className="text-xs font-medium text-neutral-300">
+                          <p className="text-xs font-medium text-muted-foreground">
                             Audio is being routed through OBS
                           </p>
-                          <p className="text-[11px] text-neutral-600">
+                          <p className="text-[11px] text-muted-foreground">
                             You can now control volume, filters and monitoring.
                           </p>
                         </div>
@@ -615,17 +615,17 @@ export default function StreamerLandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
-                  className="rounded-2xl border border-neutral-800 bg-[#0a0a0a] p-5"
+                  className="rounded-2xl border border-border bg-background p-5"
                 >
-                  <div className="mb-4 font-mono text-[10px] tracking-[0.18em] text-neutral-700">
+                  <div className="mb-4 font-mono text-[10px] tracking-[0.18em] text-muted-foreground">
                     0{index + 1}
                   </div>
 
-                  <h4 className="text-sm font-medium text-neutral-200">
+                  <h4 className="text-sm font-medium text-foreground">
                     {item.title}
                   </h4>
 
-                  <p className="mt-2 text-sm leading-6 text-neutral-600">
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -635,7 +635,7 @@ export default function StreamerLandingPage() {
         </section>
         {/* 4. FAQ SECTION */}
 
-        <section className="border-t border-neutral-800">
+        <section className="border-t border-border">
           <div className="max-w-7xl mx-auto px-6 py-28">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
               {/* left */}
@@ -646,33 +646,33 @@ export default function StreamerLandingPage() {
                 className="lg:col-span-4"
               >
                 <div className="sticky top-24">
-                  <span className="text-xs uppercase tracking-[0.22em] text-neutral-500">
+                  <span className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     FAQ
                   </span>
 
-                  <h2 className="mt-5 text-4xl md:text-5xl font-medium tracking-tight text-white">
+                  <h2 className="mt-5 text-4xl md:text-5xl font-medium tracking-tight text-foreground">
                     Questions,
                     <br />
                     answered.
                   </h2>
 
-                  <p className="mt-6 max-w-sm text-base leading-7 text-neutral-500">
+                  <p className="mt-6 max-w-sm text-base leading-7 text-muted-foreground">
                     Everything you need to know about using Miralas with your stream,
                     OBS, audio setup, and AI voices.
                   </p>
 
                   {/* mini info card */}
-                  <div className="mt-10 overflow-hidden rounded-3xl border border-neutral-800 bg-[#0a0a0a] p-6">
+                  <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-background p-6">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-800 bg-neutral-900">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card">
                         <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                       </div>
 
                       <div>
-                        <p className="text-sm font-medium text-neutral-200">
+                        <p className="text-sm font-medium text-foreground">
                           Ready to go
                         </p>
-                        <p className="text-xs text-neutral-500">
+                        <p className="text-xs text-muted-foreground">
                           No desktop software required
                         </p>
                       </div>
@@ -683,7 +683,7 @@ export default function StreamerLandingPage() {
 
               {/* right */}
               <div className="lg:col-span-8">
-                <div className="rounded-[2rem] border border-neutral-800 bg-[#0a0a0a] overflow-hidden">
+                <div className="rounded-[2rem] border border-border bg-background overflow-hidden">
                   {faqs.map((faq, index) => {
                     const isOpen = openFaq === index;
 
@@ -694,7 +694,7 @@ export default function StreamerLandingPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: index * 0.05 }}
-                        className="border-b border-neutral-800 last:border-b-0"
+                        className="border-b border-border last:border-b-0"
                       >
                         <button
                           type="button"
@@ -704,14 +704,14 @@ export default function StreamerLandingPage() {
                           className="flex w-full items-center justify-between gap-6 px-6 py-6 md:px-8 text-left"
                         >
                           <div className="flex items-start gap-5">
-                            <span className="pt-1 font-mono text-[11px] tracking-[0.18em] text-neutral-600">
+                            <span className="pt-1 font-mono text-[11px] tracking-[0.18em] text-muted-foreground">
                               {String(index + 1).padStart(2, "0")}
                             </span>
 
                             <span
                               className={`text-lg md:text-xl font-medium transition-colors ${isOpen
-                                ? "text-white"
-                                : "text-neutral-300 group-hover:text-white"
+                                ? "text-foreground"
+                                : "text-muted-foreground group-hover:text-foreground"
                                 }`}
                             >
                               {faq.question}
@@ -725,7 +725,7 @@ export default function StreamerLandingPage() {
                             transition={{ duration: 0.25 }}
                             className="shrink-0"
                           >
-                            <Plus className="h-5 w-5 text-neutral-500" />
+                            <Plus className="h-5 w-5 text-muted-foreground" />
                           </motion.div>
                         </button>
 
@@ -751,7 +751,7 @@ export default function StreamerLandingPage() {
                               className="overflow-hidden"
                             >
                               <div className="px-6 pb-7 pl-[4.5rem] pr-8 md:px-8 md:pl-[5.5rem] md:pr-12">
-                                <p className="max-w-2xl text-[15px] leading-7 text-neutral-500">
+                                <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">
                                   {faq.answer}
                                 </p>
                               </div>

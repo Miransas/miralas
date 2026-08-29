@@ -26,7 +26,7 @@ export function Section({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-xs font-medium tracking-caps text-stone-400 uppercase">{children}</p>
+    <p className="text-xs font-medium tracking-caps text-muted-foreground uppercase">{children}</p>
   );
 }
 
@@ -40,7 +40,7 @@ export function SectionHeading({ children }: { children: ReactNode }) {
 
 export function SectionLead({ children }: { children: ReactNode }) {
   return (
-    <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-stone-400 sm:text-lg">
+    <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
       {children}
     </p>
   );

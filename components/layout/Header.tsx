@@ -14,8 +14,10 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/components/providers/mode-toggle";
 
 type SubItem = {
   label: string;
@@ -142,28 +144,20 @@ const navItems: NavItem[] = [
   },
 ];
 
-const LIGHT_PAGES = ["/studio", "/blog", "/docs", "/guides"];
-
-function isLightPage(path: string): boolean {
-  return LIGHT_PAGES.some((p) => path === p || path.startsWith(`${p}/`));
-}
-
 /* ---------------------------------------------------------------
    Header
    --------------------------------------------------------------- */
-type HeaderVariant = "dark" | "light";
-
-interface HeaderProps {
-  variant?: HeaderVariant;
-}
-
-export function Header({ variant }: HeaderProps) {
+export function Header() {
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const resolvedVariant: HeaderVariant =
-    variant ?? (isLightPage(pathname) ? "light" : "dark");
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const isDark = resolvedVariant === "dark";
+  // Default to dark until hydrated to avoid flash mismatch.
+  const isDark = mounted ? resolvedTheme !== "light" : true;
 
   const [scrolled, setScrolled] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
@@ -247,69 +241,69 @@ export function Header({ variant }: HeaderProps) {
     shellBorder:
       scrolled || desktopOpen || mobileOpen
         ? isDark
-          ? "border-white/10"
-          : "border-zinc-200/70"
+          ? "border-border"
+          : "border-border/70"
         : "border-transparent",
     shellBg:
       scrolled || desktopOpen || mobileOpen
         ? isDark
-          ? "bg-zinc-950/85"
-          : "bg-white/85"
+          ? "bg-card/85"
+          : "bg-card/85"
         : "bg-transparent",
     shellShadow:
       scrolled || desktopOpen || mobileOpen
         ? "shadow-[0_18px_60px_-36px_rgba(24,24,27,0.7)]"
         : "",
 
-    textPrimary: isDark ? "text-white" : "text-zinc-950",
-    textSecondary: isDark ? "text-zinc-400" : "text-zinc-600",
-    textMuted: isDark ? "text-zinc-500" : "text-zinc-500",
+    textPrimary: isDark ? "text-foreground" : "text-foreground",
+    textSecondary: isDark ? "text-muted-foreground" : "text-muted-foreground",
+    textMuted: isDark ? "text-muted-foreground" : "text-muted-foreground",
 
-    hoverText: isDark ? "hover:text-white" : "hover:text-zinc-950",
+    hoverText: isDark ? "hover:text-foreground" : "hover:text-foreground",
 
-    bgPrimary: isDark ? "bg-zinc-950" : "bg-white",
-    bgSecondary: isDark ? "bg-white/5" : "bg-zinc-50",
-    bgHover: isDark ? "hover:bg-white/10" : "hover:bg-zinc-100",
-    bgHoverLight: isDark ? "hover:bg-white/5" : "hover:bg-zinc-100",
-    bgActive: isDark ? "bg-white/10" : "bg-zinc-100",
-    bgActiveBox: isDark ? "bg-white/10" : "bg-white",
+    bgPrimary: isDark ? "bg-card" : "bg-card",
+    bgSecondary: isDark ? "bg-card/5" : "bg-muted",
+    bgHover: isDark ? "hover:bg-card/10" : "hover:bg-muted",
+    bgHoverLight: isDark ? "hover:bg-card/5" : "hover:bg-muted",
+    bgActive: isDark ? "bg-card/10" : "bg-muted",
+    bgActiveBox: isDark ? "bg-card/10" : "bg-card",
 
-    borderPrimary: isDark ? "border-white/10" : "border-zinc-200",
-    borderSecondary: isDark ? "border-white/15" : "border-zinc-300",
+    borderPrimary: isDark ? "border-border" : "border-border",
+    borderSecondary: isDark ? "border-border" : "border-border",
 
     btnGhost: isDark
-      ? "text-zinc-300 hover:bg-white/10 hover:text-white"
-      : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950",
+      ? "text-muted-foreground hover:bg-card/10 hover:text-foreground"
+      : "text-muted-foreground hover:bg-muted hover:text-foreground",
     btnPrimary: isDark
-      ? "bg-white text-zinc-950 hover:bg-zinc-100"
-      : "bg-zinc-950 text-white hover:bg-zinc-800",
+      ? "bg-card text-foreground hover:bg-muted"
+      : "bg-card text-foreground hover:bg-card",
     btnOutline: isDark
-      ? "border-white/10 text-zinc-300 hover:bg-white/5"
-      : "border-zinc-200 text-zinc-700 hover:bg-zinc-100",
+      ? "border-border text-muted-foreground hover:bg-card/5"
+      : "border-border text-muted-foreground hover:bg-muted",
 
-    dropdownBg: isDark ? "bg-zinc-950/95" : "bg-white/95",
-    dropdownBorder: isDark ? "border-white/10" : "border-zinc-200/80",
+    dropdownBg: isDark ? "bg-card/95" : "bg-card/95",
+    dropdownBorder: isDark ? "border-border" : "border-border/80",
     dropdownShadow: "shadow-[0_24px_80px_-30px_rgba(0,0,0,0.35)]",
 
-    mobileBg: isDark ? "bg-zinc-950/95" : "bg-white/95",
-    mobileBorder: isDark ? "border-white/10" : "border-zinc-200/80",
+    mobileBg: isDark ? "bg-card/95" : "bg-card/95",
+    mobileBorder: isDark ? "border-border" : "border-border/80",
 
-    iconBoxBorder: isDark ? "border-white/10" : "border-zinc-200",
-    iconBoxBg: isDark ? "bg-white/5" : "bg-zinc-50",
-    iconBoxText: isDark ? "text-zinc-400" : "text-zinc-500",
-    iconBoxActiveBorder: isDark ? "border-white/15" : "border-zinc-300",
-    iconBoxActiveBg: isDark ? "bg-white/10" : "bg-white",
-    iconBoxActiveText: isDark ? "text-white" : "text-zinc-950",
+    iconBoxBorder: isDark ? "border-border" : "border-border",
+    iconBoxBg: isDark ? "bg-card/5" : "bg-muted",
+    iconBoxText: isDark ? "text-muted-foreground" : "text-muted-foreground",
+    iconBoxActiveBorder: isDark ? "border-border" : "border-border",
+    iconBoxActiveBg: isDark ? "bg-card/10" : "bg-card",
+    iconBoxActiveText: isDark ? "text-foreground" : "text-foreground",
 
-    featuredBg: isDark ? "bg-white" : "bg-zinc-950",
-    featuredText: isDark ? "text-zinc-950" : "text-white",
-    featuredMuted: isDark ? "text-zinc-600" : "text-zinc-400",
-    featuredLabel: isDark ? "text-zinc-500" : "text-zinc-400",
-    featuredIconBg: isDark ? "bg-zinc-950/10" : "bg-white/10",
-    featuredIconText: isDark ? "text-zinc-950" : "text-white",
+    featuredBg: isDark ? "bg-card" : "bg-card",
+    featuredText: isDark ? "text-foreground" : "text-foreground",
+    featuredMuted: isDark ? "text-muted-foreground" : "text-muted-foreground",
+    featuredLabel: isDark ? "text-muted-foreground" : "text-muted-foreground",
+    featuredIconBg: isDark ? "bg-card/10" : "bg-card/10",
+    featuredIconText: isDark ? "text-foreground" : "text-foreground",
 
-    logoBg: isDark ? "bg-white" : "bg-zinc-950",
-    logoText: isDark ? "text-zinc-950" : "text-white",
+    logoBg: isDark ? "bg-card" : "bg-card",
+    logoText: isDark ? "text-foreground" : "text-foreground",
   };
 
   return (
@@ -508,8 +502,8 @@ export function Header({ variant }: HeaderProps) {
                                   t.iconBoxText,
                                   t.bgHoverLight,
                                   isDark
-                                    ? "hover:text-white"
-                                    : "hover:text-zinc-950",
+                                    ? "hover:text-foreground"
+                                    : "hover:text-foreground",
                                 )}
                                 aria-label={`Open ${item.label}`}
                               >
@@ -613,8 +607,10 @@ export function Header({ variant }: HeaderProps) {
               DESKTOP ACTIONS
           ========================================================= */}
           <div className="hidden items-center gap-2 lg:flex">
+            <ModeToggle />
+
             <Link
-              href="https://console.miralas/auth"
+              href="https://console.miralas.io/auth"
               className={cn(
                 "inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium transition",
                 t.btnGhost,
@@ -624,7 +620,7 @@ export function Header({ variant }: HeaderProps) {
             </Link>
 
             <Link
-              href="https://console.miralas/auth"
+              href="https://console.miralas.io/auth"
               className={cn(
                 "inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-lg shadow-zinc-950/15 transition hover:-translate-y-0.5",
                 t.btnPrimary,
@@ -648,7 +644,7 @@ export function Header({ variant }: HeaderProps) {
             className={cn(
               "inline-flex size-10 items-center justify-center rounded-full border shadow-sm backdrop-blur lg:hidden",
               t.borderPrimary,
-              isDark ? "bg-white/5 text-white" : "bg-white/80 text-zinc-900",
+              isDark ? "bg-card/5 text-foreground" : "bg-card/80 text-foreground",
             )}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -774,7 +770,7 @@ export function Header({ variant }: HeaderProps) {
                                 <span
                                   className={cn(
                                     "size-1.5 rounded-full",
-                                    isDark ? "bg-white" : "bg-zinc-950",
+                                    isDark ? "bg-card" : "bg-card",
                                   )}
                                 />
                               )}
@@ -793,8 +789,8 @@ export function Header({ variant }: HeaderProps) {
                                 "mr-1 flex size-10 items-center justify-center rounded-lg transition",
                                 t.iconBoxText,
                                 isDark
-                                  ? "hover:bg-white/10 hover:text-white"
-                                  : "hover:bg-zinc-200/70 hover:text-zinc-950",
+                                  ? "hover:bg-card/10 hover:text-foreground"
+                                  : "hover:bg-zinc-200/70 hover:text-foreground",
                               )}
                             >
                               <motion.span
@@ -916,9 +912,21 @@ export function Header({ variant }: HeaderProps) {
                     t.borderPrimary,
                   )}
                 >
+                  <div className="mb-3 flex items-center justify-between px-2">
+                    <span
+                      className={cn(
+                        "text-xs font-medium uppercase tracking-wider",
+                        t.textMuted,
+                      )}
+                    >
+                      Appearance
+                    </span>
+                    <ModeToggle />
+                  </div>
+
                   <div className="grid grid-cols-2 gap-2">
                     <Link
-                      href="https://console.miralas/auth"
+                      href="https://console.miralas.io/auth"
                       onClick={handleMobileLink}
                       className={cn(
                         "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium transition",
@@ -929,10 +937,10 @@ export function Header({ variant }: HeaderProps) {
                     </Link>
 
                     <Link
-                      href="https://console.miralas/auth"
+                      href="https://console.miralas.io/auth"
                       onClick={handleMobileLink}
                       className={cn(
-                        "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold transition hover:bg-zinc-800",
+                        "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold transition hover:bg-card",
                         t.btnPrimary,
                       )}
                     >

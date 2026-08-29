@@ -203,7 +203,7 @@ function AmbientAudioBackground({
   }, [analyser, isPlaying, colors]);
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden bg-white transition-colors duration-1000">
+    <div className="absolute inset-0 z-0 overflow-hidden bg-background transition-colors duration-1000">
       <motion.canvas
         ref={canvasRef}
         initial={{ opacity: 0 }}
@@ -211,7 +211,7 @@ function AmbientAudioBackground({
         transition={{ duration: 1.5 }}
         className="h-full w-full object-cover blur-[100px] saturate-[1.5] transition-all duration-700"
       />
-      <div className="absolute inset-0 bg-white/30 mix-blend-overlay backdrop-blur-[2px]" />
+      <div className="absolute inset-0 bg-background/30 mix-blend-overlay backdrop-blur-[2px]" />
     </div>
   );
 }
@@ -229,7 +229,7 @@ function CoreOrb({
 
   return (
     <motion.div
-      className="relative z-20 flex size-[260px] items-center justify-center rounded-full border border-white/60 bg-white/10 shadow-[inset_0_0_60px_rgba(255,255,255,0.5),0_24px_50px_rgba(0,0,0,0.08)] backdrop-blur-2xl sm:size-[300px]"
+      className="relative z-20 flex size-[260px] items-center justify-center rounded-full border border-border bg-card/10 shadow-[inset_0_0_60px_rgba(255,255,255,0.5),0_24px_50px_rgba(0,0,0,0.08)] backdrop-blur-2xl sm:size-[300px]"
       animate={{
         scale: isPlaying ? [1, 1.05, 0.98, 1] : 1,
         boxShadow: isPlaying
@@ -266,7 +266,7 @@ function CoreOrb({
         whileHover={{ scale: 1.12 }}
         whileTap={{ scale: 0.9 }}
         transition={springSnappy}
-        className="relative flex size-24 items-center justify-center overflow-hidden rounded-full bg-white/95 text-stone-900 shadow-[0_12px_36px_rgba(0,0,0,0.12)] backdrop-blur-md"
+        className="relative flex size-24 items-center justify-center overflow-hidden rounded-full bg-background/95 text-foreground shadow-[0_12px_36px_rgba(0,0,0,0.12)] backdrop-blur-md"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
@@ -309,7 +309,7 @@ function ChatBubble({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.92 }}
           transition={{ duration: 0.5, ease: easeOut }}
-          className="pointer-events-none absolute left-1/2 z-40 max-w-[340px] -translate-x-1/2 rounded-[20px] border border-white/10 bg-black/70 px-6 py-4 text-sm font-medium leading-relaxed text-white shadow-2xl backdrop-blur-2xl"
+          className="pointer-events-none absolute left-1/2 z-40 max-w-[340px] -translate-x-1/2 rounded-[20px] border border-border bg-popover/90 px-6 py-4 text-sm font-medium leading-relaxed text-popover-foreground shadow-2xl backdrop-blur-2xl"
           style={{ top: "58%" }}
         >
           <span className="relative z-10">
@@ -318,12 +318,12 @@ function ChatBubble({
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut" }}
-                className="ml-0.5 inline-block h-3.5 w-0.5 bg-white/80"
+                className="ml-0.5 inline-block h-3.5 w-0.5 bg-popover-foreground/80"
               />
             )}
           </span>
           <div
-            className="absolute -top-[7px] left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 rounded-sm border-l border-t border-white/10 bg-black/70"
+            className="absolute -top-[7px] left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 rounded-sm border-l border-t border-border bg-popover/90"
           />
           <div
             className="absolute -inset-[1px] rounded-[20px] opacity-20 blur-md"
@@ -351,7 +351,7 @@ function RangeSlider({
   const percent = ((value - min) / (max - min)) * 100;
   return (
     <div className="relative flex h-6 flex-1 items-center">
-      <div className="absolute inset-y-[10px] left-0 right-0 rounded-full bg-stone-900/10 shadow-inner" />
+      <div className="absolute inset-y-[10px] left-0 right-0 rounded-full bg-foreground/10 shadow-inner" />
       <motion.div
         className="absolute inset-y-[10px] left-0 rounded-full"
         animate={{ width: `${percent}%`, backgroundColor: accentColor }}
@@ -366,7 +366,7 @@ function RangeSlider({
         className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
       />
       <motion.div
-        className="pointer-events-none absolute size-5 rounded-full border-[3px] border-white bg-white shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
+        className="pointer-events-none absolute size-5 rounded-full border-[3px] border-background bg-background shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
         animate={{ left: `calc(${percent}% - 10px)` }}
         transition={{ type: "spring", stiffness: 400, damping: 34 }}
       />
@@ -495,7 +495,7 @@ export default function VoiceLibrary() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: easeOut }}
-      className="flex min-h-screen items-center justify-center bg-white p-4 font-sans text-stone-900 selection:bg-white/40 lg:p-10"
+      className="flex min-h-screen items-center justify-center bg-background p-4 font-sans text-foreground selection:bg-foreground/20 lg:p-10"
     >
       <audio ref={audioRef} src={activeVoice.audio} crossOrigin="anonymous" />
 
@@ -503,7 +503,7 @@ export default function VoiceLibrary() {
         initial={{ opacity: 0, y: 30, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.9, ease: easeOut }}
-        className="relative flex h-[min(840px,94vh)] w-full max-w-[1280px] flex-col overflow-hidden rounded-[3rem] border-2 border-white/80 bg-white/40 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)]"
+        className="relative flex h-[min(840px,94vh)] w-full max-w-[1280px] flex-col overflow-hidden rounded-[3rem] border-2 border-border bg-card/40 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)]"
       >
         <AmbientAudioBackground 
           analyser={analyserNode} 
@@ -571,10 +571,9 @@ export default function VoiceLibrary() {
                   </motion.span>
                   <motion.span
                     layout
-                    className="rounded-full border border-white/40 bg-white/30 px-4 py-1.5 text-xs font-bold shadow-sm backdrop-blur-xl"
+                    className="rounded-full border border-border bg-card/50 px-4 py-1.5 text-xs font-bold text-foreground shadow-sm backdrop-blur-xl"
                     animate={{
-                      color: active ? "#1c1917" : "#44403c",
-                      backgroundColor: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)"
+                      opacity: active ? 1 : 0.75,
                     }}
                   >
                     {voice.label}
@@ -607,7 +606,7 @@ export default function VoiceLibrary() {
 
           <div className="z-30 p-6 sm:p-8">
             <motion.div 
-              className="mx-auto max-w-2xl overflow-hidden rounded-[2rem] border border-white/60 bg-white/50 p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] backdrop-blur-3xl sm:p-8"
+              className="mx-auto max-w-2xl overflow-hidden rounded-[2rem] border border-border bg-card/60 p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] backdrop-blur-3xl sm:p-8"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8, ease: easeOut }}
@@ -620,7 +619,7 @@ export default function VoiceLibrary() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="mb-2 text-2xl font-extrabold tracking-tight text-stone-900"
+                    className="mb-2 text-2xl font-extrabold tracking-tight text-foreground"
                   >
                     {activeVoice.title}
                   </motion.h2>
@@ -632,7 +631,7 @@ export default function VoiceLibrary() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="mb-8 max-w-md text-center text-sm font-medium leading-relaxed text-stone-700/80"
+                    className="mb-8 max-w-md text-center text-sm font-medium leading-relaxed text-muted-foreground"
                   >
                     {activeVoice.desc}
                   </motion.p>
@@ -640,8 +639,8 @@ export default function VoiceLibrary() {
 
                 <div className="flex w-full flex-col gap-6">
                   <div className="flex w-full items-center gap-4">
-                    <Clock className="size-4 text-stone-600" />
-                    <span className="w-10 text-right text-xs font-bold tabular-nums text-stone-600">
+                    <Clock className="size-4 text-muted-foreground" />
+                    <span className="w-10 text-right text-xs font-bold tabular-nums text-muted-foreground">
                       {formatTime((progress / 100) * duration)}
                     </span>
                     <RangeSlider
@@ -656,12 +655,12 @@ export default function VoiceLibrary() {
                         setProgress(v);
                       }}
                     />
-                    <span className="w-10 text-xs font-bold tabular-nums text-stone-600">
+                    <span className="w-10 text-xs font-bold tabular-nums text-muted-foreground">
                       {formatTime(duration)}
                     </span>
                   </div>
 
-                  <div className="flex w-full items-center gap-4 text-xs font-bold text-stone-600">
+                  <div className="flex w-full items-center gap-4 text-xs font-bold text-muted-foreground">
                     <Volume2 className="size-4" />
                     <span>Warm</span>
                     <RangeSlider

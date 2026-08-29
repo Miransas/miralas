@@ -168,9 +168,9 @@ export function SphereCard() {
   }, [reduced]);
 
   return (
-    <CardShell label="" overlayLabel className="min-h-72 bg-stone-900 md:h-80">
+    <CardShell label="" overlayLabel className="min-h-72 bg-card md:h-80">
       <canvas ref={ref} className="absolute inset-0 h-full w-full" />
-      <span className="pointer-events-none absolute right-5 bottom-3 z-10 text-sm text-stone-400">
+      <span className="pointer-events-none absolute right-5 bottom-3 z-10 text-sm text-muted-foreground">
         Explore →
       </span>
     </CardShell>

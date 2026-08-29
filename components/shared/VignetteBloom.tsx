@@ -230,10 +230,10 @@ export default function VignetteBloom() {
 
   return (
     // Tailwind CSS ile stilleme
-    <div className="flex h-screen w-full items-center justify-center bg-[#111] overflow-hidden">
+    <div className="flex h-screen w-full items-center justify-center bg-background overflow-hidden">
       <canvas
         ref={canvasRef}
-        className="max-h-screen max-w-full bg-black shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+        className="max-h-screen max-w-full bg-background shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
       />
     </div>
   );
