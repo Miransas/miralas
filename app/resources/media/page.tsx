@@ -1,5 +1,5 @@
 
-/* eslint-disable react-hooks/set-state-in-effect */
+ 
 "use client";
 // bu joyga keyin qoyiladi odam kim kelsa ham artist bolib hozriga default bor 
 import React, { useState, useRef, useEffect } from "react";
