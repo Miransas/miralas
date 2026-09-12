@@ -84,25 +84,8 @@ export default function GuidesPage() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-foreground selection:text-foreground">
+      <div className="min-h-screen bg-background text-foreground font-sans ">
         <Header />
-        {/* Top navigation bar */}
-        {/* <header className="border-b border-border bg-background/60 backdrop-blur-md sticky top-0 z-50">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
-          >
-            <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
-            Back to Home
-          </Link>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground shadow-md">
-            <BookOpen className="size-3 text-amber-500" />
-            Documentation Hub
-          </div>
-        </div>
-      </header> */}
-
         {/* Main body */}
         <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
 
@@ -139,8 +122,8 @@ export default function GuidesPage() {
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={`relative px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 ${activeCategory === category
-                  ? "bg-foreground text-foreground shadow-md shadow-black/40"
-                  : "text-muted-foreground hover:text-foreground bg-card/30 border border-transparent hover:border-border"
+                  ? "bg-foreground text-stone-500 shadow-md shadow-black/40"
+                  : "text-stone-400 hover:text-foreground bg-card/30 border border-transparent hover:border-border"
                   }`}
               >
                 {category}

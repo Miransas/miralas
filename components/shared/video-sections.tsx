@@ -159,7 +159,7 @@ function CardRow() {
       style={{ y, opacity: cardOpacity }}
       className="bg-void px-5 pb-24 pt-6 md:px-8 md:pb-32 md:pt-10"
     >
-      <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
+      <div className="mx-auto grid max-w-full gap-4 md:grid-cols-3">
         {VIDEO_CARDS.map((card, i) => (
           <Reveal key={card.title} delay={i * 0.08}>
             <article className="h-full rounded-[22px] border border-border bg-card p-6 md:p-7">

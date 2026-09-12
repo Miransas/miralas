@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Mic, Play, ShieldCheck, Waves } from "lucide-react";
 import { ShaderAnimation } from "./shader-hero";
+import { LiquidMetalButton } from "./metal-button";
 
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -106,7 +107,7 @@ function FeatureCard({
   return (
     <FadeIn delay={delay}>
       <div
-        className={`group relative overflow-hidden rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-xl transition-all duration-500 hover:bg-accent/70 hover:shadow-[0_20px_50px_-28px_rgba(0,0,0,0.8)] sm:p-6 ${c.card}`}
+        className={`group relative overflow-hidden rounded-2xl  bg-transparent dark:bg-transparent p-5 backdrop-blur-xl transition-all duration-500  hover:shadow-[0_20px_50px_-28px_rgba(0,0,0,0.8)] sm:p-6 ${c.card}`}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
         <div className="relative z-10">
@@ -122,10 +123,10 @@ function FeatureCard({
               {badge}
             </span>
           </div>
-          <h3 className={`text-sm font-semibold text-foreground transition-colors ${c.hover}`}>
+          <h3 className={`text-sm font-semibold text-stone-300 transition-colors ${c.hover}`}>
             {title}
           </h3>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
+          <p className="mt-1.5 text-[13px] leading-relaxed text-stone-200">
             {description}
           </p>
         </div>
@@ -139,14 +140,14 @@ export default function Hero() {
     <section className="relative w-full overflow-hidden bg-background">
       <div className="absolute inset-0 z-0">
         <ShaderAnimation />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,var(--background)_0%,color-mix(in_srgb,var(--background)_60%,transparent)_45%,var(--background)_100%)]" />
+        {/* <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,var(--background)_0%,color-mix(in_srgb,var(--background)_60%,transparent)_45%,var(--background)_100%)]" /> */}
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-center px-5 py-24 sm:px-8 lg:px-16">
         <div className="w-full max-w-5xl">
           <FadeIn delay={0.12}>
-            <h1 className="text-[2.5rem] font-bold leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-              Intelligence, ($P_{99}$ latency)
+            <h1 className="text-[2.5rem] font-bold leading-[0.95] tracking-tight text-stone-200 sm:text-6xl lg:text-7xl">
+              Intelligence, 
               <br />
               <span className="font-serif font-light italic text-muted-foreground">
                 in motion.
@@ -166,14 +167,14 @@ export default function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center">
               <Link
                 href="https://console.miralas.com/auth"
-                className="group flex w-full items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:opacity-90 sm:w-auto"
+                className="group flex  transition-all duration-300 hover:opacity-90 sm:w-auto"
               >
-                Start Building
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <LiquidMetalButton label="Get Started" />
+    
               </Link>
               <Link
-                href="/tts"
-                className="group flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card/60 px-8 py-3.5 text-sm font-medium text-muted-foreground backdrop-blur-md transition-all duration-300 hover:bg-accent hover:text-foreground sm:w-auto"
+                href="/studio/tts"
+                className="group flex w-full items-center justify-center gap-2 rounded-full  px-8 py-3.5 text-sm font-medium text-stone-400 backdrop-blur-md transition-all duration-300 hover:bg-accent hover:text-foreground sm:w-auto"
               >
                 <Play className="size-4" />
                 Listen to Demos
@@ -182,32 +183,7 @@ export default function Hero() {
           </FadeIn>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-3 pt-6 sm:mt-20 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-          <FeatureCard
-            icon={Mic}
-            badge="< 3s SAMPLE"
-            title="Instant Voice Cloning"
-            description="Train ultra-realistic voice models with minimal audio. Your voice, replicated."
-            glowColor="purple"
-            delay={0.5}
-          />
-          <FeatureCard
-            icon={Waves}
-            badge="50+ LANGUAGES"
-            title="Multilingual Neural TTS"
-            description="Native emotion across dialects and accents. Sound local everywhere."
-            glowColor="blue"
-            delay={0.58}
-          />
-          <FeatureCard
-            icon={ShieldCheck}
-            badge="LICENSED"
-            title="Protected Voice Rights"
-            description="Licensing and royalty infrastructure built in. Your voice, secured."
-            glowColor="emerald"
-            delay={0.66}
-          />
-        </div>
+      
       </div>
     </section>
   );

@@ -455,6 +455,7 @@ section {
   transform: scale(0.98);
 }
 
+
 /* =========================================================
    GHOST BUTTON
    ========================================================= */
@@ -651,4 +652,64 @@ html.lenis, html.lenis body {
 @keyframes sound-wave {
   0%, 100% { transform: scaleY(0.3); }
   50% { transform: scaleY(1); }
+}
+
+
+
+@layer utilities {
+  .gradient-sangoshou {
+    background: linear-gradient(135deg, #EAFBF7 12.5%, #5CE3E6 37.5%, #0F9CC2 62.5%, #274A78 87.5%);
+    background: linear-gradient(135deg in oklab, #EAFBF7 12.5%, #5CE3E6 37.5%, #0F9CC2 62.5%, #274A78 87.5%);
+  }
+
+  .noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    /* Gönderdiğin base64 kumlama görselini buraya yerleştiriyoruz */
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAQAElEQVR4ATzdBZgdVbM14KrG3d0GdwgefPDgwR2Cu7sHd3cNwT24S4K7u7u7e9/97tz+/uc5/5w5p3vvqlVrrardw83XHH/88e1+++3XnnLKKe3JJ59cXyussEJ75ZVXttdff317wgkntEcccUR70UUXtXvttVc7wwwztAsvvHC79957txtuuGF74YUXto888kh75plntqeffnpd64knnmg32WSTeu+UU07ZPvDAA+1VV13VDh48uD344IPbb7/9tt16663bO+64o11wwQXbNddcs913333bhx56qD366KPbTTfdtN1jjz3aXXbZpV4zyyyz1Ot6e3vbAQMG1PXEJ95DDz20HWussdqNN9647du3b/vxxx//L+5tttmmrrXWWmu1W265ZXvAAQe0xx57bPvWW2+1Z5xxRnvxxRe3xxxzTHvqqae2M888c3veeee1n376ab3OvRtssEH9bPrpp6+4DBw4sN1iiy3q9dtuu2279tprt6+++mq7/PLLt8OGDWunm266Gsdzzz3XDh06tOIhH3Ha96STTmpHG220istGG23UPvroo22/fv3a5ZZbrl1ooYXa/v37tyeeeGJ7/vnnV2zXWWed9rjjjquvAw88sD3kkEPq3rCBxQMF12effbbdaqut2tlmm60955xzKrZPPfVU/Uw84oL14osvXnNQw2eeeabmbm3Yy0XM1l9sscXaCSaYoB00aFD72muvtZNNNlnN67TTTqtY3XPPPRWfww84oL14osvXnNQw2eeeabmbm3Yy0XM1l9sscXaCSaYoB00aFD72muvtZNNNlnN67TTTqtY3XPPPRWfww');
+    mix-blend-mode: overlay;
+    opacity: 0.5; /* Görseldeki yumuşaklığa ulaşmak için */
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .gradient-asamoya {
+    background: linear-gradient(180deg, #FBF3E7 12.5%, #F4B3C2 37.5%, #B28FCE 62.5%, #5654A2 87.5%);
+    background: linear-gradient(180deg in oklab, #FBF3E7 12.5%, #F4B3C2 37.5%, #B28FCE 62.5%, #5654A2 87.5%);
+  }
+
+  /* Sütunlar için yumuşak bir yukarı-aşağı süzülme animasyonu */
+  @keyframes stripWave {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(35px); /* Ne kadar aşağı kayacağı */
+    }
+  }
+}
+
+
+@layer utilities {
+  /* Yerçekimsiz ortamda süzülme efekti */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  /* Arka plan ışıkları için kozmik nefes alma efekti */
+  @keyframes cosmicPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-cosmic-pulse {
+    animation: cosmicPulse 8s ease-in-out infinite;
+  }
 }

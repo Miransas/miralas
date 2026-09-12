@@ -23,6 +23,9 @@ importers:
       '@number-flow/react':
         specifier: ^0.6.2
         version: 0.6.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@paper-design/shaders':
+        specifier: ^0.0.80
+        version: 0.0.80
       '@paper-design/shaders-react':
         specifier: ^0.0.78
         version: 0.0.78(@types/react@19.2.18)(react@19.2.8)
@@ -707,6 +710,9 @@ packages:
 
   '@paper-design/shaders@0.0.78':
     resolution: {integrity: sha512-xOxV7koSzzh47G34I7uE3MASzli28k6+V35dlVrjMu270SFs0t8zeb4F/XTUU0BOXoHqIjKiGu6DnqkxPlsTcw==}
+
+  '@paper-design/shaders@0.0.80':
+    resolution: {integrity: sha512-pcabvt5xDlFoEhpjUj4b1tGJMfqb0i5mXifWMNQf6z7FoOJYxYDo7F8R6k0JAh5D/7ouxjX5+N0cIq5WURyQ1Q==}
 
   '@radix-ui/primitive@1.1.7':
     resolution: {integrity: sha512-rqWnm76nYT8HoNNqEjpgJ7Pw/DrBj5iBTrmEPo6HTX5+VJyBNOqTdv4g89G63HuR5g0AaENoAcH7Is5fF2kZ8Q==}
@@ -4342,6 +4348,8 @@ snapshots:
       '@types/react': 19.2.18
 
   '@paper-design/shaders@0.0.78': {}
+
+  '@paper-design/shaders@0.0.80': {}
 
   '@radix-ui/primitive@1.1.7': {}
 

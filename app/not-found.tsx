@@ -1,40 +1,39 @@
-import Link from "next/link";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import Link from 'next/link';
+import React from 'react';
 
 export default function NotFound() {
-    return (
-        <main
-            aria-labelledby="not-found-title"
-            className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 py-24 text-center text-foreground"
+  return (
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-[#0B0D14] text-white overflow-hidden font-sans">
+      
+      {/* Arka Plan Kozmik Işık Efektleri */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#274A78] rounded-full blur-[150px] animate-cosmic-pulse pointer-events-none z-0"></div>
+      <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] bg-[#5654A2] rounded-full blur-[120px] animate-cosmic-pulse pointer-events-none z-0" style={{ animationDelay: '2s' }}></div>
+
+      {/* İçerik Kutusu (Süzülme animasyonlu) */}
+      <div className="relative z-10 flex flex-col items-center text-center px-4 animate-float">
+        
+        {/* Devasa 404 Metni */}
+        <h1 className="text-[140px] md:text-[200px] font-bold tracking-tighter leading-none bg-clip-text text-transparent bg-gradient-to-b from-white to-[#4A4759] drop-shadow-[0_0_40px_rgba(255,255,255,0.15)] mb-2">
+          404
+        </h1>
+        
+        <h2 className="text-2xl md:text-3xl font-medium text-[#EAFBF7] opacity-90 tracking-wide">
+       You got lost in the cosmic void.
+        </h2>
+        
+        <p className="mt-5 text-[#8A8D98] max-w-[400px] mx-auto text-lg leading-relaxed">
+          The coordinates you are looking for do not correspond to any known sector. Don't worry, we can guide you back to a safe zone.
+        </p>
+        
+        {/* Geri Dönüş Butonu (Glassmorphism stili) */}
+        <Link 
+          href="/" 
+          className="mt-10 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl backdrop-blur-md transition-all font-medium text-white shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:-translate-y-1"
         >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_42%)]" />
-            <div className="relative z-10 flex max-w-xl flex-col items-center">
-                <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                    Error 404
-                </p>
-                <h1 id="not-found-title" className="text-4xl font-semibold tracking-tight sm:text-5xl">
-                    Page not found
-                </h1>
-                <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-                    The page you are looking for does not exist or may have moved.
-                </p>
-                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                    <Link
-                        href="/"
-                        className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition hover:opacity-90"
-                    >
-                        <ArrowLeft className="size-4" aria-hidden="true" />
-                        Back to home
-                    </Link>
-                    <Link
-                        href="/resources/docs"
-                        className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border px-5 text-sm font-medium text-foreground transition hover:bg-muted"
-                    >
-                        <BookOpen className="size-4" aria-hidden="true" />
-                        Visit docs
-                    </Link>
-                </div>
-            </div>
-        </main>
-    );
+            Return to Home
+        </Link>
+      </div>
+      
+    </div>
+  );
 }

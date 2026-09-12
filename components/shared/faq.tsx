@@ -101,7 +101,7 @@ function FaqAccordionItem({
         <span
           className={cn(
             "text-base font-normal transition-colors sm:text-[17px]",
-            isOpen ? "font-medium text-foreground" : "text-foreground hover:text-blue-600"
+            isOpen ? "font-medium text-foreground" : "text-foreground "
           )}
         >
           {item.question}
@@ -116,7 +116,7 @@ function FaqAccordionItem({
         </motion.span>
       </button>
 
-      {/* ✅ Sadece içerik AnimatePresence ile yüksekliğini değiştirir */}
+     
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div

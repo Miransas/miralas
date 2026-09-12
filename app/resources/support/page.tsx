@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { 
-  Search, 
-  BookOpen, 
-  ShieldCheck, 
-  CreditCard, 
-  MessageSquareText, 
-  ArrowUpRight, 
+import {
+  Search,
+  BookOpen,
+  ShieldCheck,
+  CreditCard,
+  MessageSquareText,
+  ArrowUpRight,
   LifeBuoy,
   FileText,
   Mail
@@ -16,6 +16,7 @@ import {
 import { Header } from "../../../components/layout/Header";
 import Footer from "../../../components/layout/Footer";
 import SupportTicket from "./ticket-support";
+import Velaris from "./velaris";
 
 const supportCategories = [
   {
@@ -69,33 +70,33 @@ const popularFaqs = [
 export default function SupportPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredFaqs = popularFaqs.filter(faq => 
+  const filteredFaqs = popularFaqs.filter(faq =>
     faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
     faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-card text-foreground font-sans pt-24 pb-20">
+    <div className="min-h-screen bg-zinc-50 dark:bg-black text-stone-900 dark:text-zinc-50 f pt-24 pb-20">
       <Header />
+      
       {/* Hero / Arama Bölümü */}
-      <section className="relative px-6 pt-12 pb-16 md:pt-20 md:pb-24 border-b border-border bg-gradient-to-b from-zinc-50/50 to-white">
+      <section className="relative px-6 pt-12 pb-16 md:pt-20 md:pb-24">
         <div className="max-w-4xl mx-auto text-center">
-          
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium mb-6">
-            <LifeBuoy className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-stone-900 border border-white/10 dark:border-white/10 shadow-sm text-zinc-600 dark:text-zinc-300 text-xs font-medium mb-8">
+            <LifeBuoy className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
             <span>Miralas Help Center</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6">
             How can we help you today?
           </h1>
-          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-10">
+          <p className="text-zinc-600 dark:stone-400 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
             Search our documentation, look through frequently asked questions, or reach out to the Miralas team.
           </p>
 
           {/* Arama Kutusu */}
-          <div className="relative max-w-2xl mx-auto">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted-foreground">
+          <div className="relative max-w-2xl mx-auto group">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none stone-400 group-focus-within:text-green-500 transition-colors">
               <Search className="w-5 h-5" />
             </div>
             <input
@@ -103,20 +104,19 @@ export default function SupportPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for articles, guides, or terms..."
-              className="w-full h-14 pl-12 pr-4 rounded-2xl border border-border bg-card shadow-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-400 transition-all text-base"
+              className="w-full h-16 pl-12 pr-4 rounded-2xl bg-white dark:bg-black border border-white/10 dark:border-white/10 shadow-sm text-stone-900 dark:text-white placeholder:stone-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-green-500 dark:focus:border-green-500 transition-all text-base md:text-lg"
             />
           </div>
-
         </div>
       </section>
 
       {/* Destek Kategorileri Grid Yapısı */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
         <div className="mb-12">
-          <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-stone-900 dark:text-white">
             Browse by Category
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-zinc-600 dark:stone-400 mt-2">
             Explore dedicated resources tailored to your workspace needs.
           </p>
         </div>
@@ -128,29 +128,29 @@ export default function SupportPage() {
               <Link
                 key={idx}
                 href={cat.href}
-                className="group relative flex flex-col justify-between p-6 rounded-3xl border border-border/80 bg-card hover:border-border hover:shadow-lg hover:shadow-zinc-950/[0.03] transition-all duration-300"
+                className="group relative flex flex-col justify-between p-6 rounded-3xl border border-white/10 dark:border-white/10 bg-white dark:bg-black  hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="size-12 rounded-2xl bg-muted border border-border flex items-center justify-center text-foreground group-hover:bg-card group-hover:text-foreground transition-colors duration-300">
+                    <div className="size-12 rounded-2xl bg-zinc-50 dark:bg-black border border-white/10 dark:border-white/10 flex items-center justify-center text-zinc-700 dark:text-zinc-300 group-hover:scale-110 transition-all duration-300 shadow-sm">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded-full border border-border">
+                    <span className="text-xs font-semibold text-stone-700 dark:text-stone-700 bg-green-500 px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-500/20">
                       {cat.count}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-lg font-bold text-stone-900 dark:text-white/10 mb-2 group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors">
                     {cat.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
                     {cat.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs font-semibold text-foreground">
-                  <span>Explore topic</span>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground transition-all" />
+                <div className="mt-8 pt-4 border-t border-stone-200 dark:border-white/10 flex items-center justify-between text-xs font-bold text-zinc-500 dark:stone-400">
+                  <span className="group-hover:text-indigo-600 dark:group-hover:text-green-400 transition-colors">Explore topic</span>
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-all" />
                 </div>
               </Link>
             );
@@ -160,42 +160,41 @@ export default function SupportPage() {
 
       {/* Sık Sorulan Sorular (FAQ) Bölümü */}
       <section className="max-w-4xl mx-auto px-6 py-12">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Quick answers to common questions about Miralas.
-            </p>
-          </div>
+        <div className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-stone-900 dark:text-white">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-zinc-600 dark:stone-400 mt-2">
+            Quick answers to common questions about Miralas.
+          </p>
         </div>
 
         <div className="space-y-4">
           {filteredFaqs.length > 0 ? (
             filteredFaqs.map((faq, idx) => (
-              <div 
+              <div
                 key={idx}
-                className="p-6 rounded-2xl border border-border bg-card shadow-sm hover:border-border transition-colors"
+                className="p-6 md:p-8 rounded-3xl border border-white/10 dark:border-white/10 bg-white dark:bg-black shadow-sm hover:border-zinc-300 dark:hover:border-white/20 transition-all group"
               >
-                <h3 className="text-base font-semibold text-foreground mb-2">
+                <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-200 mb-3">
                   {faq.question}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                <p className="text-base text-zinc-600 dark:stone-400 leading-relaxed mb-5">
                   {faq.answer}
                 </p>
                 <Link
                   href={faq.href}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+                  className="inline-flex items-center gap-1.5 text-sm font-bold text-green-600 dark:text-green-400 hover:text-indigo-700 dark:hover:text-green-300 transition-colors"
                 >
                   <span>Learn more</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
               </div>
             ))
           ) : (
-            <div className="text-center py-12 border border-dashed border-border rounded-2xl">
-              <p className="text-muted-foreground text-sm">No matching questions found.</p>
+            <div className="text-center py-16 border-2 border-dashed border-white/10 dark:border-white/10 rounded-3xl bg-white/50 dark:bg-stone-900/20">
+              <Search className="w-8 h-8 text-zinc-300 dark:text-zinc-600 mx-auto mb-3" />
+              <p className="text-zinc-500 dark:stone-400 text-base font-medium">No matching questions found for "{searchQuery}".</p>
             </div>
           )}
         </div>
@@ -203,37 +202,38 @@ export default function SupportPage() {
 
       {/* Enterprise Destek / İletişim Kartı */}
       <section className="max-w-7xl mx-auto px-6 mt-20">
-        <div className="rounded-3xl bg-card text-foreground p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
-          <div className="absolute -right-16 -top-16 size-64 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none" />
+        <Velaris height="400px" className="rounded-[2rem] border border-white/10 dark:border-white/10 bg-white dark:bg-black p-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 shadow-xl shadow-white/10/50 dark:shadow-none">
           
           <div className="relative z-10 max-w-xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/10 text-muted-foreground text-xs font-medium mb-4">
-              <MessageSquareText className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-black text-stone-700 dark:text-stone-300 text-xs font-bold mb-6 border border-indigo-100 dark:border-indigo-500/20">
+              <MessageSquareText className="w-4 h-4" />
               <span>Dedicated Support</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-stone-400 dark:text-white mb-4">
               Need direct assistance for your organization?
             </h2>
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <p className="text-zinc-600 dark:stone-400 text-base md:text-lg leading-relaxed">
               Our engineering and customer success teams are ready to help you set up custom voice models and enterprise security configurations.
             </p>
           </div>
 
-          <div className="relative z-10 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <div className="relative z-10 flex flex-col mt-5 sm:flex-row gap-4 w-full md:w-auto shrink-0">
             <Link
               href="/resources/help-center"
-              className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full bg-card text-foreground font-semibold text-sm hover:bg-muted transition-colors shadow-lg"
+              className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-full bg-stone-900 dark:bg-white text-white dark:text-stone-900 font-bold text-sm hover:bg-zinc-800 dark:hover:bg-stone-200 transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="w-5 h-5" />
               <span>Contact Sales</span>
             </Link>
           </div>
-        </div>
+        </Velaris>
       </section>
-      <SupportTicket/>
-   <div className="mt-10">
-      <Footer/>
-   </div>
+
+      <SupportTicket />
+      
+      <div className="mt-20">
+        <Footer />
+      </div>
     </div>
   );
 }

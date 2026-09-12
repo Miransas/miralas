@@ -335,14 +335,11 @@ export default function HelpCenterPage() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-[#c9a87c]/30">
+      <div className="min-h-screen bg-background text-foreground ">
         <Header />
 
         {/* Hero Section */}
         <section className="relative pt-20 pb-14 sm:pt-28 sm:pb-18 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[500px] h-[250px] rounded-full bg-[#c9a87c]/[0.07] blur-[90px]" />
-          </div>
           <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -507,7 +504,7 @@ export default function HelpCenterPage() {
             transition={{ duration: 0.5 }}
             className="rounded-3xl border border-border bg-card p-8 sm:p-12 text-center relative overflow-hidden shadow-sm"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-[#faf6f0]/60 to-transparent pointer-events-none" />
+            
             <div className="relative z-10">
               <MessageSquare className="size-6 text-amber-600 mx-auto mb-4" strokeWidth={1.8} />
               <h3 className="text-xl font-bold text-foreground mb-2">Still need assistance?</h3>
@@ -517,7 +514,7 @@ export default function HelpCenterPage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link
                   href="/resources/support"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-foreground hover:opacity-90 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-foreground hover:opacity-90 transition-colors shadow-sm"
                 >
                   <MessageSquare className="size-4" />
                   Open a Ticket

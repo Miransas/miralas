@@ -22,7 +22,6 @@ const page = () => {
         <VoiceLibrary />
         <FeatureSection />
          <VideoSections/> 
-        {/* <HowItWorks /> */}
         <FaqSection />
         <Footer />
       </div>
