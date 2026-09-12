@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -156,6 +157,11 @@ export default function FaqSection() {
               Can&apos;t find what you&apos;re looking for? Reach out to our support
               team and we&apos;ll get back to you within 24 hours.
             </p>
+            <img 
+              src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1789247452/sinir_kqen8j.png" 
+              alt="FAQ Image" 
+              className="mt-6 r shadow-md"
+            />
           </div>
 
           {/* Sağ Taraf: Soru Listesi & Destek Bloğu */}
