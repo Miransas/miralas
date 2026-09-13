@@ -774,3 +774,47 @@ html.lenis, html.lenis body {
     cursor: auto;
   }
 }
+
+@theme {
+  --keyframes-marquee-up: {
+    0%: { transform: translateY(0%) };
+    100%: { transform: translateY(-50%) };
+  };
+  --keyframes-marquee-down: {
+    0%: { transform: translateY(-50%) };
+    100%: { transform: translateY(0%) };
+  };
+
+  --animate-marquee-up: marquee-up 25s linear infinite;
+  --animate-marquee-down: marquee-down 25s linear infinite;
+}
+
+
+.marquee-up-container {
+  animation: scroll-up 25s linear infinite;
+}
+
+.marquee-down-container {
+  animation: scroll-down 25s linear infinite;
+}
+
+/* Hover olunca animasyonu durdurma */
+.marquee-up-container:hover,
+.marquee-down-container:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-up {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes scroll-down {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0%); }
+}
+
+body {
+  
+  cursor: url('/https://res.cloudinary.com/dwdk20m6q/image/upload/v1789333602/icons8-cursor-100_alb6z8.png'), auto;
+}

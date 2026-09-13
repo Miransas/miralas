@@ -10,6 +10,8 @@ import VoiceLibrary from '../components/shared/voice-library'
 import SmoothScroll from '../components/providers/SmoothScroll'
 import { VideoOffIcon } from 'lucide-react'
 import { VideoSections } from '../components/shared/video-sections'
+import TestimonialSection from '../components/shared/testimonial'
+import { IntegrationCardDemo } from '../components/shared/integration'
 
 
 
@@ -23,6 +25,8 @@ const page = () => {
         <FeatureSection />
          <VideoSections/> 
         <FaqSection />
+        <TestimonialSection/>
+        {/* <IntegrationCardDemo/> */}
         <Footer />
       </div>
     </SmoothScroll>

@@ -139,8 +139,8 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        > <CustomCursor/>
-             {/* {isLocked && <ComingSoonModal />}    */}
+        > 
+       {isLocked && <ComingSoonModal />}   
           {children}
         </ThemeProvider>
       </body>
