@@ -3,6 +3,39 @@
 @import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
 
+.docs-prose {
+  color: var(--body-text);
+  font-size: 1rem;
+  line-height: 1.8;
+  padding-top: 2.5rem;
+}
+
+.docs-prose h1,
+.docs-prose h2,
+.docs-prose h3 {
+  color: var(--foreground);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 7rem;
+}
+
+.docs-prose h1 { font-size: 2rem; margin: 0 0 1rem; }
+.docs-prose h2 { font-size: 1.35rem; margin: 2.5rem 0 0.75rem; }
+.docs-prose h3 { font-size: 1.1rem; margin: 2rem 0 0.5rem; }
+.docs-prose p { margin: 0 0 1.25rem; }
+.docs-prose ul { list-style: disc; margin: 0 0 1.5rem; padding-left: 1.25rem; }
+.docs-prose li { margin: 0.4rem 0; padding-left: 0.25rem; }
+.docs-prose a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }
+.docs-prose blockquote { border-left: 2px solid #f59e0b; margin: 1.75rem 0; padding: 0.25rem 1rem; color: var(--foreground); }
+.docs-prose code { border: 1px solid var(--border); border-radius: 0.35rem; background: var(--muted); padding: 0.15rem 0.35rem; font-family: var(--font-mono); font-size: 0.85em; }
+.docs-prose pre { overflow-x: auto; margin: 1.75rem 0; border: 1px solid var(--border); border-radius: 0.75rem; background: #111; padding: 1rem; color: #f4f4f5; }
+.docs-prose pre code { border: 0; background: transparent; padding: 0; color: inherit; }
+.docs-prose pre { position: relative; padding-top: 2.75rem; }
+.docs-code-copy { position: absolute; right: 0.75rem; top: 0.65rem; border: 1px solid rgb(255 255 255 / 0.18); border-radius: 0.4rem; padding: 0.25rem 0.5rem; color: #d4d4d8; font-size: 0.7rem; transition: color 150ms ease, border-color 150ms ease; }
+.docs-code-copy:hover { border-color: rgb(255 255 255 / 0.45); color: #fff; }
+.docs-action-button { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--card); padding: 0.45rem 0.65rem; color: var(--muted-foreground); font-size: 0.75rem; font-weight: 600; transition: color 150ms ease, border-color 150ms ease; }
+.docs-action-button:hover { border-color: var(--foreground); color: var(--foreground); }
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -711,5 +744,33 @@ html.lenis, html.lenis body {
   }
   .animate-cosmic-pulse {
     animation: cosmicPulse 8s ease-in-out infinite;
+  }
+}
+
+
+@media (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  [role="button"] {
+    cursor: none;
+  }
+}
+
+@media (pointer: coarse) {
+  html,
+  body {
+    cursor: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    cursor: auto;
   }
 }

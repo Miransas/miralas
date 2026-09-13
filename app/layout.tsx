@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
 import { cn } from "../lib/utils";
+import { CustomCursor } from "../components/providers/CustomCursor";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -132,14 +133,14 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={cn("h-full", `${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased`)}>
-      <body className="min-h-full bg-background font-sans text-foreground">
+      <body className="min-h-full bg-background  text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
-             {isLocked && <ComingSoonModal />}   
+        > <CustomCursor/>
+             {/* {isLocked && <ComingSoonModal />}    */}
           {children}
         </ThemeProvider>
       </body>
