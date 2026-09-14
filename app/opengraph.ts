@@ -8,6 +8,7 @@ export const openGraphMetadata: NonNullable<Metadata["openGraph"]> = {
     "Create natural, expressive and production-ready AI voices with an Uzbek-first voice platform built for developers and creators.",
   url: siteUrl,
   siteName: "Miralas Voice",
+
   locale: "en_US",
   type: "website",
   images: [

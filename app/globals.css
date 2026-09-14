@@ -748,32 +748,7 @@ html.lenis, html.lenis body {
 }
 
 
-@media (pointer: fine) {
-  html,
-  body,
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  [role="button"] {
-    cursor: none;
-  }
-}
 
-@media (pointer: coarse) {
-  html,
-  body {
-    cursor: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html,
-  body {
-    cursor: auto;
-  }
-}
 
 @theme {
   --keyframes-marquee-up: {
@@ -814,7 +789,3 @@ html.lenis, html.lenis body {
   100% { transform: translateY(0%); }
 }
 
-body {
-  
-  cursor: url('/https://res.cloudinary.com/dwdk20m6q/image/upload/v1789333602/icons8-cursor-100_alb6z8.png'), auto;
-}

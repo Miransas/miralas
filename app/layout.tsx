@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
 import { cn } from "../lib/utils";
-import { CustomCursor } from "../components/providers/CustomCursor";
+
 
 const geist = Geist({
   subsets: ["latin"],
@@ -140,7 +140,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > 
-       {isLocked && <ComingSoonModal />}   
+  {isLocked && <ComingSoonModal />} 
           {children}
         </ThemeProvider>
       </body>
