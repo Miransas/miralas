@@ -160,7 +160,7 @@ export default function FaqSection() {
             <img 
               src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1789247452/sinir_kqen8j.png" 
               alt="FAQ Image" 
-              className="mt-6 r shadow-md"
+              className="mt-6 r "
             />
           </div>
 

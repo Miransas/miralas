@@ -132,7 +132,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full", `${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased`)}>
+      className={cn("h-full", `${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased selection:bg-emerald-500 selection:text-foreground`)}>
       <body className="min-h-full bg-background  text-foreground">
         <ThemeProvider
           attribute="class"
@@ -140,7 +140,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > 
-  {isLocked && <ComingSoonModal />} 
+{isLocked && <ComingSoonModal />} 
           {children}
         </ThemeProvider>
       </body>

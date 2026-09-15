@@ -42,7 +42,7 @@ export default function HeroSection() {
       </div>
 
       {/* MAIN CONTAINER */}
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-4 lg:px-8">
+      <div className="relative z-10 mx-auto grid w-full max-w-full grid-cols-1 items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-4 lg:px-8">
         {/* LEFT HERO */}
         <div className="relative z-30 flex flex-col items-start gap-7 lg:col-span-5 lg:gap-8">
           {/* Badge */}
@@ -133,8 +133,11 @@ export default function HeroSection() {
             DESKTOP: MARQUEE SAĞ KOLONDA
             - Kenarlar maskeli (üst/alt fade), blur yok
         ============================================================ */}
-        <div className="relative z-10 hidden h-[760px] min-w-0 lg:col-span-7 lg:block xl:h-[860px] ">
-          <div className="absolute -inset-x-20 -inset-y-32 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]">
+        <div
+          className=" relative z-10 hidden h-[860px] w-full lg:col-span-7 lg:block xl:h-[960px]  [mask-image:linear-gradient(to_bottom,transparent,black_50%,black_95%,transparent),linear-gradient(to_right,transparent,black_50%,black_95%,transparent)]
+            [mask-composite:intersect]"
+        >
+          <div className="absolute -inset-x-20 -inset-y-32 overflow-hidden">
             <div className="absolute -inset-x-32 -inset-y-40 flex rotate-[24deg] scale-[1.12] items-center justify-center gap-7 xl:scale-[1.18]">
               <MarqueeColumn items={dummyCards} direction="up" speed={30} />
               <MarqueeColumn items={dummyCards} direction="down" speed={34} />
@@ -142,6 +145,7 @@ export default function HeroSection() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
@@ -236,13 +240,12 @@ function BarChart() {
         {bars.map((height, index) => (
           <div
             key={index}
-            className={`w-1/5 rounded-t-lg ${
-              index === 2
-                ? "bg-rose-600 dark:bg-rose-500"
-                : index === 4
-                  ? "bg-rose-500"
-                  : "bg-[#c084fc]"
-            }`}
+            className={`w-1/5 rounded-t-lg ${index === 2
+              ? "bg-rose-600 dark:bg-rose-500"
+              : index === 4
+                ? "bg-rose-500"
+                : "bg-[#c084fc]"
+              }`}
             style={{ height: `${height}%` }}
           />
         ))}

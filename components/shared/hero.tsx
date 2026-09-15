@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Mic, Play, ShieldCheck, Waves } from "lucide-react";
 import { ShaderAnimation } from "./shader-hero";
 import { LiquidMetalButton } from "./metal-button";
+import { GlowButton } from "../ui/glow-button";
 
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -165,13 +166,9 @@ export default function Hero() {
 
           <FadeIn delay={0.4}>
             <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center">
-              <Link
-                href="https://console.miralas.com/auth"
-                className="group flex  transition-all duration-300 hover:opacity-90 sm:w-auto"
-              >
-                <LiquidMetalButton label="Get Started" />
-    
-              </Link>
+            <GlowButton>
+              Get Started
+            </GlowButton>
               <Link
                 href="/studio/tts"
                 className="group flex w-full items-center justify-center gap-2 rounded-full  px-8 py-3.5 text-sm font-medium text-stone-400 backdrop-blur-md transition-all duration-300 hover:bg-accent hover:text-foreground sm:w-auto"

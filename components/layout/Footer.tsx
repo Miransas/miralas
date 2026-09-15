@@ -203,7 +203,7 @@ export default function Footer() {
             </form>
             <div>
               <img src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1789247451/bakish_i3p7co.png"
-               className="mt-6 w-44 h-44 shadow-md"
+               className="mt-6 w-44 h-44"
                alt=""
                 />
             </div>
