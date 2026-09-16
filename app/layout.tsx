@@ -1,32 +1,36 @@
+
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
-import { roboto } from "./roboto";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ComingSoonModal from "../components/modals/comming-soon";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
 import { cn } from "../lib/utils";
 
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-});
+/* =========================================================
+   FONTS
+   ========================================================= */
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-sans-runtime",
   display: "swap",
+  preload: true,
 });
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-runtime",
+  display: "swap",
+  preload: true,
+  weight: ["400", "500", "600", "700"],
+});
+
+/* =========================================================
+   METADATA
+   ========================================================= */
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://miralas.io"),
@@ -106,44 +110,66 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
+/* =========================================================
+   VIEWPORT
+   ========================================================= */
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+
   themeColor: [
     {
       media: "(prefers-color-scheme: light)",
-      color: "#fff",
+      color: "#fdfdfc",
     },
     {
       media: "(prefers-color-scheme: dark)",
-      color: "#0a0a0a",
+      color: "#090a09",
     },
   ],
 };
+
+/* =========================================================
+   ROOT LAYOUT
+   ========================================================= */
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isLocked = true
+  const isLocked = true;
+
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full", `${geist.variable} ${geistMono.variable} ${jakarta.variable} h-full antialiased selection:bg-emerald-500 selection:text-foreground`)}>
-      <body className="min-h-full bg-background  text-foreground">
+      className={cn(
+        "h-full antialiased",
+        jakarta.variable,
+        plexMono.variable,
+        "selection:bg-brand selection:text-background",
+      )}
+      data-scroll-behavior="smooth"
+    >
+      <body className="min-h-full bg-background text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        > 
-{/* {isLocked && <ComingSoonModal />}  */}
+        > {isLocked && <ComingSoonModal />} 
+          {/**/}
+
           {children}
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+
+
+

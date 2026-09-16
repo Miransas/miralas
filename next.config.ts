@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
   images: {
@@ -9,8 +10,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-
   devIndicators: false,
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 };
 
-export default nextConfig;
+// options bloğunu tamamen sildik!
+const withMDX = createMDX();
+
+export default withMDX(nextConfig);

@@ -1,0 +1,245 @@
+---
+title: "Voice Cloning Guide"
+description: "Learn how to clone a voice using the Miralas.io API — from audio sample requirements to generating speech with your custom voice."
+---
+
+## Overview
+
+Voice Cloning on Miralas.io lets you create a digital replica of any voice from a short set of audio samples. Once trained, your cloned voice can be used with the Text-to-Speech (TTS) API to generate speech that sounds indistinguishable from the original speaker.
+
+This guide walks you through the entire process: preparing your audio, uploading samples, training the model, and generating speech.
+
+## Prerequisites
+
+Before you begin, make sure you have the following:
+
+- A Miralas.io account with an active API key
+- At least 30 seconds of clean audio of the target voice (see [Audio Format Requirements](#audio-format-requirements))
+- Node.js 18+ installed on your machine
+- The Miralas SDK installed:
+
+```bash
+npm install @miralas/sdk
+```
+
+### Consent Requirements
+
+Voice cloning is a powerful technology with ethical implications. Before cloning a voice, you must:
+
+- **Obtain explicit written consent** from the person whose voice you are cloning
+- Agree to Miralas.io's [Voice Cloning Ethics Policy](https://miralas.io/ethics)
+- Use cloned voices only for purposes the speaker has authorized
+
+Miralas.io may revoke access for accounts that violate the ethics policy.
+
+## Audio Format Requirements
+
+The quality of your cloned voice depends heavily on the quality of your training audio. Follow these guidelines closely.
+
+### Supported Formats
+
+| Format | Extension | Sample Rate | Recommended |
+|--------|-----------|-------------|-------------|
+| WAV    | `.wav`    | 16 kHz+     | Yes         |
+| MP3    | `.mp3`    | 44.1 kHz+   | Yes         |
+| FLAC  | `.flac`   | 16 kHz+     | Optional    |
+
+### Audio Quality Guidelines
+
+For best results, your audio samples should meet these criteria:
+
+- **Duration:** 30 seconds to 5 minutes total (longer is better, up to 10 minutes)
+- **Background noise:** Minimal — avoid music, traffic, or other speakers
+- **Consistency:** Same recording environment across all samples
+- **Clipping:** Avoid any audio clipping or distortion
+- **Language:** Samples should be in the language you intend to generate
+
+### Cleaning Your Audio
+
+If your audio has background noise, use a tool like `ffmpeg` or Audacity to clean it before uploading:
+
+```bash
+# Remove background noise with ffmpeg's highpass/lowpass filters
+ffmpeg -i raw_audio.wav -af "highpass=f=80,lowpass=f=8000" clean_audio.wav
+```
+
+## Uploading Samples
+
+Once your audio is prepared, upload the samples to Miralas.io using the Voice Cloning API. Each upload creates a sample entry that will be used during training.
+
+### Single File Upload
+
+```javascript
+import { MiralasClient } from '@miralas/sdk';
+import fs from 'fs';
+
+const miralas = new MiralasClient({
+  apiKey: process.env.MIRALAS_API_KEY,
+});
+
+const audioBuffer = fs.readFileSync('./samples/clean_audio.wav');
+
+const sample = await miralas.voiceCloning.uploadSample({
+  name: 'Sample 1 — Conversation',
+  audio: audioBuffer,
+  format: 'wav',
+});
+
+console.log(`Sample uploaded with ID: ${sample.id}`);
+```
+
+### Batch Upload
+
+If you have multiple samples, upload them all before initiating training:
+
+```javascript
+import path from 'path';
+
+const sampleDir = './samples';
+const files = fs.readdirSync(sampleDir).filter((f) => f.endsWith('.wav'));
+
+const sampleIds = [];
+
+for (const file of files) {
+  const audioBuffer = fs.readFileSync(path.join(sampleDir, file));
+  const sample = await miralas.voiceCloning.uploadSample({
+    name: file,
+    audio: audioBuffer,
+    format: 'wav',
+  });
+  sampleIds.push(sample.id);
+  console.log(`Uploaded ${file} — ID: ${sample.id}`);
+}
+
+console.log(`Total samples uploaded: ${sampleIds.length}`);
+```
+
+### Using the REST API Directly
+
+If you're not using the Node.js SDK, you can POST samples directly:
+
+```bash
+curl -X POST https://api.miralas.io/v1/voice-cloning/samples \
+  -H "Authorization: Bearer $MIRALAS_API_KEY" \
+  -H "Content-Type: multipart/form-data" \
+  -F "name=Sample 1" \
+  -F "format=wav" \
+  -F "audio=@./samples/clean_audio.wav"
+```
+
+## Training the Model
+
+After uploading your samples, initiate the training process. Training typically takes 2–10 minutes depending on the amount of audio provided.
+
+### Starting Training
+
+```javascript
+const model = await miralas.voiceCloning.train({
+  name: 'My Custom Voice',
+  sampleIds: sampleIds,
+  description: 'A cloned voice for podcast narration',
+});
+
+console.log(`Training started. Model ID: ${model.id}`);
+console.log(`Status: ${model.status}`);
+```
+
+### Checking Training Status
+
+Poll the model endpoint to check training progress:
+
+```javascript
+async function waitForTraining(modelId) {
+  while (true) {
+    const model = await miralas.voiceCloning.getModel(modelId);
+
+    if (model.status === 'ready') {
+      console.log('Training complete!');
+      return model;
+    }
+
+    if (model.status === 'failed') {
+      throw new Error(`Training failed: ${model.error}`);
+    }
+
+    console.log(`Status: ${model.status}...`);
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+  }
+}
+
+const trainedModel = await waitForTraining(model.id);
+console.log(`Voice ID: ${trainedModel.voiceId}`);
+```
+
+### Training Quality Tips
+
+- More audio (up to 10 minutes) generally produces better results
+- Diverse speech patterns (questions, statements, exclamations) improve expressiveness
+- A single consistent recording environment reduces artifacts
+- If the result sounds robotic, try adding more samples and retraining
+
+## Generating Speech
+
+Once your model is trained and the status is `ready`, you can generate speech using the TTS API with your custom `voiceId`.
+
+### Text-to-Speech with a Cloned Voice
+
+```javascript
+const audio = await miralas.tts.generate({
+  voiceId: trainedModel.voiceId,
+  text: 'Hello, and welcome to the Miralas Voice AI platform.',
+  format: 'mp3',
+  speed: 1.0,
+  pitch: 0,
+});
+
+fs.writeFileSync('./output.wav', audio);
+console.log('Speech generated successfully.');
+```
+
+### Streaming Audio
+
+For real-time applications, use the streaming endpoint to receive audio chunks as they're generated:
+
+```javascript
+const stream = await miralas.tts.stream({
+  voiceId: trainedModel.voiceId,
+  text: 'This is a streaming text-to-speech example with low latency.',
+  format: 'mp3',
+});
+
+const chunks = [];
+for await (const chunk of stream) {
+  chunks.push(chunk);
+}
+
+const fullAudio = Buffer.concat(chunks);
+fs.writeFileSync('./streamed_output.mp3', fullAudio);
+```
+
+### REST API — Generate Speech
+
+```bash
+curl -X POST https://api.miralas.io/v1/tts/generate \
+  -H "Authorization: Bearer $MIRALAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "voiceId": "vc_a1b2c3d4e5f6",
+    "text": "Hello, and welcome to the Miralas Voice AI platform.",
+    "format": "mp3",
+    "speed": 1.0
+  }' \
+  --output speech.mp3
+```
+
+## Best Practices
+
+To get the most out of voice cloning, keep these principles in mind:
+
+- **Use high-quality source audio** — garbage in, garbage out. The single biggest factor in clone quality is the input audio.
+- **Test with varied text** — after training, generate speech with different sentence types (questions, commands, narrative) to evaluate quality.
+- **Fine-tune with more data** — if the clone doesn't capture the speaker's range, upload additional samples and retrain.
+- **Respect ethical guidelines** — only clone voices you have permission to use, and clearly label AI-generated audio where appropriate.
+- **Monitor usage** — cloned voice generation counts toward your TTS quota. Use the dashboard to track usage and set limits.
+
+If you encounter issues during cloning, check the [troubleshooting guide](https://miralas.io/docs/troubleshooting) or reach out on [Discord](https://discord.gg/miralas).

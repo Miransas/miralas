@@ -1,15 +1,10 @@
+
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  ChevronDown,
-  HelpCircle,
-  Mail,
-  MessageCircle,
-} from "lucide-react";
+import { ChevronDown, Mail } from "lucide-react";
 
 interface FaqItem {
   question: string;
@@ -59,10 +54,6 @@ const FAQS: FaqItem[] = [
   },
 ];
 
-function cn(...classes: Array<string | false | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
-
 const ease = [0.22, 1, 0.36, 1] as const;
 
 function FaqAccordionItem({
@@ -78,64 +69,103 @@ function FaqAccordionItem({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.4, ease, delay: index * 0.05 }}
-      // ❌ transition-all duration-200 kaldırıldı
-      // ❌ animate/exit prop'ları kaldırıldı (dış kart statik olmalı)
-      className={cn(
-        isOpen
-          ? "rounded-xl bg-card p-1 shadow-sm ring-1 ring-border"
-          : "border-b border-dotted border-border py-2 hover:border-foreground/40"
-      )}
+      transition={{
+        duration: 0.45,
+        ease,
+        delay: index * 0.04,
+      }}
+      className="relative"
     >
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isOpen}
-        className={cn(
-          "flex w-full items-center justify-between gap-4 text-left",
-          isOpen ? "px-5 py-4" : "py-3 px-1"
-        )}
+      {/* Stable outer geometry: no padding/border changes when opening */}
+      <div
+        className={`
+          overflow-hidden rounded-xl border transition-colors duration-200
+          ${
+            isOpen
+              ? "border-border bg-card"
+              : "border-transparent border-b-border bg-transparent"
+          }
+        `}
       >
-        <span
-          className={cn(
-            "text-base font-normal transition-colors sm:text-[17px]",
-            isOpen ? "font-medium text-foreground" : "text-foreground "
-          )}
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          className={`
+            flex min-h-14 w-full items-center justify-between
+            gap-5 px-1 py-4 text-left sm:min-h-15 sm:px-2
+          `}
         >
-          {item.question}
-        </span>
-
-        <motion.span
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.25, ease }}
-          className="flex shrink-0 items-center justify-center text-muted-foreground"
-        >
-          <ChevronDown className="size-4" strokeWidth={1.5} />
-        </motion.span>
-      </button>
-
-     
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease }}
-            className="overflow-hidden"
+          <span
+            className={`
+              pr-4 text-[15px] leading-6 sm:text-[17px] sm:leading-7
+              ${
+                isOpen
+                  ? "font-medium text-foreground"
+                  : "font-normal text-foreground/90"
+              }
+            `}
           >
-            <div className="px-5 pb-5 pt-1">
-              <p className="text-[14px] leading-relaxed text-muted-foreground sm:text-[15px]">
-                {item.answer}
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {item.question}
+          </span>
+
+          <motion.span
+            animate={{
+              rotate: isOpen ? 180 : 0,
+            }}
+            transition={{
+              duration: 0.22,
+              ease,
+            }}
+            className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground"
+          >
+            <ChevronDown
+              className="size-4"
+              strokeWidth={1.6}
+            />
+          </motion.span>
+        </button>
+
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              key="content"
+              initial={{
+                height: 0,
+                opacity: 0,
+              }}
+              animate={{
+                height: "auto",
+                opacity: 1,
+              }}
+              exit={{
+                height: 0,
+                opacity: 0,
+              }}
+              transition={{
+                height: {
+                  duration: 0.28,
+                  ease,
+                },
+                opacity: {
+                  duration: 0.18,
+                  ease,
+                },
+              }}
+              className="overflow-hidden"
+            >
+              <div className="px-1 pb-5 pt-0 sm:px-2">
+                <p className="max-w-3xl pr-10 text-[14px] leading-7 text-muted-foreground sm:text-[15px]">
+                  {item.answer}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.div>
   );
 }
@@ -147,66 +177,80 @@ export default function FaqSection() {
     <section className="bg-background py-20 text-foreground sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-20">
-
-          {/* Sol Taraf: Görseldeki Temiz Başlık Yapısı */}
+          {/* Left */}
           <div className="flex flex-col lg:sticky lg:top-28 lg:col-span-5">
-            <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Everything youneed to know
+            <h2 className="max-w-xl text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-foreground sm:text-5xl lg:text-6xl">
+              Everything you need to know
             </h2>
+
             <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-muted-foreground">
-              Can&apos;t find what you&apos;re looking for? Reach out to our support
-              team and we&apos;ll get back to you within 24 hours.
+              Can&apos;t find what you&apos;re looking for? Reach out to our
+              support team and we&apos;ll get back to you within 24 hours.
             </p>
-            <img 
-              src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1789247452/sinir_kqen8j.png" 
-              alt="FAQ Image" 
-              className="mt-6 r "
+
+            <img
+              src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1789247452/sinir_kqen8j.png"
+              alt="FAQ illustration"
+              loading="lazy"
+              className="mt-8 w-full max-w-md rounded-2xl object-cover"
             />
           </div>
 
-          {/* Sağ Taraf: Soru Listesi & Destek Bloğu */}
-          <div className="flex w-full flex-col gap-1 lg:col-span-7">
-            {FAQS.map((faq, i) => (
-              <FaqAccordionItem
-                key={faq.question}
-                item={faq}
-                index={i}
-                isOpen={openIndex === i}
-                onToggle={() =>
-                  setOpenIndex((current) => (current === i ? null : i))
-                }
-              />
-            ))}
+          {/* Right */}
+          <div className="flex w-full flex-col lg:col-span-7">
+            <div className="divide-y divide-dotted divide-border">
+              {FAQS.map((faq, i) => (
+                <FaqAccordionItem
+                  key={faq.question}
+                  item={faq}
+                  index={i}
+                  isOpen={openIndex === i}
+                  onToggle={() =>
+                    setOpenIndex((current) =>
+                      current === i ? null : i,
+                    )
+                  }
+                />
+              ))}
+            </div>
 
-            {/* Alt Destek Bloğu - Minimalist Açık Tema */}
+            {/* Support */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-              className="mt-12 flex flex-col items-start justify-between gap-4 rounded-xl border border-border bg-muted/40 p-6 sm:flex-row sm:items-center sm:p-7"
+              transition={{
+                delay: 0.08,
+                duration: 0.45,
+                ease,
+              }}
+              className="mt-12 flex flex-col items-start justify-between gap-5 rounded-xl border border-border bg-muted/40 p-6 sm:flex-row sm:items-center sm:p-7"
             >
               <div>
                 <p className="text-base font-medium text-foreground">
                   Still have questions?
                 </p>
-                <p className="mt-0.5 text-sm text-muted-foreground">
+
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">
                   Our team is here to help you get started with Miralas TTS.
                 </p>
               </div>
 
               <a
                 href="mailto:support@miralas.com"
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-accent"
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground shadow-sm transition-colors duration-200 hover:bg-accent"
               >
-                <Mail className="size-4 text-muted-foreground" strokeWidth={1.75} />
+                <Mail
+                  className="size-4 text-muted-foreground"
+                  strokeWidth={1.75}
+                />
                 Contact Support
               </a>
             </motion.div>
           </div>
-
         </div>
       </div>
     </section>
   );
 }
+
