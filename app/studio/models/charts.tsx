@@ -167,7 +167,9 @@ export function CostChart() {
         <Tooltip
           contentStyle={tooltipStyle}
           cursor={{ fill: 'hsl(217 33% 12% / 0.5)' }}
-          formatter={(v: number) => (v <= 0.001 ? 'Free (open source)' : `$${v.toFixed(3)}`)}
+          formatter={(v: unknown) =>
+            typeof v === 'number' && v > 0.001 ? `$${v.toFixed(3)}` : 'Free (open source)'
+          }
         />
         <Bar dataKey="cost" radius={[0, 4, 4, 0]} barSize={24}>
           {data.map((entry, index) => (

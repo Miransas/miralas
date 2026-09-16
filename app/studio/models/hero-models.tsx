@@ -82,7 +82,7 @@ const slideRight = {
   transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
 };
 
-export default function Home() {
+export default function ModelsHero() {
   const [selectedRadarProviders, setSelectedRadarProviders] = useState<string[]>([
     'chatgpt',
     'gemini',
@@ -101,7 +101,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-foreground overflow-x-hidden">
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <ScrollProgress />
       {/* Hero Section */}
       <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -212,13 +212,7 @@ export default function Home() {
 
       {/* Main Content with Sidebar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
-          {/* Left Sidebar - TOC */}
-          <aside className="hidden lg:block">
-            <div className="sticky top-20">
-              <TableOfContents />
-            </div>
-          </aside>
+        <div className="">
 
           {/* Main Content */}
           <div className="space-y-24">
@@ -880,7 +874,7 @@ export default function Home() {
                     transition={{ duration: 0.5, delay: i * 0.05 }}
                     className="rounded-xl border border-white/5 bg-black overflow-hidden"
                   >
-                    <Accordion type="single" collapsible>
+                    <Accordion >
                       <AccordionItem value={p.id} className="border-b-0">
                         <AccordionTrigger className="px-5 py-4 hover:bg-white/5 transition-colors group">
                           <div className="flex items-center gap-3 text-left">
