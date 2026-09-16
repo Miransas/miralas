@@ -15,6 +15,8 @@ import { IntegrationCardDemo } from '../components/shared/integration'
 
 
 
+
+
 const page = () => {
   return (
     <SmoothScroll>
@@ -29,6 +31,7 @@ const page = () => {
         {/* <IntegrationCardDemo/> */}
         <Footer />
       </div>
+        {/* <FooterS wordmark="MİRANSAS" groups={footerSections} tagline={SPECTRUM.tagline} /> */}
     </SmoothScroll>
   )
 }
