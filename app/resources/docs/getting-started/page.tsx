@@ -1,7 +1,9 @@
+
 import { notFound } from 'next/navigation';
 import { loadDoc } from '@/lib/mdx-loader';
 import { DocPage } from '../../../../components/docs/docs-page';
 
+export const dynamic = 'force-dynamic';
 
 export default async function GettingStartedPage() {
   const doc = await loadDoc('getting-started');

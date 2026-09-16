@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { loadDoc } from '@/lib/mdx-loader';
 import { DocPage } from '@/components/docs/docs-page';
 
+export const dynamic = 'force-dynamic';
+
 export default async function VoiceCloningPage() {
   const doc = await loadDoc('voice-cloning');
 

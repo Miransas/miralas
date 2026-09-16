@@ -1,4 +1,4 @@
-import { TopBar } from '@/components/docs/top-bar';
+
 import { Sidebar } from '@/components/docs/docs-sidebar';
 import { Header } from '../../../components/layout/Header';
 import Footer from '../../../components/layout/Footer';

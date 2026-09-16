@@ -12,13 +12,14 @@ export const navigation: NavSection[] = [
   {
     title: 'Getting Started',
     items: [
-      { label: 'Introduction', href: '/resources/docs/getting-started' },
+      { label: 'Started', href: '/resources/docs' },
     ],
   },
   {
     title: 'Guides',
     items: [
       { label: 'Voice Cloning', href: '/resources/docs/voice-cloning' },
+      { label: 'Introduction', href: '/resources/docs/getting-started' },
     ],
   },
   {

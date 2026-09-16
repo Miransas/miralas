@@ -10,50 +10,68 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-8 py-8 ">
+    <nav className="flex flex-col gap-6 py-6 pr-4">
       {navigation.map((section) => (
         <div key={section.title} className="flex flex-col gap-1">
-          <h4 className="mb-2 px-3 text-sm font-semibold uppercase tracking-wider dark:text-stone-300">
+          {/* Başlık: Daha küçük boyut, geniş harf arası (tracking) ile premium hissiyat */}
+          <h4 className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
             {section.title}
           </h4>
-          {section.items.map((item) => {
-            const isActive =
-              item.href !== '#' && pathname === item.href;
-            const isDisabled = item.href === '#';
+          
+          <div className="flex flex-col gap-0.5">
+            {section.items.map((item) => {
+              const isActive = item.href !== '#' && pathname === item.href;
+              const isDisabled = item.href === '#';
 
-            if (isDisabled) {
+              // DEVRE DIŞI / YAKINDA DURUMU
+              if (isDisabled) {
+                return (
+                  <span
+                    key={`disabled-${item.label}`}
+                    className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm text-muted-foreground/40 cursor-not-allowed select-none"
+                  >
+                    {item.label}
+                    <span className="text-[9px] font-medium uppercase tracking-wider bg-muted/50 px-1.5 py-0.5 rounded-sm">
+                      Yakında
+                    </span>
+                  </span>
+                );
+              }
+
+              // AKTİF / İNAKTİF LİNKLER
               return (
-                <span
+                <Link
                   key={item.href}
-                  className="flex items-center rounded-md px-3 py-2 text-sm text-stone-500"
+                  href={item.href}
+                  className={cn(
+                    'relative flex items-center rounded-lg px-3 py-2 text-sm transition-colors duration-200 ease-out',
+                    isActive
+                      ? 'text-foreground font-medium'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'
+                  )}
                 >
-                  {item.label}
-                </span>
+                  {isActive && (
+                    <>
+                      {/* Aktif Arkaplan Animasyonu (Premium hissiyat için) */}
+                      <motion.div
+                        layoutId="sidebar-active-bg"
+                        className="absolute inset-0 rounded-lg bg-accent/60 dark:bg-accent/20"
+                        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                      />
+                      {/* Aktif Sol Çizgi (Daha zarif ve uyumlu bir renk) */}
+                      <motion.div
+                        layoutId="sidebar-active-indicator"
+                        className="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-r-full bg-primary"
+                        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                      />
+                    </>
+                  )}
+                  {/* Z-index sayesinde metin animasyonlu arkaplanın üstünde kalır */}
+                  <span className="relative z-10">{item.label}</span>
+                </Link>
               );
-            }
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                  isActive
-                    ? 'text-foreground dark:bg-[#0a0a0a]'
-                    : ' text-stone-500 hover:text-foreground hover:bg-accent'
-                )}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="sidebar-active"
-                    className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full bg-blue-500"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                  />
-                )}
-                {item.label}
-              </Link>
-            );
-          })}
+            })}
+          </div>
         </div>
       ))}
     </nav>
