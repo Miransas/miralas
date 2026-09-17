@@ -1,0 +1,62 @@
+---
+title: "API reference"
+description: "Reference the core Miralas endpoints, auth pattern, and response structure used in production integrations."
+category: "Reference"
+order: 5
+---
+
+## Base URL
+
+```bash
+https://api.miralas.io/v1
+```
+
+## Authentication
+
+All requests require a valid API key in the `Authorization` header.
+
+```bash
+curl -H "Authorization: Bearer $MIRALAS_API_KEY" \
+  https://api.miralas.io/v1/health
+```
+
+## Standard response structure
+
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "agent_123",
+    "name": "support-agent"
+  },
+  "request_id": "req_456"
+}
+```
+
+## Core endpoints
+
+| Endpoint | Description |
+| --- | --- |
+| `/voice-agents` | Create and manage voice agents |
+| `/tts` | Generate spoken audio from text |
+| `/speech-to-speech` | Transform live or uploaded audio |
+| `/voice-clone` | Create a custom cloned voice |
+
+## Error handling
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "invalid_api_key",
+    "message": "The provided API key is invalid."
+  }
+}
+```
+
+## Production guidance
+
+- Store API keys in environment variables.
+- Validate payloads before submission.
+- Retry transient failures with backoff.
+- Include `request_id` in support and debugging workflows.

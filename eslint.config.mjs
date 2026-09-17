@@ -14,16 +14,11 @@ const eslintConfig = defineConfig([
   ]),
   {
     rules: {
-      // Tırnak işaretleri ve kaçış karakterleri uyarısını kapatır
+      
       "react/no-unescaped-entities": "off",
-      
-      // Kullanılmayan değişken/import uyarılarını kapatır
-      "@typescript-eslint/no-unused-vars": "off",
-      
-      // HTML <img> etiketi kullanım uyarısını kapatır
+           
+      "@typescript-eslint/no-unused-vars": "off",   
       "@next/next/no-img-element": "off",
-      
-      // React Hooks bağımlılık ve useEffect durum güncelleme uyarılarını kapatır
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/set-state-in-effect": "off",
     },

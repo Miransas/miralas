@@ -1,3 +1,4 @@
+import React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import { CodeBlock } from '@/components/docs/code-block';
 
@@ -17,19 +18,21 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     td: (props) => <td {...props} />,
     hr: (props) => <hr {...props} />,
     pre: (props) => {
-      const { className, children } = props as {
-        className?: string;
+      const { children, className } = props as {
         children?: React.ReactNode;
+        className?: string;
       };
-      const codeChild = children as React.ReactElement<{ className?: string; children?: string }>;
-      const codeProps = codeChild?.props;
-      const codeString = codeProps?.children ?? '';
-      const langClass = codeProps?.className ?? className ?? '';
-      const language = langClass.replace('language-', '') || undefined;
+
+      const child = React.Children.toArray(children).find((item) => typeof item === 'object');
+      const childProps = (child as React.ReactElement<{ className?: string; children?: React.ReactNode }>)?.props ?? {};
+      const rawCode = childProps.children ?? '';
+      const codeString = typeof rawCode === 'string' ? rawCode : String(rawCode ?? '');
+      const classValue = childProps.className ?? className ?? '';
+      const language = String(classValue).replace(/^language-/, '').trim() || undefined;
 
       return (
-        <CodeBlock language={language} className={langClass}>
-          {typeof codeString === 'string' ? codeString : String(codeString)}
+        <CodeBlock language={language} className={classValue}>
+          {codeString}
         </CodeBlock>
       );
     },

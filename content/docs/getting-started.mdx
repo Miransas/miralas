@@ -1,70 +1,45 @@
 ---
-title: "Getting Started with Miralas.io"
-description: "An introduction to the Miralas.io Voice AI platform and how to build your first Voice Agent."
+title: "Getting started"
+description: "A practical introduction to Miralas, core product capabilities, and the fastest path to building your first voice experience."
+category: "Getting started"
+order: 1
 ---
 
-## What is Miralas.io?
+## Overview
 
-Miralas.io is an advanced Voice AI platform that enables developers to build, deploy, and scale voice-powered applications with minimal effort. Whether you're building a conversational AI assistant, a text-to-speech narration system, or a real-time voice transformation pipeline, Miralas.io provides the tools you need.
+Miralas helps teams build voice-first products with a reliable API layer for agents, speech generation, real-time audio processing, and custom voice experiences.
 
-### Core Capabilities
+The platform is organized around four core capabilities:
 
-The platform is built around four core pillars:
+- **Voice agents** for conversational workflows and live calling
+- **Text-to-speech** for natural audio generation from text
+- **Speech-to-speech** for real-time voice transformation
+- **Voice cloning** for branded or personalized voice experiences
 
-- **Voice Agents** — Deploy intelligent conversational agents that can make and receive phone calls, handle natural dialogue, and execute tasks autonomously.
-- **Text-to-Speech (TTS)** — Convert written text into natural, human-sounding audio in over 30 languages and 200+ voices.
-- **Speech-to-Speech (STS)** — Transform a speaker's voice in real time while preserving emotion, intonation, and cadence.
-- **Voice Cloning** — Create a custom digital replica of any voice from a short audio sample.
+## Install the SDK
 
-## Installing the SDK
-
-The Miralas Node.js SDK is available on npm and works with any JavaScript runtime that supports `fetch` (Node 18+).
+The Node.js SDK is the fastest way to begin. It works with modern JavaScript runtimes and supports the standard auth pattern used across the platform.
 
 ```bash
 npm install @miralas/sdk
 ```
 
-Or using yarn:
+If your team uses Yarn:
 
 ```bash
 yarn add @miralas/sdk
 ```
 
-### Verifying the Installation
-
-After installing, verify the SDK is properly imported:
-
-```javascript
-import { MiralasClient } from '@miralas/sdk';
-
-const miralas = new MiralasClient({
-  apiKey: process.env.MIRALAS_API_KEY,
-});
-
-console.log('Miralas SDK initialized successfully.');
-```
-
 ## Authentication
 
-All API requests require a valid API key. You can generate and manage your keys from the [Miralas Dashboard](https://dashboard.miralas.io/api-keys).
-
-### Getting Your API Key
-
-1. Navigate to [dashboard.miralas.io](https://dashboard.miralas.io)
-2. Go to **Settings > API Keys**
-3. Click **Create New Key**
-4. Copy the key and store it securely — it will not be shown again
-
-### Using Environment Variables
-
-Never hardcode your API key in source files. Instead, use environment variables:
+All API requests require a valid API key. Create and manage keys from the Miralas dashboard.
 
 ```bash
 # .env
-MIRALAS_API_KEY=mr_live_your_api_key_here
+MIRALAS_API_KEY=your_key_here
 ```
 
-Then reference it in your code:
+Then initialize the client:
 
 ```javascript
 import { MiralasClient } from '@miralas/sdk';
@@ -74,20 +49,7 @@ const miralas = new MiralasClient({
 });
 ```
 
-### API Key Security
-
-Your API key grants full access to your Miralas account. Follow these best practices:
-
-- **Never** commit your `.env` file to version control
-- Rotate keys quarterly or after any suspected exposure
-- Use separate keys for development and production environments
-- Restrict key permissions to only the scopes your application needs
-
-## Your First Voice Agent
-
-Now that you're authenticated, let's create a simple voice agent that can answer phone calls and respond to callers.
-
-### Creating an Agent
+## Create your first voice agent
 
 ```javascript
 import { MiralasClient } from '@miralas/sdk';
@@ -97,38 +59,32 @@ const miralas = new MiralasClient({
 });
 
 const agent = await miralas.agents.create({
-  name: 'Customer Support Agent',
+  name: 'Customer support agent',
   voice: 'aria',
-  systemPrompt: 'You are a helpful customer support assistant for Acme Corp. Be concise and friendly.',
-  phoneNumbers: ['+15551234567'],
+  systemPrompt: 'You are a helpful support assistant. Keep responses brief and professional.',
 });
 
-console.log(`Agent created with ID: ${agent.id}`);
+console.log(agent.id);
 ```
 
-### Configuring the Agent's Voice
+## Recommended workflow
 
-Miralas offers a library of pre-built voices. You can browse them in the dashboard or list them programmatically:
+1. Create the agent.
+2. Configure the voice and instructions.
+3. Connect your backend tools or business workflows.
+4. Test with a real call or simulation.
+5. Ship with monitoring and analytics.
 
-```javascript
-const voices = await miralas.voices.list();
+## Best practices
 
-voices.forEach((voice) => {
-  console.log(`${voice.id} — ${voice.name} (${voice.language})`);
-});
-```
+- Keep prompts concise and explicit.
+- Keep secrets in environment variables.
+- Use separate keys for dev and production.
+- Validate production flows with real-world call scenarios.
 
-### Testing Your Agent
+## Next steps
 
-Once your agent is created and a phone number is assigned, you can test it by calling the number. You can also simulate a call in the dashboard's **Playground** tab.
-
-## Next Steps
-
-Now that you have a working voice agent, explore the rest of the platform:
-
-- **[Voice Cloning](/docs/voice-cloning)** — Learn how to create a custom voice from audio samples
-- **Text-to-Speech** — Generate audio from text with fine-grained control over pacing and emotion
-- **Speech-to-Speech** — Transform voices in real time while preserving the speaker's delivery
-- **API Reference** — Browse the full REST API for granular control over every feature
-
-If you have questions, join our community on [Discord](https://discord.gg/miralas) or check the [FAQ](https://miralas.io/faq).
+- [Voice agents](/resources/docs/voice-agents)
+- [Text-to-speech](/resources/docs/tts)
+- [Speech-to-speech](/resources/docs/speech-to-speech)
+- [API reference](/resources/docs/api-reference)

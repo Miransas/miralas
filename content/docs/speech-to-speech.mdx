@@ -1,0 +1,49 @@
+---
+title: "Speech-to-speech"
+description: "Modify spoken audio in real time while preserving tone, rhythm, and delivery quality for live voice experiences."
+category: "Guides"
+order: 4
+---
+
+## Overview
+
+Speech-to-speech enables live audio transformation. It is useful when you need to keep the original speaking feel while changing the voice, language, or delivery characteristics in real time.
+
+## Common use cases
+
+- Real-time voice transformation
+- Multilingual voice adaptation
+- Assistive or accessibility workflows
+- Voice-first product experiences
+
+## Example request
+
+```bash
+curl -X POST https://api.miralas.io/v1/speech-to-speech \
+  -H "Authorization: Bearer $MIRALAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input_audio_url": "https://example.com/input.wav",
+    "target_voice": "alex",
+    "mode": "real-time",
+    "preserve_tone": true
+  }'
+```
+
+## Key parameters
+
+```json
+{
+  "input_audio_url": "https://example.com/input.wav",
+  "target_voice": "alex",
+  "preserve_tone": true,
+  "language": "en",
+  "output_format": "wav"
+}
+```
+
+## Operational notes
+
+- Use streaming mode for live conversation flows.
+- Keep `preserve_tone` enabled for more natural outcomes.
+- Validate latency and quality against the final product channel.

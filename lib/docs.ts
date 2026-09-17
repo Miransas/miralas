@@ -7,7 +7,7 @@ export type DocHeading = { id: string; title: string; level: 2 | 3 };
 const docsDirectory = path.join(process.cwd(), "content", "docs");
 
 function parseDocument(fileName: string): Doc {
-  const slug = fileName.replace(/\.md$/, "");
+  const slug = fileName.replace(/\.mdx$/, "");
   const source = fs.readFileSync(path.join(docsDirectory, fileName), "utf8");
   const frontmatterMatch = source.match(/^---\n([\s\S]*?)\n---\n?/);
   const values = Object.fromEntries((frontmatterMatch?.[1] ?? "").split("\n").flatMap((line) => {
@@ -27,7 +27,11 @@ function parseDocument(fileName: string): Doc {
 }
 
 export function getDocs(): Doc[] {
-  return fs.readdirSync(docsDirectory).filter((fileName) => fileName.endsWith(".md")).map(parseDocument).sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+  return fs
+    .readdirSync(docsDirectory)
+    .filter((fileName) => fileName.endsWith(".mdx"))
+    .map(parseDocument)
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
 }
 
 export function getDoc(slug: string): Doc | undefined {
@@ -44,5 +48,5 @@ export function getDocHeadings(content: string): DocHeading[] {
 }
 
 export function getDocEditUrl(slug: string): string {
-  return `https://github.com/Miransas/miralas/edit/main/content/docs/${slug}.md`;
+  return `https://github.com/Miransas/miralas/edit/main/content/docs/${slug}.mdx`;
 }

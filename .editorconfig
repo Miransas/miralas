@@ -1,17 +1,34 @@
 root = true
 
 [*]
+charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 indent_style = space
 indent_size = 2
-charset = utf-8
 trim_trailing_whitespace = true
 
-[*.out] # make editor neutral to .out files
-insert_final_newline = unset
-trim_trailing_whitespace = unset
+[*.{js,jsx,ts,tsx,mjs,cjs}]
+indent_size = 2
 
-[tests/node_compat/test/**]
-insert_final_newline = unset
-trim_trailing_whitespace = unset
+[*.{json,jsonc}]
+indent_size = 2
+
+[*.{md,mdx}]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.css]
+indent_size = 2
+
+[*.svg]
+insert_final_newline = false
+
+[Makefile]
+indent_style = tab
+
+[*.sh]
+indent_style = space
+indent_size = 2

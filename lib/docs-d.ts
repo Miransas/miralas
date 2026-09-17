@@ -10,26 +10,24 @@ export interface NavSection {
 
 export const navigation: NavSection[] = [
   {
-    title: 'Getting Started',
+    title: 'Getting started',
     items: [
-      { label: 'Started', href: '/resources/docs' },
+      { label: 'Overview', href: '/resources/docs' },
+      { label: 'Getting started', href: '/resources/docs/getting-started' },
     ],
   },
   {
     title: 'Guides',
     items: [
-      { label: 'Voice Cloning', href: '/resources/docs/voice-cloning' },
-      { label: 'Introduction', href: '/resources/docs/getting-started' },
+      { label: 'Voice agents', href: '/resources/docs/voice-agents' },
+      { label: 'Text-to-speech', href: '/resources/docs/tts' },
+      { label: 'Speech-to-speech', href: '/resources/docs/speech-to-speech' },
+      { label: 'Voice cloning', href: '/resources/docs/voice-cloning' },
     ],
   },
   {
     title: 'Reference',
-    items: [
-      { label: 'Voice Agents', href: '/' },
-      { label: 'Text-to-Speech', href: '/' },
-      { label: 'Speech-to-Speech', href: '/' },
-      { label: 'API Reference', href: '/' },
-    ],
+    items: [{ label: 'API reference', href: '/resources/docs/api-reference' }],
   },
 ];
 

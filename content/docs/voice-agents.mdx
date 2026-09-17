@@ -1,0 +1,58 @@
+---
+title: "Voice agents"
+description: "Create conversational agents that can speak, listen, and complete actions in real time for live support, sales, and workflow automation."
+category: "Guides"
+order: 2
+---
+
+## Overview
+
+Voice agents provide a simple way to turn conversations into software workflows. They can answer calls, respond in natural language, trigger tools, and move callers through defined business flows.
+
+This is the right foundation for support, sales, scheduling, and internal operations use cases.
+
+## What a voice agent can do
+
+- Speak naturally in real time
+- Listen and respond to callers without manual handoff
+- Execute tools and API calls during the conversation
+- Route edge cases to a human when needed
+
+## Create an agent
+
+```bash
+curl -X POST https://api.miralas.io/v1/voice-agents \
+  -H "Authorization: Bearer $MIRALAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "support-agent",
+    "voice": "samantha",
+    "instructions": "Answer customer questions clearly and escalate to a human when needed."
+  }'
+```
+
+## Example payload
+
+```json
+{
+  "name": "support-agent",
+  "voice": "samantha",
+  "instructions": "Answer basic support questions and route urgent cases to a human agent.",
+  "language": "en",
+  "model": "miralas-voice-v1"
+}
+```
+
+## Suggested production flow
+
+1. Create the voice agent.
+2. Define clear business rules and escalation conditions.
+3. Connect your internal APIs and action tools.
+4. Run live tests before production rollout.
+
+## Best practices
+
+- Keep prompts clear and operationally specific.
+- Define fallback behavior for exceptions.
+- Prefer structured tool outputs over free-form logic.
+- Test with real customer conversations before launch.

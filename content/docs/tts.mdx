@@ -1,0 +1,48 @@
+---
+title: "Text-to-speech"
+description: "Generate natural-sounding speech from text for product experiences, customer support, and branded audio flows."
+category: "Guides"
+order: 3
+---
+
+## Overview
+
+Text-to-speech converts a prompt into spoken audio. It is useful for onboarding, outbound notifications, accessibility features, and any product experience that benefits from spoken output.
+
+## Basic request
+
+```bash
+curl -X POST https://api.miralas.io/v1/tts \
+  -H "Authorization: Bearer $MIRALAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Welcome to Miralas. Your experience is ready.",
+    "voice": "samantha",
+    "language": "en",
+    "speed": 1.0
+  }'
+```
+
+## Example response
+
+```json
+{
+  "audio_url": "https://cdn.miralas.io/audio/abc123.wav",
+  "duration_ms": 3200,
+  "voice": "samantha",
+  "status": "completed"
+}
+```
+
+## Common parameters
+
+- `voice`: target voice
+- `language`: output language
+- `speed`: playback speed
+- `format`: audio format such as `wav` or `mp3`
+
+## Recommended settings
+
+- Use short, natural sentences for clearer output.
+- Match the voice style to the product tone.
+- Test speed settings for customer-facing or marketing content.

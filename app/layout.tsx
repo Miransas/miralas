@@ -160,8 +160,8 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >{isLocked && <ComingSoonModal />} 
-          {/* */}
+        >
+          {/*{isLocked && <ComingSoonModal />}  */}
 
           {children}
         </ThemeProvider>
