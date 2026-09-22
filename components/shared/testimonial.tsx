@@ -31,21 +31,21 @@ const featuredReviews = [
 const marqueeCardsColumn1 = [
   {
      text: "The voice quality is impressive straight out of the box. We went from script to finished narration without a studio session.",
-    author: "Avery Stone", 
+    author: "Avery Stone",
     handle: "@averystone",
-    avatar: "https://i.pravatar.cc/150?img=11" 
+    avatar: "https://i.pravatar.cc/150?img=11"
   },
-  { 
+  {
     text: "Miralas makes it easy to test different tones and pacing until the read feels right. It has completely changed our workflow.",
-    author: "Jordan Ellis", 
-    handle: "@jordanellis", 
+    author: "Jordan Ellis",
+    handle: "@jordanellis",
     avatar: "https://i.pravatar.cc/150?img=12"
  },
- { 
-   text: "We added natural voice previews to our product in a few minutes. The developer experience is excellent.", 
-   author: "Noah Williams", 
-   handle: "@noahw", 
-   avatar: "https://i.pravatar.cc/150?img=13" 
+ {
+   text: "We added natural voice previews to our product in a few minutes. The developer experience is excellent.",
+   author: "Noah Williams",
+   handle: "@noahw",
+   avatar: "https://i.pravatar.cc/150?img=13"
   }
 ];
 
@@ -136,12 +136,12 @@ export default function TestimonialSection() {
 
 function ReviewCard({ text, author, handle, avatar }: { text: string; author: string; handle: string; avatar: string }) {
   return (
-    <div className="bg-white/90 dark:bg-[#0f0f0f] backdrop-blur-md border border-slate-200 dark:border-white/5 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4 w-full">
+    <div className="bg-white/90 dark:bg-[#0f0f0f] backdrop-blur-md p-6 rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4 w-full">
       <p className="dark:text-stone-200 text-sm leading-relaxed">{text}</p>
       <div className="flex items-center space-x-3 pt-2">
         <img src={avatar} alt={author} className="w-8 h-8 rounded-full object-cover" />
         <div>
-          <h5 className="font-semibold text-stone-900 dark:text-stone-200 text-xs">{author}</h5>
+          <h5 className="font-semibold text-stone-400 dark:text-stone-200 text-xs">{author}</h5>
           <span className="text-xs text-stone-400 dark:text-stone-300">{handle}</span>
         </div>
       </div>

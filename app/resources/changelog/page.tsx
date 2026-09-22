@@ -55,24 +55,8 @@ export default function ChangelogPage() {
   return (
 
     <SmoothScroll>
-      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-foreground selection:text-foreground">
+      <div className="min-h-screen bg-background text-foreground font-sans ">
         <Header />
-        {/* <header className="border-b border-border bg-background/60 backdrop-blur-md sticky mt-24 top-0 z-50">
-        <div className="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
-          <Link 
-            href="/" 
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
-          >
-            <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
-            Back to Home
-          </Link>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground shadow-md">
-            <Cpu className="size-3 text-amber-500 animate-pulse" />
-            Ecosystem Active
-          </div>
-        </div>
-      </header> */}
-
         {/* Main body */}
         <main className="mx-auto max-w-3xl px-6 py-16 sm:py-24">
 

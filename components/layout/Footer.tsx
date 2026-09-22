@@ -123,7 +123,7 @@ export function Footer({
         'relative w-full overflow-hidden  border-white/[0.08] dark:bg-black antialiased px-20',
         className
       )}
-    > 
+    >
       <div className="mx-auto max-w-full px-6 pt-16 pb-12">
 
         {/* ── Brand, Heading & Newsletter Input Section ── */}
@@ -180,7 +180,7 @@ export function Footer({
                       <li key={link.label}>
                         <a
                           href={link.href}
-                          className="group inline-flex items-center gap-2 text-stone-400 hover:text-neutral-100 transition-colors duration-200"
+                          className="group inline-flex items-center gap-2 text-stone-400 hover:text-neutral-600 transition-colors duration-200"
                         >
                           {Icon && (
                             <Icon className="h-4 w-4 dark:text-stone-400 transition-colors group-hover:text-neutral-200 shrink-0" />

@@ -801,7 +801,7 @@ export default function TTSPage() {
 
       <main>
         <HeroSection />
-        <FeatureScrollSection />
+        {/* <FeatureScrollSection /> */}
         <VoiceExplorer />
       </main>
 

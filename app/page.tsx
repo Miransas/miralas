@@ -25,13 +25,13 @@ const page = () => {
         <Hero />
         <VoiceLibrary />
         <FeatureSection />
-         <VideoSections/> 
+         <VideoSections/>
         <FaqSection />
         <TestimonialSection/>
         {/* <IntegrationCardDemo/> */}
         <Footer />
       </div>
-        {/* <FooterS wordmark="MİRANSAS" groups={footerSections} tagline={SPECTRUM.tagline} /> */}
+
     </SmoothScroll>
   )
 }

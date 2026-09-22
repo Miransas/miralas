@@ -23,7 +23,7 @@ const dummyCards: CardData[] = [
 
 export default function HeroSection() {
   return (
-    <section className="relative isolate flex min-h-[100svh] w-full items-center overflow-hidden bg-white py-16 font-sans text-foreground dark:bg-[#0a0a0a] sm:py-24 lg:min-h-[105svh] lg:py-16">
+    <section className="relative isolate flex min-h-[100svh] w-full items-center overflow-hidden bg-background py-16 font-sans text-foreground dark:bg-[#0a0a0a] sm:py-24 lg:min-h-[105svh] lg:py-16">
       {/* ============================================================
           MOBİL: MARQUEE İÇERİĞİN ARKASINDA HAREKET EDİYOR
           - lg ve altı ekranlarda görünür
@@ -50,7 +50,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center gap-2 rounded-full border border-slate-200 bg-background/80 px-4 py-2 text-xs font-semibold text-muted-foreground shadow-sm dark:border-white/10"
+            className="flex items-center gap-2 rounded-full  bg-background/80 px-4 py-2 text-xs font-semibold text-muted-foreground shadow-sm "
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
             <span className="font-bold text-foreground">MV</span>
@@ -83,14 +83,14 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="relative w-full max-w-xl"
           >
-            <div className="relative rounded-2xl border border-slate-200 bg-background p-3 shadow-xl dark:border-white/10">
+            <div className="relative rounded-2xl  bg-background p-3 shadow-xl ">
               <textarea
                 rows={2}
                 placeholder="So, can I clone my own voice?"
                 className="w-full resize-none bg-transparent p-2 text-sm font-medium text-foreground outline-none placeholder:text-muted-foreground/60"
               />
 
-              <div className="mt-1 flex items-center justify-between border-t border-slate-100 pt-3 dark:border-white/10">
+              <div className="mt-1 flex items-center justify-between border-t border-slate-100 pt-3 ">
                 <div className="flex gap-1">
                   <button
                     aria-label="Upload dataset"
@@ -186,7 +186,7 @@ function MarqueeColumn({
 /* CARD */
 function DetailedCard({ data }: { data: CardData }) {
   return (
-    <div className="flex min-h-[320px] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-6 text-card-foreground shadow-lg dark:border-white/10 dark:bg-[#0f0f0f] sm:min-h-[340px] xl:min-h-[360px] xl:p-7">
+    <div className="flex min-h-[320px] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[1.75rem]  bg-white p-6 text-card-foreground shadow-lg  dark:bg-[#0f0f0f] sm:min-h-[340px] xl:min-h-[360px] xl:p-7">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
@@ -199,7 +199,7 @@ function DetailedCard({ data }: { data: CardData }) {
         </div>
 
         {data.badge && (
-          <span className="shrink-0 rounded-full border border-slate-200 bg-muted px-2.5 py-1 text-[10px] font-bold text-muted-foreground dark:border-white/10">
+          <span className="shrink-0 rounded-full  bg-muted px-2.5 py-1 text-[10px] font-bold text-muted-foreground ">
             {data.badge}
           </span>
         )}
@@ -214,7 +214,7 @@ function DetailedCard({ data }: { data: CardData }) {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-[10px] font-semibold text-muted-foreground dark:border-white/10">
+      <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-[10px] font-semibold text-muted-foreground ">
         <span>Updated 2m ago</span>
         <span className="cursor-pointer text-blue-600 hover:underline dark:text-blue-400">
           View report →
@@ -236,7 +236,7 @@ function BarChart() {
         <span>Enterprise</span>
       </div>
 
-      <div className="flex h-32 items-end gap-3 border-b border-slate-100 pb-1 dark:border-white/10">
+      <div className="flex h-32 items-end gap-3 border-b border-slate-100 pb-1 ">
         {bars.map((height, index) => (
           <div
             key={index}
