@@ -9,9 +9,10 @@ import ComingSoonModal from "../components/modals/comming-soon";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
 import { cn } from "../lib/utils";
 
-/* =========================================================
-   FONTS
-   ========================================================= */
+const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
+
+
+
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -161,10 +162,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-      {isLocked && <ComingSoonModal />}
+          {isLocked && <ComingSoonModal />}
 
           {children}
         </ThemeProvider>
+        {googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
       </body>
     </html>
   );
