@@ -1,478 +1,110 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import Image from "next/image";
+import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  ChevronDown,
-  ChevronRight,
-  Menu,
-  Mic2,
-  X,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Menu, X, ArrowRight, Sparkles } from "lucide-react";
+import { HEADER_NAV_ITEMS, HEADER_LINKS, HeaderNavItem } from "@/constants/navbar";
+import { ModeToggle } from "../providers/mode-toggle";
 
-import { cn } from "@/lib/utils";
-import { ModeToggle } from "@/components/providers/mode-toggle";
-import {
-  HEADER_LINKS,
-  HEADER_NAV_ITEMS,
-  type HeaderNavItem,
-} from "@/constants/navbar";
-
-/* ---------------------------------------------------------------
-   Header
-   --------------------------------------------------------------- */
 export function Header() {
-  const pathname = usePathname();
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Default to dark until hydrated to avoid flash mismatch.
-  const isDark = mounted ? resolvedTheme !== "light" : true;
-
-  const [scrolled, setScrolled] = useState(false);
-  const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSection, setMobileSection] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    setDesktopOpen(null);
-    setMobileOpen(false);
-    setMobileSection(null);
-  }, [pathname]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-
-      setDesktopOpen(null);
-      setMobileOpen(false);
-      setMobileSection(null);
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [mobileOpen]);
-
-  const isPathActive = (href: string) => {
-    if (href === "/") {
-      return pathname === "/";
-    }
-
-    return pathname === href || pathname.startsWith(`${href}/`);
-  };
-
-  const hasActiveChild = (item: HeaderNavItem) => {
-    return item.items?.some((subItem) => isPathActive(subItem.href)) ?? false;
-  };
-
-  const toggleMobileSection = (label: string) => {
-    setMobileSection((current) => (current === label ? null : label));
-  };
-
-  const handleMobileLink = () => {
-    setMobileOpen(false);
-    setMobileSection(null);
-  };
-
-  /* ---------- Renk tokenlari ---------- */
-  const t = {
-    /* header shell */
-    shellBorder:
-      scrolled || desktopOpen || mobileOpen
-        ? isDark
-          ? "border-border"
-          : "border-border/70"
-        : "border-transparent",
-    shellBg:
-      scrolled || desktopOpen || mobileOpen
-        ? isDark
-          ? "bg-card/85"
-          : "bg-card/85"
-        : "bg-transparent",
-    shellShadow:
-      scrolled || desktopOpen || mobileOpen
-        ? "shadow-[0_18px_60px_-36px_rgba(24,24,27,0.7)]"
-        : "",
-
-    textPrimary: isDark ? "text-foreground" : "text-foreground",
-    textSecondary: isDark ? "text-muted-foreground" : "text-muted-foreground",
-    textMuted: isDark ? "text-muted-foreground" : "text-muted-foreground",
-
-    hoverText: isDark ? "hover:text-foreground" : "hover:text-foreground",
-
-    bgPrimary: isDark ? "bg-card" : "bg-card",
-    bgSecondary: isDark ? "bg-card/5" : "bg-muted",
-    bgHover: isDark ? "hover:bg-card/10" : "hover:bg-muted",
-    bgHoverLight: isDark ? "hover:bg-card/5" : "hover:bg-muted",
-    bgActive: isDark ? "bg-card/10" : "bg-muted",
-    bgActiveBox: isDark ? "bg-card/10" : "bg-card",
-
-    borderPrimary: isDark ? "border-border" : "border-border",
-    borderSecondary: isDark ? "border-border" : "border-border",
-
-    btnGhost: isDark
-      ? "text-muted-foreground hover:bg-card/10 hover:text-foreground"
-      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-    btnPrimary: isDark
-      ? "bg-card text-foreground hover:bg-muted"
-      : "bg-card text-foreground hover:bg-card",
-    btnOutline: isDark
-      ? "border-border text-muted-foreground hover:bg-card/5"
-      : "border-border text-muted-foreground hover:bg-muted",
-
-    dropdownBg: isDark ? "bg-card/95" : "bg-card/95",
-    dropdownBorder: isDark ? "border-border" : "border-border/80",
-    dropdownShadow: "shadow-[0_24px_80px_-30px_rgba(0,0,0,0.35)]",
-
-    mobileBg: isDark ? "bg-card/95" : "bg-card/95",
-    mobileBorder: isDark ? "border-border" : "border-border/80",
-
-    iconBoxBorder: isDark ? "border-border" : "border-border",
-    iconBoxBg: isDark ? "bg-card/5" : "bg-muted",
-    iconBoxText: isDark ? "text-muted-foreground" : "text-muted-foreground",
-    iconBoxActiveBorder: isDark ? "border-border" : "border-border",
-    iconBoxActiveBg: isDark ? "bg-card/10" : "bg-card",
-    iconBoxActiveText: isDark ? "text-foreground" : "text-foreground",
-
-    featuredBg: isDark ? "bg-card" : "bg-card",
-    featuredText: isDark ? "text-foreground" : "text-foreground",
-    featuredMuted: isDark ? "text-muted-foreground" : "text-muted-foreground",
-    featuredLabel: isDark ? "text-muted-foreground" : "text-muted-foreground",
-    featuredIconBg: isDark ? "bg-card/10" : "bg-card/10",
-    featuredIconText: isDark ? "text-foreground" : "text-foreground",
-
-    logoBg: isDark ? "bg-card" : "bg-card",
-    logoText: isDark ? "text-foreground" : "text-foreground",
-  };
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <>
-      {/*
-        Artık dış boşlukları olmayan (inset-x-0, top-0) ve border-b (alt çizgi) destekli
-        tam sayfa genişliğinde (w-full) yapışkan header.
-      */}
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 backdrop-blur-xl",
-          t.shellBorder,
-          t.shellBg,
-          t.shellShadow
-        )}
-      >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl transition-colors duration-200">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-12">
 
-          {/* =========================================================
-              LOGO
-          ========================================================= */}
-          <Link
-            href={HEADER_LINKS.home}
-            aria-label="Miralas home"
-            className="group flex shrink-0 items-center gap-3"
-            onClick={() => {
-              setDesktopOpen(null);
-              setMobileOpen(false);
-              setMobileSection(null);
-            }}
-          >
-            <span
-              className={cn(
-                "flex size-9 items-center justify-center overflow-hidden rounded-full shadow-lg shadow-zinc-950/15 transition-transform duration-300 group-hover:scale-105",
-                t.logoBg,
-                t.logoText,
-              )}
-            >
-              <Image
+        {/* LOGO */}
+        <div className="flex items-center gap-8">
+          <Link href={HEADER_LINKS.home} className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+            <div className="flex size-8 items-center justify-center rounded-xl bg-foreground p-1.5 text-background shadow-sm">
+              <img
                 src="/logo.png"
                 alt="Miralas Logo"
-                width={38}
-                height={38}
-                priority
-                className="size-full object-contain"
+                className="size-full object-contain filter invert dark:invert-0"
               />
-            </span>
-
-            <span
-              className={cn(
-                "text-base font-semibold tracking-tight",
-                t.textPrimary,
-              )}
-            >
+            </div>
+            <span className="text-lg font-bold tracking-tight text-foreground">
               Miralas
             </span>
           </Link>
 
-          {/* =========================================================
-              DESKTOP NAVIGATION
-          ========================================================= */}
-          <nav
-            className="hidden items-center gap-1 lg:flex"
-            aria-label="Main navigation"
-          >
-            {HEADER_NAV_ITEMS.map((item) => {
-              const hasChildren = Boolean(item.items?.length);
-              const isOpen = desktopOpen === item.label;
-              const active = isPathActive(item.href) || hasActiveChild(item);
+          {/* DESKTOP NAVIGATION */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {HEADER_NAV_ITEMS.map((item: HeaderNavItem) => {
+              const hasSubItems = item.items && item.items.length > 0;
 
               return (
                 <div
-                  key={item.href}
+                  key={item.label}
                   className="relative"
-                  onMouseEnter={() => {
-                    if (hasChildren) {
-                      setDesktopOpen(item.label);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    setDesktopOpen(null);
-                  }}
+                  onMouseEnter={() => hasSubItems && setActiveDropdown(item.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <Link
-                    href={item.href}
-                    onClick={(event) => {
-                      if (hasChildren) {
-                        event.preventDefault();
+                  {hasSubItems ? (
+                    <button
+                      type="button"
+                      className={`
+                        flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors
+                        ${
+                          activeDropdown === item.label
+                            ? "bg-accent text-foreground"
+                            : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+                        }
+                      `}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        className={`size-3.5 transition-transform duration-200 ${
+                          activeDropdown === item.label ? "rotate-180 text-foreground" : "text-muted-foreground"
+                        }`}
+                      />
+                    </button>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="inline-block rounded-lg px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
 
-                        setDesktopOpen((current) =>
-                          current === item.label ? null : item.label,
-                        );
-                      } else {
-                        setDesktopOpen(null);
-                      }
-                    }}
-                    className={cn(
-                      "relative inline-flex h-10 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium transition-colors",
-                      active || isOpen
-                        ? t.textPrimary
-                        : cn(t.textSecondary, t.hoverText),
-                    )}
-                  >
-                    {item.label}
-
-                    {hasChildren && (
-                      <motion.span
-                        animate={{
-                          rotate: isOpen ? 180 : 0,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                          ease: "easeOut",
-                        }}
-                        className="flex"
-                      >
-                        <ChevronDown className="size-3.5 opacity-45" />
-                      </motion.span>
-                    )}
-
-                    <span
-                      className={cn(
-                        "absolute inset-x-3 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-400 transition-transform duration-300",
-                        active && "scale-x-100",
-                      )}
-                    />
-                  </Link>
-
-                  {/* ===================================================
-                      DESKTOP DROPDOWN
-                  =================================================== */}
+                  {/* DROPDOWN MENU */}
                   <AnimatePresence>
-                    {hasChildren && isOpen && (
+                    {hasSubItems && activeDropdown === item.label && (
                       <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 8,
-                          scale: 0.98,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                          scale: 1,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          y: 6,
-                          scale: 0.98,
-                        }}
-                        transition={{
-                          duration: 0.18,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="absolute left-1/2 top-full z-50 w-[350px] -translate-x-1/2 pt-4"
+                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="absolute left-0 top-full pt-2 w-80 z-50"
                       >
-                        <div
-                          className={cn(
-                            "overflow-hidden rounded-[22px] p-2 backdrop-blur-2xl",
-                            t.dropdownBg,
-                            t.dropdownBorder,
-                            t.dropdownShadow,
-                          )}
-                        >
-                          {/* Dropdown header */}
-                          <div className="px-3 pb-2 pt-2">
-                            <div className="flex items-center justify-between gap-4">
-                              <div>
-                                <p
-                                  className={cn(
-                                    "text-sm font-semibold",
-                                    t.textPrimary,
-                                  )}
-                                >
-                                  {item.label}
-                                </p>
-
-                                {item.description && (
-                                  <p
-                                    className={cn(
-                                      "mt-0.5 text-xs",
-                                      t.textMuted,
-                                    )}
-                                  >
-                                    {item.description}
-                                  </p>
-                                )}
-                              </div>
-
-                              <Link
-                                href={item.href}
-                                onClick={() => setDesktopOpen(null)}
-                                className={cn(
-                                  "group flex size-8 shrink-0 items-center justify-center rounded-full border transition",
-                                  t.iconBoxBorder,
-                                  t.iconBoxBg,
-                                  t.iconBoxText,
-                                  t.bgHoverLight,
-                                  isDark
-                                    ? "hover:text-foreground"
-                                    : "hover:text-foreground",
-                                )}
-                                aria-label={`Open ${item.label}`}
-                              >
-                                <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                              </Link>
+                        <div className="overflow-hidden rounded-2xl border border-border bg-card p-2 shadow-xl">
+                          {item.description && (
+                            <div className="px-3 py-2 text-xs font-mono uppercase tracking-wider text-muted-foreground/80 border-b border-border/40 mb-1">
+                              {item.description}
                             </div>
-                          </div>
-
-                          <div className="space-y-1">
-                            {item.items?.map((subItem, index) => {
-                              const activeSub = isPathActive(subItem.href);
-
-                              return (
-                                <motion.div
-                                  key={subItem.href}
-                                  initial={{
-                                    opacity: 0,
-                                    y: 4,
-                                  }}
-                                  animate={{
-                                    opacity: 1,
-                                    y: 0,
-                                  }}
-                                  transition={{
-                                    delay: index * 0.025,
-                                    duration: 0.18,
-                                  }}
-                                >
-                                  <Link
-                                    href={subItem.href}
-                                    onClick={() => setDesktopOpen(null)}
-                                    className={cn(
-                                      "group flex items-center gap-3 rounded-xl px-3 py-3 transition-colors",
-                                      activeSub ? t.bgActive : t.bgHoverLight,
-                                    )}
-                                  >
-                                    <span
-                                      className={cn(
-                                        "flex size-8 shrink-0 items-center justify-center rounded-lg border transition-colors",
-                                        activeSub
-                                          ? cn(
-                                            t.iconBoxActiveBorder,
-                                            t.iconBoxActiveBg,
-                                            t.iconBoxActiveText,
-                                          )
-                                          : cn(
-                                            t.iconBoxBorder,
-                                            t.iconBoxBg,
-                                            t.iconBoxText,
-                                          ),
-                                      )}
-                                    >
-                                      <ChevronRight
-                                        className={cn(
-                                          "size-3.5 transition-transform",
-                                          activeSub
-                                            ? "translate-x-0.5"
-                                            : "group-hover:translate-x-0.5",
-                                        )}
-                                      />
-                                    </span>
-
-                                    <span className="min-w-0 flex-1">
-                                      <span
-                                        className={cn(
-                                          "block text-sm font-medium",
-                                          t.textPrimary,
-                                        )}
-                                      >
-                                        {subItem.label}
-                                      </span>
-
-                                      {subItem.description && (
-                                        <span
-                                          className={cn(
-                                            "mt-0.5 block truncate text-xs leading-5",
-                                            t.textMuted,
-                                          )}
-                                        >
-                                          {subItem.description}
-                                        </span>
-                                      )}
-                                    </span>
-
-                                    <ArrowUpRight className="size-3.5 shrink-0 opacity-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-50" />
-                                  </Link>
-                                </motion.div>
-                              );
-                            })}
+                          )}
+                          <div className="flex flex-col gap-0.5">
+                            {item.items?.map((subItem) => (
+                              <Link
+                                key={subItem.label}
+                                href={subItem.href}
+                                className="group flex flex-col gap-0.5 rounded-xl p-2.5 transition-colors hover:bg-accent"
+                              >
+                                <span className="text-sm font-medium text-foreground group-hover:text-primary flex items-center justify-between">
+                                  {subItem.label}
+                                  <ArrowRight className="size-3.5 opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0 text-muted-foreground" />
+                                </span>
+                                {subItem.description && (
+                                  <span className="text-xs text-muted-foreground leading-snug line-clamp-1">
+                                    {subItem.description}
+                                  </span>
+                                )}
+                              </Link>
+                            ))}
                           </div>
                         </div>
                       </motion.div>
@@ -483,419 +115,100 @@ export function Header() {
             })}
           </nav>
 
-          {/* =========================================================
-              DESKTOP ACTIONS
-          ========================================================= */}
-          <div className="hidden items-center gap-2 lg:flex">
-            <ModeToggle />
-
-            <Link
-              href={HEADER_LINKS.consoleAuth}
-              className={cn(
-                "inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium transition",
-                t.btnGhost,
-              )}
-            >
-              Sign In
-            </Link>
-
-            <Link
-              href={HEADER_LINKS.consoleAuth}
-              className={cn(
-                "inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-lg shadow-zinc-950/15 transition hover:-translate-y-0.5",
-                t.btnPrimary,
-              )}
-            >
-              Get Started
-            </Link>
-          </div>
-
-          {/* =========================================================
-              MOBILE MENU BUTTON
-          ========================================================= */}
-          <button
-            type="button"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            onClick={() => {
-              setMobileOpen((current) => !current);
-              setDesktopOpen(null);
-            }}
-            className={cn(
-              "inline-flex size-10 items-center justify-center rounded-full border shadow-sm backdrop-blur lg:hidden",
-              t.borderPrimary,
-              isDark ? "bg-card/5 text-foreground" : "bg-card/80 text-foreground",
-            )}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {mobileOpen ? (
-                <motion.span
-                  key="close"
-                  initial={{
-                    opacity: 0,
-                    rotate: -90,
-                    scale: 0.8,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    rotate: 0,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    rotate: 90,
-                    scale: 0.8,
-                  }}
-                  className="flex"
-                >
-                  <X className="size-5" />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="menu"
-                  initial={{
-                    opacity: 0,
-                    rotate: 90,
-                    scale: 0.8,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    rotate: 0,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    rotate: -90,
-                    scale: 0.8,
-                  }}
-                  className="flex"
-                >
-                  <Menu className="size-5" />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
         </div>
-      </header>
 
-      {/* ===========================================================
-          MOBILE MENU
-      =========================================================== */}
-      <div className="fixed inset-x-0 top-[64px] z-40 mx-4">
-        <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: -10,
-                scale: 0.98,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-              }}
-              exit={{
-                opacity: 0,
-                y: -10,
-                scale: 0.98,
-              }}
-              transition={{
-                duration: 0.22,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className={cn(
-                "mt-4 overflow-hidden rounded-[24px] p-2 backdrop-blur-2xl lg:hidden",
-                t.mobileBg,
-                t.mobileBorder,
-                "border shadow-[0_24px_90px_-35px_rgba(0,0,0,0.35)]",
-              )}
-            >
-              <div className="max-h-[calc(100dvh-120px)] overflow-y-auto">
-                <div className="space-y-1">
-                  {HEADER_NAV_ITEMS.map((item) => {
-                    const hasChildren = Boolean(item.items?.length);
-                    const expanded = mobileSection === item.label;
-                    const active =
-                      isPathActive(item.href) || hasActiveChild(item);
+        {/* RIGHT ACTION BUTTONS */}
+        <div className="hidden lg:flex items-center gap-3">
+          <ModeToggle/>
+          <a
+            href={HEADER_LINKS.consoleAuth}
+            className="rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Sign In
+          </a>
 
-                    return (
-                      <div key={item.href}>
-                        <div
-                          className={cn(
-                            "flex items-center rounded-xl transition-colors",
-                            active ? t.bgActive : t.bgHoverLight,
-                          )}
-                        >
-                          <Link
-                            href={item.href}
-                            onClick={() => {
-                              if (!hasChildren) {
-                                handleMobileLink();
-                              }
-                            }}
-                            className="min-w-0 flex-1 px-3 py-3.5"
-                          >
-                            <span className="flex items-center gap-2">
-                              <span
-                                className={cn(
-                                  "text-sm font-medium",
-                                  t.textPrimary,
-                                )}
-                              >
-                                {item.label}
-                              </span>
+          <Link
+            href={HEADER_LINKS.studio}
+            className="group inline-flex items-center gap-2 rounded-xl border border-border bg-foreground px-4 py-2 text-sm font-medium text-background transition-all duration-200 hover:opacity-90 shadow-sm"
+          >
+            <Sparkles className="size-3.5" />
+            <span>Open Studio</span>
+          </Link>
+        </div>
 
-                              {active && (
-                                <span
-                                  className={cn(
-                                    "size-1.5 rounded-full",
-                                    isDark ? "bg-card" : "bg-card",
-                                  )}
-                                />
-                              )}
-                            </span>
-                          </Link>
-
-                          {hasChildren && (
-                            <button
-                              type="button"
-                              aria-label={`Toggle ${item.label}`}
-                              aria-expanded={expanded}
-                              onClick={() =>
-                                toggleMobileSection(item.label)
-                              }
-                              className={cn(
-                                "mr-1 flex size-10 items-center justify-center rounded-lg transition",
-                                t.iconBoxText,
-                                isDark
-                                  ? "hover:bg-card/10 hover:text-foreground"
-                                  : "hover:bg-zinc-200/70 hover:text-foreground",
-                              )}
-                            >
-                              <motion.span
-                                animate={{
-                                  rotate: expanded ? 180 : 0,
-                                }}
-                                transition={{
-                                  duration: 0.2,
-                                }}
-                                className="flex"
-                              >
-                                <ChevronDown className="size-4" />
-                              </motion.span>
-                            </button>
-                          )}
-                        </div>
-
-                        <AnimatePresence initial={false}>
-                          {hasChildren && expanded && (
-                            <motion.div
-                              initial={{
-                                height: 0,
-                                opacity: 0,
-                              }}
-                              animate={{
-                                height: "auto",
-                                opacity: 1,
-                              }}
-                              exit={{
-                                height: 0,
-                                opacity: 0,
-                              }}
-                              transition={{
-                                duration: 0.2,
-                                ease: "easeOut",
-                              }}
-                              className="overflow-hidden"
-                            >
-                              <div
-                                className={cn(
-                                  "ml-3 mr-1 border-l py-1 pl-3",
-                                  t.borderPrimary,
-                                )}
-                              >
-                                {item.items?.map((subItem) => {
-                                  const activeSub = isPathActive(
-                                    subItem.href,
-                                  );
-
-                                  return (
-                                    <Link
-                                      key={subItem.href}
-                                      href={subItem.href}
-                                      onClick={handleMobileLink}
-                                      className={cn(
-                                        "group flex items-center gap-3 rounded-xl px-3 py-3 transition",
-                                        activeSub
-                                          ? t.bgActive
-                                          : t.bgHoverLight,
-                                      )}
-                                    >
-                                      <span
-                                        className={cn(
-                                          "flex size-7 shrink-0 items-center justify-center rounded-lg border",
-                                          activeSub
-                                            ? cn(
-                                              t.iconBoxActiveBorder,
-                                              t.iconBoxActiveBg,
-                                              t.iconBoxActiveText,
-                                            )
-                                            : cn(
-                                              t.iconBoxBorder,
-                                              t.iconBoxBg,
-                                              t.iconBoxText,
-                                            ),
-                                        )}
-                                      >
-                                        <ChevronRight className="size-3" />
-                                      </span>
-
-                                      <span className="min-w-0 flex-1">
-                                        <span
-                                          className={cn(
-                                            "block text-sm font-medium",
-                                            t.textPrimary,
-                                          )}
-                                        >
-                                          {subItem.label}
-                                        </span>
-
-                                        {subItem.description && (
-                                          <span
-                                            className={cn(
-                                              "mt-0.5 block text-xs leading-5",
-                                              t.textMuted,
-                                            )}
-                                          >
-                                            {subItem.description}
-                                          </span>
-                                        )}
-                                      </span>
-
-                                      <ArrowUpRight className="size-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-40" />
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div
-                  className={cn(
-                    "mt-2 border-t px-2 pt-3",
-                    t.borderPrimary,
-                  )}
-                >
-                  <div className="mb-3 flex items-center justify-between px-2">
-                    <span
-                      className={cn(
-                        "text-xs font-medium uppercase tracking-wider",
-                        t.textMuted,
-                      )}
-                    >
-                      Appearance
-                    </span>
-                    <ModeToggle />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <Link
-                      href={HEADER_LINKS.consoleAuth}
-                      onClick={handleMobileLink}
-                      className={cn(
-                        "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium transition",
-                        t.btnOutline,
-                      )}
-                    >
-                      Sign In
-                    </Link>
-
-                    <Link
-                      href={HEADER_LINKS.consoleAuth}
-                      onClick={handleMobileLink}
-                      className={cn(
-                        "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold transition hover:bg-card",
-                        t.btnPrimary,
-                      )}
-                    >
-                      Get Started
-                    </Link>
-                  </div>
-
-                  <Link
-                    href={HEADER_LINKS.studio}
-                    onClick={handleMobileLink}
-                    className={cn(
-                      "group relative mt-3 block overflow-hidden rounded-2xl p-4",
-                      t.featuredBg,
-                    )}
-                  >
-                    <div className="absolute -right-10 -top-10 size-24 rounded-full bg-indigo-500/20 blur-2xl" />
-
-                    <div className="relative">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={cn(
-                            "flex size-7 items-center justify-center rounded-lg",
-                            t.featuredIconBg,
-                            t.featuredIconText,
-                          )}
-                        >
-                          <Mic2 className="size-3.5" />
-                        </span>
-
-                        <span
-                          className={cn(
-                            "text-[10px] font-semibold uppercase tracking-[0.16em]",
-                            t.featuredLabel,
-                          )}
-                        >
-                          Miralas Studio
-                        </span>
-                      </div>
-
-                      <div className="mt-3 flex items-end justify-between gap-4">
-                        <div>
-                          <p
-                            className={cn(
-                              "text-sm font-semibold",
-                              t.featuredText,
-                            )}
-                          >
-                            Create with your voice.
-                          </p>
-
-                          <p
-                            className={cn(
-                              "mt-1 text-xs leading-5",
-                              t.featuredMuted,
-                            )}
-                          >
-                            Voice Clone, TTS and more in one workspace.
-                          </p>
-                        </div>
-
-                        <ArrowUpRight
-                          className={cn(
-                            "size-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
-                            t.featuredText,
-                          )}
-                        />
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* MOBILE HAMBURGER BUTTON */}
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="flex size-10 items-center justify-center rounded-xl border border-border bg-card text-foreground lg:hidden"
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
       </div>
-    </>
+
+      {/* MOBILE MENU PANEL */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden border-b border-border bg-background lg:hidden"
+          >
+            <div className="flex flex-col gap-4 px-6 py-6 max-h-[80vh] overflow-y-auto">
+              {HEADER_NAV_ITEMS.map((item) => (
+                <div key={item.label} className="flex flex-col gap-2">
+                  <div className="text-xs font-mono uppercase text-muted-foreground tracking-wider">
+                    {item.label}
+                  </div>
+                  {item.items ? (
+                    <div className="flex flex-col gap-1 pl-2 border-l border-border/60">
+                      {item.items.map((sub) => (
+                        <Link
+                          key={sub.label}
+                          href={sub.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-1.5 text-sm font-medium text-foreground hover:text-muted-foreground"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-sm font-medium text-foreground hover:text-muted-foreground"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </div>
+              ))}
+
+              <div className="pt-4 border-t border-border flex flex-col gap-2">
+                <a
+                  href={HEADER_LINKS.consoleAuth}
+                  className="w-full text-center rounded-xl border border-border py-2.5 text-sm font-medium text-foreground"
+                >
+                  Sign In
+                </a>
+                <Link
+                  href={HEADER_LINKS.studio}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center rounded-xl bg-foreground py-2.5 text-sm font-medium text-background"
+                >
+                  Open Studio
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }
+
+export default Header;
