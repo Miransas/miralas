@@ -1,14 +1,8 @@
 import {
-  Clock,
-  Globe,
   Headphones,
-  Mail,
-  MapPin,
-  MessageSquare,
   Sparkles,
   Users,
 } from "lucide-react";
-
 export const CONTACT_DATA = {
   header: {
     badge: "Studio & Contact",

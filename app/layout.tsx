@@ -29,9 +29,6 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
-/* =========================================================
-   METADATA
-   ========================================================= */
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://miralas.io"),
@@ -111,9 +108,6 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
-/* =========================================================
-   VIEWPORT
-   ========================================================= */
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -151,7 +145,7 @@ export default function RootLayout({
         "h-full antialiased",
         jakarta.variable,
         plexMono.variable,
-        "selection:bg-brand selection:text-background",
+        "selection:background-green-500 selection:text-stone-700",
       )}
       data-scroll-behavior="smooth"
     >
@@ -162,8 +156,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {isLocked && <ComingSoonModal />}
-
+         {isLocked && <ComingSoonModal />}
           {children}
         </ThemeProvider>
         {googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}

@@ -23,7 +23,7 @@ const page = () => {
       <div>
         <Header />
         <Hero />
-        <VoiceLibrary />
+        {/* <VoiceLibrary /> */}
         <FeatureSection />
          <VideoSections/>
         <FaqSection />

@@ -13,7 +13,7 @@ import {
   Send,
   Sparkles,
 } from "lucide-react";
-import { CONTACT_DATA } from "@/constants/index";
+import { CONTACT_DATA } from "@/constants/footer";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },

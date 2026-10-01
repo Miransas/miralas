@@ -1,15 +1,9 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ChangeEvent,
-  type CSSProperties,
-} from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Clock, Pause, Play, Volume2 } from "lucide-react";
+import { AudioLines, Check, ChevronRight, Clock, Pause, Play, Volume2 } from "lucide-react";
 
 interface Voice {
   id: string;
@@ -108,11 +102,11 @@ function useTypewriter(text: string, speed: number = 35) {
       setIsTyping(false);
       return;
     }
-    
+
     setDisplayed("");
     setIsTyping(true);
     indexRef.current = 0;
-    
+
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     const type = () => {
@@ -167,7 +161,7 @@ function AmbientAudioBackground({
 
     const draw = (time: number) => {
       raf = requestAnimationFrame(draw);
-      
+
       if (analyser && isPlaying) {
         analyser.getByteFrequencyData(dataArray);
       }
@@ -234,10 +228,10 @@ function CoreOrb({
         scale: isPlaying ? [1, 1.05, 0.98, 1] : 1,
         boxShadow: isPlaying
           ? [
-              `inset 0 0 60px ${primary}30, 0 24px 50px rgba(0,0,0,0.08)`,
-              `inset 0 0 100px ${primary}60, 0 30px 60px rgba(0,0,0,0.15)`,
-              `inset 0 0 60px ${primary}30, 0 24px 50px rgba(0,0,0,0.08)`,
-            ]
+            `inset 0 0 60px ${primary}30, 0 24px 50px rgba(0,0,0,0.08)`,
+            `inset 0 0 100px ${primary}60, 0 30px 60px rgba(0,0,0,0.15)`,
+            `inset 0 0 60px ${primary}30, 0 24px 50px rgba(0,0,0,0.08)`,
+          ]
           : `inset 0 0 60px rgba(255,255,255,0.5), 0 24px 50px rgba(0,0,0,0.08)`,
       }}
       transition={
@@ -397,14 +391,14 @@ export default function VoiceLibrary() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) return;
 
     if (!audioContextRef.current) {
       audioContextRef.current = new Ctx();
     }
-    
+
     const ctx = audioContextRef.current;
 
     if (!sourceNodeRef.current) {
@@ -413,7 +407,7 @@ export default function VoiceLibrary() {
         const analyser = ctx.createAnalyser();
         analyser.fftSize = 128;
         analyser.smoothingTimeConstant = 0.85;
-        
+
         sourceNodeRef.current.connect(analyser);
         analyser.connect(ctx.destination);
         setAnalyserNode(analyser);
@@ -503,180 +497,40 @@ export default function VoiceLibrary() {
         initial={{ opacity: 0, y: 30, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.9, ease: easeOut }}
-        className="relative flex h-[min(840px,94vh)] w-full max-w-[1280px] flex-col overflow-hidden rounded-[3rem] border-2 border-border bg-card/40 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)]"
+        className="relative flex min-h-[min(820px,94vh)] w-full max-w-[1240px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_40px_100px_-20px_rgba(0,0,0,0.14)]"
       >
-        <AmbientAudioBackground 
-          analyser={analyserNode} 
-          isPlaying={isPlaying} 
-          colors={activeVoice.colors} 
-        />
-
-        <div className="relative z-10 flex flex-1 flex-col justify-between">
-          
-          <div className="relative flex flex-1 items-center justify-center">
-            
-            {VOICES.slice(1).map((voice, i) => {
-              const active = activeVoice.id === voice.id;
-              
-              const animX = isPlaying ? [0, 30, -20, 0] : [0, 12, -8, 0];
-              const animY = isPlaying ? [0, -30, 20, 0] : [0, -12, 8, 0];
-
-              return (
-                <motion.button
-                  key={voice.id}
-                  type="button"
-                  onClick={() => handleVoiceSelect(voice)}
-                  className="group absolute z-30 flex cursor-pointer flex-col items-center gap-3"
-                  style={voice.pos as CSSProperties}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scale: 1,
-                    x: animX,
-                    y: animY,
-                  }}
-                  transition={{
-                    opacity: { delay: 0.3 + i * 0.1, duration: 0.6, ease: easeOut },
-                    scale: { delay: 0.3 + i * 0.1, ...springSoft },
-                    x: { duration: 7 + i * 1.5, repeat: Infinity, ease: "easeInOut", delay: voice.delay ?? 0 },
-                    y: { duration: 8 + i * 1.2, repeat: Infinity, ease: "easeInOut", delay: voice.delay ?? 0 }
-                  }}
-                  whileHover={{ scale: 1.15, zIndex: 40 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <motion.span
-                    layout
-                    className="relative flex items-center justify-center rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-xl"
-                    style={{ 
-                      width: voice.size ?? 64, 
-                      height: voice.size ?? 64,
-                      background: `linear-gradient(135deg, ${voice.colors[0]}, ${voice.colors[1]})`
-                    }}
-                    animate={{
-                      border: active ? `3px solid white` : `2px solid rgba(255,255,255,0.5)`,
-                      boxShadow: active 
-                        ? `0 0 0 6px rgba(255,255,255,0.25), 0 20px 40px ${voice.colors[0]}50` 
-                        : `0 8px 32px rgba(0,0,0,0.1)`,
-                      scale: active ? 1.15 : 1,
-                    }}
-                    transition={springSoft}
-                  >
-                    {active && isPlaying && (
-                       <motion.div 
-                         className="absolute inset-0 rounded-full border-2 border-white mix-blend-overlay"
-                         animate={{ scale: [1, 1.3, 1], opacity: [0.8, 0, 0.8] }}
-                         transition={{ duration: 1.5, repeat: Infinity }}
-                       />
-                    )}
-                  </motion.span>
-                  <motion.span
-                    layout
-                    className="rounded-full border border-border bg-card/50 px-4 py-1.5 text-xs font-bold text-foreground shadow-sm backdrop-blur-xl"
-                    animate={{
-                      opacity: active ? 1 : 0.75,
-                    }}
-                  >
-                    {voice.label}
-                  </motion.span>
-                </motion.button>
-              );
-            })}
-
-            <motion.div
-              key={activeVoice.id}
-              initial={{ opacity: 0, scale: 0.7 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: easeOut }}
-              className="z-20"
-            >
-              <CoreOrb
-                colors={activeVoice.colors}
-                isPlaying={isPlaying}
-                onClick={togglePlay}
-              />
-            </motion.div>
-
-            {/* CHAT BALONU — Orbit altında ortada */}
-            <ChatBubble 
-              text={activeVoice.bubble} 
-              visible={showBubble} 
-              colors={activeVoice.colors} 
-            />
-          </div>
-
-          <div className="z-30 p-6 sm:p-8">
-            <motion.div 
-              className="mx-auto max-w-2xl overflow-hidden rounded-[2rem] border border-border bg-card/60 p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] backdrop-blur-3xl sm:p-8"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: easeOut }}
-            >
-              <div className="flex flex-col items-center">
-                <AnimatePresence mode="wait">
-                  <motion.h2
-                    key={activeVoice.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                    className="mb-2 text-2xl font-extrabold tracking-tight text-foreground"
-                  >
-                    {activeVoice.title}
-                  </motion.h2>
-                </AnimatePresence>
-                <AnimatePresence mode="wait">
-                  <motion.p
-                    key={activeVoice.desc}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="mb-8 max-w-md text-center text-sm font-medium leading-relaxed text-muted-foreground"
-                  >
-                    {activeVoice.desc}
-                  </motion.p>
-                </AnimatePresence>
-
-                <div className="flex w-full flex-col gap-6">
-                  <div className="flex w-full items-center gap-4">
-                    <Clock className="size-4 text-muted-foreground" />
-                    <span className="w-10 text-right text-xs font-bold tabular-nums text-muted-foreground">
-                      {formatTime((progress / 100) * duration)}
-                    </span>
-                    <RangeSlider
-                      value={progress}
-                      min={0}
-                      max={100}
-                      accentColor={primary}
-                      onChange={(e) => {
-                        const audio = audioRef.current;
-                        const v = parseFloat(e.target.value);
-                        if (audio && duration) audio.currentTime = (v / 100) * duration;
-                        setProgress(v);
-                      }}
-                    />
-                    <span className="w-10 text-xs font-bold tabular-nums text-muted-foreground">
-                      {formatTime(duration)}
-                    </span>
-                  </div>
-
-                  <div className="flex w-full items-center gap-4 text-xs font-bold text-muted-foreground">
-                    <Volume2 className="size-4" />
-                    <span>Warm</span>
-                    <RangeSlider
-                      value={tone}
-                      min={0}
-                      max={100}
-                      accentColor={primary}
-                      onChange={(e) => setTone(parseInt(e.target.value, 10))}
-                    />
-                    <span>Bright</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-          
+        <AmbientAudioBackground analyser={analyserNode} isPlaying={isPlaying} colors={activeVoice.colors} />
+        <div className="relative z-10 grid w-full grid-cols-1 lg:grid-cols-[280px_1fr]">
+          <aside className="border-b border-border bg-card/70 p-5 backdrop-blur-2xl lg:border-r lg:border-b-0 lg:p-6">
+            <div className="mb-8 flex items-center gap-3">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-foreground text-background"><AudioLines className="size-5" /></span>
+              <div><p className="text-sm font-bold tracking-tight">Voice library</p><p className="text-xs text-muted-foreground">Choose a character</p></div>
+            </div>
+            <div className="space-y-2">
+              {VOICES.map((voice) => {
+                const active = activeVoice.id === voice.id;
+                return (
+                  <motion.button key={voice.id} type="button" onClick={() => handleVoiceSelect(voice)} whileTap={{ scale: 0.98 }} className="flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors" style={{ backgroundColor: active ? `${voice.colors[0]}18` : "transparent" }}>
+                    <span className="size-9 shrink-0 rounded-full border-2 border-background shadow-sm" style={{ background: `linear-gradient(135deg, ${voice.colors[0]}, ${voice.colors[1]})` }} />
+                    <span className="min-w-0 flex-1"><span className="block truncate text-sm font-bold">{voice.label}</span><span className="block truncate text-xs text-muted-foreground">{voice.title.split(": ")[1]}</span></span>
+                    {active ? <Check className="size-4 shrink-0" style={{ color: primary }} /> : <ChevronRight className="size-4 shrink-0 text-muted-foreground/50" />}
+                  </motion.button>
+                );
+              })}
+            </div>
+            <div className="mt-8 border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">Select a voice to preview its character and adjust the delivery tone.</div>
+          </aside>
+          <main className="flex min-w-0 flex-col justify-between p-5 sm:p-8 lg:p-12">
+            <header className="flex items-start justify-between gap-4">
+              <div><p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Preview studio</p><AnimatePresence mode="wait"><motion.h1 key={activeVoice.title} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="max-w-xl text-3xl font-semibold tracking-tight sm:text-5xl">{activeVoice.title}</motion.h1></AnimatePresence></div>
+              <span className="hidden rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs font-bold text-muted-foreground sm:block">EN / US</span>
+            </header>
+            <div className="flex flex-1 flex-col items-center justify-center py-10 text-center"><CoreOrb colors={activeVoice.colors} isPlaying={isPlaying} onClick={togglePlay} /><ChatBubble text={activeVoice.bubble} visible={showBubble} colors={activeVoice.colors} /><motion.p key={activeVoice.desc} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 max-w-lg text-sm leading-relaxed text-muted-foreground">{activeVoice.desc}</motion.p></div>
+            <div className="rounded-2xl border border-border bg-card/75 p-4 shadow-soft backdrop-blur-2xl sm:p-5">
+              <div className="mb-5 flex items-center gap-3"><Clock className="size-4 text-muted-foreground" /><span className="w-10 text-right text-xs font-bold tabular-nums text-muted-foreground">{formatTime((progress / 100) * duration)}</span><RangeSlider value={progress} min={0} max={100} accentColor={primary} onChange={(e) => { const audio = audioRef.current; const value = parseFloat(e.target.value); if (audio && duration) audio.currentTime = (value / 100) * duration; setProgress(value); }} /><span className="w-10 text-xs font-bold tabular-nums text-muted-foreground">{formatTime(duration)}</span></div>
+              <div className="flex items-center gap-3 text-xs font-bold text-muted-foreground"><Volume2 className="size-4" /><span>Warm</span><RangeSlider value={tone} min={0} max={100} accentColor={primary} onChange={(e) => setTone(parseInt(e.target.value, 10))} /><span>Bright</span></div>
+            </div>
+          </main>
         </div>
       </motion.div>
     </motion.div>

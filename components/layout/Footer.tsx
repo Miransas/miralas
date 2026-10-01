@@ -2,29 +2,15 @@
 
 import React, { useCallback, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import {
-  IconBrandGithub,
-  IconBrandInstagram,
-  IconBrandTelegram,
-  IconBrandX,
-  type TablerIcon,
-} from '@tabler/icons-react';
 import { GlowButton } from '../ui/glow-button';
-import Image from 'next/image';
+import {
+  FOOTER_SECTIONS,
+  FOOTER_UTILITY_LINKS,
+  type FooterLink,
+  type FooterSection,
+} from '@/constants/footer';
 
 /* ── Types ──────────────────────────────────────────────────────── */
-
-export type FooterLink = {
-  label: string;
-  href: string;
-  icon?: TablerIcon | React.ComponentType<{ className?: string }>;
-  badge?: string;
-};
-
-export type FooterSection = {
-  title: string;
-  links: FooterLink[];
-};
 
 export interface SpotlightFooterProps {
   wordmark?: string;
@@ -35,73 +21,12 @@ export interface SpotlightFooterProps {
   className?: string;
 }
 
-/* ── Mock Data ──────────────────────────────────────────────────── */
-
-export const footerSections: FooterSection[] = [
-  {
-    title: 'Resources',
-    links: [
-      { label: 'Documentation', href: '/resources/docs' },
-      { label: 'Guides', href: '/resources/guides' },
-      { label: 'Changelog', href: '/resources/changelog' },
-      { label: 'Support', href: '/resources/support' },
-      { label: 'Contact Sales', href: '/resources/help-center' },
-      { label: 'Media', href: '/resources/media' },
-    ],
-  },
-  {
-    title: 'Products',
-    links: [
-      { label: 'Home', href: '/' },
-      { label: 'API', href: '/products/api' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Contact Us', href: '/resources/help-center' },
-      { label: 'Streamers', href: '/products/donate' },
-    ],
-  },
-  {
-    title: 'Studio',
-    links: [
-      { label: 'Text to Speech', href: '/studio/tts' },
-      { label: 'Voice Clone', href: '/studio/voice-clone' },
-      { label: 'Models', href: '/studio/models' },
-    ],
-  },
-  {
-    title: 'Enterprise',
-    links: [
-      { label: 'Status', href: 'https://status.miransas.com' },
-      { label: 'Security', href: 'https://privacy.miransas.com/miralas/security' },
-      { label: 'Miralas Terms', href: 'https://privacy.miransas.com/miralas/terms' },
-      { label: 'Cookie Policy', href: 'https://privacy.miransas.com/miralas/cookie' },
-    ],
-  },
-  {
-    title: 'Dashboards',
-    links: [
-      { label: 'Voice Clone', href: 'https://console.miralas.io/voice-clone' },
-      { label: 'Generate', href: 'https://console.miralas.io/generate' },
-      { label: 'Stream Donate', href: 'https://console.miralas.io/donate' },
-      { label: 'Your Projects', href: 'https://console.miralas.io/projects' },
-    ],
-  },
-  {
-    title: 'Social Media',
-    links: [
-      { label: 'Instagram', href: 'https://instagram.com/miralasio', icon: IconBrandInstagram },
-      { label: 'Twitter', href: 'https://twitter.com/miransaas', icon: IconBrandX },
-      { label: 'GitHub', href: 'https://github.com/miransas', icon: IconBrandGithub },
-      { label: 'Telegram', href: 'https://t.me/typesn', icon: IconBrandTelegram },
-    ],
-  },
-];
-
 /* ── Main Component ─────────────────────────────────────────────── */
 
 export function Footer({
   wordmark = 'MIRANSAS',
   tagline = '',
-  groups = footerSections,
+  groups = FOOTER_SECTIONS,
   copyright = `© ${new Date().getFullYear()} Miransas. All rights reserved.`,
   radius = 300,
   className,
@@ -131,11 +56,11 @@ export function Footer({
           <div className="max-w-md">
             {/* Logo */}
             <div className="flex items-center gap-3 mb-6">
-             <div className='dark:bg-background bg-black w-14 rounded-full'>
-               <img src={"https://raw.githubusercontent.com/Miransas/miransas/main/public/icons/logo.png"}
-                className='w-full object-contain'
-                alt='Logo' />
-             </div>
+              <div className='dark:bg-background bg-black w-14 rounded-full'>
+                <img src={"https://raw.githubusercontent.com/Miransas/miransas/main/public/icons/logo.png"}
+                  className='w-full object-contain'
+                  alt='Logo' />
+              </div>
               <span className="text-xl font-bold tracking-tight dark:text-stone-300">Miransas</span>
             </div>
             {/* Heading Content */}
@@ -200,16 +125,17 @@ export function Footer({
         <div className="flex flex-col sm:flex-row items-center justify-between border-t border-white/[0.06] pt-8 gap-4 text-[12px] dark:text-stone-400">
           <p>{copyright}</p>
           <div className="flex items-center gap-6">
-            <a href="https://status.miransas.com" className="hover:text-neutral-700 text-emerald-500 transition-colors">Status</a>
-            <a href="https://privacy.miransas.com" className="hover:text-neutral-300 transition-colors">Terms of Service</a>
-            <a href="https://privacy.miransas.com" className="hover:text-neutral-300 transition-colors">Privacy Policy</a>
-            <a href="https://privacy.miransas.com" className="hover:text-neutral-300 transition-colors">Cookie Policy</a>
+            {FOOTER_UTILITY_LINKS.map((link) => (
+              <a key={link.label} href={link.href} className="hover:text-neutral-300 transition-colors">
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Spotlight Big Typography Stage */}
-     <div
+      <div
         ref={stageRef}
         onPointerMove={handlePointerMove}
         onPointerLeave={() => setPointer(null)}
@@ -259,4 +185,4 @@ export function Footer({
   );
 }
 
-export default  Footer;
+export default Footer;

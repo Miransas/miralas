@@ -18,131 +18,11 @@ import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/providers/mode-toggle";
-
-type SubItem = {
-  label: string;
-  href: string;
-  description?: string;
-};
-
-type NavItem = {
-  label: string;
-  href: string;
-  description?: string;
-  items?: SubItem[];
-};
-
-// Numaralandırılmış rotalar ve linkler birebir aynı tutuldu.
-const navItems: NavItem[] = [
-  {
-    label: "Resources",
-    href: "/resources/about",
-    description: "Learn, build and stay updated.",
-    items: [
-      {
-        label: "Documentation",
-        href: "/resources/docs",
-        description: "Build with the Miralas platform.",
-      },
-      {
-        label: "Guides",
-        href: "/resources/guides",
-        description: "Practical guides and tutorials.",
-      },
-      {
-        label: "Media",
-        href: "/resources/media",
-        description: "Practical guides and tutorials.",
-      },
-      {
-        label: "Changelog",
-        href: "/resources/changelog",
-        description: "What's new across Miralas.",
-      },
-      {
-        label: "Support",
-        href: "/resources/support",
-        description: "Get help with your Miralas workspace.",
-      },
-      {
-        label: "Contact Sales",
-        href: "/resources/help-center",
-        description: "Talk to the Miralas team.",
-      },
-    ],
-  },
-  {
-    label: "Studio",
-    href: "/studio",
-    description: "Create, clone and generate.",
-    items: [
-      {
-        label: "Text to Speech",
-        href: "/studio/tts",
-        description: "Turn text into natural expressive speech.",
-      },
-      {
-        label: "Voice Clone",
-        href: "/studio/voice-clone",
-        description: "Clone and customize a voice.",
-      },
-      {
-        label: "Models",
-        href: "/studio/models",
-        description: "Explore Miralas voice models.",
-      },
-    ],
-  },
-  {
-    label: "Products",
-    href: "/products",
-    description: "Explore the Miralas platform.",
-    items: [
-      {
-        label: "Streamers",
-        href: "/products/donate",
-        description: "Generate natural and expressive AI speech.",
-      },
-      {
-        label: "API",
-        href: "/products/api",
-        description: "Integrate Miralas into your own products.",
-      },
-    ],
-  },
-  {
-    label: "Enterprise",
-    href: "/resources/support",
-    description: "Voice infrastructure for organizations.",
-    items: [
-      {
-        label: "Security",
-        href: "https://privacy.miransas.com/miralas/security",
-        description: "Security and compliance information.",
-      },
-      {
-        label: "Miralas Terms",
-        href: "https://privacy.miransas.com/miralas/terms",
-        description: "Support for enterprise teams.",
-      },
-       {
-        label: "Cookie Policy",
-        href: "https://privacy.miransas.com/miralas/cookie",
-        description: "Support for enterprise teams.",
-      },
-    ],
-  },
-  {
-    label: "Solutions",
-    href: "/solutions",
-    description: "Voice AI for real-world workflows.",
-    // coming soon items 
-  },
-  {
-    label: "Pricing",
-    href: "/pricing",
-  },
-];
+import {
+  HEADER_LINKS,
+  HEADER_NAV_ITEMS,
+  type HeaderNavItem,
+} from "@/constants/navbar";
 
 /* ---------------------------------------------------------------
    Header
@@ -222,7 +102,7 @@ export function Header() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  const hasActiveChild = (item: NavItem) => {
+  const hasActiveChild = (item: HeaderNavItem) => {
     return item.items?.some((subItem) => isPathActive(subItem.href)) ?? false;
   };
 
@@ -308,8 +188,8 @@ export function Header() {
 
   return (
     <>
-      {/* 
-        Artık dış boşlukları olmayan (inset-x-0, top-0) ve border-b (alt çizgi) destekli 
+      {/*
+        Artık dış boşlukları olmayan (inset-x-0, top-0) ve border-b (alt çizgi) destekli
         tam sayfa genişliğinde (w-full) yapışkan header.
       */}
       <header
@@ -321,12 +201,12 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          
+
           {/* =========================================================
               LOGO
           ========================================================= */}
           <Link
-            href="/"
+            href={HEADER_LINKS.home}
             aria-label="Miralas home"
             className="group flex shrink-0 items-center gap-3"
             onClick={() => {
@@ -369,7 +249,7 @@ export function Header() {
             className="hidden items-center gap-1 lg:flex"
             aria-label="Main navigation"
           >
-            {navItems.map((item) => {
+            {HEADER_NAV_ITEMS.map((item) => {
               const hasChildren = Boolean(item.items?.length);
               const isOpen = desktopOpen === item.label;
               const active = isPathActive(item.href) || hasActiveChild(item);
@@ -610,7 +490,7 @@ export function Header() {
             <ModeToggle />
 
             <Link
-              href="https://console.miralas.io/auth"
+              href={HEADER_LINKS.consoleAuth}
               className={cn(
                 "inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium transition",
                 t.btnGhost,
@@ -620,7 +500,7 @@ export function Header() {
             </Link>
 
             <Link
-              href="https://console.miralas.io/auth"
+              href={HEADER_LINKS.consoleAuth}
               className={cn(
                 "inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-lg shadow-zinc-950/15 transition hover:-translate-y-0.5",
                 t.btnPrimary,
@@ -733,7 +613,7 @@ export function Header() {
             >
               <div className="max-h-[calc(100dvh-120px)] overflow-y-auto">
                 <div className="space-y-1">
-                  {navItems.map((item) => {
+                  {HEADER_NAV_ITEMS.map((item) => {
                     const hasChildren = Boolean(item.items?.length);
                     const expanded = mobileSection === item.label;
                     const active =
@@ -926,7 +806,7 @@ export function Header() {
 
                   <div className="grid grid-cols-2 gap-2">
                     <Link
-                      href="https://console.miralas.io/auth"
+                      href={HEADER_LINKS.consoleAuth}
                       onClick={handleMobileLink}
                       className={cn(
                         "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium transition",
@@ -937,7 +817,7 @@ export function Header() {
                     </Link>
 
                     <Link
-                      href="https://console.miralas.io/auth"
+                      href={HEADER_LINKS.consoleAuth}
                       onClick={handleMobileLink}
                       className={cn(
                         "inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold transition hover:bg-card",
@@ -949,7 +829,7 @@ export function Header() {
                   </div>
 
                   <Link
-                    href="/studio"
+                    href={HEADER_LINKS.studio}
                     onClick={handleMobileLink}
                     className={cn(
                       "group relative mt-3 block overflow-hidden rounded-2xl p-4",

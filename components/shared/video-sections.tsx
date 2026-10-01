@@ -1,21 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 
-import { GlassShaderCard, type ShaderTone } from "./glass-shader-card";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./reval";
-
-const TONES: ShaderTone[] = ["navy", "coral", "cream"];
 
 export function VideoSections() {
   const reduce = useReducedMotion();
 
   if (reduce) {
     return (
-      <section className="bg-void">
+      <section className="bg-background">
         <div className="px-4 py-6 md:p-[100px]">
-          <VideoFrame className="aspect-video overflow-hidden rounded-[22px] md:rounded-[28px]" />
+          <VideoFrame className="aspect-video overflow-hidden rounded-2xl md:rounded-3xl border border-border" />
         </div>
         <CardRow />
       </section>
@@ -23,7 +20,7 @@ export function VideoSections() {
   }
 
   return (
-    <section className="bg-void">
+    <section className="bg-background">
       <PinnedVideo />
       <CardRow />
     </section>
@@ -47,16 +44,14 @@ function PinnedVideo() {
     offset: ["start start", "end start"],
   });
 
-  // useSpring KALDIRILDI — Lenis zaten smooth scroll yapıyor.
-  // Çift yumuşatma (Lenis + useSpring) "takılma" ve "jelly" hissi yaratır.
   const inset = useTransform(scrollYProgress, [0, 1], [0, maxInset]);
-  const radius = useTransform(scrollYProgress, [0, 1], [0, 28]);
+  const radius = useTransform(scrollYProgress, [0, 1], [0, 24]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
   const opacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.4]);
 
   return (
     <div ref={ref} className="relative h-[170vh] md:h-[150vh]">
-      <div className="sticky top-0 h-[100dvh] overflow-hidden bg-void">
+      <div className="sticky top-0 h-[100dvh] overflow-hidden bg-background">
         <motion.div
           style={{
             position: "absolute",
@@ -67,7 +62,7 @@ function PinnedVideo() {
             borderRadius: radius,
             opacity,
           }}
-          className="overflow-hidden bg-navy shadow-[0_40px_80px_-32px_rgba(0,0,0,0.55)]"
+          className="overflow-hidden bg-card border border-border shadow-2xl"
         >
           <motion.div style={{ scale }} className="h-full w-full">
             <VideoFrame className="h-full w-full" />
@@ -88,9 +83,7 @@ function VideoFrame({ className }: { className?: string }) {
     const el = ref.current;
     if (!el) return;
 
-    const src = window.matchMedia("(max-width: 767px)").matches
-      ? "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787512184/229254_medium_qc3ckw.mp4"
-      : "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787512184/229254_medium_qc3ckw.mp4";
+    const src = "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787512184/229254_medium_qc3ckw.mp4";
 
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -114,7 +107,7 @@ function VideoFrame({ className }: { className?: string }) {
     return (
       <img
         src="/media/studio.jpg"
-        alt=""
+        alt="Studio background"
         width={1280}
         height={720}
         decoding="async"
@@ -134,10 +127,10 @@ function VideoFrame({ className }: { className?: string }) {
       poster="/media/studio.jpg"
       width={1280}
       height={720}
-      src={"https://res.cloudinary.com/dwdk20m6q/video/upload/v1787512184/229254_medium_qc3ckw.mp4"}
+      src="https://res.cloudinary.com/dwdk20m6q/video/upload/v1787512184/229254_medium_qc3ckw.mp4"
       disablePictureInPicture
       disableRemotePlayback
-      aria-label="Fora community space on a studio screen"
+      aria-label="Miralas platform preview video"
       aria-hidden={!active}
     />
   );
@@ -155,22 +148,22 @@ function CardRow() {
   const cardOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   return (
-    <motion.div 
+    <motion.div
       ref={ref}
       style={{ y, opacity: cardOpacity }}
-      className="bg-void px-5 pb-24 pt-6 md:px-8 md:pb-32 md:pt-10"
+      className="bg-background px-5 pb-24 pt-6 md:px-8 md:pb-32 md:pt-10 max-w-7xl mx-auto"
     >
-      <div className="mx-auto grid max-w-full gap-4 md:grid-cols-3">
+      <div className="grid max-w-full gap-6 md:grid-cols-3">
         {VIDEO_CARDS.map((card, i) => (
           <Reveal key={card.title} delay={i * 0.08}>
-            <article className="h-full rounded-[22px] border border-border bg-card p-6 md:p-7">
-              <p className="font-mono text-[11px] tracking-wide text-coral-2">
+            <article className="h-full rounded-2xl border border-border bg-card p-6 md:p-8 shadow-sm transition-all duration-300 hover:border-border/80">
+              <span className="font-mono text-xs font-semibold tracking-wider text-muted-foreground uppercase">
                 {card.kicker}
-              </p>
-              <h3 className="mt-4 font-display text-2xl leading-tight tracking-tight text-cream">
+              </span>
+              <h3 className="mt-3 text-xl font-bold tracking-tight text-foreground">
                 {card.title}
               </h3>
-              <p className="mt-3 text-[14px] leading-relaxed text-cream/65">
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 {card.body}
               </p>
             </article>
@@ -192,7 +185,7 @@ export const VIDEO_CARDS = [
   {
     kicker: "02",
     title: "Ultra-Low Latency Speech Generation",
-    body: "Convert complex text to natural audio streams in milliseconds. Engine-optimized for native Uzbek phonetics, regional cadence, and emotional inflection without robotic pauses.",
+    body: "Convert complex text to natural audio streams in milliseconds. Engine-optimized for native phonetics, regional cadence, and emotional inflection without robotic pauses.",
     badge: "Streaming TTS",
     metrics: "<150ms Latency"
   },
