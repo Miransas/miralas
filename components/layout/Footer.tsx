@@ -82,9 +82,9 @@ export function Footer({
               type="email"
               placeholder="Enter your email address"
               required
-              className="w-full sm:w-80 rounded-md border border-white/[0.1] bg-white/[0.03] px-4 py-2.5 text-[14px] text-stone-200 placeholder:text-stone-500 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400 transition-colors"
+              className="w-full sm:w-80 rounded-md border dark:border-white/[0.1] border-zinc-200 dark:bg-white/[0.03] px-4 py-2.5 text-[14px] text-stone-200 placeholder:text-stone-500 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400 transition-colors"
             />
-            <GlowButton>
+            <GlowButton className='' size='md'>
 
             </GlowButton>
           </form>

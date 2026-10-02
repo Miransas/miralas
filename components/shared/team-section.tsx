@@ -13,7 +13,7 @@ const ARTISTS = [
     image:
       "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800",
     stats: { followers: "24", views: "1.8K" },
-    buttonText: "Follow",
+    buttonText: "Listen",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const ARTISTS = [
     image:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
     stats: { followers: "142", views: "12.4K" },
-    buttonText: "Voice AI",
+    buttonText: "Listen",
   },
   {
     id: 3,
@@ -43,13 +43,13 @@ const ARTISTS = [
     image:
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
     stats: { followers: "310", views: "24.1K" },
-    buttonText: "Profile",
+    buttonText: "Listen",
   },
 ];
 
 export default function TeamSection() {
   return (
-    <section className="w-full bg-white dark:bg-black py-24 px-6 md:px-12 font-sans transition-colors duration-300">
+    <section className="w-full bg-background dark:bg-black py-24 px-6 md:px-12 font-sans transition-colors duration-300">
       <div className="max-w-[1200px] mx-auto space-y-12">
         {/* Başlık Bölümü */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-200/80 dark:border-white/[0.08] pb-8">
@@ -121,7 +121,7 @@ export default function TeamSection() {
                   {/* Sağ Buton */}
                   <button
                     type="button"
-                    className="px-4 py-1.5 rounded-full bg-white/90 hover:bg-white text-zinc-900 text-xs font-medium transition-all duration-200 active:scale-95 backdrop-blur-md shadow-sm"
+                    className="px-4 py-1.5 cursor-pointer rounded-full bg-white/90 hover:bg-white text-zinc-900 text-xs font-medium transition-all duration-200 active:scale-95 backdrop-blur-md shadow-sm"
                   >
                     {artist.buttonText}
                   </button>

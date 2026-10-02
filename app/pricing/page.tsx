@@ -262,7 +262,7 @@ export default function PricingPage() {
   return (
     <SmoothScroll>
       <div className="min-h-screen bg-card text-foreground transition-colors duration-300 dark:bg-background dark:text-foreground">
-        <Header />
+       
         {/* ===================== HERO ===================== */}
         <section className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-20">
           <div className="absolute inset-0 -z-10">
@@ -418,7 +418,7 @@ export default function PricingPage() {
             </motion.div>
           </div>
         </section>
-        <Footer />
+       
       </div>
     </SmoothScroll>
   );

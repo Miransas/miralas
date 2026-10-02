@@ -85,7 +85,7 @@ export default function GuidesPage() {
   return (
     <SmoothScroll>
       <div className="min-h-screen bg-background text-foreground font-sans ">
-        <Header />
+      
         {/* Main body */}
         <main className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
 
@@ -204,7 +204,7 @@ export default function GuidesPage() {
         </main>
 
         {/* Footer area */}
-        <Footer />
+      
       </div>
     </SmoothScroll>
   )

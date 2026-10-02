@@ -230,7 +230,7 @@ export default function Solutions() {
   return (
     <SmoothScroll>
       <main className="relative min-h-screen overflow-hidden bg-background text-foreground font-sans transition-colors duration-300">
-        <Header />
+      
         <section className="relative z-10 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
           <div className="mx-auto w-full max-w-7xl">
             {/* ═══ HEADER (Simple) ═══ */}
@@ -300,7 +300,7 @@ export default function Solutions() {
           </div>
         </section>
 
-        <Footer />
+       
       </main>
     </SmoothScroll>
   );

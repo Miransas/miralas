@@ -14,6 +14,9 @@ import TestimonialSection from '../components/shared/testimonial'
 import { IntegrationCardDemo } from '../components/shared/integration'
 import VoiceFeaturesSection from '../components/shared/VoiceFeaturesSection'
 import TeamSection from '../components/shared/team-section'
+import LiveSection from '../components/shared/live-section'
+import SpeechToTextSection from '../components/shared/SpeechToTextSection'
+import VoiceLibrarySection from '../components/shared/VoiceLibrarySection'
 
 
 
@@ -23,17 +26,21 @@ const page = () => {
   return (
     <SmoothScroll>
       <div>
-        <Header />
+        
         <Hero />
         {/* <VoiceLibrary /> */}
         <FeatureSection />
         <VoiceFeaturesSection/>
-         <VideoSections/>
+        <VoiceLibrarySection/>
+        <SpeechToTextSection/>
+      
+        {/* <LiveSection/> */}
+         {/* <VideoSections/> */}
          <TeamSection/>
         <FaqSection />
         <TestimonialSection/>
         {/* <IntegrationCardDemo/> */}
-        <Footer />
+       
       </div>
 
     </SmoothScroll>

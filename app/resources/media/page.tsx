@@ -214,14 +214,14 @@ export default function MediaPage() {
       
       <div className="min-h-screen bg-white dark:bg-black text-foreground font-sans selection:bg-stone-200">
         {/* Header */}
-        <Header />
+       
 
         {/* Hero Video */}
         <HeroVideo />
 
       
         {/* Footer */}
-        <Footer />
+      
 
         {/* Marquee CSS */}
         <style jsx global>{`

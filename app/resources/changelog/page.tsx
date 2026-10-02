@@ -56,7 +56,7 @@ export default function ChangelogPage() {
 
     <SmoothScroll>
       <div className="min-h-screen bg-background text-foreground font-sans ">
-        <Header />
+     
         {/* Main body */}
         <main className="mx-auto max-w-3xl px-6 py-16 sm:py-24">
 
@@ -149,7 +149,7 @@ export default function ChangelogPage() {
           </div>
         </footer>
 
-        <Footer />
+     
       </div>
     </SmoothScroll>
   );

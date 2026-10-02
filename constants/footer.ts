@@ -1,19 +1,14 @@
 import {
-  Clock,
-  Globe,
   Headphones,
-  Mail,
-  MapPin,
-  MessageSquare,
   Sparkles,
   Users,
 } from "lucide-react";
 import type { ComponentType } from "react";
 import {
-  IconBrandGithub,
   IconBrandInstagram,
-  IconBrandTelegram,
   IconBrandX,
+  IconBrandGithub,
+  IconBrandTelegram,
   type TablerIcon,
 } from "@tabler/icons-react";
 
@@ -22,6 +17,7 @@ export type FooterLink = {
   href: string;
   icon?: TablerIcon | ComponentType<{ className?: string }>;
   badge?: string;
+  target?: "_blank" | "_self";
 };
 
 export type FooterSection = {
@@ -33,6 +29,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Resources",
     links: [
+      { label: "About", href: "/resources/about" },
       { label: "Documentation", href: "/resources/docs" },
       { label: "Guides", href: "/resources/guides" },
       { label: "Changelog", href: "/resources/changelog" },
@@ -62,42 +59,40 @@ export const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Enterprise",
     links: [
-      { label: "Status Miransas", href: "https://status.miransas.com" },
-      { label: "Status Miralas", href: "https://stats.uptimerobot.com/jkUgMNgsLw" },
-      { label: "Security", href: "https://privacy.miransas.com/miralas/security" },
-      { label: "Miralas Terms", href: "https://privacy.miransas.com/miralas/terms" },
-      { label: "Cookie Policy", href: "https://privacy.miransas.com/miralas/cookie" },
+      { label: "Status Miransas", href: "https://status.miransas.com", target: "_blank" },
+      { label: "Status Miralas", href: "https://stats.uptimerobot.com/jkUgMNgsLw", target: "_blank" },
+      { label: "Security", href: "https://privacy.miransas.com/miralas/security", target: "_blank" },
+      { label: "Miralas Terms", href: "https://privacy.miransas.com/miralas/terms", target: "_blank" },
+      { label: "Cookie Policy", href: "https://privacy.miransas.com/miralas/cookie", target: "_blank" },
     ],
   },
   {
     title: "Dashboards",
     links: [
-      { label: "Voice Clone", href: "https://console.miralas.io/voice-clone" },
-      { label: "Generate", href: "https://console.miralas.io/generate" },
-      { label: "Stream Donate", href: "https://console.miralas.io/donate" },
-      { label: "Your Projects", href: "https://console.miralas.io/projects" },
+      { label: "Voice Clone", href: "https://console.miralas.io/voice-clone", target: "_blank" },
+      { label: "Generate", href: "https://console.miralas.io/generate", target: "_blank" },
+      { label: "Stream Donate", href: "https://console.miralas.io/donate", target: "_blank" },
+      { label: "Your Projects", href: "https://console.miralas.io/projects", target: "_blank" },
     ],
   },
   {
     title: "Social Media",
     links: [
-      { label: "Instagram", href: "https://instagram.com/miralasio", icon: IconBrandInstagram },
-      { label: "Twitter", href: "https://twitter.com/miransaas", icon: IconBrandX },
-      { label: "GitHub", href: "https://github.com/miransas", icon: IconBrandGithub },
-      { label: "Telegram", href: "https://t.me/typesn", icon: IconBrandTelegram },
+      { label: "Instagram", href: "https://instagram.com/miralasio", icon: IconBrandInstagram, target: "_blank" },
+      { label: "Twitter", href: "https://twitter.com/miransaas", icon: IconBrandX, target: "_blank" },
+      { label: "GitHub", href: "https://github.com/miransas", icon: IconBrandGithub, target: "_blank" },
+      { label: "Telegram", href: "https://t.me/typesn", icon: IconBrandTelegram, target: "_blank" },
     ],
   },
 ];
 
 export const FOOTER_UTILITY_LINKS: FooterLink[] = [
-  { label: "Status Miransas", href: "https://status.miransas.com" },
-  { label: "Status Miralas", href: "https://stats.uptimerobot.com/jkUgMNgsLw" },
-  { label: "Terms of Service", href: "https://privacy.miransas.com" },
-  { label: "Privacy Policy", href: "https://privacy.miransas.com" },
-  { label: "Cookie Policy", href: "https://privacy.miransas.com" },
+  { label: "Status Miransas", href: "https://status.miransas.com", target: "_blank" },
+  { label: "Status Miralas", href: "https://stats.uptimerobot.com/jkUgMNgsLw", target: "_blank" },
+  { label: "Terms of Service", href: "https://privacy.miransas.com", target: "_blank" },
+  { label: "Privacy Policy", href: "https://privacy.miransas.com", target: "_blank" },
+  { label: "Cookie Policy", href: "https://privacy.miransas.com", target: "_blank" },
 ];
-
-
 
 export const CONTACT_DATA = {
   header: {

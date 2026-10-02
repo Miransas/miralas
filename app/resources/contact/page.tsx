@@ -62,7 +62,7 @@ export default function ContactSection() {
 
   return (
     <section className="min-h-screen bg-background font-sans text-foreground py-12 md:py-20">
-      <main className="mx-auto max-w-[1400px] px-6">
+      <main className="mx-auto max-w-[1200px] px-6">
 
         <motion.div
           initial="hidden"

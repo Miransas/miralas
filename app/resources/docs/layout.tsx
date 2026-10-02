@@ -10,7 +10,7 @@ export default function DocsLayout({
 }) {
   return (
     <main>
-      <Header />
+     
       <div className="min-h-screen bg-background pt-14 dark:bg-black bg-background">
 
         <div className="mx-auto flex w-full max-w-[1400px]">
@@ -25,7 +25,7 @@ export default function DocsLayout({
           </div>
         </div>
       </div>
-      <Footer />
+     
     </main>
   );
 }

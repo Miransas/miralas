@@ -8,11 +8,11 @@ import ModelsHero from "./hero-models";
 const page = () => {
   return (
     <div>
-      <Header/>
+    
       <div className="pt-20">
         <ModelsHero/>
       </div>
-      <Footer/>
+  
     </div>
   )
 }

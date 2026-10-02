@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Mail, HelpCircle } from "lucide-react";
 import { FAQS, FaqItem } from "@/constants/faq";
 import RobotEyes from "./robot-eyes";
+import Integration from "./integration";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -105,8 +106,8 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-white dark:bg-black py-24 sm:py-32 font-sans transition-colors duration-300">
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-12">
+    <section className="bg-background dark:bg-black py-24 sm:py-32 font-sans transition-colors duration-300">
+      <div className="mx-auto max-w-6xl px-6 lg:px-12">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
 
           {/* SOL KOLON: Başlık + RobotEyes AI Widget Kartı */}
@@ -129,11 +130,11 @@ export default function FaqSection() {
             </div>
 
             {/* RobotEyes AI Widget Kartı */}
-            <div className="relative overflow-hidden p-8 flex flex-col items-center justify-center gap-6 text-center shadow-sm backdrop-blur-xl">
-              <div className="flex items-center gap-2 self-start bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 px-3 py-1.5 rounded-full">
+            <div className="relative overflow-hidden p-8 flex flex-col items-center justify-center gap-6 text-center ">
+              <div className="flex items-center gap-2 self-start bg-background dark:bg-white/5 border border-zinc-200 dark:border-white/10 px-3 py-1.5 rounded-full">
                 <span className="relative flex size-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+                  {/* <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500"></span> */}
                 </span>
                 <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-300">
                   Interactive Assistant
@@ -141,8 +142,9 @@ export default function FaqSection() {
               </div>
 
               {/* RobotEyes Bileşeni */}
-              <div className="py-4 scale-110">
-                <RobotEyes />
+              <div className="">
+                {/* <Integration/> */}
+                <RobotEyes /> 
               </div>
 
               <p className="text-xs text-zinc-500 dark:text-zinc-500 font-medium tracking-wide">
