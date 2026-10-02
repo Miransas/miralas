@@ -9,6 +9,7 @@ import {
   type FooterLink,
   type FooterSection,
 } from '@/constants/footer';
+import FooterLocation from './footerLocations';
 
 /* ── Types ──────────────────────────────────────────────────────── */
 
@@ -123,6 +124,7 @@ export function Footer({
 
         {/* Separator / Copyright Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between border-t border-white/[0.06] pt-8 gap-4 text-[12px] dark:text-stone-400">
+      {/* <FooterLocation /> */}
           <p>{copyright}</p>
           <div className="flex items-center gap-6">
             {FOOTER_UTILITY_LINKS.map((link) => (

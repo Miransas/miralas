@@ -12,6 +12,8 @@ import { VideoOffIcon } from 'lucide-react'
 import { VideoSections } from '../components/shared/video-sections'
 import TestimonialSection from '../components/shared/testimonial'
 import { IntegrationCardDemo } from '../components/shared/integration'
+import VoiceFeaturesSection from '../components/shared/VoiceFeaturesSection'
+import TeamSection from '../components/shared/team-section'
 
 
 
@@ -25,7 +27,9 @@ const page = () => {
         <Hero />
         {/* <VoiceLibrary /> */}
         <FeatureSection />
+        <VoiceFeaturesSection/>
          <VideoSections/>
+         <TeamSection/>
         <FaqSection />
         <TestimonialSection/>
         {/* <IntegrationCardDemo/> */}

@@ -21,7 +21,7 @@ export default function HeroSection() {
       {/* Shader Arka Planı & Okunabilirlik Maskesi */}
       <div className="absolute inset-0 z-0 opacity-80 dark:opacity-60 pointer-events-none">
         <ShaderAnimation />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" /> */}
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12 w-full flex flex-col justify-between gap-16">
@@ -88,7 +88,7 @@ export default function HeroSection() {
         </div>
 
         {/* Öne Çıkan Kartlar Row */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.45, ease: "easeOut" }}
@@ -119,7 +119,7 @@ export default function HeroSection() {
               </div>
             );
           })}
-        </motion.div>
+        </motion.div> */}
 
       </div>
     </section>
