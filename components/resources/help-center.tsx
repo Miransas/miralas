@@ -7,22 +7,14 @@ import {
   Search,
   ChevronRight,
   Plus,
-  MessageSquare,
-  ArrowUpRight,
-  FileText,
   Clock,
-  TrendingUp,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  FileText,
+  ChevronDown
 } from "lucide-react";
 import { CATEGORIES, HelpFaqs } from "../../constants/resources/help-center";
 import SmoothScroll from "../providers/SmoothScroll";
-
-
-
-function cn(...classes: (string | false | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 // ─── DATA ───
 const ALL_ARTICLES = CATEGORIES.flatMap((cat) =>
@@ -42,17 +34,17 @@ const POPULAR = [
 function SearchBar({ query, setQuery }: { query: string; setQuery: (s: string) => void }) {
   return (
     <div className="relative w-full max-w-2xl mx-auto group">
-      <Search className="absolute left-6 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-foreground transition-colors" />
+      <Search className="absolute left-6 top-1/2 -translate-y-1/2 size-5 text-zinc-400 dark:text-zinc-500 group-focus-within:text-zinc-950 dark:group-focus-within:text-white transition-colors" />
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for guides, API endpoints, or billing..."
-        className="w-full bg-card/40 backdrop-blur-md border border-border/50 rounded-full py-5 pl-16 pr-16 text-lg font-light text-foreground focus:outline-none focus:border-[#c9a87c]/50 focus:bg-card/80 transition-all placeholder:text-muted-foreground shadow-2xl"
+        className="w-full bg-white dark:bg-[#141210] rounded-[32px] py-5 pl-16 pr-16 text-lg font-medium text-zinc-950 dark:text-white focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:focus:ring-white/5 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500 shadow-sm"
       />
       {query && (
         <button
           onClick={() => setQuery("")}
-          className="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
+          className="absolute right-5 top-1/2 -translate-y-1/2 text-xs font-bold text-zinc-500 hover:text-zinc-950 dark:hover:text-white bg-[#F2F2F2] dark:bg-white/5 px-4 py-2 rounded-full transition-colors"
         >
           Clear
         </button>
@@ -71,30 +63,32 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.04, duration: 0.4 }}
-      className="group overflow-hidden rounded-2xl bg-card/20 border border-border/40 hover:bg-card/40 hover:border-border/80 transition-all duration-300"
+      className="group overflow-hidden rounded-[32px] bg-white dark:bg-[#141210] transition-colors duration-300"
     >
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-start gap-4 p-6 text-left"
+        className="w-full flex items-start gap-5 p-8 text-left focus:outline-none"
       >
         <div
-          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-background border border-border/50 transition-colors"
+          className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#F2F2F2] dark:bg-white/5 transition-colors"
           style={{ color: cat.color }}
         >
-          <Icon className="size-4" strokeWidth={1.8} />
+          <Icon className="size-5" strokeWidth={2} />
         </div>
-        <div className="min-w-0 flex-1 mt-0.5">
-          <h3 className="text-base font-medium text-foreground group-hover:text-[#c9a87c] transition-colors">
+        <div className="min-w-0 flex-1 mt-1">
+          <h3 className="text-[17px] font-bold text-zinc-950 dark:text-white transition-colors">
             {cat.title}
           </h3>
-          <p className="text-sm font-light text-muted-foreground mt-1 leading-relaxed">{cat.desc}</p>
+          <p className="text-[15px] text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed pr-4">
+            {cat.desc}
+          </p>
         </div>
         <motion.div
           animate={{ rotate: expanded ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="p-1 rounded-full border border-transparent group-hover:border-border/50 transition-colors shrink-0 mt-0.5"
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className="p-1.5 rounded-full bg-[#F2F2F2] dark:bg-white/5 text-zinc-950 dark:text-white shrink-0 mt-1"
         >
-          <Plus className="size-4 text-muted-foreground" />
+          <Plus className="size-5" />
         </motion.div>
       </button>
 
@@ -104,19 +98,19 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 pt-0">
-              <div className="mb-4 h-px bg-border/30 ml-14" />
-              <ul className="space-y-1 ml-14">
+            <div className="px-8 pb-8 pt-0">
+              <div className="mb-4 h-px bg-[#F2F2F2] dark:bg-white/5 ml-[68px]" />
+              <ul className="space-y-1.5 ml-[68px]">
                 {cat.articles.map((article) => (
                   <li key={article}>
                     <Link
                       href={`/help/${cat.id}/${article.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-light text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
+                      className="flex items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium text-zinc-500 dark:text-zinc-400 transition-colors hover:bg-[#F2F2F2] dark:hover:bg-white/5 hover:text-zinc-950 dark:hover:text-white"
                     >
-                      <FileText className="size-3.5 opacity-50 shrink-0" />
+                      <FileText className="size-4 shrink-0" />
                       <span className="truncate">{article}</span>
                     </Link>
                   </li>
@@ -134,7 +128,7 @@ function FaqAccordion({ faqs }: { faqs: typeof HelpFaqs }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       {faqs.map((faq, i) => {
         const isOpen = openIndex === i;
         return (
@@ -144,19 +138,21 @@ function FaqAccordion({ faqs }: { faqs: typeof HelpFaqs }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.04, duration: 0.35 }}
-            className="group rounded-2xl bg-card/20 border border-border/40 overflow-hidden"
+            className="group rounded-[32px] bg-white dark:bg-[#141210] overflow-hidden transition-colors duration-300"
           >
             <button
               onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="flex w-full items-center justify-between gap-4 p-6 text-left hover:bg-card/40 transition-colors"
+              className="w-full flex items-center justify-between gap-6 px-8 py-6 text-left focus:outline-none"
             >
-              <span className="text-base font-medium text-foreground">{faq.q}</span>
+              <span className="text-[17px] font-bold text-zinc-950 dark:text-white leading-snug">
+                {faq.q}
+              </span>
               <motion.div
-                animate={{ rotate: isOpen ? 45 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="p-1 rounded-full border border-border/30 group-hover:border-border/80 transition-colors shrink-0"
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="shrink-0 text-zinc-900 dark:text-white"
               >
-                <Plus className="size-4 text-muted-foreground" />
+                <ChevronDown className="size-6" strokeWidth={2.5} />
               </motion.div>
             </button>
 
@@ -166,12 +162,12 @@ function FaqAccordion({ faqs }: { faqs: typeof HelpFaqs }) {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
                   className="overflow-hidden"
                 >
-                  <p className="px-6 pb-6 text-sm font-light leading-relaxed text-muted-foreground max-w-3xl">
+                  <div className="px-8 pb-8 text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
                     {faq.a}
-                  </p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -194,18 +190,18 @@ export default function HelpCenter() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-background text-foreground selection:bg-muted selection:text-foreground">
+      <div className="min-h-screen bg-[#F2F2F2] dark:bg-zinc-950 font-sans antialiased">
         
-        {/* HERO / ARAMA BÖLÜMÜ (Merkez Odaklı) */}
-        <section className="relative pt-32 pb-20 px-6 flex flex-col items-center text-center max-w-4xl mx-auto overflow-hidden">
+        {/* HERO / ARAMA BÖLÜMÜ */}
+        <section className="relative pt-32 pb-20 px-6 flex flex-col items-center text-center max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/30 backdrop-blur-sm px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              <Clock className="size-3 text-[#c9a87c]" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-white/5 px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-300 shadow-sm">
+              <Clock className="size-3.5 text-zinc-950 dark:text-white" />
               24/7 Support Center
             </span>
           </motion.div>
@@ -214,16 +210,16 @@ export default function HelpCenter() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-light tracking-tight text-foreground mb-6"
+            className="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.1]"
           >
-            How can we <span className="italic text-muted-foreground">help?</span>
+            How can we <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">help?</span>
           </motion.h1>
           
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg font-light text-muted-foreground max-w-xl mx-auto mb-12 leading-relaxed"
+            className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto mb-12 leading-relaxed"
           >
             Search our knowledge base, explore API documentation, or get in touch with our engineering team.
           </motion.p>
@@ -247,33 +243,33 @@ export default function HelpCenter() {
               exit={{ opacity: 0, height: 0 }}
               className="mx-auto max-w-3xl px-6 mb-16 overflow-hidden"
             >
-              <div className="rounded-3xl border border-border/50 bg-card/30 backdrop-blur-md p-6">
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+              <div className="rounded-[32px] bg-white dark:bg-[#141210] p-8 shadow-sm">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-6">
                   {filtered.length} results for "{query}"
                 </h3>
                 {filtered.length > 0 ? (
-                  <ul className="space-y-1">
+                  <ul className="space-y-2">
                     {filtered.map((item, i) => (
                       <li key={i}>
                         <Link
                           href={`/help/${item.catId}`}
-                          className="flex items-center gap-4 rounded-2xl px-4 py-3 hover:bg-muted/50 transition-colors group"
+                          className="flex items-center gap-4 rounded-2xl px-5 py-4 hover:bg-[#F2F2F2] dark:hover:bg-white/5 transition-colors group"
                         >
                           <span
-                            className="size-1.5 rounded-full shrink-0 shadow-[0_0_8px_currentColor]"
-                            style={{ backgroundColor: item.color, color: item.color }}
+                            className="size-2 rounded-full shrink-0 shadow-sm"
+                            style={{ backgroundColor: item.color }}
                           />
-                          <span className="text-sm font-medium text-foreground">{item.title}</span>
-                          <span className="text-xs font-light text-muted-foreground ml-auto shrink-0">{item.category}</span>
-                          <ChevronRight className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all shrink-0" />
+                          <span className="text-base font-bold text-zinc-950 dark:text-white">{item.title}</span>
+                          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 ml-auto shrink-0">{item.category}</span>
+                          <ChevronRight className="size-5 text-zinc-400 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all shrink-0" />
                         </Link>
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <div className="text-center py-12">
-                    <AlertCircle className="size-6 text-muted-foreground/50 mx-auto mb-3" />
-                    <p className="text-sm font-light text-muted-foreground">No results found. Try alternative keywords.</p>
+                    <AlertCircle className="size-8 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
+                    <p className="text-base font-medium text-zinc-500">No results found. Try alternative keywords.</p>
                   </div>
                 )}
               </div>
@@ -292,8 +288,8 @@ export default function HelpCenter() {
               transition={{ duration: 0.5 }}
               className="mb-24"
             >
-              <div className="flex items-center gap-2 mb-8">
-                <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
                   Most Popular
                 </h2>
               </div>
@@ -308,18 +304,18 @@ export default function HelpCenter() {
                   >
                     <Link
                       href={`/help/${item.catId}`}
-                      className="group flex flex-col gap-3 rounded-2xl border border-border/40 bg-card/20 p-6 hover:bg-card/40 hover:border-border/80 transition-all duration-300 h-full"
+                      className="group flex flex-col gap-4 rounded-[32px] bg-white dark:bg-[#141210] p-8 hover:scale-[1.02] transition-transform duration-300 h-full shadow-sm"
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">
                           {item.category}
                         </span>
                         <span
-                          className="size-1.5 rounded-full shrink-0 shadow-[0_0_8px_currentColor]"
-                          style={{ backgroundColor: item.color, color: item.color }}
+                          className="size-2 rounded-full shrink-0 shadow-sm"
+                          style={{ backgroundColor: item.color }}
                         />
                       </div>
-                      <p className="text-base font-medium text-foreground group-hover:text-[#c9a87c] transition-colors">
+                      <p className="text-lg font-bold text-zinc-950 dark:text-white leading-snug">
                         {item.title}
                       </p>
                     </Link>
@@ -332,8 +328,8 @@ export default function HelpCenter() {
           {/* KATEGORİLER GRİDİ */}
           {!query.trim() && (
             <section className="mb-24">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
                   Browse by Topic
                 </h2>
               </div>
@@ -347,7 +343,7 @@ export default function HelpCenter() {
 
           {/* SSS (FAQ) */}
           <section className="mb-24 max-w-3xl mx-auto">
-            <h2 className="text-2xl font-light text-foreground mb-8 tracking-tight text-center">
+            <h2 className="text-3xl font-bold text-zinc-950 dark:text-white mb-10 tracking-tight text-center">
               Frequently Asked Questions
             </h2>
             <FaqAccordion faqs={HelpFaqs} />
@@ -361,14 +357,16 @@ export default function HelpCenter() {
             transition={{ duration: 0.5 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <div className="p-12 rounded-[2rem] bg-gradient-to-b from-card/30 to-transparent border border-border/40 flex flex-col items-center">
-              <h2 className="text-2xl font-light text-foreground mb-4 tracking-tight">Can't find what you're looking for?</h2>
-              <p className="text-sm font-light text-muted-foreground mb-8 max-w-md leading-relaxed">
+            <div className="p-12 sm:p-16 rounded-[40px] bg-white dark:bg-[#141210] flex flex-col items-center shadow-sm">
+              <h2 className="text-3xl font-extrabold text-zinc-950 dark:text-white mb-4 tracking-tight">
+                Can't find what you're looking for?
+              </h2>
+              <p className="text-base text-zinc-500 dark:text-zinc-400 mb-8 max-w-md leading-relaxed">
                 Our engineering and support teams are available to help you build the future of voice.
               </p>
               <Link
                 href="/resources/support"
-                className="inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-3 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-8 py-4 rounded-full text-sm font-bold hover:opacity-90 transition-opacity"
               >
                 <span>Contact Support</span>
                 <ArrowRight className="size-4" />

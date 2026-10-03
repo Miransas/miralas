@@ -158,7 +158,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-        {/* {isLocked && <ComingSoonModal />}  */}
+        {isLocked && <ComingSoonModal />}  
         <Header/>
           {children}
           <Footer/>

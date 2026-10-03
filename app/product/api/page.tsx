@@ -5,7 +5,7 @@ import ApiSectionFAQ from '../../../components/api/api-faqs'
 const page = () => {
   return (
     <div>
-      <ApiHeroSection/>
+      {/* <ApiHeroSection/> */}
       <ApiSectionFAQ/>
     </div>
   )

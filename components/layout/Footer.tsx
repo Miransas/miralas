@@ -42,7 +42,7 @@ export function Footer({
   return (
     <footer
       className={cn(
-        'relative w-full overflow-hidden border-t border-zinc-200/80 dark:border-white/10 bg-[#fafafa] dark:bg-[#030303] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
+        'relative w-full overflow-hidden border-t border-zinc-200/80 dark:border-white/10 bg-[#fafafa] dark:bg-[#232323] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
         className
       )}
     >
@@ -149,7 +149,7 @@ export function Footer({
                           href={link.href}
                           target={link.target}
                           rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
+                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-zinc-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
                         >
                           {Icon && (
                             <Icon className="size-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shrink-0" />

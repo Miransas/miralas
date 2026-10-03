@@ -17,6 +17,9 @@ import TeamSection from '../components/shared/team-section'
 import LiveSection from '../components/shared/live-section'
 import SpeechToTextSection from '../components/shared/SpeechToTextSection'
 import VoiceLibrarySection from '../components/shared/VoiceLibrarySection'
+import VoiceWorkflowSection from '../components/shared/VoiceWorkflowSection'
+import FeaturesBentoSection from '../components/shared/feature-bento'
+import { IsometricVoiceIntegration } from '../components/shared/voice-integration'
 
 
 
@@ -27,10 +30,13 @@ const page = () => {
     <SmoothScroll>
       <div>
         <Hero />
+       
         {/* <VoiceLibrary /> */}
         <FeatureSection />
+        <FeaturesBentoSection/>
         <VoiceFeaturesSection/>
-        <VoiceLibrarySection/>
+        <VoiceWorkflowSection/>
+        {/* <VoiceLibrarySection/> */}
         <SpeechToTextSection/>
       
         {/* <LiveSection/> */}

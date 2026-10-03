@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Sparkles, HelpCircle, ArrowRight, MessageSquare } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 interface FAQItem {
   id: string;
@@ -102,26 +102,14 @@ export function PricingFAQ() {
   };
 
   return (
-    <section className="relative w-full py-24 bg-background dark:bg-background text-[#1C1917] dark:text-[#F5F2EB] transition-colors duration-500 antialiased overflow-hidden">
-      {/* Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-amber-500/5 dark:bg-white/[0.02] blur-[140px] pointer-events-none rounded-full" />
-
-      <div className="mx-auto max-w-4xl px-6 lg:px-8 relative z-10 space-y-12">
+    <section className="relative w-full py-24 bg-[#F2F2F2] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+      <div className="mx-auto max-w-3xl px-6 lg:px-8 relative z-10">
         
         {/* ── ÜST BAŞLIK ── */}
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#EFECE6] dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-md text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 shadow-sm">
-            <HelpCircle className="size-3.5 text-amber-600 dark:text-amber-400" />
-            <span>Sıkça Sorulan Sorular</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
-            Aklınıza takılan <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">tüm detaylar</span>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold tracking-tight text-zinc-950 dark:text-white">
+            Sıkça Sorulan Sorular
           </h2>
-
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto">
-            Faturalandırma, sesli asistan limitleri ve teknik altyapımız hakkında merak ettiğiniz her şey.
-          </p>
         </div>
 
         {/* ── AKORDEON LİSTESİ ── */}
@@ -131,28 +119,24 @@ export function PricingFAQ() {
             return (
               <div
                 key={faq.id}
-                className={`rounded-4xl border transition-all duration-300 overflow-hidden ${
-                  isOpen
-                    ? 'border-zinc-300 dark:border-white/20 bg-white dark:bg-[#141210] shadow-[0_4px_20px_rgb(0,0,0,0.03)]'
-                    : 'border-[#EFECE6] dark:border-white/10 bg-[#FAF8F5] dark:bg-white/[0.02] hover:border-zinc-300 dark:hover:border-white/15'
-                }`}
+                className="rounded-[32px] bg-white dark:bg-[#141210] overflow-hidden transition-colors duration-300"
               >
                 <button
                   type="button"
                   onClick={() => toggleFAQ(faq.id)}
-                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left focus:outline-none gap-4"
+                  className="w-full flex items-center justify-between px-8 py-6 text-left focus:outline-none gap-6"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-sm sm:text-base font-semibold text-zinc-950 dark:text-white leading-snug">
+                  <span className="text-[17px] font-bold text-zinc-950 dark:text-white leading-snug">
                     {faq.question}
                   </span>
-                  <div
-                    className={`size-4 rounded-full border border-[#EFECE6] dark:border-white/10 flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 bg-zinc-900 text-white dark:bg-white dark:text-zinc-950' : 'bg-[#FAF8F5] dark:bg-white/5 text-zinc-500'
-                    }`}
+                  <motion.div
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    className="shrink-0 text-zinc-900 dark:text-white"
                   >
-                    <ChevronDown className="size-4" />
-                  </div>
+                    <ChevronDown className="size-6" strokeWidth={2.5} />
+                  </motion.div>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -161,9 +145,9 @@ export function PricingFAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
-                      <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-[#EFECE6]/60 dark:border-white/5 mt-1">
+                      <div className="px-8 pb-8 text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>
@@ -172,31 +156,6 @@ export function PricingFAQ() {
               </div>
             );
           })}
-        </div>
-
-        {/* ── ALT DESTEK BANNERI ── */}
-        <div className="p-6 sm:p-8 rounded-3xl border border-[#EFECE6] dark:border-white/10 bg-white/80 dark:bg-[#141210] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
-          <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="size-12 rounded-2xl bg-zinc-900 dark:bg-white/10 text-white flex items-center justify-center shrink-0 shadow-md">
-              <MessageSquare className="size-6" />
-            </div>
-            <div>
-              <h4 className="text-sm sm:text-base font-bold text-zinc-950 dark:text-white">
-                Farklı bir sorunuz mu var?
-              </h4>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-                Mühendislik ve satış ekibimiz özel altyapı gereksinimleriniz için hazır.
-              </p>
-            </div>
-          </div>
-
-          <a
-            href="/resources/support"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-xs font-bold hover:opacity-90 transition-opacity shadow-sm"
-          >
-            <span>Ekip ile İletişime Geçin</span>
-            <ArrowRight className="size-3.5" />
-          </a>
         </div>
 
       </div>

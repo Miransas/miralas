@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ArrowRight, Leaf, History, Sparkles, CheckCircle2 } from "lucide-react";
+import LatestUpdatesSection from "../../../components/about/last-update";
 
 const UPDATES = [
   {
@@ -100,62 +101,7 @@ export default function AboutSection() {
           </div>
 
         </div>
-
-        {/* ================= GÜNCELLEMELER (LATEST UPDATES) ================= */}
-        <div className="relative rounded-[2.5rem] border border-zinc-200/80 dark:border-white/10 bg-white/50 dark:bg-white/[0.02] p-8 md:p-12 shadow-sm backdrop-blur-md">
-          
-          <div className="flex items-center gap-3 mb-10 border-b border-zinc-200/60 dark:border-white/10 pb-6">
-            <div className="size-10 rounded-xl bg-zinc-100 dark:bg-white/10 flex items-center justify-center">
-              <History className="size-5 text-zinc-900 dark:text-white" />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Son Güncellemeler</h3>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Projenin gelişim günlüğü</p>
-            </div>
-          </div>
-
-          <div className="relative space-y-8 before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-200 dark:before:via-white/10 before:to-transparent">
-            
-            {UPDATES.map((item, index) => (
-              <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                
-                {/* İkon / Nokta */}
-                <div className={`flex items-center justify-center w-9 h-9 rounded-full border-[3px] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm ${
-                  item.current 
-                    ? "bg-zinc-900 border-white dark:bg-white dark:border-[#0a0a0a] z-10" 
-                    : "bg-white border-zinc-200 dark:bg-[#0a0a0a] dark:border-white/20 z-10"
-                }`}>
-                  {item.current ? (
-                    <Sparkles className="size-4 text-white dark:text-zinc-900" />
-                  ) : (
-                    <CheckCircle2 className="size-4 text-zinc-400 dark:text-zinc-500" />
-                  )}
-                </div>
-                
-                {/* Kart İçeriği */}
-                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-white dark:bg-white/5 border border-zinc-200/60 dark:border-white/5 shadow-sm transition-all hover:shadow-md hover:border-zinc-300 dark:hover:border-white/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300">
-                      {item.version}
-                    </span>
-                    <time className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
-                      {item.date}
-                    </time>
-                  </div>
-                  <h4 className="text-base font-semibold text-zinc-900 dark:text-white mb-2">
-                    {item.title}
-                  </h4>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-
-              </div>
-            ))}
-
-          </div>
-        </div>
-
+      <LatestUpdatesSection/>
       </div>
     </section>
   );
