@@ -29,24 +29,26 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
     ],
   },
   {
-    label: "Studio",
+    label: "Product",
     href: "/studio",
     description: "Create, clone and generate.",
     items: [
-      { label: "Text to Speech", href: "/studio/tts", description: "Turn text into natural expressive speech." },
-      { label: "Voice Clone", href: "/studio/voice-clone", description: "Clone and customize a voice." },
-      { label: "Models", href: "/studio/models", description: "Explore Miralas voice models." },
+      { label: "Text to Speech", href: "/product/tts", description: "Turn text into natural expressive speech." },
+      { label: "Voice Clone", href: "/product/voice-clone", description: "Clone and customize a voice." },
+      { label: "Models", href: "/product/models", description: "Explore Miralas voice models." },
+      { label: "API", href: "/product/api", description: "Integrate Miralas into your own products." },
+      { label: "Agent", href: "/product/agent", description: "Integrate Miralas into your own products." },
     ],
   },
-  {
-    label: "Products",
-    href: "/products",
-    description: "Explore the Miralas platform.",
-    items: [
-      { label: "Streamers", href: "/products/donate", description: "Generate natural and expressive AI speech." },
-      { label: "API", href: "/products/api", description: "Integrate Miralas into your own products." },
-    ],
-  },
+  // {
+  //   label: "Products",
+  //   href: "/products",
+  //   description: "Explore the Miralas platform.",
+  //   items: [
+  //     { label: "Streamers", href: "/products/donate", description: "Generate natural and expressive AI speech." },
+  //     { label: "API", href: "/products/api", description: "Integrate Miralas into your own products." },
+  //   ],
+  // },
   {
     label: "Solutions",
     href: "/solutions",
@@ -70,6 +72,11 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
       {
         label: "Enterprise Brand Voices",
         href: "/solutions/enterprise-voice",
+        description: "Clone and secure exclusive custom voices.",
+      },
+       {
+        label: "Others",
+        href: "/solutions/others",
         description: "Clone and secure exclusive custom voices.",
       },
     ],

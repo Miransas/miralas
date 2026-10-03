@@ -38,22 +38,25 @@ export const FOOTER_SECTIONS: FooterSection[] = [
       { label: "Media", href: "/resources/media" },
     ],
   },
+  // {
+  //   title: "Products",
+  //   links: [
+  //     { label: "Home", href: "/" },
+  //     { label: "API", href: "/products/api" },
+  //     { label: "Pricing", href: "/pricing" },
+  //     { label: "Contact Us", href: "/resources/help-center" },
+  //     { label: "Streamers", href: "/products/donate" },
+  //   ],
+  // },
   {
-    title: "Products",
+    title: "Product",
     links: [
-      { label: "Home", href: "/" },
+      { label: "Text to Speech", href: "/product/tts" },
+      { label: "Voice Clone", href: "/product/voice-clone" },
+      { label: "Models", href: "/product/models" },
       { label: "API", href: "/products/api" },
+      { label: "Agent", href: "/products/agent" },
       { label: "Pricing", href: "/pricing" },
-      { label: "Contact Us", href: "/resources/help-center" },
-      { label: "Streamers", href: "/products/donate" },
-    ],
-  },
-  {
-    title: "Studio",
-    links: [
-      { label: "Text to Speech", href: "/studio/tts" },
-      { label: "Voice Clone", href: "/studio/voice-clone" },
-      { label: "Models", href: "/studio/models" },
     ],
   },
   {
