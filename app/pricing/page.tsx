@@ -7,6 +7,9 @@ import { Check, Zap, Sparkles, Crown, Building2 } from "lucide-react";
 import Footer from "../../components/layout/Footer";
 import { Header } from "../../components/layout/Header";
 import SmoothScroll from "../../components/providers/SmoothScroll";
+import PricingSection from "../../components/pricing/pricing-section";
+import PricingFAQ from "../../components/pricing/pricing-faq";
+
 
 // ============================================================
 // DATA
@@ -261,9 +264,12 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
 export default function PricingPage() {
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-card text-foreground transition-colors duration-300 dark:bg-background dark:text-foreground">
+     
+      <PricingSection/>
+      <PricingFAQ/>
+      {/* <div className="min-h-screen bg-card text-foreground transition-colors duration-300 dark:bg-background dark:text-foreground">
        
-        {/* ===================== HERO ===================== */}
+       
         <section className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-20">
           <div className="absolute inset-0 -z-10">
             <div
@@ -294,7 +300,7 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* ===================== PRICING CARDS ===================== */}
+       
         <section className="pb-20 sm:pb-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -303,7 +309,7 @@ export default function PricingPage() {
               ))}
             </div>
 
-            {/* Bottom note */}
+          
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -323,7 +329,6 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* ===================== COMPARISON TABLE ===================== */}
         <section className="py-20 sm:py-28 bg-background">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <motion.div
@@ -386,7 +391,7 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* ===================== FAQ TEASER ===================== */}
+     
         <section className="py-20 sm:py-28">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
             <motion.div
@@ -419,7 +424,7 @@ export default function PricingPage() {
           </div>
         </section>
        
-      </div>
+      </div> */}
     </SmoothScroll>
   );
 }

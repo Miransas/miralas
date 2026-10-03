@@ -1,158 +1,158 @@
-"use client";
+'use client';
 
-import React from "react";
-import { ArrowRight, Leaf, History, Sparkles, CheckCircle2 } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, Activity, ShieldCheck, Cpu, Globe2, ArrowUpRight, Radio } from 'lucide-react';
 
-const UPDATES = [
-  {
-    version: "v2.1.0",
-    date: "Bugün",
-    title: "Premium Tasarım & Dark Mode",
-    desc: "Arayüz tamamen lüks 'Zinc' paleti ile yenilendi ve kusursuz bir karanlık mod eklendi.",
-    current: true,
-  },
-  {
-    version: "v1.5.4",
-    date: "Ekim 2023",
-    title: "Altyapı Optimizasyonu",
-    desc: "Sistem performansı %40 oranında artırıldı ve yeni veri modelleri entegre edildi.",
-    current: false,
-  },
-  {
-    version: "v1.0.0",
-    date: "Ağustos 2023",
-    title: "İlk Sürüm & Yola Çıkış",
-    desc: "Her şeyin başladığı an. Tek kişilik bir vizyonun ilk kod satırları hayata geçti.",
-    current: false,
-  },
-];
-
-export default function AboutSection() {
+export function AboutSection() {
   return (
-    <section className="relative w-full bg-[#fafafa] dark:bg-[#030303] py-24 px-6 md:px-12 font-sans text-zinc-900 dark:text-zinc-50 overflow-hidden transition-colors duration-500">
-      
-      {/* Arka Plan Işık Efekti (Dark Mode) */}
-      <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-white/[0.02] dark:bg-white/[0.03] blur-[150px] rounded-full pointer-events-none" />
+    <section className="relative w-full py-24 sm:py-32 bg-[#FAF8F5] dark:bg-[#0C0A09] text-[#1C1917] dark:text-[#F5F2EB] overflow-hidden transition-colors duration-500 antialiased">
+      {/* Ambient Glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[350px] bg-amber-500/5 dark:bg-white/[0.02] blur-[150px] pointer-events-none rounded-full" />
 
-      <div className="relative z-10 max-w-7xl mx-auto space-y-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10 space-y-16">
         
-        {/* ================= HİKAYE & RESİMLER (ÜST KISIM) ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* ── 1. MANİFESTO & ÜST BAŞLIK ── */}
+        <div className="max-w-3xl space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#EFECE6] dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-md text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 shadow-sm">
+            <Sparkles className="size-3.5 text-amber-600 dark:text-amber-400" />
+            <span>Stüdyo & Ses Mimarisi</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.15]">
+            Sadece ses sentezlemiyoruz.{' '}
+            <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">
+              İnsan hissiyatını
+            </span>{' '}
+            kodlara döküyoruz.
+          </h2>
+
+          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal pt-2">
+            Miransas, yapay zekanın soğuk sentetik ses duvarını yıkmak için kuruldu. Ultra düşük gecikmeli (Sub-100ms) akış altyapımız ve derin öğrenme modellerimizle, küresel markalar ve içerik üreticileri için insan doğallığında ses deneyimleri inşa ediyoruz.
+          </p>
+        </div>
+
+        {/* ── 2. BENTO GRID SHOWCASE ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* Sol: Metin ve Hikaye */}
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-200/80 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm backdrop-blur-md">
-              <Leaf className="size-4 text-emerald-600 dark:text-emerald-400" />
-              <span className="text-xs font-semibold tracking-wide text-zinc-700 dark:text-zinc-300 uppercase">
-                Benim Hikayem
+          {/* Kart 1: Live Voice Engine & Waveform (Büyük Kart - 7 Kolon) */}
+          <div className="md:col-span-3 lg:col-span-7 flex flex-col justify-between rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.02)] relative overflow-hidden group">
+            
+            <div className="space-y-4 relative z-10">
+              <div className="size-10 rounded-2xl bg-[#FAF8F5] dark:bg-white/5 border border-[#EFECE6] dark:border-white/10 flex items-center justify-center">
+                <Radio className="size-5 text-zinc-900 dark:text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-zinc-950 dark:text-white tracking-tight">
+                Neural Stream Engine v3
+              </h3>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
+                Derin sinir ağlarımız, konuşma sırasındaki nefes duraksamalarını, duygu geçişlerini ve tonlama vurgularını milisaniyeler içinde işler.
+              </p>
+            </div>
+
+            {/* İnteraktif Simüle Ses Dalgaları */}
+            <div className="mt-12 pt-6 border-t border-[#EFECE6] dark:border-white/10 flex items-center justify-between gap-2">
+              <div className="flex items-end gap-1.5 h-12 w-full">
+                {[40, 70, 25, 90, 60, 30, 85, 100, 45, 65, 80, 35, 95, 50, 75, 20, 85, 60].map((h, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ height: [`${h}%`, `${Math.max(15, (h + 30) % 100)}%`, `${h}%`] }}
+                    transition={{ repeat: Infinity, duration: 1.5 + (i % 3) * 0.4, ease: 'easeInOut' }}
+                    className="w-full bg-zinc-900 dark:bg-white rounded-full opacity-80"
+                  />
+                ))}
+              </div>
+              <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 dark:text-zinc-500 shrink-0 ml-4">
+                192kbps HQ
               </span>
-            </div>
-
-            <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-zinc-950 dark:text-white leading-[1.1]">
-              Tek bir fikirle başlayan, <span className="text-zinc-400 dark:text-zinc-500">doğadan ilham alan bir yolculuk.</span>
-            </h2>
-
-            <div className="space-y-5 text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              <p>
-                Her şey tek başıma, büyük bir vizyonla yola çıkmamla başladı. Hedefim, karmaşık problemleri zarif, basit ve doğanın kendisi kadar pürüzsüz bir deneyimle çözmekti.
-              </p>
-              <p>
-                Gürültüden uzaklaşıp öze odaklandığım bu süreçte, sadece bir ürün değil; sessiz, güçlü ve zamansız bir teknoloji inşa etmeye odaklandım. Tıpkı kökleri derinde olan bir ağaç gibi, sağlam adımlarla büyümeye devam ediyorum.
-              </p>
-            </div>
-
-            <div className="pt-4">
-              <button className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group cursor-pointer">
-                Tüm hikayeyi oku 
-                <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
           </div>
 
-          {/* Sağ: Doğa Resimleri (Bento Grid) */}
-          <div className="grid grid-cols-2 gap-4 h-[500px]">
-            {/* Büyük Resim */}
-            <div className="col-span-1 h-full rounded-[2rem] overflow-hidden group">
-              <img 
-                src="https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1200&auto=format&fit=crop" 
-                alt="Doğa İlhamı 1" 
-                className="w-full h-full object-cover grayscale-[0.8] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-              />
+          {/* Kart 2: Low Latency Metric (Küçük Kart - 5 Kolon) */}
+          <div className="md:col-span-3 lg:col-span-5 flex flex-col justify-between rounded-3xl p-8 sm:p-10 bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 shadow-xl relative overflow-hidden">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 dark:bg-zinc-900/10 text-[10px] font-bold uppercase tracking-wider">
+                <Activity className="size-3 text-emerald-400 dark:text-emerald-600" />
+                <span>Gecikme Süresi</span>
+              </div>
+              <h3 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                &lt; 90 ms
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-600 leading-relaxed pt-2">
+                Dünya çapındaki kenar (edge) sunucu ağımız sayesinde insan kulağının fark edemeyeceği hızda gerçek zamanlı ses akışı sağlatıyoruz.
+              </p>
             </div>
-            
-            {/* Sağdaki 2 Küçük Resim */}
-            <div className="col-span-1 grid grid-rows-2 gap-4 h-full">
-              <div className="row-span-1 w-full h-full rounded-[2rem] overflow-hidden group">
-                <img 
-                  src="https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=800&auto=format&fit=crop" 
-                  alt="Doğa İlhamı 2" 
-                  className="w-full h-full object-cover grayscale-[0.8] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-                />
+
+            <div className="pt-8 flex items-center justify-between text-xs font-medium border-t border-white/10 dark:border-zinc-950/10 mt-6">
+              <span>WebRTC & WebSocket Direct</span>
+              <ArrowUpRight className="size-4" />
+            </div>
+          </div>
+
+          {/* Kart 3: Global Edge & Security (4 Kolon) */}
+          <div className="md:col-span-1 lg:col-span-4 flex flex-col justify-between rounded-3xl p-8 bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+            <div className="space-y-4">
+              <div className="size-10 rounded-2xl bg-[#FAF8F5] dark:bg-white/5 border border-[#EFECE6] dark:border-white/10 flex items-center justify-center">
+                <ShieldCheck className="size-5 text-zinc-900 dark:text-white" />
               </div>
-              <div className="row-span-1 w-full h-full rounded-[2rem] overflow-hidden group bg-zinc-100 dark:bg-white/5 flex items-center justify-center relative">
-                 <img 
-                  src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=800&auto=format&fit=crop" 
-                  alt="Doğa İlhamı 3" 
-                  className="absolute inset-0 w-full h-full object-cover grayscale-[0.8] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-                />
+              <h4 className="text-lg font-bold text-zinc-950 dark:text-white">
+                Zero-Data Retention
+              </h4>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Kurumsal verileriniz ve ses klonlama modelleriniz asla izinsiz kaydedilmez veya kamuya açık modelleri eğitmek için kullanılmaz.
+              </p>
+            </div>
+          </div>
+
+          {/* Kart 4: Language & Emotion Model (4 Kolon) */}
+          <div className="md:col-span-1 lg:col-span-4 flex flex-col justify-between rounded-3xl p-8 bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+            <div className="space-y-4">
+              <div className="size-10 rounded-2xl bg-[#FAF8F5] dark:bg-white/5 border border-[#EFECE6] dark:border-white/10 flex items-center justify-center">
+                <Globe2 className="size-5 text-zinc-900 dark:text-white" />
               </div>
+              <h4 className="text-lg font-bold text-zinc-950 dark:text-white">
+                32+ Aksan ve Tonlama
+              </h4>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Türkçe dahil tüm majör dillerde doğal aksan, fısıltı, heyecan ve kurumsal tonlama parametrelerini tek API üzerinden yönetin.
+              </p>
+            </div>
+          </div>
+
+          {/* Kart 5: Dedicated Infrastructure (4 Kolon) */}
+          <div className="md:col-span-1 lg:col-span-4 flex flex-col justify-between rounded-3xl p-8 bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+            <div className="space-y-4">
+              <div className="size-10 rounded-2xl bg-[#FAF8F5] dark:bg-white/5 border border-[#EFECE6] dark:border-white/10 flex items-center justify-center">
+                <Cpu className="size-5 text-zinc-900 dark:text-white" />
+              </div>
+              <h4 className="text-lg font-bold text-zinc-950 dark:text-white">
+                Dedicated Cluster SLA
+              </h4>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Yüksek çağrı hacmine sahip kuruluşlar için %99.99 çalışma süresi (uptime) ve size özel ayrılmış GPU sunucu kümeleri.
+              </p>
             </div>
           </div>
 
         </div>
 
-        {/* ================= GÜNCELLEMELER (LATEST UPDATES) ================= */}
-        <div className="relative rounded-[2.5rem] border border-zinc-200/80 dark:border-white/10 bg-white/50 dark:bg-white/[0.02] p-8 md:p-12 shadow-sm backdrop-blur-md">
-          
-          <div className="flex items-center gap-3 mb-10 border-b border-zinc-200/60 dark:border-white/10 pb-6">
-            <div className="size-10 rounded-xl bg-zinc-100 dark:bg-white/10 flex items-center justify-center">
-              <History className="size-5 text-zinc-900 dark:text-white" />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Son Güncellemeler</h3>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Projenin gelişim günlüğü</p>
-            </div>
+        {/* ── 3. SAYISAL İSTATİSTİK & GÜVEN ŞERİDİ ── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t border-[#EFECE6] dark:border-white/10">
+          <div>
+            <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">50M+</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Aylık Sentezlenen Karakter</p>
           </div>
-
-          <div className="relative space-y-8 before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-200 dark:before:via-white/10 before:to-transparent">
-            
-            {UPDATES.map((item, index) => (
-              <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                
-                {/* İkon / Nokta */}
-                <div className={`flex items-center justify-center w-9 h-9 rounded-full border-[3px] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm ${
-                  item.current 
-                    ? "bg-zinc-900 border-white dark:bg-white dark:border-[#0a0a0a] z-10" 
-                    : "bg-white border-zinc-200 dark:bg-[#0a0a0a] dark:border-white/20 z-10"
-                }`}>
-                  {item.current ? (
-                    <Sparkles className="size-4 text-white dark:text-zinc-900" />
-                  ) : (
-                    <CheckCircle2 className="size-4 text-zinc-400 dark:text-zinc-500" />
-                  )}
-                </div>
-                
-                {/* Kart İçeriği */}
-                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-white dark:bg-white/5 border border-zinc-200/60 dark:border-white/5 shadow-sm transition-all hover:shadow-md hover:border-zinc-300 dark:hover:border-white/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300">
-                      {item.version}
-                    </span>
-                    <time className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
-                      {item.date}
-                    </time>
-                  </div>
-                  <h4 className="text-base font-semibold text-zinc-900 dark:text-white mb-2">
-                    {item.title}
-                  </h4>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-
-              </div>
-            ))}
-
+          <div>
+            <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">&lt; 90ms</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ortalama Uçtan Uca Gecikme</p>
+          </div>
+          <div>
+            <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">32+</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Desteklenen Küresel Dil</p>
+          </div>
+          <div>
+            <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">%99.99</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Kurumsal Sunucu SLA</p>
           </div>
         </div>
 
@@ -160,3 +160,5 @@ export default function AboutSection() {
     </section>
   );
 }
+
+export default AboutSection;

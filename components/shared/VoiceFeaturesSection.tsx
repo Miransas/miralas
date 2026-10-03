@@ -1,6 +1,7 @@
-"use client";
+/* eslint-disable react/jsx-no-comment-textnodes */
+'use client';
 
-import React from "react";
+import React from 'react';
 import {
   Code2,
   Radio,
@@ -18,39 +19,44 @@ import {
   MessageSquare,
   AudioWaveform,
   Activity,
-} from "lucide-react";
+  ArrowRight,
+} from 'lucide-react';
 
 const TOOLS = [
-  { name: "REST API", icon: Code2, color: "text-blue-600 dark:text-blue-400" },
-  { name: "WebSockets", icon: Radio, color: "text-amber-600 dark:text-amber-400" },
-  { name: "Python SDK", icon: Terminal, color: "text-yellow-600 dark:text-yellow-400" },
-  { name: "Node.js", icon: Workflow, color: "text-emerald-600 dark:text-emerald-400" },
-  { name: "React", icon: Layers, color: "text-cyan-600 dark:text-cyan-400" },
-  { name: "Webhooks", icon: Zap, color: "text-purple-600 dark:text-purple-400" },
-  { name: "ElevenLabs", icon: Mic, color: "text-zinc-800 dark:text-zinc-200" },
-  { name: "OpenAI", icon: Bot, color: "text-emerald-600 dark:text-emerald-400" },
-  { name: "Whisper", icon: Sparkles, color: "text-indigo-600 dark:text-indigo-400" },
-  { name: "Pipelines", icon: Cpu, color: "text-rose-600 dark:text-rose-400" },
-  { name: "Enterprise", icon: ShieldCheck, color: "text-blue-700 dark:text-blue-500" },
-  { name: "Global Edge", icon: Globe2, color: "text-teal-600 dark:text-teal-400" },
+  { name: 'REST API', icon: Code2, accent: 'group-hover:border-blue-500/50 text-blue-500 bg-blue-500/10' },
+  { name: 'WebSockets', icon: Radio, accent: 'group-hover:border-amber-500/50 text-amber-500 bg-amber-500/10' },
+  { name: 'Python SDK', icon: Terminal, accent: 'group-hover:border-yellow-500/50 text-yellow-500 bg-yellow-500/10' },
+  { name: 'Node.js', icon: Workflow, accent: 'group-hover:border-emerald-500/50 text-emerald-500 bg-emerald-500/10' },
+  { name: 'React', icon: Layers, accent: 'group-hover:border-cyan-500/50 text-cyan-500 bg-cyan-500/10' },
+  { name: 'Webhooks', icon: Zap, accent: 'group-hover:border-purple-500/50 text-purple-500 bg-purple-500/10' },
+  { name: 'Voice Engine', icon: Mic, accent: 'group-hover:border-rose-500/50 text-rose-500 bg-rose-500/10' },
+  { name: 'OpenAI', icon: Bot, accent: 'group-hover:border-emerald-500/50 text-emerald-500 bg-emerald-500/10' },
+  { name: 'Whisper', icon: Sparkles, accent: 'group-hover:border-indigo-500/50 text-indigo-500 bg-indigo-500/10' },
+  { name: 'Pipelines', icon: Cpu, accent: 'group-hover:border-rose-500/50 text-rose-500 bg-rose-500/10' },
+  { name: 'Enterprise', icon: ShieldCheck, accent: 'group-hover:border-blue-500/50 text-blue-500 bg-blue-500/10' },
+  { name: 'Global Edge', icon: Globe2, accent: 'group-hover:border-teal-500/50 text-teal-500 bg-teal-500/10' },
 ];
 
 export default function VoiceAISection() {
   return (
-    <section className="w-full bg-white dark:bg-black py-24 px-6 md:px-8 font-sans transition-colors duration-300">
+    <section className="w-full bg-[#FAF8F5] dark:bg-[#0C0A09] text-[#1C1917] dark:text-[#F5F2EB] py-24 px-6 md:px-8 transition-colors duration-500 antialiased">
       <div className="max-w-[1200px] mx-auto space-y-8">
         
         {/* ================= BÖLÜM 1: 6x2 MİNİ KART GRİDİ ================= */}
-        <div className="relative rounded-[2.5rem] bg-zinc-50 dark:bg-[#0a0a0a] border border-zinc-200/80 dark:border-white/[0.08] p-8 md:p-14 overflow-hidden shadow-sm">
-          {/* Arka plan ışıltısı */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-zinc-200/50 dark:bg-white/[0.02] blur-3xl rounded-full pointer-events-none" />
+        <div className="relative rounded-[2.5rem] bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 p-8 md:p-14 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+          {/* Lüks Arka Plan Işıltısı */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/5 dark:bg-white/[0.02] blur-3xl rounded-full pointer-events-none" />
           
-          <div className="relative z-10 mb-12 max-w-3xl">
-            <h2 className="text-3xl md:text-5xl font-semibold text-zinc-900 dark:text-white mb-5 tracking-tight">
-              Ready to use out of the box.
+          <div className="relative z-10 mb-12 max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#EFECE6] dark:border-white/10 bg-[#FAF8F5] dark:bg-white/5 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-300">
+              <Sparkles className="size-3.5 text-amber-600 dark:text-amber-400" />
+              <span>Geliştirici Ekosistemi</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              Ready to use <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">out of the box.</span>
             </h2>
-            <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed font-medium">
-              Miransas AI offers a complete voice synthesis experience that lets you develop real-time conversational agents quickly and safely without juggling external tools. It supports major frameworks and advanced neural streaming immediately.
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+              Miransas AI, harici araçlarla vakit kaybetmeden gerçek zamanlı konuşma asistanları geliştirmenizi sağlayan kusursuz bir ses sentezi deneyimi sunar. Majör framework'leri ve sinirsel akış altyapısını hemen destekler.
             </p>
           </div>
 
@@ -60,13 +66,12 @@ export default function VoiceAISection() {
               return (
                 <div
                   key={idx}
-                  className="group flex flex-col items-center justify-center h-28 rounded-2xl bg-white dark:bg-white/[0.02] border border-zinc-200/80 dark:border-white/[0.05] hover:border-zinc-300 dark:hover:border-white/[0.12] hover:shadow-lg hover:shadow-zinc-200/50 dark:hover:shadow-none hover:bg-zinc-50/50 dark:hover:bg-white/[0.06] transition-all duration-300 cursor-pointer"
+                  className={`group flex flex-col items-center justify-center h-32 rounded-2xl bg-[#FAF8F5]/60 dark:bg-white/[0.02] border border-[#EFECE6] dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/20 hover:shadow-lg transition-all duration-300 cursor-pointer p-4`}
                 >
-                  <Icon 
-                    className={`w-7 h-7 mb-3 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 ${tool.color}`} 
-                    strokeWidth={1.75} 
-                  />
-                  <span className="text-[13px] font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200 transition-colors tracking-wide">
+                  <div className={`size-12 rounded-2xl flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm ${tool.accent}`}>
+                    <Icon className="size-6" strokeWidth={2} />
+                  </div>
+                  <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors tracking-tight text-center">
                     {tool.name}
                   </span>
                 </div>
@@ -76,38 +81,48 @@ export default function VoiceAISection() {
         </div>
 
         {/* ================= BÖLÜM 2: İKİYE BÖLÜNMÜŞ KART ================= */}
-        <div className="rounded-[2.5rem] bg-zinc-50 dark:bg-[#0a0a0a] border border-zinc-200/80 dark:border-white/[0.08] overflow-hidden shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/80 dark:divide-white/[0.08]">
+        <div className="rounded-[2.5rem] bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#EFECE6] dark:divide-white/10">
             
             {/* Sol Taraf */}
-            <div className="p-8 md:p-14">
-              <h3 className="text-2xl md:text-3xl font-semibold text-zinc-900 dark:text-white mb-4 tracking-tight">
+            <div className="p-8 md:p-14 space-y-4">
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-amber-600 dark:text-amber-400">
+                // Sinirsel Altyapı
+              </span>
+              <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
                 Intelligent voice assistance
               </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed font-medium">
-                Miransas' powerful neural engine deeply understands modern conversational structures, from zero-shot cloning to real-time latency optimization. It delivers context-aware intonation, on-the-fly multi-dialect analysis, and fast audio rendering.
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+                Miransas'ın güçlü nöro-motoru, sıfır-atım ses klonlamadan gerçek zamanlı gecikme optimizasyonuna kadar modern konuşma yapılarını derinlemesine kavrar. Bağlam duyarlı tonlama ve çoklu lehçe analizi sunar.
               </p>
             </div>
 
             {/* Sağ Taraf */}
-            <div className="p-8 md:p-14 flex flex-col justify-between">
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-zinc-900 dark:text-white mb-4 tracking-tight">
+            <div className="p-8 md:p-14 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <span className="text-xs font-mono font-bold tracking-widest uppercase text-emerald-600 dark:text-emerald-400">
+                  // Ölçeklenebilir Mimari
+                </span>
+                <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
                   Covers all your needs
                 </h3>
-                <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed font-medium mb-8">
-                  Whether you're just getting started or developing interactive voice response (IVR) systems professionally, Miransas supports you every step of the way.
+                <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+                  İster yeni başlıyor olun ister IVR sistemlerini profesyonelce geliştiriyor olun, Miransas her adımda yanınızdadır.
                 </p>
               </div>
               
-              {/* Premium Hap Butonlar (Pills) */}
+              {/* Renkli ve Şık Hap Butonlar */}
               <div className="flex flex-wrap gap-3">
-                {["For real-time streaming", "For voice cloning →", "For learning models"].map((tag, i) => (
+                {[
+                  { text: 'For real-time streaming', color: 'hover:border-indigo-500/50 hover:text-indigo-500' },
+                  { text: 'For voice cloning →', color: 'hover:border-rose-500/50 hover:text-rose-500' },
+                  { text: 'For learning models', color: 'hover:border-emerald-500/50 hover:text-emerald-500' }
+                ].map((tag, i) => (
                   <span 
                     key={i} 
-                    className="inline-flex items-center px-4 py-2 rounded-full text-[13px] font-medium bg-white dark:bg-white/[0.04] border border-zinc-200/80 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/[0.08] hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer shadow-sm dark:shadow-none"
+                    className={`inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold bg-[#FAF8F5] dark:bg-white/[0.04] border border-[#EFECE6] dark:border-white/10 text-zinc-700 dark:text-zinc-300 transition-all cursor-pointer shadow-sm ${tag.color}`}
                   >
-                    {tag}
+                    {tag.text}
                   </span>
                 ))}
               </div>
@@ -116,54 +131,58 @@ export default function VoiceAISection() {
         </div>
 
         {/* ================= BÖLÜM 3: NATIVELY INTEGRATED AI ================= */}
-        <div className="pt-16">
-          <h2 className="text-4xl md:text-6xl font-semibold text-zinc-900 dark:text-white mb-10 tracking-tight text-center lg:text-left">
-            Natively integrated <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">AI.</span>
+        <div className="pt-8">
+          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white mb-8">
+            Natively integrated <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500">AI.</span>
           </h2>
 
-          <div className="rounded-[2.5rem] bg-white dark:bg-[#050505] border border-zinc-200/80 dark:border-white/[0.08] overflow-hidden shadow-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/80 dark:divide-white/[0.08]">
+          <div className="rounded-[2.5rem] bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#EFECE6] dark:divide-white/10">
               
               {/* Sol: Latest Models */}
-              <div className="p-8 md:p-14 bg-zinc-50/50 dark:bg-transparent">
-                <h3 className="text-lg md:text-xl font-semibold text-zinc-900 dark:text-white mb-6 tracking-tight">
+              <div className="p-8 md:p-14 bg-[#FAF8F5]/40 dark:bg-transparent space-y-6">
+                <h3 className="text-lg md:text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
                   Latest voice models
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    { name: "Shahzoda", icon: BrainCircuit },
-                    { name: "Miralas v2", icon: AudioWaveform },
-                    { name: "Whisper", icon: Sparkles },
-                    { name: "GPT-4o", icon: Bot }
+                    { name: 'Shahzoda', icon: BrainCircuit, color: 'text-rose-500 bg-rose-500/10 border-rose-500/20' },
+                    { name: 'Miralas v2', icon: AudioWaveform, color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20' },
+                    { name: 'Whisper', icon: Sparkles, color: 'text-amber-500 bg-amber-500/10 border-amber-500/20' },
+                    { name: 'GPT-4o', icon: Bot, color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' }
                   ].map((model, idx) => (
                     <div 
                       key={idx} 
-                      className="group flex items-center gap-2.5 px-4 py-2.5 bg-white dark:bg-white/[0.03] border border-zinc-200/80 dark:border-white/[0.08] rounded-2xl text-sm font-medium text-zinc-700 dark:text-zinc-300 transition-all cursor-default shadow-sm dark:shadow-none hover:border-zinc-300 dark:hover:border-white/20"
+                      className={`group flex items-center gap-2.5 px-4 py-3 bg-white dark:bg-white/[0.03] border border-[#EFECE6] dark:border-white/10 rounded-2xl text-xs font-semibold text-zinc-800 dark:text-zinc-200 transition-all cursor-default shadow-sm hover:border-zinc-300 dark:hover:border-white/30`}
                     >
-                      <model.icon className="w-4 h-4 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors" />
-                      {model.name}
+                      <div className={`p-1.5 rounded-xl ${model.color}`}>
+                        <model.icon className="size-4" />
+                      </div>
+                      <span>{model.name}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Sağ: Multi-agent */}
-              <div className="p-8 md:p-14 bg-zinc-50/50 dark:bg-transparent">
-                <h3 className="text-lg md:text-xl font-semibold text-zinc-900 dark:text-white mb-6 tracking-tight">
+              <div className="p-8 md:p-14 bg-[#FAF8F5]/40 dark:bg-transparent space-y-6">
+                <h3 className="text-lg md:text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
                   Multi-agent experience
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    { name: "Dialogue Agent", icon: MessageSquare },
-                    { name: "Acoustic Filter", icon: Activity },
-                    { name: "Orchestrator", icon: Workflow }
+                    { name: 'Dialogue Agent', icon: MessageSquare, color: 'text-purple-500 bg-purple-500/10 border-purple-500/20' },
+                    { name: 'Acoustic Filter', icon: Activity, color: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20' },
+                    { name: 'Orchestrator', icon: Workflow, color: 'text-blue-500 bg-blue-500/10 border-blue-500/20' }
                   ].map((agent, idx) => (
                     <div 
                       key={idx} 
-                      className="group flex items-center gap-2.5 px-4 py-2.5 bg-white dark:bg-white/[0.03] border border-zinc-200/80 dark:border-white/[0.08] rounded-2xl text-sm font-medium text-zinc-700 dark:text-zinc-300 transition-all cursor-default shadow-sm dark:shadow-none hover:border-zinc-300 dark:hover:border-emerald-500/30"
+                      className="group flex items-center gap-2.5 px-4 py-3 bg-white dark:bg-white/[0.03] border border-[#EFECE6] dark:border-white/10 rounded-2xl text-xs font-semibold text-zinc-800 dark:text-zinc-200 transition-all cursor-default shadow-sm hover:border-zinc-300 dark:hover:border-white/30"
                     >
-                      <agent.icon className="w-4 h-4 text-emerald-500/80 transition-colors" />
-                      {agent.name}
+                      <div className={`p-1.5 rounded-xl ${agent.color}`}>
+                        <agent.icon className="size-4" />
+                      </div>
+                      <span>{agent.name}</span>
                     </div>
                   ))}
                 </div>

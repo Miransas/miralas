@@ -2,8 +2,8 @@ export type HeaderNavSubItem = {
   label: string;
   href: string;
   description?: string;
-  badge?: string; // Örn: "New", "Beta" gibi etiketler için
-  target?: "_blank" | "_self"; // Dış linkler için yeni sekmede açma opsiyonu
+  badge?: string;
+  target?: "_blank" | "_self";
 };
 
 export type HeaderNavItem = {
@@ -19,14 +19,13 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
     href: "/resources",
     description: "Learn, build and stay updated.",
     items: [
-      { label: "About", href: "/resources/about", description: "This About Miransas & Miralas " },
+      { label: "About", href: "/resources/about", description: "This About Miransas & Miralas" },
       { label: "Documentation", href: "/resources/docs", description: "Build with the Miralas platform." },
       { label: "Guides", href: "/resources/guides", description: "Practical guides and tutorials." },
       { label: "Media", href: "/resources/media", description: "Podcasts, videos and brand assets." },
       { label: "Changelog", href: "/resources/changelog", description: "What's new across Miralas.", badge: "New" },
       { label: "Support", href: "/resources/support", description: "Get help with your Miralas workspace." },
       { label: "Help Center", href: "/resources/help-center", description: "Talk to the Miralas team and FAQs." },
-
     ],
   },
   {
@@ -101,7 +100,6 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
     ],
   },
   { label: "Pricing", href: "/pricing" },
-
 ];
 
 export const HEADER_LINKS = {

@@ -38,7 +38,7 @@ function FaqAccordionItem({
           ${
             isOpen
               ? "border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0a0a0a] shadow-sm"
-              : "border-transparent bg-transparent hover:bg-zinc-50 dark:hover:bg-white/[0.02] hover:border-zinc-200/50 dark:hover:border-white/[0.04]"
+              : "border-transparent bg-[#fafafa] dark:bg-accent hover:bg-zinc-50 rounded-4xl dark:hover:bg-white/[0.02] hover:border-zinc-200/50 dark:hover:border-white/[0.04]"
           }
         `}
       >
@@ -106,7 +106,7 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-background dark:bg-black py-24 sm:py-32 font-sans transition-colors duration-300">
+    <section className="bg-white dark:bg-black py-24 sm:py-32  transition-colors duration-300 font-plex ">
       <div className="mx-auto max-w-6xl px-6 lg:px-12">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
 

@@ -16,7 +16,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full overflow-hidden bg-background min-h-[92vh] flex items-center justify-center pt-16 pb-20">
+    <section className="relative w-full overflow-hidden  min-h-[100vh] flex items-center justify-center pt-16 pb-20">
 
       {/* Shader Arka Planı & Okunabilirlik Maskesi */}
       <div className="absolute inset-0 z-0 opacity-80 dark:opacity-60 pointer-events-none">

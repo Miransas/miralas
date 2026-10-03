@@ -26,7 +26,6 @@ const page = () => {
   return (
     <SmoothScroll>
       <div>
-        
         <Hero />
         {/* <VoiceLibrary /> */}
         <FeatureSection />

@@ -1,8 +1,13 @@
 import React from 'react'
+import ApiHeroSection from '../../../components/api/api-hero'
+import ApiSectionFAQ from '../../../components/api/api-faqs'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <ApiHeroSection/>
+      <ApiSectionFAQ/>
+    </div>
   )
 }
 

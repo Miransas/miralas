@@ -41,7 +41,7 @@ export default function SpeechToTextSection() {
   }, [isPlaying]);
 
   return (
-    <section className="w-full bg-[#fafafa] dark:bg-background text-zinc-900 py-24 px-6 md:px-14 ">
+    <section className="w-full bg-[#fafafa] dark:bg-background text-zinc-900 py-24 px-6 md:px-14 font-plex">
       <div className="max-w-7xl mx-auto">
         
         {/* SECTION HEADER */}

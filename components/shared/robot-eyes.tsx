@@ -408,7 +408,7 @@ export default function RobotEyes() {
         src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1790282774/Firefly_RemoveBackground_mre4pp.png"
         alt="Miransas AI Robot"
         draggable={false}
-        className="pointer-events-none select-none w-full h-full object-contain drop-shadow-[0_22px_45px_rgba(0,0,0,0.14)]"
+        className="pointer-events-none select-none w-full h-full object-contain "
       />
 
       {/* ======================================
