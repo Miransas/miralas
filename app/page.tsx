@@ -30,12 +30,12 @@ const page = () => {
     <SmoothScroll>
       <div>
         <Hero />
-       
+           <VoiceWorkflowSection/>
         {/* <VoiceLibrary /> */}
         <FeatureSection />
         <FeaturesBentoSection/>
         <VoiceFeaturesSection/>
-        <VoiceWorkflowSection/>
+    
         {/* <VoiceLibrarySection/> */}
         <SpeechToTextSection/>
       

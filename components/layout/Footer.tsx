@@ -42,7 +42,7 @@ export function Footer({
   return (
     <footer
       className={cn(
-        'relative w-full overflow-hidden border-t border-zinc-200/80 dark:border-white/10 bg-[#fafafa] dark:bg-[#232323] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
+        'relative w-full overflow-hidden border-t border-zinc-200/80 dark:border-white/10 bg-[#fafafa] dark:bg-[#000000] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
         className
       )}
     >
