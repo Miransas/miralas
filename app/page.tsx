@@ -45,7 +45,6 @@ const page = () => {
         <FaqSection />
         <TestimonialSection/>
         {/* <IntegrationCardDemo/> */}
-       
       </div>
 
     </SmoothScroll>
