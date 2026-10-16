@@ -60,19 +60,19 @@ export default function VoiceSphere() {
         const r = baseR * distortion;
 
         // Kartezyen Koordinatlar
-        let x = r * Math.sin(u) * Math.cos(v);
-        let y = r * Math.sin(u) * Math.sin(v);
-        let z = r * Math.cos(u);
+        const x = r * Math.sin(u) * Math.cos(v);
+        const y = r * Math.sin(u) * Math.sin(v);
+        const z = r * Math.cos(u);
 
         // Rotate around the Y axis
-        let rx = x * cosY - z * sinY;
-        let rz = x * sinY + z * cosY;
-        let ry = y;
+        const rx = x * cosY - z * sinY;
+        const rz = x * sinY + z * cosY;
+        const ry = y;
 
         // Tilt around the X axis
-        let finalY = ry * cosX - rz * sinX;
-        let finalZ = ry * sinX + rz * cosX;
-        let finalX = rx;
+        const finalY = ry * cosX - rz * sinX;
+        const finalZ = ry * sinX + rz * cosX;
+        const finalX = rx;
 
         // Kamera Perspektifi
         const fov = 550;
