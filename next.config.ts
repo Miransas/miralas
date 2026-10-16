@@ -11,7 +11,12 @@ const nextConfig: NextConfig = {
     ],
   },
   devIndicators: false,
-  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx", "mjs", "cjs", "json", "rs", "py"],
+
+  redirects: async () => [
+    { source: "/resources/docs/:path*", destination: "/docs/:path*", permanent: true },
+    { source: "/resources/changelog", destination: "/changelog", permanent: true },
+  ]
 };
 
 // The options block has been removed.
