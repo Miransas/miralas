@@ -1,0 +1,306 @@
+"use client";
+
+import React, { useRef, useEffect, useState } from "react";
+import {
+  Moon,
+  Zap,
+  RefreshCw,
+  Calendar,
+  Building2,
+  Cpu,
+  TrendingUp,
+  ArrowRight,
+  Sparkles,
+  Search,
+} from "lucide-react";
+import SmoothScroll from "../../../components/providers/SmoothScroll";
+
+
+
+// ─── ANIMATION UTILITIES ──────────────────────────────────────
+
+function useInView(threshold = 0.1) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsInView(true);
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isInView };
+}
+
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right";
+}) {
+  const { ref, isInView } = useInView();
+  const transforms = {
+    up: "translateY(30px)",
+    down: "translateY(-30px)",
+    left: "translateX(30px)",
+    right: "translateX(-30px)",
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translate(0)" : transforms[direction],
+        transition: `all 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ─── TYPES ───────────────────────────────────────────────────
+
+interface SolutionItem {
+  number: string;
+  badgeNumber: string;
+  badgeTag: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  bestFor: string;
+  product: string;
+  results: string;
+}
+
+// ─── DATA ────────────────────────────────────────────────────
+
+const solutionsData: SolutionItem[] = [
+  {
+    number: "01",
+    badgeNumber: "Solution 01",
+    badgeTag: "24/7 Call Handling",
+    icon: <Moon className="h-5 w-5" />,
+    title: "Stop losing after-hours leads.",
+    description:
+      "40% of your leads call after 5pm. Right now they get voicemail. 85% of those callers hang up and call your competitor. Miralas Voice answers every call, 24/7/365, qualifies the lead, and books the appointment before your competitor wakes up.",
+    bestFor: "Any service business losing leads.",
+    product: "Voice + After-Dark",
+    results: "70% lead-to-booking rate.",
+  },
+  {
+    number: "02",
+    badgeNumber: "Solution 02",
+    badgeTag: "Speed to Lead",
+    icon: <Zap className="h-5 w-5" />,
+    title: "Contact every lead in under 30 seconds.",
+    description:
+      "A lead that doesn't hear back within 5 minutes is 80% less likely to convert. Most service businesses take 12 hours. Miralas contacts every new lead within 30 seconds of opt-in — over voice and messaging — while their interest is at its peak.",
+    bestFor: "Paid ads & instant response.",
+    product: "Voice + Speed",
+    results: "Captured missing revenue.",
+  },
+  {
+    number: "03",
+    badgeNumber: "Solution 03",
+    badgeTag: "Dead Lead Reactivation",
+    icon: <RefreshCw className="h-5 w-5" />,
+    title: "Turn your CRM into a revenue source again.",
+    description:
+      "You have thousands of leads sitting in your CRM that went cold. You already paid $50–$200 each to acquire them. Nobody is calling them back. Miralas Revive works that list automatically — re-opening conversations, qualifying real interest, and booking those who are ready.",
+    bestFor: "500+ uncontacted leads.",
+    product: "Miralas Revive",
+    results: "Recovered $28K in billings.",
+  },
+  {
+    number: "04",
+    badgeNumber: "Solution 04",
+    badgeTag: "Appointment Confirmation",
+    icon: <Calendar className="h-5 w-5" />,
+    title: "Cut no-shows. Keep your calendar full.",
+    description:
+      "Last-minute cancellations and no-shows drain operational velocity. Miralas sends human-like, multi-channel reminders and automatically reschedules missed slots instantly.",
+    bestFor: "Appointment-driven companies.",
+    product: "Miralas Calendar Sync",
+    results: "Under 3% no-show rate.",
+  },
+];
+
+// ─── SOLUTION CARD (UPDATED FOR TIMELINE LAYOUT) ─────
+
+function SolutionCard({ item, index }: { item: SolutionItem; index: number }) {
+  const { ref, isInView } = useInView(0.1);
+
+  return (
+    <div
+      ref={ref}
+      className={`group relative flex gap-6 md:gap-10 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+        }`}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translateY(0)" : "translateY(40px)",
+        transition: `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`,
+      }}
+    >
+      {/* Timeline dot and line */}
+      <div className="flex w-6 flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2 md:top-0 md:h-full">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-border bg-muted text-foreground transition-colors duration-300 group-hover:border-foreground">
+          <span className="text-sm font-semibold">{item.number}</span>
+        </div>
+        <div className="w-px flex-1 bg-border transition-colors duration-300" />
+      </div>
+
+      {/* Card content */}
+      <div className="relative flex-1 rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:bg-accent group-hover:shadow-md md:w-[calc(50%-2rem)] md:flex-initial">
+        {/* Top bar: icon and badge */}
+        <div className="flex items-center justify-between gap-4 mb-5">
+          <div className="flex items-center gap-3">
+            <div className="text-muted-foreground">
+              {item.icon}
+            </div>
+            <span className="text-sm font-semibold text-foreground">
+              {item.badgeTag}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground">
+            <Sparkles className="h-3 w-3 text-muted-foreground" />
+            {item.badgeTag.split(" ")[0]}
+          </div>
+        </div>
+
+        {/* Main heading */}
+        <h2 className="mb-3 text-2xl font-bold tracking-tight text-foreground">
+          {item.title}
+        </h2>
+
+        {/* Description */}
+        <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+          {item.description}
+        </p>
+
+        {/* Meta details */}
+        <div className="mt-auto space-y-4">
+          <div className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+            DETAILS
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-foreground/80">
+            {[
+              { key: "bestFor", label: "Best For", icon: Building2 },
+              { key: "product", label: "Product", icon: Cpu },
+              { key: "results", label: "Result", icon: TrendingUp },
+            ].map((meta) => {
+              const Icon = meta.icon;
+              const value = item[meta.key as keyof SolutionItem] as string;
+              return (
+                <div key={meta.key} className="flex items-center gap-2.5">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted">
+                    <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <span className="font-medium text-foreground">
+                      {value}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN PAGE (SIMPLIFIED TIMELINE) ───────────────────
+
+export default function Solutions() {
+  return (
+    <SmoothScroll>
+      <main className="relative min-h-screen overflow-hidden bg-background text-foreground font-sans transition-colors duration-300">
+      
+        <section className="relative z-10 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+          <div className="mx-auto w-full max-w-7xl">
+            {/* ═══ HEADER (Simple) ═══ */}
+            <FadeIn className="mb-24 text-center">
+              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-border bg-muted px-4 py-2 transition-colors duration-300">
+                <Sparkles className="h-4 w-4 text-muted-foreground" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  OUR SOLUTIONS
+                </span>
+              </div>
+
+              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-[1.1]">
+                Turn missed opportunities
+                <br />
+                <span className="font-light text-muted-foreground">
+                  into captured revenue.
+                </span>
+              </h1>
+
+              <div className="mt-10 flex items-center justify-center gap-4 max-w-xl mx-auto">
+                <div className="h-px w-16 bg-border" />
+                <p className="text-base text-muted-foreground">
+                  Unlock potential and streamline growth in simple steps.
+                </p>
+                <div className="h-px w-16 bg-border" />
+              </div>
+            </FadeIn>
+
+            {/* ═══ SOLUTION CARDS (Timeline) ═══ */}
+            <div className="relative space-y-12 md:space-y-20">
+              {/* Background vertical line */}
+              <div className="absolute left-3 top-5 h-[calc(100%-10px)] w-px bg-border md:left-1/2 md:-translate-x-1/2" />
+              {solutionsData.map((item, index) => (
+                <SolutionCard key={item.number} item={item} index={index} />
+              ))}
+            </div>
+
+            {/* ═══ BOTTOM CTA (Minimal) ═══ */}
+            <FadeIn delay={0.3} className="mt-32">
+              <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-border bg-card px-8 py-16 text-center sm:px-12 transition-colors duration-300">
+                <div className="relative z-10">
+                  <p className="inline-block rounded-full border border-border bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    Ready When You Are
+                  </p>
+
+                  <h3 className="mx-auto mt-7 text-3xl font-bold tracking-tight text-foreground sm:text-4xl leading-tight max-w-lg">
+                    Stop letting good leads disappear into nothing.
+                  </h3>
+
+                  <p className="mx-auto mt-5 max-w-md text-base text-muted-foreground">
+                    Connect Miralas and streamline your lead growth effortlessly today.
+                  </p>
+
+                  <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 hover:shadow-lg">
+                      Explore Miralas
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-border bg-card px-8 py-3.5 text-sm font-medium text-foreground transition-colors hover:bg-accent">
+                      <Search className="h-4 w-4 text-muted-foreground" />
+                      Book a Call
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+
+       
+      </main>
+    </SmoothScroll>
+  );
+}
