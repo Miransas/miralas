@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq, sql } from "drizzle-orm";
+import { sql, type SQL } from "drizzle-orm";
 
 import { db } from "@/db";
-import {
-  visitors,
-  trackingEvents,
-} from "@/db/schema";
+import { visitors, trackingEvents } from "@/db/schema";
 
 export const dynamic = "force-dynamic";
 
@@ -20,11 +17,8 @@ type Attribution = {
   captured_at: string;
 };
 
-function parseCookie<T>(
-  value?: string
-): T | null {
+function parseCookie<T>(value?: string): T | null {
   if (!value) return null;
-
   try {
     return JSON.parse(value) as T;
   } catch {
@@ -32,263 +26,117 @@ function parseCookie<T>(
   }
 }
 
-export async function POST(
-  request: NextRequest
-) {
-  try {
-    const visitorId =
-      request.cookies.get("visitor_id")?.value;
+function cleanString(v: unknown, max: number): string | null {
+  if (typeof v !== "string") return null;
+  const s = v.trim();
+  if (!s || s.length > max) return null;
+  return s;
+}
 
+export async function POST(request: NextRequest) {
+  try {
+    const visitorId = request.cookies.get("visitor_id")?.value;
     if (!visitorId) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "visitor_id_missing",
-        },
+        { success: false, error: "visitor_id_missing" },
         { status: 400 }
       );
     }
 
-    const firstTouch =
-      parseCookie<Attribution>(
-        request.cookies.get(
-          "attribution_first"
-        )?.value
-      );
+    const firstTouch = parseCookie<Attribution>(
+      request.cookies.get("attribution_first")?.value
+    );
+    const lastTouch = parseCookie<Attribution>(
+      request.cookies.get("attribution_last")?.value
+    );
 
-    const lastTouch =
-      parseCookie<Attribution>(
-        request.cookies.get(
-          "attribution_last"
-        )?.value
-      );
+    const body = await request.json().catch(() => ({}));
 
-    const body =
-      await request.json().catch(
-        () => ({})
-      );
-
-    const eventId =
-      typeof body.eventId === "string"
-        ? body.eventId
-        : null;
-
-    const eventName =
-      typeof body.eventName === "string"
-        ? body.eventName
-        : "page_view";
-
-    const page =
-      typeof body.page === "string"
-        ? body.page
-        : null;
-
-    /*
-     * Event ID olmadan tracking kabul etmiyoruz.
-     */
+    const eventId = cleanString(body.eventId, 100);
     if (!eventId) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "event_id_missing",
-        },
+        { success: false, error: "event_id_invalid" },
         { status: 400 }
       );
     }
 
-    /*
-     * --------------------------------------------------
-     * DUPLICATE CHECK
-     * --------------------------------------------------
-     *
-     * Has this event already been recorded?
-     */
-    const existingEvent =
-      await db
-        .select({
-          id: trackingEvents.id,
-        })
-        .from(trackingEvents)
-        .where(
-          eq(
-            trackingEvents.eventId,
-            eventId
-          )
-        )
-        .limit(1);
+    const eventName = cleanString(body.eventName, 64) ?? "page_view";
 
-    if (existingEvent.length > 0) {
-      return NextResponse.json({
-        success: true,
-        duplicate: true,
-      });
+    let page = cleanString(body.page, 500);
+    if (page && !page.startsWith("/")) page = null;
+
+    /*
+     * 1) Event önce. Çakışırsa duplicate, visitor'a dokunma.
+     */
+    const inserted = await db
+      .insert(trackingEvents)
+      .values({
+        eventId,
+        visitorId,
+        eventName,
+        page,
+        source: lastTouch?.source ?? "direct",
+        medium: lastTouch?.medium ?? "none",
+        campaign: lastTouch?.campaign ?? null,
+      })
+      .onConflictDoNothing({ target: trackingEvents.eventId })
+      .returning({ id: trackingEvents.id });
+
+    if (inserted.length === 0) {
+      return NextResponse.json({ success: true, duplicate: true });
     }
 
     /*
-     * --------------------------------------------------
-     * CREATE VISITOR
-     * --------------------------------------------------
+     * 2) Visitor tek upsert.
      */
+    const set: Record<string, SQL | Date | string | null> = {
+      pageViews: sql`${visitors.pageViews} + 1`,
+      lastSeenAt: new Date(),
+    };
+
+    if (lastTouch) {
+      set.lastSource = lastTouch.source;
+      set.lastMedium = lastTouch.medium;
+      set.lastCampaign = lastTouch.campaign;
+      set.lastContent = lastTouch.content;
+      set.lastTerm = lastTouch.term;
+      set.lastReferrer = lastTouch.referrer;
+      set.lastLandingUrl = lastTouch.landing_url;
+    }
 
     await db
       .insert(visitors)
       .values({
         visitorId,
 
-        firstSource:
-          firstTouch?.source ?? "direct",
+        firstSource: firstTouch?.source ?? "direct",
+        firstMedium: firstTouch?.medium ?? "none",
+        firstCampaign: firstTouch?.campaign ?? null,
+        firstContent: firstTouch?.content ?? null,
+        firstTerm: firstTouch?.term ?? null,
+        firstReferrer: firstTouch?.referrer ?? null,
+        firstLandingUrl: firstTouch?.landing_url ?? null,
 
-        firstMedium:
-          firstTouch?.medium ?? "none",
+        lastSource: lastTouch?.source ?? "direct",
+        lastMedium: lastTouch?.medium ?? "none",
+        lastCampaign: lastTouch?.campaign ?? null,
+        lastContent: lastTouch?.content ?? null,
+        lastTerm: lastTouch?.term ?? null,
+        lastReferrer: lastTouch?.referrer ?? null,
+        lastLandingUrl: lastTouch?.landing_url ?? null,
 
-        firstCampaign:
-          firstTouch?.campaign ?? null,
-
-        firstContent:
-          firstTouch?.content ?? null,
-
-        firstTerm:
-          firstTouch?.term ?? null,
-
-        firstReferrer:
-          firstTouch?.referrer ?? null,
-
-        firstLandingUrl:
-          firstTouch?.landing_url ?? null,
-
-        lastSource:
-          lastTouch?.source ?? "direct",
-
-        lastMedium:
-          lastTouch?.medium ?? "none",
-
-        lastCampaign:
-          lastTouch?.campaign ?? null,
-
-        lastContent:
-          lastTouch?.content ?? null,
-
-        lastTerm:
-          lastTouch?.term ?? null,
-
-        lastReferrer:
-          lastTouch?.referrer ?? null,
-
-        lastLandingUrl:
-          lastTouch?.landing_url ?? null,
-
-        pageViews: 0,
+        pageViews: 1,
       })
-      .onConflictDoNothing({
+      .onConflictDoUpdate({
         target: visitors.visitorId,
+        set,
       });
 
-    /*
-     * --------------------------------------------------
-     * PAGE VIEW +1
-     * --------------------------------------------------
-     */
-
-    const updateData: {
-      pageViews: ReturnType<typeof sql>;
-      lastSeenAt: Date;
-
-      lastSource?: string;
-      lastMedium?: string;
-      lastCampaign?: string | null;
-      lastContent?: string | null;
-      lastTerm?: string | null;
-      lastReferrer?: string | null;
-      lastLandingUrl?: string | null;
-    } = {
-      pageViews:
-        sql`${visitors.pageViews} + 1`,
-
-      lastSeenAt: new Date(),
-    };
-
-    /*
-     * Update last touch only when real attribution
-     * is present.
-     */
-    if (lastTouch) {
-      updateData.lastSource =
-        lastTouch.source;
-
-      updateData.lastMedium =
-        lastTouch.medium;
-
-      updateData.lastCampaign =
-        lastTouch.campaign;
-
-      updateData.lastContent =
-        lastTouch.content;
-
-      updateData.lastTerm =
-        lastTouch.term;
-
-      updateData.lastReferrer =
-        lastTouch.referrer;
-
-      updateData.lastLandingUrl =
-        lastTouch.landing_url;
-    }
-
-    await db
-      .update(visitors)
-      .set(updateData)
-      .where(
-        eq(
-          visitors.visitorId,
-          visitorId
-        )
-      );
-
-    /*
-     * --------------------------------------------------
-     * EVENT INSERT
-     * --------------------------------------------------
-     */
-
-    await db
-      .insert(trackingEvents)
-      .values({
-        eventId,
-
-        visitorId,
-
-        eventName,
-
-        page,
-
-        source:
-          lastTouch?.source ?? "direct",
-
-        medium:
-          lastTouch?.medium ?? "none",
-
-        campaign:
-          lastTouch?.campaign ?? null,
-      })
-      .onConflictDoNothing({
-        target: trackingEvents.eventId,
-      });
-
-    return NextResponse.json({
-      success: true,
-      duplicate: false,
-    });
+    return NextResponse.json({ success: true, duplicate: false });
   } catch (error) {
-    console.error(
-      "Tracking error:",
-      error
-    );
-
+    console.error("Tracking error:", error);
     return NextResponse.json(
-      {
-        success: false,
-        error: "tracking_failed",
-      },
+      { success: false, error: "tracking_failed" },
       { status: 500 }
     );
   }

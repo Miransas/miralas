@@ -4,7 +4,19 @@ const FIRST_TOUCH_COOKIE = "attribution_first";
 const LAST_TOUCH_COOKIE = "attribution_last";
 const VISITOR_COOKIE = "visitor_id";
 
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 90; // 90 day
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 90; // 90 gün
+
+// Kendi domainlerin: bunlardan gelen referer "referral" sayılmaz
+const OWN_HOSTS = ["miralas.io", "miralas.org"];
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  maxAge: COOKIE_MAX_AGE,
+  path: "/",
+  domain: process.env.NODE_ENV === "production" ? ".miralas.io" : undefined,
+};
 
 type Attribution = {
   source: string;
@@ -17,179 +29,119 @@ type Attribution = {
   captured_at: string;
 };
 
-function getAttribution(
-  request: NextRequest
-): Attribution | null {
-  const { searchParams, href } = request.nextUrl;
+function isOwnHost(hostname: string) {
+  return OWN_HOSTS.some((h) => hostname === h || hostname.endsWith("." + h));
+}
 
+/*
+ * Sadece gerçek tarayıcı sayfa navigasyonları.
+ * Prefetch ve RSC istekleri sahte referral üretiyordu.
+ */
+function isDocumentNavigation(request: NextRequest) {
+  const h = request.headers;
+  if (h.get("next-router-prefetch")) return false;
+  if (h.get("purpose") === "prefetch") return false;
+  if (h.get("rsc")) return false;
+  const dest = h.get("sec-fetch-dest");
+  if (dest && dest !== "document") return false;
+  return true;
+}
+
+function getAttribution(request: NextRequest): Attribution | null {
+  const { searchParams, href } = request.nextUrl;
+  const referrer = request.headers.get("referer");
+  const ua = request.headers.get("user-agent") || "";
+
+  const base = {
+    campaign: searchParams.get("utm_campaign"),
+    content: searchParams.get("utm_content"),
+    term: searchParams.get("utm_term"),
+    referrer,
+    landing_url: href,
+    captured_at: new Date().toISOString(),
+  };
+
+  // 1) UTM
   const utmSource = searchParams.get("utm_source");
   const utmMedium = searchParams.get("utm_medium");
-  const utmCampaign = searchParams.get("utm_campaign");
-  const utmContent = searchParams.get("utm_content");
-  const utmTerm = searchParams.get("utm_term");
-
-  const referrer = request.headers.get("referer");
-
-  /*
-   * UTM varsa kesin attribution.
-   */
-  if (
-    utmSource ||
-    utmMedium ||
-    utmCampaign ||
-    utmContent ||
-    utmTerm
-  ) {
+  if (utmSource || utmMedium || base.campaign || base.content || base.term) {
     return {
+      ...base,
       source: utmSource || "unknown",
       medium: utmMedium || "unknown",
-      campaign: utmCampaign,
-      content: utmContent,
-      term: utmTerm,
-      referrer,
-      landing_url: href,
-      captured_at: new Date().toISOString(),
     };
   }
 
-  /*
-   * Referer varsa referral.
-   */
+  // 2) Click ID'ler (UTM'siz reklam/sosyal linkleri)
+  if (searchParams.get("gclid"))
+    return { ...base, source: "google", medium: "cpc" };
+  if (searchParams.get("fbclid"))
+    return { ...base, source: "facebook", medium: "social" };
+  if (searchParams.get("igshid"))
+    return { ...base, source: "instagram", medium: "social" };
+  if (searchParams.get("ttclid"))
+    return { ...base, source: "tiktok", medium: "social" };
+
+  // 3) Referer (kendi siteni HARİÇ tut)
   if (referrer) {
     try {
-      const referrerUrl = new URL(referrer);
-
-      return {
-        source: referrerUrl.hostname,
-        medium: "referral",
-        campaign: null,
-        content: null,
-        term: null,
-        referrer,
-        landing_url: href,
-        captured_at: new Date().toISOString(),
-      };
+      const url = new URL(referrer);
+      if (url.protocol === "android-app:") {
+        return { ...base, source: url.hostname, medium: "referral" };
+      }
+      if (!isOwnHost(url.hostname)) {
+        return { ...base, source: url.hostname, medium: "referral" };
+      }
+      return null; // internal navigation
     } catch {
       return null;
     }
   }
 
-  /*
-   * No attribution without UTM parameters or a referrer.
-   *
-   * Do not set DIRECT here.
-   *
-   * If the user arrived from Instagram, attribution
-   * should remain intact during internal navigation.
-   */
-  return null;
-}
+  // 4) Referer yok ama in-app browser (Instagram vs.)
+  if (/Instagram/i.test(ua))
+    return { ...base, source: "instagram", medium: "social" };
+  if (/FBAN|FBAV/i.test(ua))
+    return { ...base, source: "facebook", medium: "social" };
+  if (/musical_ly|BytedanceWebview|TikTok/i.test(ua))
+    return { ...base, source: "tiktok", medium: "social" };
 
-function createVisitorId() {
-  return crypto.randomUUID();
+  // Attribution yok. "direct" burada set edilmez, internal navigation'da
+  // mevcut attribution bozulmasın.
+  return null;
 }
 
 export function proxy(request: NextRequest) {
   const response = NextResponse.next();
 
-  /*
-   * Create a visitor ID.
-   */
-  let visitorId =
-    request.cookies.get(VISITOR_COOKIE)?.value;
+  // Prefetch / RSC / fetch istekleri tracking'e girmesin
+  if (!isDocumentNavigation(request)) return response;
 
+  // Visitor ID
+  let visitorId = request.cookies.get(VISITOR_COOKIE)?.value;
   if (!visitorId) {
-    visitorId = createVisitorId();
-
-    response.cookies.set(
-      VISITOR_COOKIE,
-      visitorId,
-      {
-        httpOnly: true,
-        secure:
-          process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: COOKIE_MAX_AGE,
-        path: "/",
-      }
-    );
+    visitorId = crypto.randomUUID();
+    response.cookies.set(VISITOR_COOKIE, visitorId, cookieOptions);
   }
 
-  /*
-   * Attribution yakala.
-   */
   const attribution = getAttribution(request);
+  if (!attribution) return response;
 
-  const firstTouch = request.cookies.get(
-    FIRST_TOUCH_COOKIE
-  );
+  const serialized = JSON.stringify(attribution);
 
-  /*
-   * FIRST TOUCH
-   *
-   * Create only when the first attribution arrives.
-   */
-  if (attribution && !firstTouch) {
-    response.cookies.set(
-      FIRST_TOUCH_COOKIE,
-      JSON.stringify(attribution),
-      {
-        httpOnly: true,
-        secure:
-          process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: COOKIE_MAX_AGE,
-        path: "/",
-      }
-    );
+  // FIRST TOUCH: sadece ilk attribution geldiğinde
+  if (!request.cookies.get(FIRST_TOUCH_COOKIE)) {
+    response.cookies.set(FIRST_TOUCH_COOKIE, serialized, cookieOptions);
   }
 
-  /*
-   * LAST TOUCH
-   *
-   * Update only when there is new attribution.
-   *
-   * /pricing
-   * /about
-   * /signup
-   *
-   * gibi internal navigation'larda
-   * Attribution does not change.
-   */
-  if (attribution) {
-    response.cookies.set(
-      LAST_TOUCH_COOKIE,
-      JSON.stringify(attribution),
-      {
-        httpOnly: true,
-        secure:
-          process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: COOKIE_MAX_AGE,
-        path: "/",
-      }
-    );
-  }
+  // LAST TOUCH: her yeni attribution'da güncelle
+  response.cookies.set(LAST_TOUCH_COOKIE, serialized, cookieOptions);
 
   return response;
 }
 
 export const config = {
   matcher: [
-    /*
-     * Target only real page requests.
-     *
-     * API
-     * _next
-     * static
-     * image
-     * favicon
-     * sitemap
-     * robots
-     * File extensions
-     *
-     * tracking'e girmeyecek.
-     */
     "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|mjs|map|txt|xml|woff|woff2|ttf|otf)$).*)",
   ],
 };

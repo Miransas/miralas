@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
         last = null;
     }
 
-    return NextResponse.json({
-        first,
-        last,
-    });
+    return NextResponse.json(
+   { first, last },
+   { headers: { "Cache-Control": "no-store" } }
+);
 }
