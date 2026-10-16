@@ -157,10 +157,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-        {/* {isLocked && <ComingSoonModal />}   */}
-        <Header/>
+          {/* {isLocked && <ComingSoonModal />}   */}
           {children}
-          <Footer/>
         </ThemeProvider>
         {googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
       </body>
