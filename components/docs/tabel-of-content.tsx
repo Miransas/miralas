@@ -16,7 +16,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicatorTop, setIndicatorTop] = useState(0);
   
-  // Hydration ve ilk yüklenmedeki "zıplama" animasyonunu önlemek için
+  // Prevent a "jump" during hydration and initial load
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     ) as HTMLElement | null;
     
     if (activeEl) {
-      // 16px (h-4) yüksekliğindeki çubuğu tam ortalamak için 8 çıkarıyoruz
+      // Subtract 8 to center the 16px (h-4) bar
       setIndicatorTop(activeEl.offsetTop + activeEl.offsetHeight / 2 - 8);
     }
   }, [activeId, items]);
@@ -42,23 +42,23 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
-      // Offset gerekiyorsa ileride burayı güncelleyebilirsin
+      // Update this if an offset is needed later
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   return (
     <div className="py-6">
-      {/* Başlık: Sidebar ile aynı premium tipografi */}
+      {/* Heading: match the sidebar's premium typography */}
       <h4 className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
         On this page
       </h4>
       
       <div ref={containerRef} className="relative pl-4">
-        {/* Arka plandaki ince dikey rehber çizgi */}
+        {/* Subtle vertical guide line in the background */}
         <div className="absolute left-0 top-0 h-full w-px bg-border/40" />
 
-        {/* Hareket eden aktif öğe göstergesi (Zarif dikey çubuk) */}
+        {/* Moving active item indicator (slim vertical bar) */}
         {hasMounted && activeId && (
           <motion.div
             className="absolute left-[-0.5px] h-4 w-[2px] rounded-full "

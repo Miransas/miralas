@@ -27,7 +27,7 @@ export default function SupportSections() {
   return (
     <div className="min-h-screen bg-[#F2F2F2] dark:bg-zinc-950 text-zinc-950 dark:text-white pt-32 pb-24 font-sans antialiased transition-colors duration-300">
       
-      {/* Hero / Arama Bölümü */}
+      {/* Hero / search section */}
       <section className="relative px-6 pb-20 max-w-4xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-white/5 text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-300 mb-8 shadow-sm">
           <LifeBuoy className="size-3.5 text-zinc-950 dark:text-white" />
@@ -41,7 +41,7 @@ export default function SupportSections() {
           Search our documentation, look through frequently asked questions, or reach out to the Miralas engineering team.
         </p>
 
-        {/* Minimalist ve Zarif Arama Kutusu */}
+        {/* Minimal, elegant search box */}
         <div className="relative max-w-2xl mx-auto group">
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 size-5 text-zinc-400 dark:text-zinc-500 group-focus-within:text-zinc-950 dark:group-focus-within:text-white transition-colors" />
           <input
@@ -62,7 +62,7 @@ export default function SupportSections() {
         </div>
       </section>
 
-      {/* Destek Kategorileri Grid Yapısı */}
+      {/* Support category grid */}
       <section className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-8">
           <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
@@ -110,7 +110,7 @@ export default function SupportSections() {
         </div>
       </section>
 
-      {/* Sık Sorulan Sorular (FAQ) Bölümü */}
+      {/* Frequently asked questions */}
       <section className="max-w-3xl mx-auto px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-bold text-zinc-950 dark:text-white mb-3 tracking-tight">
@@ -133,9 +133,9 @@ export default function SupportSections() {
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-6 px-8 py-6 text-left focus:outline-none"
+                    className="flex w-full items-center justify-between gap-6 px-8 py-4 text-left focus:outline-none"
                   >
-                    <span className="text-[17px] font-bold text-zinc-950 dark:text-white leading-snug">
+                    <span className="md:text-[17px] text-sm font-bold text-zinc-950 dark:text-white leading-snug">
                       {faq.question}
                     </span>
                     <motion.div
@@ -185,7 +185,7 @@ export default function SupportSections() {
         </div>
       </section>
 
-      {/* Enterprise Destek / İletişim Kartı */}
+      {/* Enterprise support / contact card */}
       <section className="max-w-4xl mx-auto px-6 mt-16">
         <div className="p-10 md:p-16 rounded-[40px] bg-white dark:bg-[#141210] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden shadow-sm">
           

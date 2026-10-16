@@ -3,17 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { Globe, ChevronDown, Check } from "lucide-react";
 
-// Bayraklar kaldırıldı, sadece Dil ve Bölge isimleri bırakıldı
+// Flags removed; display only language and region names
 const REGIONS = [
   { code: "EN", name: "English (US)", region: "Global" },
-  { code: "TR", name: "Türkçe", region: "Türkiye" },
+  { code: "TR", name: "Turkish", region: "Turkey" },
   { code: "UZ", name: "Oʻzbekcha", region: "Uzbekistan" },
   { code: "KZ", name: "Qazaqsha", region: "Kazakhstan" },
   { code: "ES", name: "Español", region: "LatAm" },
 ];
 
 export default function FooterLocation() {
-  const [selectedRegion, setSelectedRegion] = useState(REGIONS[0]); // Varsayılan Global (EN)
+  const [selectedRegion, setSelectedRegion] = useState(REGIONS[0]); // Default to Global (EN)
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +43,7 @@ export default function FooterLocation() {
 
   return (
     <div className="relative inline-block font-sans">
-      {/* Seçici Buton */}
+      {/* Selector button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -62,10 +62,10 @@ export default function FooterLocation() {
         />
       </button>
 
-      {/* Yukarı Açılan Menü (Popover Dropdown) */}
+      {/* Upward-opening popover menu */}
       {isOpen && (
         <>
-          {/* Arka plan tıklama alanı (Kapatmak için) */}
+          {/* Backdrop click area (to close) */}
           <div 
             className="fixed inset-0 z-40" 
             onClick={() => setIsOpen(false)} 

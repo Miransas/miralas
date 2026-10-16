@@ -213,8 +213,8 @@ export default function RobotEyes() {
         distance / 500;
 
       /*
-       * Çok küçük hareket.
-       * Robotun yüzü bozulmadan
+       * Very small movement.
+       * Keep the robot's face intact.
        * mouse'u takip eder.
        */
       const maxMove = 6;

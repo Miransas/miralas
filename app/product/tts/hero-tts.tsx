@@ -31,7 +31,7 @@ export default function HeroSection() {
         <div className="absolute -bottom-[20%] right-[10%] h-[600px] w-[600px] rounded-full bg-zinc-200/50 blur-[150px] dark:bg-white/5" />
       </div>
 
-      {/* MOBİL: MARQUEE */}
+      {/* MOBILE: MARQUEE */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden lg:hidden">
         <div className="absolute -inset-x-40 -inset-y-40 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]">
           <div className="absolute inset-0 flex rotate-[24deg] scale-[1.35] items-center justify-center gap-6 opacity-30 dark:opacity-20">

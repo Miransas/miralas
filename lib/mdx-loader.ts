@@ -37,7 +37,7 @@ export async function loadDoc(slug: string): Promise<DocContent | null> {
   const mdxSource = await serialize(rawContent, {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
-      // 2. rehypeSlug eklentisini buraya ekledik. Artık HTML başlıkları otomatik id alacak.
+      // 2. Add rehypeSlug so HTML headings automatically receive IDs.
       rehypePlugins: [rehypeSlug, rehypeHighlight], 
     },
   });
@@ -53,7 +53,7 @@ function extractToc(content: string): TocItem[] {
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length;
     const title = match[2].trim();
-    // 3. GitHub/rehype-slug standartlarına yakın bir id üretimi (Türkçe karakter güvenli)
+    // 3. Generate IDs similar to GitHub/rehype-slug, preserving Turkish character safety.
     const id = title
       .toLowerCase()
       .replace(/ğ/g, 'g')

@@ -12,30 +12,30 @@ export function AboutSection() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10 space-y-16">
         
-        {/* ── 1. MANİFESTO & ÜST BAŞLIK ── */}
+        {/* ── 1. MANIFESTO & HERO ── */}
         <div className="max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#EFECE6] dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-md text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 shadow-sm">
             <Sparkles className="size-3.5 text-amber-600 dark:text-amber-400" />
-            <span>Stüdyo & Ses Mimarisi</span>
+            <span>Studio & Voice Architecture</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.15]">
-            Sadece ses sentezlemiyoruz.{' '}
+            We don't just synthesize voices.{' '}
             <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">
-              İnsan hissiyatını
+              We bring human emotion
             </span>{' '}
-            kodlara döküyoruz.
+            to code.
           </h2>
 
           <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal pt-2">
-            Miransas, yapay zekanın soğuk sentetik ses duvarını yıkmak için kuruldu. Ultra düşük gecikmeli (Sub-100ms) akış altyapımız ve derin öğrenme modellerimizle, küresel markalar ve içerik üreticileri için insan doğallığında ses deneyimleri inşa ediyoruz.
+            Miransas was founded to break through the cold, synthetic sound of AI. With ultra-low-latency (under 100 ms) streaming infrastructure and deep learning models, we build natural-sounding voice experiences for global brands and creators.
           </p>
         </div>
 
         {/* ── 2. BENTO GRID SHOWCASE ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* Kart 1: Live Voice Engine & Waveform (Büyük Kart - 7 Kolon) */}
+          {/* Card 1: Live Voice Engine & Waveform (large, 7 columns) */}
           <div className="md:col-span-3 lg:col-span-7 flex flex-col justify-between rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#141210] border border-[#EFECE6] dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.02)] relative overflow-hidden group">
             
             <div className="space-y-4 relative z-10">
@@ -46,11 +46,11 @@ export function AboutSection() {
                 Neural Stream Engine v3
               </h3>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
-                Derin sinir ağlarımız, konuşma sırasındaki nefes duraksamalarını, duygu geçişlerini ve tonlama vurgularını milisaniyeler içinde işler.
+                Our deep neural networks process breathing pauses, emotional shifts, and intonation in speech within milliseconds.
               </p>
             </div>
 
-            {/* İnteraktif Simüle Ses Dalgaları */}
+            {/* Interactive simulated sound waves */}
             <div className="mt-12 pt-6 border-t border-[#EFECE6] dark:border-white/10 flex items-center justify-between gap-2">
               <div className="flex items-end gap-1.5 h-12 w-full">
                 {[40, 70, 25, 90, 60, 30, 85, 100, 45, 65, 80, 35, 95, 50, 75, 20, 85, 60].map((h, i) => (
@@ -68,18 +68,18 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Kart 2: Low Latency Metric (Küçük Kart - 5 Kolon) */}
+          {/* Card 2: Low-latency metric (small, 5 columns) */}
           <div className="md:col-span-3 lg:col-span-5 flex flex-col justify-between rounded-3xl p-8 sm:p-10 bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 shadow-xl relative overflow-hidden">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 dark:bg-zinc-900/10 text-[10px] font-bold uppercase tracking-wider">
                 <Activity className="size-3 text-emerald-400 dark:text-emerald-600" />
-                <span>Gecikme Süresi</span>
+                <span>Latency</span>
               </div>
               <h3 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
                 &lt; 90 ms
               </h3>
               <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-600 leading-relaxed pt-2">
-                Dünya çapındaki kenar (edge) sunucu ağımız sayesinde insan kulağının fark edemeyeceği hızda gerçek zamanlı ses akışı sağlatıyoruz.
+                Our global edge network enables real-time audio streaming at speeds imperceptible to the human ear.
               </p>
             </div>
 
@@ -99,7 +99,7 @@ export function AboutSection() {
                 Zero-Data Retention
               </h4>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                Kurumsal verileriniz ve ses klonlama modelleriniz asla izinsiz kaydedilmez veya kamuya açık modelleri eğitmek için kullanılmaz.
+                Your enterprise data and voice cloning models are never recorded without authorization or used to train public models.
               </p>
             </div>
           </div>
@@ -111,10 +111,10 @@ export function AboutSection() {
                 <Globe2 className="size-5 text-zinc-900 dark:text-white" />
               </div>
               <h4 className="text-lg font-bold text-zinc-950 dark:text-white">
-                32+ Aksan ve Tonlama
+                32+ Accents and Intonations
               </h4>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                Türkçe dahil tüm majör dillerde doğal aksan, fısıltı, heyecan ve kurumsal tonlama parametrelerini tek API üzerinden yönetin.
+                Control natural accents, whispers, excitement, and professional intonation across all major languages—including Turkish—through a single API.
               </p>
             </div>
           </div>
@@ -129,26 +129,26 @@ export function AboutSection() {
                 Dedicated Cluster SLA
               </h4>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                Yüksek çağrı hacmine sahip kuruluşlar için %99.99 çalışma süresi (uptime) ve size özel ayrılmış GPU sunucu kümeleri.
+                99.99% uptime and dedicated GPU clusters for organizations with high call volumes.
               </p>
             </div>
           </div>
 
         </div>
 
-        {/* ── 3. SAYISAL İSTATİSTİK & GÜVEN ŞERİDİ ── */}
+        {/* ── 3. METRICS & TRUST ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t border-[#EFECE6] dark:border-white/10">
           <div>
             <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">50M+</p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Aylık Sentezlenen Karakter</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Characters Synthesized Monthly</p>
           </div>
           <div>
             <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">&lt; 90ms</p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ortalama Uçtan Uca Gecikme</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Average End-to-End Latency</p>
           </div>
           <div>
             <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">32+</p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Desteklenen Küresel Dil</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Supported Languages Worldwide</p>
           </div>
           <div>
             <p className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">%99.99</p>

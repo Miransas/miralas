@@ -22,130 +22,61 @@ interface FAQItem {
 const API_FAQS: FAQItem[] = [
   {
     id: 'what-is-api',
-    question: 'Miransas API nedir?',
+    question: 'What is the Miransas API?',
     answer: (
       <p>
-        Miransas API; geliştiricilerin ve şirketlerin insan doğallığındaki ses sentezini, gerçek zamanlı konuşma asistanlarını ve ses klonlama modellerini kendi yazılımlarına, web sitelerine veya mobil uygulamalarına doğrudan entegre etmelerini sağlayan güçlü bir REST ve WebSocket programlama arayüzüdür.
+        The Miransas API is a powerful REST and WebSocket interface that lets developers and companies integrate natural-sounding voice synthesis, real-time conversational agents, and voice cloning models directly into their software, websites, or mobile apps.
       </p>
     ),
   },
   {
     id: 'available-apis',
-    question: 'Hangi API uç noktaları (endpoints) mevcuttur?',
+    question: 'Which API endpoints are available?',
     answer: (
       <p>
-        Metinden sese (Text-to-Speech), gerçek zamanlı ses akışı (Real-time Streaming), ses klonlama (Voice Cloning), ses tasarımı (Voice Design), dil modelleri entegrasyonu ve çoklu asistan yönetimi (Multi-agent orchestration) için uçtan uca zengin bir uç nokta koleksiyonu sunuyoruz.
+        We offer a comprehensive set of endpoints for text-to-speech, real-time streaming, voice cloning, voice design, language model integrations, and multi-agent orchestration.
       </p>
     ),
   },
   {
     id: 'what-can-i-build',
-    question: 'API ile neler inşa edebilirim?',
+    question: 'What can I build with the API?',
     answer: (
       <p>
-        Akıllı müşteri hizmetleri botları (IVR), yapay zeka destekli sesli asistanlar, sesli kitap üreticileri, e-learning platformları, oyun içi NPC seslendirmeleri ve otomatik içerik seslendirme sistemleri geliştirebilirsiniz.
+        You can build intelligent customer service bots (IVR), AI-powered voice assistants, audiobook generators, e-learning platforms, in-game NPC voiceovers, and automated content narration systems.
       </p>
     ),
   },
   {
     id: 'authentication',
-    question: 'Kimlik doğrulama (Authentication) nasıl çalışır?',
+    question: 'How does authentication work?',
     answer: (
       <p>
-        Tüm API istekleri, Miransas Console üzerinden üreteceğiniz gizli bir <strong>API Anahtarı (xi-api-key)</strong> gerektirir. Bu anahtarı istek başlıklarında (headers) güvenli bir şekilde ileterek işlemlerinizi yetkilendirebilirsiniz.
+        All API requests require a secret <strong>API key (xi-api-key)</strong>, which you can generate in the Miransas Console. Pass this key securely in your request headers to authorize API calls.
       </p>
     ),
   },
   {
     id: 'usage-limits',
-    question: 'Kullanım limitleri (Usage limits) nelerdir?',
+    question: 'What are the usage limits?',
     answer: (
       <p>
-        Limitler seçtiğiniz abonelik planına (Free, Pro, Scale, Enterprise) göre değişiklik gösterir. Dakika başına istek (RPM) sınırları kurumsal ihtiyaçlara göre özel olarak esnetilebilir veya Burst Pricing ile artırılabilir.
+        Limits vary by subscription plan (Free, Pro, Scale, or Enterprise). Requests-per-minute (RPM) limits can be tailored to enterprise needs or increased with Burst Pricing.
       </p>
     ),
   },
   {
     id: 'sdks-provided',
-    question: 'Yazılım geliştirme kiti (SDK) sağlıyor musunuz?',
+    question: 'Do you provide SDKs?',
     answer: (
       <p>
-        Evet. En popüler diller için optimize edilmiş resmi <strong>Python ve TypeScript / JavaScript SDK</strong> paketlerimiz mevcuttur; böylece projelerinize dakikalar içinde entegrasyon sağlayabilirsiniz.
+        Yes. We provide official <strong>Python and TypeScript / JavaScript SDKs</strong> optimized for popular languages, so you can integrate the API into your projects in minutes.
       </p>
     ),
   },
-  {
-    id: 'metering',
-    question: 'Kullanım ücretlendirmesi nasıl ölçülür (Metered)?',
-    answer: (
-      <p>
-        Faturalandırma, API üzerinden başarıyla sentezlenen toplam karakter veya dakika miktarı baz alınarak saniye hassasiyetinde otomatik olarak ölçülür.
-      </p>
-    ),
-  },
-  {
-    id: 'custom-voices',
-    question: 'API üzerinden özel sesler (Custom voices) kullanabilir miyim?',
-    answer: (
-      <p>
-        Kesinlikle. Kendi ses klonlarınızı kontrol paneli üzerinden oluşturabilir ve API isteklerinizde ilgili <code>voice_id</code> parametresini belirterek özel seslerinizle sentez yapabilirsiniz.
-      </p>
-    ),
-  },
-  {
-    id: 'commercial-use',
-    question: 'API içeriği ticari kullanım için güvenli ve yasal mı?',
-    answer: (
-      <p>
-        Pro, Scale ve Enterprise planlarımızla üretilen tüm ses içerikleri ticari projelerinizde (reklamlar, ticari uygulamalar, prodüksiyonlar) tamamen yasal olarak kullanılabilir.
-      </p>
-    ),
-  },
-  {
-    id: 'latency',
-    question: 'Nasıl bir gecikme (latency) süresi beklemeliyim?',
-    answer: (
-      <p>
-        Küresel edge (kenar) sunucu altyapımız ve optimize edilmiş sinirsel akış modellerimiz sayesinde, standart uçtan uca gecikme süremiz <strong>90 milisaniyenin altındadır</strong>.
-      </p>
-    ),
-  },
-  {
-    id: 'streaming-support',
-    question: 'Akış (Streaming) desteği var mı?',
-    answer: (
-      <p>
-        Evet. WebSocket ve parçalı HTTP transferleri üzerinden gerçek zamanlı ses akışı desteği sunuyoruz; metin işlenirken ses milisaniyeler içinde çalınmaya başlar.
-      </p>
-    ),
-  },
-  {
-    id: 'error-handling',
-    question: 'Hataları (Errors) nasıl yönetmeliyim?',
-    answer: (
-      <p>
-        Standart HTTP durum kodları (400, 401, 429, 500 vb.) ve açıklayıcı JSON hata gövdeleri döneriz. Rate limit aşımı veya geçersiz parametre durumlarında sistemimiz net yönlendirme mesajları sağlar.
-      </p>
-    ),
-  },
-  {
-    id: 'documentation',
-    question: 'API dokümantasyonunu nerede bulabilirim?',
-    answer: (
-      <p>
-        Detaylı kod örnekleri, Postman koleksiyonları ve uç nokta rehberleri için <code>docs.miransas.com</code> adresindeki geliştirici portalımızı inceleyebilirsiniz.
-      </p>
-    ),
-  },
-  {
-    id: 'enterprise-support',
-    question: 'Kurumsal destek (Enterprise support) sunuyor musunuz?',
-    answer: (
-      <p>
-        Evet. Kurumsal müşterilerimize özel Slack/Discord kanalları, SLA garantileri, özel sunucu konuşlandırmaları (custom deployments) ve 7/24 mühendislik desteği sağlıyoruz.
-      </p>
-    ),
-  },
+ 
+
+ 
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -158,7 +89,7 @@ export function ApiSectionFAQ() {
   };
 
   return (
-    <section className="relative w-full py-24 sm:py-32 bg-[#F2F2F2] dark:bg-zinc-950 text-zinc-950 dark:text-white transition-colors duration-300 font-sans antialiased overflow-hidden">
+    <section className="relative w-full py-24 sm:py-32 bg-[#F2F2F2] dark:bg-[#050505] text-zinc-950 dark:text-white transition-colors duration-300 font-sans antialiased overflow-hidden">
       
       <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10 space-y-24">
         
@@ -173,11 +104,11 @@ export function ApiSectionFAQ() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
-              API hakkında <span className="text-zinc-400 dark:text-zinc-500  ">merak edilenler</span>
+              Frequently asked <span className="  ">API questions</span>
             </h2>
 
             <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto">
-              Kimlik doğrulama, SDK'lar, gecikme süreleri ve güvenlik politikalarımız hakkında kapsamlı rehber.
+              Learn about authentication, SDKs, latency, and our security policies.
             </p>
           </div>
 
@@ -188,12 +119,12 @@ export function ApiSectionFAQ() {
               return (
                 <div
                   key={faq.id}
-                  className="group rounded-[32px] bg-white dark:bg-[#141210] overflow-hidden shadow-sm transition-colors duration-300"
+                  className="group rounded-[32px]  bg-white dark:bg-white/10 overflow-hidden shadow-sm transition-colors duration-300"
                 >
                   <button
                     type="button"
                     onClick={() => toggleFAQ(faq.id)}
-                    className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none gap-6"
+                    className="w-full flex items-center justify-between p-4 sm:p-4 text-left focus:outline-none gap-6"
                     aria-expanded={isOpen}
                   >
                     <span className="text-[17px] font-bold text-zinc-950 dark:text-white leading-snug">

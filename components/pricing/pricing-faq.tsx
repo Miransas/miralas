@@ -13,82 +13,82 @@ interface FAQItem {
 const FAQS: FAQItem[] = [
   {
     id: 'agents-cost',
-    question: 'MiransasAgents paketleri dakika başına ne kadar tutar ve neleri kapsar?',
+    question: 'How much do MiransasAgents plans cost per minute, and what do they include?',
     answer: (
       <p>
-        Paketlerimiz dahilinde her ay belirli bir <strong>ücretsiz görüşme dakikası</strong> tanımlanır. Dahili dakikalarınız tükendiğinde, ek kullanım için paket seviyenize göre dakika başı (overage) birim fiyatlandırma devreye girer. Paketler; yüksek kaliteli ses sentezi, WebRTC canlı akış altyapısı, dahili LLM entegrasyonu ve gerçek zamanlı kesinti (interruption) yönetimini kapsar.
+        Every plan includes a set number of <strong>free call minutes</strong> each month. Once those minutes are used, additional usage is billed at a per-minute overage rate based on your plan. Plans include high-quality voice synthesis, WebRTC live streaming, built-in LLM integration, and real-time interruption handling.
       </p>
     ),
   },
   {
     id: 'agent-limits',
-    question: 'Kaç adet sesli asistan (agent) oluşturabilirim?',
+    question: 'How many voice agents can I create?',
     answer: (
       <p>
-        Oluşturabileceğiniz asistan sayısında katı bir sınır yoktur. Free plan ile <strong>1 adet</strong> test asistanı oluşturabilirken, Pro ve Business planlarında dilediğiniz kadar farklı senaryoya ve dile özel asistan tanımlayabilirsiniz. Sınırlandırmalar asistan sayısına değil, eşzamanlı çağrı kapasitesine (Concurrency) dayanır.
+        There is no strict limit on the number of agents you can create. The Free plan lets you create <strong>one</strong> test agent, while Pro and Business plans let you define as many agents as you need for different scenarios and languages. Limits are based on concurrent call capacity, not the number of agents.
       </p>
     ),
   },
   {
     id: 'llm-costs',
-    question: 'Sesli asistanda kullanılan LLM (Büyük Dil Modeli) için ekstra ücret öder miyim?',
+    question: 'Is there an extra charge for the LLM used by a voice agent?',
     answer: (
       <p>
-        Hayır. Standart paketlerimizde Miransas optimize edilmiş dahili dil modelleri dakika maliyetine dahildir. Dilerseniz <strong>BYOK (Bring Your Own Key)</strong> mimarimiz sayesinde kendi OpenAI, Anthropic veya Groq API anahtarlarınızı bağlayarak doğrudan kendi model sağlayıcınız üzerinden de faturalandırılabilirsiniz.
+        No. Miransas-optimized built-in language models are included in the per-minute cost of our standard plans. If you prefer, our <strong>BYOK (Bring Your Own Key)</strong> architecture lets you connect your OpenAI, Anthropic, or Groq API keys and pay your model provider directly.
       </p>
     ),
   },
   {
     id: 'telephony-charges',
-    question: 'Telefon entegrasyonu (SIP / Twilio / Santral) için ek ücret alınıyor mu?',
+    question: 'Are there extra charges for telephony integrations (SIP / Twilio / PBX)?',
     answer: (
       <p>
-        WebRTC tabanlı tarayıcı ve mobil uygulama aramaları tamamen paket dahiline dahildir. Telefon hatları (PSTN / Twilio / SIP Trunk) üzerinden yapılan gelen ve giden aramalar için operatör taşıma maliyetleri dakika başına cüzi bir ek ücretle yansıtılır veya kendi SIP altyapınızı sıfır komisyonla bağlayabilirsiniz.
+        Browser and mobile app calls over WebRTC are included in your plan. Incoming and outgoing calls over phone lines (PSTN / Twilio / SIP trunk) incur a small per-minute carrier fee, or you can connect your own SIP infrastructure with no commission.
       </p>
     ),
   },
   {
     id: 'burst-pricing',
-    question: 'Burst Pricing (Esnek Kapasite Kullanımı) nedir?',
+    question: 'What is Burst Pricing?',
     answer: (
       <p>
-        Beklenmedik çağrı yoğunluklarında (kampanya dönemleri, kriz anları) sisteminizin kilitlenmesini önleyen akıllı ölçekleme mekanizmasıdır. Eşzamanlı çağrı limitinizi aştığınızda, sunucularımız otomatik olarak kapasiteyi artırır ve aşan trafiği kesintisiz işleyerek sizi yalnızca gerçekleşen ekstra çağrı süresi kadar esnek birim fiyattan ücretlendirir.
+        Burst Pricing is an intelligent scaling mechanism that keeps your system running during unexpected call surges, such as campaigns or crises. When you exceed your concurrent call limit, our servers automatically add capacity and process the extra traffic without interruption. You pay only for the additional call time you use at a flexible rate.
       </p>
     ),
   },
   {
     id: 'plan-changes',
-    question: 'Aboneliğimi yükseltirsem, düşürürsem veya iptal edersem ne olur?',
+    question: 'What happens if I upgrade, downgrade, or cancel my subscription?',
     answer: (
       <p>
-        Plan yükseltmelerinde, mevcut ayda kullanmadığınız bakiyeniz orantılı (prorated) olarak yeni paketinize indirim olarak yansır ve anında üst özelliklere erişirsiniz. İptal veya alt pakete geçiş durumlarında ise fatura döneminizin sonuna kadar mevcut paket ayrıcalıklarınızı kullanmaya devam edersiniz.
+        When you upgrade, your unused balance for the current month is prorated as a discount on your new plan, and you get immediate access to its features. If you cancel or downgrade, you can keep using your current plan's benefits until the end of your billing period.
       </p>
     ),
   },
   {
     id: 'cancellation-terms',
-    question: 'Aboneliğimi ne zaman ve nasıl iptal edebilirim?',
+    question: 'When and how can I cancel my subscription?',
     answer: (
       <p>
-        Herhangi bir taahhüt veya gizli şart yoktur. Kontrol panelinizdeki <strong>Abonelik Yönelim</strong> sekmesinden tek tıkla aboneliğinizi dilediğiniz an iptal edebilirsiniz. İptal sonrasında gelecek dönem için hesabınızdan hiçbir ücret tahsil edilmez.
+        There are no commitments or hidden terms. You can cancel your subscription at any time with one click from the <strong>Subscription Management</strong> tab in your dashboard. You will not be charged for any future billing periods after cancellation.
       </p>
     ),
   },
   {
     id: 'credit-tracking',
-    question: 'Kalan dakikalarımı veya karakter kredilerimi nasıl takip edebilirim?',
+    question: 'How can I track my remaining minutes or character credits?',
     answer: (
       <p>
-        Miransas Console paneli üzerinden kullanım istatistiklerinizi, kalan dakikalarınızı ve anlık grafikleri canlı olarak izleyebilirsiniz. Ayrıca dakikalarınız %80 ve %95 seviyelerine ulaştığında e-posta ve Webhook uyarıları alabilirsiniz.
+        You can monitor your usage statistics, remaining minutes, and live charts in the Miransas Console. You can also receive email and webhook alerts when your minutes reach 80% and 95% of usage.
       </p>
     ),
   },
   {
     id: 'payment-methods',
-    question: 'Hangi ödeme yöntemlerini kabul ediyorsunuz?',
+    question: 'Which payment methods do you accept?',
     answer: (
       <p>
-        Tüm uluslararası geçerliliği olan Kredi ve Banka Kartlarını (Visa, Mastercard, American Express) Stripe güvencesiyle kabul ediyoruz. Kurumsal ve Ultra paket kullanan şirketler için <strong>Banka Havalesi / EFT ve Vadeli Fatura</strong> ile ödeme imkanı da sunulmaktadır.
+        We accept all internationally recognized credit and debit cards (Visa, Mastercard, and American Express) securely through Stripe. Companies on Enterprise and Ultra plans can also pay by <strong>bank transfer and invoiced billing</strong>.
       </p>
     ),
   },
@@ -102,17 +102,17 @@ export function PricingFAQ() {
   };
 
   return (
-    <section className="relative w-full py-24 bg-[#F2F2F2] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+    <section className="relative w-full py-24 bg-background dark:bg-black text-zinc-900 dark:text-zinc-100 font-sans antialiased">
       <div className="mx-auto max-w-3xl px-6 lg:px-8 relative z-10">
         
-        {/* ── ÜST BAŞLIK ── */}
+        {/* ── SECTION HEADING ── */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold tracking-tight text-zinc-950 dark:text-white">
-            Sıkça Sorulan Sorular
+            Frequently Asked Questions
           </h2>
         </div>
 
-        {/* ── AKORDEON LİSTESİ ── */}
+        {/* ── ACCORDION LIST ── */}
         <div className="space-y-4">
           {FAQS.map((faq) => {
             const isOpen = openId === faq.id;
@@ -124,10 +124,10 @@ export function PricingFAQ() {
                 <button
                   type="button"
                   onClick={() => toggleFAQ(faq.id)}
-                  className="w-full flex items-center justify-between px-8 py-6 text-left focus:outline-none gap-6"
+                  className="w-full flex items-center justify-between px-8 py-4 text-left focus:outline-none gap-6"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-[17px] font-bold text-zinc-950 dark:text-white leading-snug">
+                  <span className="md:text-[17px] text-sm font-bold text-zinc-950 dark:text-white leading-snug">
                     {faq.question}
                   </span>
                   <motion.div

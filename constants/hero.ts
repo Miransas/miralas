@@ -30,12 +30,12 @@ export const HERO_HIGHLIGHTS: HeroHighlight[] = [
 
 export const HERO_CONTENT = {
   badge: "Miralas Voice AI Platform 2.0",
-  title: "Intelligence,",
-  titleItalic: "in motion.",
+  title: "Intelligence",
+  titleItalic: "in motion",
   description:
-    "Advanced text-to-speech, real-time voice cloning, and multilingual infrastructure in one platform. Natural, expressive speech — built for next-generation applications.",
+    "Advanced text-to-speech real-time voice cloning and multilingual infrastructure in one platform Natural expressive speech  built for next-generation applications",
   primaryCta: "Get Started",
-  primaryCtaHref: "/studio",
+  primaryCtaHref: "https://console.miralas.io/auth",
   secondaryCta: "Listen to Demos",
-  secondaryCtaHref: "/studio/tts",
+  secondaryCtaHref: "https://console.io/studio/create",
 };

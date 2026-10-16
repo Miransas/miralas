@@ -37,8 +37,8 @@ function FaqAccordionItem({
           group overflow-hidden rounded-[32px] transition-colors duration-300
           ${
             isOpen
-              ? "bg-white dark:bg-[#141210]"
-              : "bg-white/60 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-[#1a1816]"
+              ? "bg-white dark:bg-white/15"
+              : "bg-white/60 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15"
           }
         `}
       >
@@ -46,10 +46,10 @@ function FaqAccordionItem({
           type="button"
           onClick={onToggle}
           aria-expanded={isOpen}
-          className="flex w-full items-center justify-between gap-6 px-8 py-6 text-left focus:outline-none"
+          className="flex w-full items-center justify-between gap-6 px-8 py-4 text-left focus:outline-none"
         >
           <span
-            className={`text-[17px] font-bold tracking-tight pr-4 transition-colors duration-200 ${
+            className={`md:text-[17px] text-sm font-bold tracking-tight pr-4 transition-colors duration-200 ${
               isOpen
                 ? "text-zinc-950 dark:text-white"
                 : "text-zinc-800 dark:text-zinc-300 group-hover:text-zinc-950 dark:group-hover:text-white"
@@ -102,11 +102,11 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-[#F2F2F2] dark:bg-zinc-950 py-24 sm:py-32 transition-colors duration-300 font-sans antialiased">
+    <section className="bg-[#F2F2F2] dark:bg-black py-24 sm:py-32 transition-colors duration-300 font-sans antialiased">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-12 lg:gap-20">
 
-          {/* SOL KOLON: Başlık + RobotEyes AI Widget Kartı */}
+          {/* LEFT COLUMN: heading and RobotEyes AI widget card */}
           <div className="flex flex-col lg:sticky lg:top-32 lg:col-span-5 space-y-10">
 
             {/* Rozet */}
@@ -115,7 +115,7 @@ export default function FaqSection() {
               <span>FAQ & Documentation</span>
             </div>
 
-            {/* Başlık ve Metin */}
+            {/* Heading and copy */}
             <div className="space-y-6">
               <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.1]">
                 Everything you need to know.
@@ -125,7 +125,7 @@ export default function FaqSection() {
               </p>
             </div>
 
-            {/* RobotEyes AI Widget Kartı */}
+            {/* RobotEyes AI widget card */}
             <div className="rounded-[32px] bg-white dark:bg-[#141210] p-8 flex flex-col items-center justify-center gap-8 text-center shadow-sm">
               <div className="flex items-center gap-2 self-start bg-[#F2F2F2] dark:bg-white/5 px-4 py-2 rounded-full">
                 <span className="relative flex size-2">
@@ -137,7 +137,7 @@ export default function FaqSection() {
                 </span>
               </div>
 
-              {/* RobotEyes Bileşeni */}
+              {/* RobotEyes component */}
               {/* <div className="transform scale-110">
                 <RobotEyes /> 
               </div> */}
@@ -164,7 +164,7 @@ export default function FaqSection() {
 
           </div>
 
-          {/* SAĞ KOLON: Akordeon Listesi */}
+          {/* RIGHT COLUMN: accordion list */}
           <div className="flex w-full flex-col lg:col-span-7 gap-4 lg:pt-8">
             {FAQS.map((faq, i) => (
               <FaqAccordionItem

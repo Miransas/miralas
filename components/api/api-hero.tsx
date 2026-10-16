@@ -39,8 +39,8 @@ const API_TABS: TabContent[] = [
     id: "tts",
     label: "Text to Speech API",
     icon: FileText,
-    title: "Metni Canlı Sese Dönüştürün",
-    description: "Yapay zeka modellerimizle metinlerinizi akıcı ve duygusal stüdyo seslerine aktarın.",
+    title: "Turn Text into Natural-Sounding Speech",
+    description: "Transform your text into expressive studio-quality speech with our AI models.",
     sampleText: "In the ancient land of Eldoria, where skies shimmered and forests whispered secrets, lived a dragon named Zephyros. [sarcastically] Not the 'burn it all down' kind... [giggles] It was gentle, wise, with eyes like old stars. [whispers] Even the birds fell silent when he passed.",
     defaultVoice: "Spuds Oxley",
     defaultLanguage: "English (US)",
@@ -53,11 +53,11 @@ const API_TABS: TabContent[] = [
     id: "transcription",
     label: "Transcription",
     icon: Mic,
-    title: "Yüksek Doğruluklu Ses Analizi",
-    description: "Ses dosyalarınızı milisaniyeler içinde kusursuz metinlere ve dökümlere dönüştürün.",
-    sampleText: "[00:01.20] Miralas AI Studio altyapısı başlatıldı. [00:03.45] WebSocket akışı aktif ve kararlı.",
+    title: "High-Accuracy Speech Recognition",
+    description: "Turn audio files into accurate transcripts in milliseconds.",
+    sampleText: "[00:01.20] Miralas AI Studio infrastructure initialized. [00:03.45] WebSocket stream is active and stable.",
     defaultVoice: "Auto Detect",
-    defaultLanguage: "Türkçe (TR)",
+    defaultLanguage: "Turkish (TR)",
     codeSnippet: `const transcript = await mlabs.speechToText.convert({
   audio: fileStream,
   language: "tr"
@@ -67,11 +67,11 @@ const API_TABS: TabContent[] = [
     id: "music",
     label: "Music",
     icon: Music,
-    title: "Yapay Zeka Müzik Üretimi",
-    description: "Projeleriniz için telifsiz, tamamen özgün arka plan müzikleri ve melodiler yaratın.",
+    title: "AI Music Generation",
+    description: "Create original, royalty-free background music and melodies for your projects.",
     sampleText: "[Prompt: Epic cinematic orchestral theme with subtle mysterious ambient pads and soft piano beats.]",
     defaultVoice: "Cinematic 4K",
-    defaultLanguage: "Enstrümantal",
+    defaultLanguage: "Instrumental",
     codeSnippet: `const track = await mlabs.music.generate({
   prompt: "Cinematic orchestral theme...",
   duration_seconds: 45
@@ -81,11 +81,11 @@ const API_TABS: TabContent[] = [
     id: "sfx",
     label: "Sound Effects",
     icon: Volume2,
-    title: "Sinematik Ses Efektleri (SFX)",
-    description: "Olaylar, oyunlar ve videolar için metin komutlarıyla gerçekçi ses efektleri üretin.",
+    title: "Cinematic Sound Effects (SFX)",
+    description: "Generate realistic sound effects from text prompts for events, games, and videos.",
     sampleText: "[Prompt: Futuristic sci-fi spaceship warp door opening with heavy hydraulic echo.]",
     defaultVoice: "Sci-Fi Pack",
-    defaultLanguage: "Efekt",
+    defaultLanguage: "Effects",
     codeSnippet: `const sfx = await mlabs.soundEffects.generate({
   text: "Sci-fi spaceship warp door...",
   duration: 2.5
@@ -95,8 +95,8 @@ const API_TABS: TabContent[] = [
     id: "engine",
     label: "Speech Engine",
     icon: Cpu,
-    title: "Özel Model Eğitimi & Engine",
-    description: "Kendi ses modelinizi eğitin veya yüksek performanslı kurumsal motorları yönetin.",
+    title: "Custom Model Training & Engine",
+    description: "Train your own voice model or manage high-performance enterprise engines.",
     sampleText: "[Engine Status: Operational | Latency: 142ms | TPU Cluster #4 Active]",
     defaultVoice: "Custom Model #9",
     defaultLanguage: "Global",
@@ -119,7 +119,7 @@ export function ApiHeroSection() {
   const [selectedVoice, setSelectedVoice] = useState(currentData.defaultVoice);
   const [selectedLang, setSelectedLang] = useState(currentData.defaultLanguage);
 
-  // Tab değiştiğinde varsayılanları güncelle
+  // Update defaults when the selected tab changes
   const handleTabChange = (tabId: ApiTabType) => {
     setActiveTab(tabId);
     setIsPlaying(false);
@@ -133,23 +133,23 @@ export function ApiHeroSection() {
   return (
     <section className="relative w-full py-24 bg-background text-foreground overflow-hidden">
       
-      {/* Şık Arka Plan Parlaması */}
+      {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#c9a87c]/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
-        {/* Üst Başlık (Görseldeki mantık, lüks tasarım) */}
+        {/* Section heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border/60 bg-card/60 backdrop-blur-md text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
               <Terminal className="size-3.5 text-[#c9a87c]" />
-              <span>Geliştirici Platformu</span>
+              <span>Developer Platform</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground leading-tight">
-              Dakikalar içinde <span className="text-[#c9a87c]">üretime hazır</span> ses AI kurun
+              Build production-ready voice AI in <span className="text-[#c9a87c]">minutes</span>
             </h2>
             <p className="mt-3 text-sm md:text-base text-muted-foreground font-light">
-              Ölçeklenebilir API altyapısı; Text to Speech, Transcription[cite: 3], Voice Agents ve Müzik üretimi bir arada.
+              A scalable API platform for text-to-speech, transcription, voice agents, and music generation.
             </p>
           </div>
 
@@ -158,7 +158,7 @@ export function ApiHeroSection() {
               href="/dashboard/api-keys"
               className="px-6 py-3 rounded-full bg-foreground text-background text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
             >
-              API Anahtarı Al
+              Get an API Key
             </a>
             <a href="/recorusec/docs"
              className="px-6 py-3 rounded-full border border-border/80 bg-card/50 backdrop-blur-md text-foreground text-xs font-semibold hover:bg-muted/50 transition-colors"
@@ -169,10 +169,10 @@ export function ApiHeroSection() {
           </div>
         </div>
 
-        {/* ANA KASA KUTUSU (Görseldeki büyük arayüz kartı yerine lüks panel) */}
+        {/* Main panel */}
         <div className="rounded-3xl border border-border/60 bg-card/40 backdrop-blur-xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
           
-          {/* Üst Küçük Başlık ve Demo/Code Seçici */}
+          {/* Panel heading and demo/code selector */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/40 mb-8">
             <div>
               <h3 className="text-base font-bold text-foreground flex items-center gap-2">
@@ -184,7 +184,7 @@ export function ApiHeroSection() {
               </p>
             </div>
 
-            {/* Demo / Code Toggle (Görseldeki sağ üst düğmeler) */}
+            {/* Demo / code toggle */}
             <div className="flex items-center p-1 rounded-full border border-border/60 bg-background/50 backdrop-blur-md shrink-0">
               <button
                 type="button"
@@ -211,7 +211,7 @@ export function ApiHeroSection() {
             </div>
           </div>
 
-          {/* İÇERİK ALANI: DEMO VEYA KOD */}
+          {/* Content: demo or code */}
           <AnimatePresence mode="wait">
             {viewMode === "demo" ? (
               <motion.div
@@ -222,18 +222,18 @@ export function ApiHeroSection() {
                 transition={{ duration: 0.2 }}
                 className="space-y-6"
               >
-                {/* Metin & Kontrol Alanı (Görseldeki beyaz iç Kutu) */}
+                {/* Text and controls */}
                 <div className="rounded-2xl border border-border/60 bg-background/80 backdrop-blur-md p-6 shadow-inner">
                   <p className="text-sm md:text-base text-foreground font-light leading-relaxed mb-6 font-mono">
                     {currentData.sampleText}
                   </p>
 
-                  {/* Alt Kontrol Barı: Dil, Aktör ve Play Butonu */}
+                  {/* Controls: language, voice, and playback */}
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-4 border-t border-border/40">
                     
                     <div className="flex flex-wrap items-center gap-3">
                       
-                      {/* Dil Seçici (Accordion / Dropdown mantığı) */}
+                      {/* Language selector */}
                       <div className="relative">
                         <button
                           type="button"
@@ -250,7 +250,7 @@ export function ApiHeroSection() {
 
                         {isLangDropdownOpen && (
                           <div className="absolute top-full left-0 mt-2 w-48 rounded-xl border border-border/60 bg-card shadow-xl p-1 z-20">
-                            {["English (US)", "Türkçe (TR)", "Español", "日本語", "Deutsch"].map((lang) => (
+                            {["English (US)", "Turkish (TR)", "Español", "日本語", "Deutsch"].map((lang) => (
                               <button
                                 key={lang}
                                 onClick={() => {
@@ -266,7 +266,7 @@ export function ApiHeroSection() {
                         )}
                       </div>
 
-                      {/* Ses / Aktör Seçici (Accordion / Dropdown mantığı) */}
+                      {/* Voice selector */}
                       <div className="relative">
                         <button
                           type="button"
@@ -301,7 +301,7 @@ export function ApiHeroSection() {
 
                     </div>
 
-                    {/* Play / Pause Düğmesi */}
+                    {/* Play / pause button */}
                     <button
                       type="button"
                       onClick={() => setIsPlaying(!isPlaying)}
@@ -310,12 +310,12 @@ export function ApiHeroSection() {
                       {isPlaying ? (
                         <>
                           <Pause className="size-4 fill-black" />
-                          <span>Durdur</span>
+                          <span>Stop</span>
                         </>
                       ) : (
                         <>
                           <Play className="size-4 fill-black group-hover:scale-110 transition-transform" />
-                          <span>Oynat</span>
+                          <span>Play</span>
                         </>
                       )}
                     </button>
@@ -348,7 +348,7 @@ export function ApiHeroSection() {
             )}
           </AnimatePresence>
 
-          {/* ALT SEKMELER (Görselin en altındaki Text to Speech API, Transcription vb. butonlar) */}
+          {/* API feature tabs */}
           <div className="flex items-center gap-2 overflow-x-auto pt-8 mt-8 border-t border-border/40 scrollbar-none">
             {API_TABS.map((tab) => {
               const TabIcon = tab.icon;

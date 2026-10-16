@@ -48,7 +48,25 @@ const CHANGELOG_DATA = [
       "Polished the dark theme dashboard aesthetics using rich obsidian contrasts.",
       "Optimized the Stream Donate widget API latency down to sub-15ms benchmarks."
     ]
-  }
+  },
+
+ {
+  version:"v1.1.1",
+  date: "",
+  title: "", 
+  description:"",
+  tags:["",""],
+  changes:[ "- Track A (Uzbek licensed voice) — trait seam is in place; slots in as",
+    "another `VoiceProvider` implementation.",
+    "- Donation event ingestion, stream/overlay page (Phase 3).",
+    " - `/generate` dashboard UI.",
+    "- Billing / tiers.",
+    "- GPU deployment (target: Runpod hourly, either XTTS-v2 for speed or",
+    " Qwen3-TTS for quality; decision blocked on Owner listening to the",
+    "Phase 2.1 samples)."]
+
+}
+
 ];
 
 export default function ChangelogPage() {
@@ -70,7 +88,7 @@ export default function ChangelogPage() {
             <h1 className="text-4xl font-black tracking-tight text-foreground sm:text-5xl">
               Changelog
             </h1>
-            <p className="mt-4 text-[15px] text-muted-foreground max-w-xl leading-relaxed">
+            <p className="mt-4 text-[15px] font-black text-muted-foreground max-w-xl leading-relaxed">
               Tracking the technical evolution of the Miransas ecosystem. From high-performance Rust/gRPC pipelines to premium Next.js interfaces.
             </p>
           </div>
@@ -92,7 +110,7 @@ export default function ChangelogPage() {
                 </div>
 
                 {/* Version card with premium stone-950 structure */}
-                <div className="rounded-2xl border border-border bg-card p-6 sm:p-7 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-border">
+                <div className="rounded-2xl border border-border bg-card p-6 sm:p-7  transition-all duration-300 hover:border-border">
 
                   {/* Top row: version, date, and tags */}
                   <div className="flex flex-wrap items-center justify-between gap-3 mb-4">

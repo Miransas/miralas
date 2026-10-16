@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 };
 
-// options bloğunu tamamen sildik!
+// The options block has been removed.
 const withMDX = createMDX();
 
 export default withMDX(nextConfig);

@@ -13,8 +13,8 @@ import Footer from "../components/layout/Footer";
 
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 
-
-
+const data = process.env
+console.log("hello")
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],

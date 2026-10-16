@@ -16,50 +16,39 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full overflow-hidden  min-h-[100vh] flex items-center justify-center pt-16 pb-20">
+    <section className="relative w-full overflow-hidden  min-h-[100vh] flex items-center justify-center pt-16 pb-20 bg-black">
 
-      {/* Shader Arka Planı & Okunabilirlik Maskesi */}
-      <div className="absolute inset-0 z-0 opacity-80 dark:opacity-60 pointer-events-none">
+      {/* Shader background and readability mask */}
+      <div className="absolute inset-0 z-0 opacity-80 pointer-events-none">
         <ShaderAnimation />
-        {/* <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" /> */}
+     
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12 w-full flex flex-col justify-between gap-16">
 
-        {/* Ana Başlık ve Aksiyon Alanı */}
-        <div className="max-w-4xl pt-8">
+        {/* Main heading and actions */}
+        <div className="max-w-5xl pt-8">
 
-          {/* Üst Rozet */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-muted-foreground shadow-sm"
-          >
-            <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>{HERO_CONTENT.badge}</span>
-          </motion.div>
-
-          {/* H1 Başlık */}
+          {/* H1 heading */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.05]"
+            className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.05]"
           >
             {HERO_CONTENT.title}{" "}
             <br />
-            <span className="font-serif font-light italic text-muted-foreground">
+            <span className=" font-semibold text-white leading-[1.05]">
               {HERO_CONTENT.titleItalic}
             </span>
           </motion.h1>
 
-          {/* Açıklama */}
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground"
+            className="mt-6 max-w-2xl font-semibold sm:text-lg leading-relaxed text-white "
           >
             {HERO_CONTENT.description}
           </motion.p>
@@ -79,7 +68,7 @@ export default function HeroSection() {
 
             <Link
               href={HERO_CONTENT.secondaryCtaHref}
-              className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-border bg-card/40 backdrop-blur-md px-6 py-3.5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-accent shadow-sm"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-border bg-white backdrop-blur-md sm:px-3 sm:py-3.5 px-3 py-3 text-sm font-medium text-foreground transition-all duration-200 hover:bg-accent shadow-sm"
             >
               <Play className="size-4 fill-foreground/20 transition-transform group-hover:scale-110" />
               <span>{HERO_CONTENT.secondaryCta}</span>
@@ -87,7 +76,7 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Öne Çıkan Kartlar Row */}
+        {/* Featured cards row */}
         {/* <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

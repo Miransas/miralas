@@ -10,7 +10,7 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-jakarta), "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-plex: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-serif: "Instrument Serif", "Newsreader", "New York", Georgia, serif;
+ 
 
   /* Colors */
   --color-background: var(--background);
@@ -103,13 +103,13 @@
   --ring: #f5f5f7;
 }
 
-/* --- Özel Text Selection (Metin Seçim Renkleri) --- */
+/* --- Custom text selection colors --- */
 ::selection {
   background-color: #84cc16; /* lime-500 */
   color: #44403c; /* stone-700 */
 }
 
-/* Temel Ayarlar & Section Geçişleri */
+/* Base settings and section transitions */
 html,
 body {
   height: auto;
@@ -121,13 +121,22 @@ body {
 
 section {
   transition: background-color 0.3s ease, color 0.3s ease;
+  
 }
 
 h1, h2 {
   letter-spacing: -0.03em;
 }
 
-/* --- Marquee Animasyonları --- */
+p{
+  letter-spacing: -0.01;
+}
+
+span{
+  letter-spacing: -0.1 ;
+}
+
+/* --- Marquee animations --- */
 @keyframes marqueeUp {
   0% {
     transform: translateY(0%);
@@ -168,7 +177,7 @@ h1, h2 {
   animation-play-state: paused;
 }
 
-/* Lenis Uyumu */
+/* Lenis  */
 html.lenis,
 html.lenis body {
   height: auto;

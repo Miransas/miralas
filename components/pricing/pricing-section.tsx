@@ -28,10 +28,10 @@ interface PricingPlan {
   ctaHref: string;
 }
 
-// LÜKS RENK PALETİ HARİTASI
+// Luxury color palette map
 const THEME_STYLES: Record<CardTheme, any> = {
   default: {
-    wrapper: "border border-border/60 bg-card/50 backdrop-blur-md hover:border-border",
+    wrapper: "border border-border/60 dark:bg-white/10 bg-white backdrop-blur-md hover:border-border",
     title: "text-foreground",
     desc: "text-muted-foreground",
     price: "text-foreground",
@@ -106,32 +106,32 @@ export function PricingSection() {
   ];
 
   return (
-    <section className="relative w-full py-24 sm:py-32 bg-[#FAF8F5] dark:bg-background text-[#1C1917] dark:text-[#F5F2EB] overflow-hidden transition-colors duration-500 antialiased">
-      {/* Lüks Ambient Arka Plan Glow */}
+    <section className="relative w-full py-24 sm:py-32 bg-background dark:bg-background text-[#1C1917] dark:text-[#F5F2EB] overflow-hidden transition-colors duration-500 antialiased">
+      {/* Luxury ambient background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px] bg-gradient-to-tr from-amber-500/5 via-zinc-400/5 to-transparent dark:from-white/[0.03] dark:via-amber-500/[0.02] blur-[160px] pointer-events-none rounded-full" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
         
-        {/* ── ÜST BAŞLIK BÖLÜMÜ ── */}
+        {/* ── SECTION HEADING ── */}
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#EFECE6] dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-md text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 shadow-sm">
             <Sparkles className="size-3.5 text-amber-600 dark:text-amber-400" />
-            <span>Şeffaf & Esnek Ölçekleme</span>
+            <span>Transparent & Flexible Scaling</span>
           </div>
           
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
-            İhtiyacınıza uygun <span className="bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-950 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">gücü seçin</span>
+            Choose the <span className="bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-950 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">right plan</span> for your needs
           </h2>
           
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed max-w-xl mx-auto">
-            İster bireysel ses sentezi yapın, ister milyonlarca kullanıcıya hizmet veren AI ajansları işletin.
+            Whether you create voice synthesis projects or run AI agencies serving millions of users, there is a plan for you.
           </p>
         </div>
 
-        {/* ── KONTROL PANELİ (SEGMENTED TABS & FATURA TOGGLE) ── */}
+        {/* ── PLAN TABS AND BILLING TOGGLE ── */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-16 pb-6 border-b border-[#EFECE6] dark:border-white/10">
           
-          {/* ElevenLabs Tarzı Kayan Segmented Control */}
+          {/* Sliding segmented control */}
           <div className="relative flex items-center p-1.5 rounded-full border border-[#EFECE6] dark:border-white/10 bg-white/70 dark:bg-zinc-900/60 backdrop-blur-xl shadow-sm">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -161,21 +161,21 @@ export function PricingSection() {
             })}
           </div>
 
-          {/* Fatura Periyodu Toggle (Aylık / Yıllık) */}
+          {/* Billing cycle toggle (monthly / yearly) */}
           <div className="flex items-center gap-3.5 bg-white/60 dark:bg-white/[0.02] px-4 py-2 rounded-full border border-[#EFECE6] dark:border-white/10 shadow-sm">
             <span
               className={`text-xs font-semibold transition-colors ${
                 billingCycle === 'monthly' ? 'text-zinc-900 dark:text-white' : 'text-zinc-400 dark:text-zinc-500'
               }`}
             >
-              Aylık
+              Monthly
             </span>
 
             <button
               type="button"
               onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
               className="relative w-11 h-6 rounded-full bg-zinc-200 dark:bg-zinc-800 transition-colors p-0.5 focus:outline-none"
-              aria-label="Fatura periyodunu değiştir"
+              aria-label="Change billing period"
             >
               <motion.div
                 animate={{ x: billingCycle === 'yearly' ? 20 : 0 }}
@@ -189,16 +189,16 @@ export function PricingSection() {
                 billingCycle === 'yearly' ? 'text-zinc-900 dark:text-white' : 'text-zinc-400 dark:text-zinc-500'
               }`}
             >
-              <span>Yıllık Fatura</span>
+              <span>Annual billing</span>
               <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                %20 İndirim
+                20% off
               </span>
             </span>
           </div>
 
         </div>
 
-        {/* ── 4 KARTLI FİYATLANDIRMA GRID ── */}
+        {/* ── FOUR-CARD PRICING GRID ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -218,28 +218,28 @@ export function PricingSection() {
                   key={plan.id}
                   className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 ${activeTheme.wrapper}`}
                 >
-                  {/* ÖNE ÇIKAN / POPÜLER BADGE */}
+                  {/* FEATURED / POPULAR BADGE */}
                   {plan.popular && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full ${activeTheme.badge} text-[10px] font-extrabold uppercase tracking-widest shadow-lg flex items-center gap-1.5">
-                      <Zap className="size-3 fill-current" />
-                      <span>{plan.badge || 'En Popüler'}</span>
+                    <div className="absolute -top-5.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-white text-[10px] font-extrabold uppercase tracking-widest shadow-lg flex items-center gap-1.5">
+                      <Zap className="size-3 text-black" />
+                      <span className="text-black">{plan.badge || 'Most Popular'}</span>
                     </div>
                   )}
 
                   <div>
-                    {/* Kart Başlığı */}
+                    {/* Card title */}
                     <div className="flex items-center justify-between mb-2">
                       <h3 className={`text-xl font-bold tracking-tight ${activeTheme.title}`}>
                         {plan.name}
                       </h3>
                     </div>
 
-                    {/* Açıklama */}
+                    {/* Description */}
                     <p className={`text-xs leading-relaxed mb-6 min-h-[36px] ${activeTheme.desc}`}>
                       {plan.description}
                     </p>
 
-                    {/* Fiyat Alanı */}
+                    {/* Price */}
                     <div className="mb-8 pb-6 border-b border-inherit">
                       <div className="flex items-baseline gap-1">
                         {isNumeric && (
@@ -255,7 +255,7 @@ export function PricingSection() {
                         )}
                       </div>
 
-                      {/* Subtext (Açıklama Notu) */}
+                      {/* Subtext */}
                       {plan.subtext && (
                         <p className={`text-[11px] mt-2 ${activeTheme.subtext}`}>
                           {plan.subtext}
@@ -272,7 +272,7 @@ export function PricingSection() {
                       <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform" />
                     </Link>
 
-                    {/* Özellikler Listesi */}
+                    {/* Feature list */}
                     <div className="space-y-3">
                       {plan.featuresTitle && (
                         <span className={`text-[10px] font-mono font-semibold uppercase tracking-wider block mb-4 ${activeTheme.desc}`}>

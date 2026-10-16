@@ -245,7 +245,7 @@ export default function Solutions() {
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-[1.1]">
                 Turn missed opportunities
                 <br />
-                <span className="font-serif italic font-light text-muted-foreground">
+                <span className="font-light text-muted-foreground">
                   into captured revenue.
                 </span>
               </h1>

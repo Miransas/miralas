@@ -8,11 +8,11 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     <ReactLenis
       root
       options={{
-        lerp: 0.12,          // Daha hızlı cevap, pinned scroll'da takılmaz
-        duration: 1.0,       // Biraz daha kısa
+        lerp: 0.12,          // Faster response; avoids sticking during pinned scroll
+        duration: 1.0,       // Slightly shorter
         smoothWheel: true,
-        wheelMultiplier: 1.0, // 0.92 yerine 1.0 — scroll hızını değiştirme!
-        touchMultiplier: 1.8, // Mobilde daha canlı
+        wheelMultiplier: 1.0, // Keep scroll speed at 1.0 instead of 0.92
+        touchMultiplier: 1.8, // More responsive on mobile
         syncTouch: true,     // Touch scroll'u native gibi sync et
         infinite: false,
       }}

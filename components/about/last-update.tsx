@@ -36,11 +36,11 @@ const UPDATES_DATA: UpdateCard[] = [
     date: 'Oct 1, 2026',
     readTime: '3 min read',
     gradient: 'from-slate-900 via-indigo-950 to-blue-900',
-    summary: 'Miransas AI, kamu ve yüksek güvenlikli kurumsal altyapılar için FedRAMP 20x Class A sertifikasyonunu başarıyla tamamladı.',
+    summary: 'Miransas AI has successfully completed FedRAMP 20x Class A certification for government and high-security enterprise infrastructure.',
     content: (
       <div className="space-y-4">
         <p>
-          Kurumsal güvenlik standartlarımızı en üst seviyeye taşımaktan gurur duyuyoruz. Miransas ses mimarisi ve yapay zeka ajanları artık kamu kurumları için tam uyumludur.
+          We are proud to bring our enterprise security standards to the highest level. Miransas voice architecture and AI agents are now fully compliant for government agencies.
         </p>
       </div>
     ),
@@ -54,11 +54,11 @@ const UPDATES_DATA: UpdateCard[] = [
     date: 'Oct 1, 2026',
     readTime: '2 min read',
     gradient: 'from-amber-900 via-orange-950 to-amber-800',
-    summary: 'Avrupa’daki gecikme sürelerini 40ms seviyesine düşüren yeni Amsterdam veri merkezimiz faaliyete geçti.',
+    summary: 'Our new Amsterdam data center is now operational, reducing latency across Europe to 40 ms.',
     content: (
       <div className="space-y-4">
         <p>
-          Avrupa Birliği genelindeki müşterilerimize daha düşük gecikme süresi sunmak amacıyla Amsterdam bölgesel merkezimizi açtık.
+          We opened our Amsterdam regional hub to provide lower latency for customers across the European Union.
         </p>
       </div>
     ),
@@ -72,11 +72,11 @@ const UPDATES_DATA: UpdateCard[] = [
     date: 'Sep 30, 2026',
     readTime: '4 min read',
     gradient: 'from-cyan-950 via-teal-900 to-sky-900',
-    summary: 'Kurumsal şirketlerin yapay zeka sesli asistan talebiyle büyüyen Miransas, $22 Milyar değerlemeye ulaştı.',
+    summary: 'Fueled by enterprise demand for AI voice agents, Miransas has reached a $22 billion valuation.',
     content: (
       <div className="space-y-4">
         <p>
-          Dünyanın önde gelen yatırım fonlarının katılımıyla gerçekleşen yeni yatırım turunda Miransas $22 Milyar değerlemeyi geride bıraktı.
+          In a new funding round joined by leading global investment funds, Miransas surpassed a $22 billion valuation.
         </p>
       </div>
     ),
@@ -88,12 +88,12 @@ export default function LatestUpdatesSection() {
   const [copied, setCopied] = useState(false);
   const [scrollIndex, setScrollIndex] = useState(0);
 
-  // 🛑 KİLİT VE TİTREME ENGELLERİ (Body Scroll Lock)
+  // Prevent scroll locking issues and layout shifts (body scroll lock)
   useEffect(() => {
     if (selectedCard) {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
-      // Scrollbar kaybolduğunda sayfanın sağa kaymasını önler
+      // Prevent the page from shifting when the scrollbar disappears
       document.body.style.paddingRight = `${scrollBarWidth}px`;
     } else {
       document.body.style.overflow = '';
@@ -113,10 +113,10 @@ export default function LatestUpdatesSection() {
   };
 
   return (
-    <section className="w-full bg-[#FAF8F5] dark:bg-[#0C0A09] text-[#1C1917] dark:text-[#F5F2EB] py-20 px-6 lg:px-8 transition-colors duration-500 antialiased overflow-hidden">
+    <section className="w-full bg-[#FAF8F5] dark:bg-[#050505] text-[#1C1917] dark:text-[#F5F2EB] py-20 px-6 lg:px-8 transition-colors duration-500 antialiased overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* ── BAŞLIK & NAVİGASYON ── */}
+        {/* ── HEADING & NAVIGATION ── */}
         <div className="flex items-center justify-between">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
             Latest updates
@@ -149,7 +149,7 @@ export default function LatestUpdatesSection() {
           </div>
         </div>
 
-        {/* ── KART LİSTESİ ── */}
+        {/* ── CARD LIST ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {UPDATES_DATA.slice(scrollIndex, scrollIndex + 3).map((item) => (
             <div
@@ -194,11 +194,11 @@ export default function LatestUpdatesSection() {
 
       </div>
 
-      {/* ── POPUP DETAY MODALI (SABİTLENMİŞ VE TAM UYUMLU) ── */}
+      {/* ── POPUP DETAIL MODAL (FIXED AND FULLY RESPONSIVE) ── */}
       <AnimatePresence>
         {selectedCard && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 lg:p-8 overscroll-none">
-            {/* Dark Arka Plan Backdrop */}
+            {/* Dark backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -208,7 +208,7 @@ export default function LatestUpdatesSection() {
               className="fixed inset-0 bg-black/70 backdrop-blur-md"
             />
 
-            {/* Modal Penceresi */}
+            {/* Modal window */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -247,7 +247,7 @@ export default function LatestUpdatesSection() {
                 </div>
               </div>
 
-              {/* Modal Body (Scroll Sorunu Engellenmiş Alan) */}
+              {/* Modal body (scrollable area) */}
               <div className="p-6 sm:p-8 space-y-6 overflow-y-auto overscroll-contain touch-pan-y leading-relaxed text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
                 <p className="text-base font-semibold text-zinc-950 dark:text-white">
                   {selectedCard.summary}
@@ -258,21 +258,21 @@ export default function LatestUpdatesSection() {
                 {selectedCard.content}
               </div>
 
-              {/* Modal Altlık */}
+              {/* Modal footer */}
               <div className="p-5 sm:p-6 bg-[#FAF8F5] dark:bg-[#0C0A09] border-t border-[#EFECE6] dark:border-white/10 flex items-center justify-between shrink-0">
                 <button
                   onClick={handleCopyLink}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[#EFECE6] dark:border-white/10 bg-white dark:bg-white/5 text-xs font-semibold text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors"
                 >
                   {copied ? <Check className="size-3.5 text-emerald-500" /> : <Share2 className="size-3.5" />}
-                  <span>{copied ? 'Kopyalandı' : 'Paylaş'}</span>
+                  <span>{copied ? 'Copied' : 'Share'}</span>
                 </button>
 
                 <a
                   href={`/news/${selectedCard.id}`}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-xs font-bold hover:opacity-90 transition-opacity"
                 >
-                  <span>Tüm Haberi Oku</span>
+                  <span>Read Full Story</span>
                   <ExternalLink className="size-3.5" />
                 </a>
               </div>

@@ -82,7 +82,7 @@ async function cloneVoiceAndSpeak() {
     },
     body: JSON.stringify({
       model: "chatterbox-multilingual",
-      input: "Merhaba, Miralas altyapısı ile sesimi anında klonlayabilirim!",
+      input: "Hello, I can clone my voice instantly with Miralas!",
       voice_reference: \`data:audio/wav;base64,\${base64Audio}\`,
       language: "tr"
     })

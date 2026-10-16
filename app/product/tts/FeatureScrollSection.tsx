@@ -22,8 +22,8 @@ export default function FeatureScrollSection() {
   });
 
   /*
-    1. QUOTE — blur azaltıldı (12px -> 6px), will-change eklendi.
-       Zaten erken bitiyor (0.22), bu kısımda dead-zone yok.
+    1. QUOTE — reduced blur (12px -> 6px), added will-change.
+       It already ends early (0.22), so there is no dead zone here.
   */
   const quoteOpacity = useTransform(scrollYProgress, [0, 0.08, 0.22], [1, 1, 0]);
   const quoteY = useTransform(scrollYProgress, [0, 0.22], [0, -40]);
@@ -34,7 +34,7 @@ export default function FeatureScrollSection() {
   );
 
   /*
-    2. SOL PANEL — aynı şekilde blur hafifletildi.
+    2. LEFT PANEL — blur reduced in the same way.
   */
   const leftOpacity = useTransform(scrollYProgress, [0.18, 0.45], [0, 1]);
   const leftX = useTransform(scrollYProgress, [0.18, 0.45], [-40, 0]);
@@ -45,14 +45,14 @@ export default function FeatureScrollSection() {
   );
 
   /*
-    3. DASHBOARD — asıl düzeltmeler burada:
-       a) Y offset artık gerçek bir mesafe (18vh -> 0 -> -6vh), quote'un
-          üstüne binmiyor, viewport'a göre orantılı (responsive).
-       b) Scale (küçülme) ve X (kayma) ARDIŞIK: önce küçül (0 -> 0.4),
-          sonra kay (0.4 -> 0.85). İkisi aynı anda koşmuyor.
-       c) Son key-frame 0.85'te bitiyor (0.7 değil) -> pinli alanın
-          sonunda "boş" scroll payı ~%30'dan ~%15'e indi, "yapışma"
-          hissi büyük ölçüde azalıyor.
+    3. DASHBOARD — the main adjustments are here:
+       a) The Y offset now uses a real distance (18vh -> 0 -> -6vh), stays
+          clear of the quote, and scales with the viewport (responsive).
+       b) Scale and X movement are SEQUENTIAL: scale down first (0 -> 0.4),
+          then move (0.4 -> 0.85). They no longer run at the same time.
+       c) The final keyframe ends at 0.85 (not 0.7), reducing the empty
+          scroll at the end of the pinned section from ~30% to ~15% and
+          greatly reducing the "stuck" feeling.
   */
   const dashboardScale = useTransform(
     scrollYProgress,
@@ -162,7 +162,7 @@ export default function FeatureScrollSection() {
             </div>
           </motion.div>
 
-          {/* DASHBOARD SAHNESİ */}
+          {/* DASHBOARD SCENE */}
           <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
             <motion.div
               style={{

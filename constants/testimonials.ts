@@ -19,21 +19,21 @@ export const FEATURED_REVIEWS: FeaturedReview[] = [
     quote: "Miralas helped us turn a rough voice prototype into a polished experience our customers actually wanted to use.",
     author: "Maya Chen",
     role: "Product Lead, Northstar",
-    avatar: "https://res.cloudinary.com/dyzxcpgio/image/upload/v1789417025/PhotoshopExtension_Image_1.png"
+    avatar: ""
   },
   {
     id: 2,
     quote: "The voices sound natural, the API is straightforward, and our team shipped the first production workflow in a single afternoon.",
     author: "Ethan Brooks",
     role: "Founder, Fieldnote",
-    avatar: "https://res.cloudinary.com/dyzxcpgio/image/upload/v1789417025/PhotoshopExtension_Image_2.png"
+    avatar: ""
   },
   {
     id: 3,
     quote: "We can create expressive narration at the speed of an idea. Miralas has become part of our everyday creative process.",
     author: "Olivia Martin",
     role: "Creative Director, Kinetic",
-    avatar: "https://res.cloudinary.com/dyzxcpgio/image/upload/v1789417025/PhotoshopExtension_Image_3.png"
+    avatar: ""
   }
 ];
 

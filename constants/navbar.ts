@@ -87,6 +87,18 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
     description: "Voice infrastructure for organizations.",
     items: [
       { 
+        label: "Miransas Status", 
+        href: "https://status.miransas.com", 
+        description: "Security, compliance and trust info.", badge: "Live",
+        target: "_blank" 
+      },
+      { 
+        label: "Miralas Status", 
+        href: "https://privacy.miransas.com/miralas/security", badge: "Live",
+        description: "Security, compliance and trust info.",
+        target: "_blank" 
+      },
+      { 
         label: "Security", 
         href: "https://privacy.miransas.com/miralas/security", 
         description: "Security, compliance and trust info.",
@@ -112,5 +124,5 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
 export const HEADER_LINKS = {
   home: "/",
   consoleAuth: "https://console.miralas.io/auth",
-  studio: "/studio",
+  studio: "https://console.miralas.io/auth/create",
 };

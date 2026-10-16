@@ -27,14 +27,14 @@ export default function VoiceSphere() {
     const resizeObserver = new ResizeObserver(() => updateSize());
     resizeObserver.observe(container);
 
-    // Çizgi ve Nokta Yoğunluğu
-    const numLatitude = 70;  // Enlem çizgi sayısı (Derinlik)
-    const numLongitude = 90; // Boylam çizgi sayısı (Çevre)
+    // Line and point density
+    const numLatitude = 70;  // Number of latitude lines (depth)
+    const numLongitude = 90; // Number of longitude lines (circumference)
 
     let time = 0;
 
     const render = () => {
-      time += 0.008; // Yavaş ve pürüzsüz dönüş
+      time += 0.008; // Slow, smooth rotation
 
       const width = canvas.width;
       const height = canvas.height;
@@ -49,9 +49,9 @@ export default function VoiceSphere() {
       const cosX = Math.cos(0.25);
       const sinX = Math.sin(0.25);
 
-      // 3D Yüzey Noktası Hesaplama Fonksiyonu
+      // Calculate a 3D surface point
       const get3DPoint = (u: number, v: number) => {
-        // Pürüzsüz Organik Gül / Kumaş Kıvrım Matematiği
+        // Smooth organic rose / fabric-fold geometry
         const fold1 = Math.sin(v * 3 + time * 1.5) * Math.sin(u * 2) * 0.32;
         const fold2 = Math.cos(v * 2 - u * 2.5 + time * 0.9) * 0.22;
         const fold3 = Math.sin(u * 3 + time * 1.2) * 0.12;
@@ -64,12 +64,12 @@ export default function VoiceSphere() {
         let y = r * Math.sin(u) * Math.sin(v);
         let z = r * Math.cos(u);
 
-        // Y Ekseninde Döndürme
+        // Rotate around the Y axis
         let rx = x * cosY - z * sinY;
         let rz = x * sinY + z * cosY;
         let ry = y;
 
-        // X Ekseninde Eğme
+        // Tilt around the X axis
         let finalY = ry * cosX - rz * sinX;
         let finalZ = ry * sinX + rz * cosX;
         let finalX = rx;
@@ -89,7 +89,7 @@ export default function VoiceSphere() {
         };
       };
 
-      // 1. Enlem Eğrilerini Oluştur (Latitude Rings)
+      // 1. Create latitude curves (latitude rings)
       const rings: {
         avgZ: number;
         points: { x: number; y: number; z: number; scale: number; distortion: number }[];
@@ -113,19 +113,19 @@ export default function VoiceSphere() {
         });
       }
 
-      // Derinliğe Göre Sırala (Arka plan önce, ön yüzey sonra çizilsin)
+      // Sort by depth (draw the background before the front surface)
       rings.sort((a, b) => b.avgZ - a.avgZ);
 
-      // 2. Çizim İşlemi (Pürüzsüz Çizgiler + Nokta Matrisi)
+      // 2. Draw smooth lines and the point matrix
       for (let r = 0; r < rings.length; r++) {
         const ring = rings[r];
         const pts = ring.points;
 
-        // Derinlik Oranı (0 = En ön, 1 = En arka)
+        // Depth ratio (0 = front, 1 = back)
         const depth = (ring.avgZ + baseR) / (2 * baseR);
         const alpha = Math.max(0.08, Math.min(1, (1 - depth) * 1.4));
 
-        // Enlem Çizgisini Çiz (Wireframe Ribbon)
+        // Draw the latitude line (wireframe ribbon)
         ctx.beginPath();
         ctx.moveTo(pts[0].x, pts[0].y);
 
@@ -133,20 +133,20 @@ export default function VoiceSphere() {
           ctx.lineTo(pts[j].x, pts[j].y);
         }
 
-        // Derinlik ve Bükülmeye Göre Dinamik Çizgi Rengi
+        // Dynamic line color based on depth and curvature
         const avgDist = pts[0].distortion;
         if (avgDist > 1.25) {
-          ctx.strokeStyle = `rgba(224, 242, 254, ${alpha * 0.9})`; // Parlak Tepe Noktaları
+          ctx.strokeStyle = `rgba(224, 242, 254, ${alpha * 0.9})`; // Bright highlights
         } else if (depth > 0.5) {
-          ctx.strokeStyle = `rgba(3, 105, 161, ${alpha * 0.4})`;  // Gölgeli Derinlikler
+          ctx.strokeStyle = `rgba(3, 105, 161, ${alpha * 0.4})`;  // Shaded depths
         } else {
-          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha * 0.75})`; // Canlı Cyan Mavi
+          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha * 0.75})`; // Vivid cyan
         }
 
         ctx.lineWidth = Math.max(0.5, 1.2 * pts[0].scale * (1 - depth * 0.5));
         ctx.stroke();
 
-        // Çizgi Üzerine Nokta Matrisi Yerleştir (ElevenLabs Izgara Etkisi)
+        // Place a matrix of points on the line (ElevenLabs-style grid effect)
         for (let j = 0; j < pts.length; j += 2) {
           const p = pts[j];
           if (p.distortion > 1.15 || depth < 0.4) {
@@ -179,7 +179,7 @@ export default function VoiceSphere() {
       {/* 3D Canvas */}
       <canvas ref={canvasRef} className="w-full h-full block" />
 
-      {/* Zemin Yansıması */}
+      {/* Floor reflection */}
       <div className="absolute -bottom-8 w-[320px] sm:w-[480px] h-[35px] bg-sky-400/25 blur-2xl rounded-[100%] pointer-events-none -z-10" />
     </div>
   );

@@ -13,7 +13,7 @@ export function Sidebar() {
     <nav className="flex flex-col gap-6 py-6 pr-4">
       {navigation.map((section) => (
         <div key={section.title} className="flex flex-col gap-1">
-          {/* Başlık: Daha küçük boyut, geniş harf arası (tracking) ile premium hissiyat */}
+          {/* Heading: smaller size and wider tracking for a premium feel */}
           <h4 className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
             {section.title}
           </h4>
@@ -23,7 +23,7 @@ export function Sidebar() {
               const isActive = item.href !== '#' && pathname === item.href;
               const isDisabled = item.href === '#';
 
-              // DEVRE DIŞI / YAKINDA DURUMU
+              // Disabled / coming soon state
               if (isDisabled) {
                 return (
                   <span
@@ -32,13 +32,13 @@ export function Sidebar() {
                   >
                     {item.label}
                     <span className="text-[9px] font-medium uppercase tracking-wider bg-muted/50 px-1.5 py-0.5 rounded-sm">
-                      Yakında
+                      Coming Soon
                     </span>
                   </span>
                 );
               }
 
-              // AKTİF / İNAKTİF LİNKLER
+              // Active / inactive links
               return (
                 <Link
                   key={item.href}
@@ -52,13 +52,13 @@ export function Sidebar() {
                 >
                   {isActive && (
                     <>
-                      {/* Aktif Arkaplan Animasyonu (Premium hissiyat için) */}
+                      {/* Active background animation */}
                       <motion.div
                         layoutId="sidebar-active-bg"
                         className="absolute inset-0 rounded-lg bg-accent/60 dark:bg-accent/20"
                         transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                       />
-                      {/* Aktif Sol Çizgi (Daha zarif ve uyumlu bir renk) */}
+                      {/* Active left border */}
                       <motion.div
                         layoutId="sidebar-active-indicator"
                         className="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-r-full bg-primary"
@@ -66,7 +66,7 @@ export function Sidebar() {
                       />
                     </>
                   )}
-                  {/* Z-index sayesinde metin animasyonlu arkaplanın üstünde kalır */}
+                  {/* Keep text above the animated background with z-index */}
                   <span className="relative z-10">{item.label}</span>
                 </Link>
               );

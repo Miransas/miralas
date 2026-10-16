@@ -27,6 +27,7 @@ const POPULAR = [
   { title: "How to clone a voice", category: "Voice & Audio", catId: "voice", color: "#0ea5e9" },
   { title: "REST vs gRPC: which to choose?", category: "API & Integration", catId: "api", color: "#8b5cf6" },
   { title: "Audio is choppy or distorted", category: "Troubleshooting", catId: "troubleshooting", color: "#78716c" },
+  { title: "Biling and Payment Mothod", category: "Biling Payment", catId: "biling", color: "#030101" },
 ];
 
 // ─── COMPONENTS ───
@@ -107,7 +108,7 @@ function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: numb
                 {cat.articles.map((article) => (
                   <li key={article}>
                     <Link
-                      href={`/help/${cat.id}/${article.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/resources/help-center/help/${cat.id}/${article.toLowerCase().replace(/\s+/g, "-")}`}
                       className="flex items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium text-zinc-500 dark:text-zinc-400 transition-colors hover:bg-[#F2F2F2] dark:hover:bg-white/5 hover:text-zinc-950 dark:hover:text-white"
                     >
                       <FileText className="size-4 shrink-0" />
@@ -142,9 +143,9 @@ function FaqAccordion({ faqs }: { faqs: typeof HelpFaqs }) {
           >
             <button
               onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="w-full flex items-center justify-between gap-6 px-8 py-6 text-left focus:outline-none"
+              className="w-full flex items-center justify-between gap-6 px-8 py-4 text-left focus:outline-none"
             >
-              <span className="text-[17px] font-bold text-zinc-950 dark:text-white leading-snug">
+              <span className="md:text-[17px] text-sm font-bold text-zinc-950 dark:text-white leading-snug">
                 {faq.q}
               </span>
               <motion.div
@@ -192,7 +193,7 @@ export default function HelpCenter() {
     <SmoothScroll>
       <div className="min-h-screen bg-[#F2F2F2] dark:bg-zinc-950 font-sans antialiased">
         
-        {/* HERO / ARAMA BÖLÜMÜ */}
+        {/* HERO / SEARCH SECTION */}
         <section className="relative pt-32 pb-20 px-6 flex flex-col items-center text-center max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -212,7 +213,7 @@ export default function HelpCenter() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.1]"
           >
-            How can we <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">help?</span>
+            How can we help?
           </motion.h1>
           
           <motion.p
@@ -234,7 +235,7 @@ export default function HelpCenter() {
           </motion.div>
         </section>
 
-        {/* ARAMA SONUÇLARI */}
+        {/* SEARCH RESULTS */}
         <AnimatePresence>
           {query.trim() && (
             <motion.section
@@ -279,7 +280,7 @@ export default function HelpCenter() {
 
         <main className="mx-auto max-w-5xl px-6 pb-32">
           
-          {/* POPÜLER MAKALELER */}
+          {/* POPULAR ARTICLES */}
           {!query.trim() && (
             <motion.section
               initial={{ opacity: 0, y: 16 }}
@@ -303,7 +304,7 @@ export default function HelpCenter() {
                     transition={{ delay: i * 0.04, duration: 0.35 }}
                   >
                     <Link
-                      href={`/help/${item.catId}`}
+                      href={`/resources/help-center/help/${item.catId}`}
                       className="group flex flex-col gap-4 rounded-[32px] bg-white dark:bg-[#141210] p-8 hover:scale-[1.02] transition-transform duration-300 h-full shadow-sm"
                     >
                       <div className="flex items-center justify-between mb-2">
@@ -325,7 +326,7 @@ export default function HelpCenter() {
             </motion.section>
           )}
 
-          {/* KATEGORİLER GRİDİ */}
+          {/* CATEGORY GRID */}
           {!query.trim() && (
             <section className="mb-24">
               <div className="mb-8">
@@ -349,7 +350,7 @@ export default function HelpCenter() {
             <FaqAccordion faqs={HelpFaqs} />
           </section>
 
-          {/* ALT ÇAĞRI (Contact CTA) */}
+          {/* BOTTOM CALL TO ACTION */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

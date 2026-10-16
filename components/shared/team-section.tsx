@@ -51,7 +51,7 @@ export default function TeamSection() {
   return (
     <section className="w-full bg-background dark:bg-black py-24 px-6 md:px-12 font-sans transition-colors duration-300">
       <div className="max-w-[1200px] mx-auto space-y-12">
-        {/* Başlık Bölümü */}
+        {/* Heading section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-200/80 dark:border-white/[0.08] pb-8">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
@@ -68,7 +68,7 @@ export default function TeamSection() {
           </p>
         </div>
 
-        {/* 4'lü Card Grid */}
+        {/* Four-card grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {ARTISTS.map((artist) => (
             <div
@@ -85,9 +85,9 @@ export default function TeamSection() {
               {/* Alt Gradyan & Blur Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90 transition-opacity duration-300" />
 
-              {/* Kart İçerik Alanı */}
+              {/* Card content */}
               <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end space-y-3.5 backdrop-blur-[2px]">
-                {/* İsim + Yeşil Doğrulama Rozeti */}
+                {/* Name and green verification badge */}
                 <div className="flex items-center gap-2">
                   <h3 className="text-2xl font-semibold text-white tracking-tight">
                     {artist.name}.
@@ -99,14 +99,14 @@ export default function TeamSection() {
                   )}
                 </div>
 
-                {/* Açıklama / Bio */}
+                {/* Description / bio */}
                 <p className="text-xs text-zinc-300 leading-relaxed line-clamp-2 font-normal">
                   {artist.bio}
                 </p>
 
-                {/* İstatistikler & Buton Alt Çubuğu */}
+                {/* Stats and button footer */}
                 <div className="flex items-center justify-between pt-2 border-t border-white/10">
-                  {/* Sol İstatistikler */}
+                  {/* Left-side stats */}
                   <div className="flex items-center gap-3 text-xs font-medium text-zinc-300">
                     <div className="flex items-center gap-1.5">
                       <Users className="size-3.5 text-zinc-400" />
@@ -118,7 +118,7 @@ export default function TeamSection() {
                     </div>
                   </div>
 
-                  {/* Sağ Buton */}
+                  {/* Right-side button */}
                   <button
                     type="button"
                     className="px-4 py-1.5 cursor-pointer rounded-full bg-white/90 hover:bg-white text-zinc-900 text-xs font-medium transition-all duration-200 active:scale-95 backdrop-blur-md shadow-sm"

@@ -14,13 +14,11 @@ import TestimonialSection from '../components/shared/testimonial'
 import { IntegrationCardDemo } from '../components/shared/integration'
 import VoiceFeaturesSection from '../components/shared/VoiceFeaturesSection'
 import TeamSection from '../components/shared/team-section'
-import LiveSection from '../components/shared/live-section'
+
 import SpeechToTextSection from '../components/shared/SpeechToTextSection'
-import VoiceLibrarySection from '../components/shared/VoiceLibrarySection'
+
 import VoiceWorkflowSection from '../components/shared/VoiceWorkflowSection'
 import FeaturesBentoSection from '../components/shared/feature-bento'
-import { IsometricVoiceIntegration } from '../components/shared/voice-integration'
-
 
 
 
@@ -31,16 +29,15 @@ const page = () => {
       <div>
         <Hero />
            <VoiceWorkflowSection/>
-        {/* <VoiceLibrary /> */}
+        {/* <VoiceLibrary /> tez orada keladi  */}
         <FeatureSection />
         <FeaturesBentoSection/>
-        <VoiceFeaturesSection/>
+        {/* <VoiceFeaturesSection/> tez orada keladi */}
     
-        {/* <VoiceLibrarySection/> */}
-        <SpeechToTextSection/>
+       
+        {/* <SpeechToTextSection/> tez orada keladi */}
       
-        {/* <LiveSection/> */}
-         {/* <VideoSections/> */}
+         {/* <VideoSections/>  tez orada keladi*/}
          <TeamSection/>
         <FaqSection />
         <TestimonialSection/>

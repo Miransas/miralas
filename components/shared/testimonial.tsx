@@ -8,7 +8,7 @@ import { FEATURED_REVIEWS, MARQUEE_COLUMN_1, MARQUEE_COLUMN_2, MarqueeReview } f
 export default function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 3 saniyede bir ince geçiş süresi
+  // Subtle transition every 3 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % FEATURED_REVIEWS.length);
@@ -19,7 +19,7 @@ export default function TestimonialSection() {
   const activeReview = FEATURED_REVIEWS[currentIndex];
 
   return (
-    <section className="relative w-full min-h-screen bg-background py-24 px-6 md:px-16 overflow-hidden flex items-center">
+    <section className="relative w-full min-h-screen dark:bg-black bg-background py-24 px-6 md:px-16 overflow-hidden flex items-center">
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
         {/* SOL TARAF */}
@@ -59,7 +59,7 @@ export default function TestimonialSection() {
           </div>
         </div>
 
-        {/* SAĞ TARAF (Marquee Kolonları) */}
+        {/* RIGHT SIDE (marquee columns) */}
         <div className="lg:col-span-7 relative h-[550px] grid grid-cols-1 md:grid-cols-2 gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]">
 
           {/* Kolon 1 */}

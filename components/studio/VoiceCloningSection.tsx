@@ -20,7 +20,7 @@ export default function VoiceCloningSection() {
   return (
     <section className="relative w-full bg-[#fafafa] dark:bg-[#030303] py-24 px-6 md:px-12 font-sans text-zinc-900 dark:text-zinc-50 selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-900 overflow-hidden transition-colors duration-500">
       
-      {/* Dark Mode Ambient Glow - Sadece dark modda arkada lüks bir derinlik yaratır */}
+      {/* Dark mode ambient glow adds depth to the background */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.02] dark:bg-white/[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-24">
@@ -136,7 +136,7 @@ export default function VoiceCloningSection() {
                 {/* Animated Waveform - Renkleri Light/Dark uyumlu */}
                 <div className="flex items-center justify-center gap-1.5 h-12 w-full max-w-sm">
                   {Array.from({ length: 40 }).map((_, i) => {
-                    // Klon modunda çalarken ana rengi alır, aksi halde gri kalır
+                    // Use the primary color during playback; otherwise, stay gray
                     const isHighlight = isPlaying && mode === "cloned";
                     return (
                       <div

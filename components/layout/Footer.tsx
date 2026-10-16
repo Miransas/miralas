@@ -42,7 +42,7 @@ export function Footer({
   return (
     <footer
       className={cn(
-        'relative w-full overflow-hidden border-t border-zinc-200/80 dark:border-white/10 bg-[#fafafa] dark:bg-[#000000] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
+        'relative w-full overflow-hidden  bg-[#fafafa] dark:bg-[#000000] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
         className
       )}
     >
@@ -72,7 +72,7 @@ export function Footer({
             <h2 className="text-xl sm:text-2xl font-medium tracking-tight text-zinc-900 dark:text-zinc-200">
               Stay ahead in Voice AI
             </h2>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
+            <p className="text-sm text-zinc-500 dark:text-[#d7d3d8] leading-relaxed max-w-md">
               Subscribe to our newsletter for technical breakdowns, model releases, and voice synthesis architecture updates.
             </p>
           </div>
@@ -91,7 +91,7 @@ export function Footer({
                 className="w-full rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/5 pl-10 pr-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:border-zinc-900 dark:focus:border-white focus:outline-none transition-colors shadow-sm"
               />
             </div>
-            <GlowButton className="shrink-0 rounded-full px-6 py-3 font-semibold text-sm" size="md">
+            <GlowButton className="shrink-0 rounded-full px-6 py-3 font-semibold text-sm" size="md" color='blue'>
               <span className="flex items-center gap-2">
                 Subscribe <Sparkles className="size-4" />
               </span>
@@ -109,7 +109,7 @@ export function Footer({
               <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">
                 {CONTACT_DATA.presence.title}
               </h4>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
+              <p className="text-xs text-zinc-500 dark:text-[#d7d3d8] mt-1 leading-relaxed">
                 {CONTACT_DATA.presence.description}
               </p>
             </div>
@@ -118,7 +118,7 @@ export function Footer({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t md:border-t-0 md:border-l border-zinc-200/80 dark:border-white/10 pt-4 md:pt-0 md:pl-6">
             {CONTACT_DATA.presence.hubs.map((hub, idx) => (
               <div key={idx} className="space-y-1">
-                <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-600 dark:text-zinc-300">
+                <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-600 dark:text-[#d7d3d8]">
                   {hub.status}
                 </span>
                 <p className="text-xs font-medium text-zinc-900 dark:text-zinc-200">
@@ -149,7 +149,7 @@ export function Footer({
                           href={link.href}
                           target={link.target}
                           rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-zinc-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
+                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-[#d7d3d8] hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
                         >
                           {Icon && (
                             <Icon className="size-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shrink-0" />
@@ -169,7 +169,7 @@ export function Footer({
         )}
 
         {/* ── 4. COPYRIGHT & UTILITY BAR ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-zinc-200/80 dark:border-white/10 pt-8 gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-zinc-200/80 dark:border-white/10 pt-8 gap-4 text-xs text-zinc-500 dark:text-[#d7d3d8]">
           <p>{copyright}</p>
           <div className="flex flex-wrap items-center justify-center gap-6">
             {FOOTER_UTILITY_LINKS.map((link) => (
@@ -197,7 +197,7 @@ export function Footer({
         style={{ containerType: 'inline-size' }}
       >
         {tagline && (
-          <p className="mx-auto mb-8 max-w-[1200px] text-center text-xs sm:text-sm leading-relaxed text-zinc-400 dark:text-zinc-500">
+          <p className="mx-auto mb-8 max-w-[1200px] text-center text-xs sm:text-sm leading-relaxed text-zinc-400 dark:text-[#d7d3d8]">
             {tagline}
           </p>
         )}

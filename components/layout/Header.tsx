@@ -190,7 +190,7 @@ export function Header() {
                   <div key={item.label} className="border-b border-border/30 last:border-none">
                     {hasSubItems ? (
                       <div>
-                        {/* Accordion Başlığı */}
+                        {/* Accordion heading */}
                         <button
                           type="button"
                           onClick={() => toggleMobileAccordion(item.label)}
@@ -204,7 +204,7 @@ export function Header() {
                           />
                         </button>
 
-                        {/* Accordion İçeriği (Titremesiz Temiz Yapı) */}
+                        {/* Accordion content (stable layout) */}
                         <AnimatePresence initial={false}>
                           {isExpanded && (
                             <motion.div
@@ -255,7 +255,7 @@ export function Header() {
                 );
               })}
 
-              {/* Mobil Aksiyon Butonları */}
+              {/* Mobile action buttons */}
               <div className="pt-6 flex flex-col gap-2">
                 <a
                   href={HEADER_LINKS.consoleAuth}

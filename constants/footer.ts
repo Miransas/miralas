@@ -38,16 +38,18 @@ export const FOOTER_SECTIONS: FooterSection[] = [
       { label: "Media", href: "/resources/media" },
     ],
   },
-  // {
-  //   title: "Products",
-  //   links: [
-  //     { label: "Home", href: "/" },
-  //     { label: "API", href: "/products/api" },
-  //     { label: "Pricing", href: "/pricing" },
-  //     { label: "Contact Us", href: "/resources/help-center" },
-  //     { label: "Streamers", href: "/products/donate" },
-  //   ],
-  // },
+   {
+     title: "Documentation",
+     links: [
+       { label: "Docs", href: "/resources/docs" },
+       { label: "Get Started", href: "/resources/docs/getting-started" },
+       { label: "Api", href: "/resources/docs/api-reference" },
+       { label: "Spech TS", href: "/resources/docs/speech-to-speech" },
+       { label: "TTS", href: "/resources/docs/tts" },
+       { label: "Voice Agent", href: "/resources/docs/voice-agent" },
+       { label: "Voice Clone", href: "/resources/docs/voice-clone" },
+     ],
+   },
   {
     title: "Product",
     links: [
@@ -73,9 +75,11 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     title: "Dashboards",
     links: [
       { label: "Voice Clone", href: "https://console.miralas.io/voice-clone", target: "_blank" },
-      { label: "Generate", href: "https://console.miralas.io/generate", target: "_blank" },
-      { label: "Stream Donate", href: "https://console.miralas.io/donate", target: "_blank" },
+      { label: "Explore", href: "https://console.miralas.io/generate", target: "_blank" },
+      { label: "Video Spech", href: "https://console.miralas.io/explore", target: "_blank" },
       { label: "Your Projects", href: "https://console.miralas.io/projects", target: "_blank" },
+      { label: "TTS", href: "https://console.miralas.io/tts", target: "_blank" },
+      { label: "Spech TS", href: "https://console.miralas.io/sts", target: "_blank" },
     ],
   },
   {
@@ -108,7 +112,7 @@ export const CONTACT_DATA = {
   departments: [
     {
       title: "General & Projects",
-      email: "hello@miransas.com",
+      email: "contact@miransas.com",
       description: "New project inquiries, partnerships, and general studio work.",
       icon: Sparkles,
     },

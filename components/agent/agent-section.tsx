@@ -25,50 +25,50 @@ interface FAQItem {
 const AGENT_FAQS: FAQItem[] = [
   {
     id: 'what-is-agent',
-    question: 'Miransas AI Ajanı tam olarak nedir?',
+    question: 'What exactly is a Miransas AI agent?',
     answer: (
       <p>
-        Miransas AI Ajanı, sadece duyduğunu metne çeviren veya metni okuyan pasif bir sistem değildir. Söylenenleri <strong>anlayan, bağlamı kavrayan, arka plandaki veritabanlarınıza bağlanıp işlem yapabilen</strong> ve insan doğallığında sesli yanıtlar verebilen otonom bir sanal asistandır.
+        A Miransas AI agent is more than a passive system that transcribes or reads text. It is an autonomous virtual assistant that <strong>understands what people say, grasps context, connects to your databases to take action</strong>, and responds with natural-sounding speech.
       </p>
     ),
   },
   {
     id: 'daily-and-business',
-    question: 'Günlük hayatta ve işletmelerde nerelerde kullanılır?',
+    question: 'How can agents be used in everyday life and business?',
     answer: (
       <div className="space-y-2">
-        <p>Ajanlarımız iki temel ekosistemde hayat kurtarır:</p>
+        <p>Our agents help across two key areas:</p>
         <ul className="list-disc pl-5 space-y-1">
-          <li><strong>İşletme & Ofis:</strong> 7/24 müşteri destek hattı, randevu planlayıcısı, toplantı özetleyici, CRM verisi sorgulama asistanı veya soğuk arama (cold-call) satış temsilcisi olarak.</li>
-          <li><strong>Günlük Hayat:</strong> Akıllı ev yönetim sistemleri, kişisel dil öğrenme pratik partneri veya araç içi sesli asistan olarak.</li>
+          <li><strong>Business & Office:</strong> 24/7 customer support, appointment scheduling, meeting summaries, CRM data lookup, or outbound sales calls.</li>
+          <li><strong>Everyday Life:</strong> Smart home management, language-learning practice, or in-car voice assistance.</li>
         </ul>
       </div>
     ),
   },
   {
     id: 'backend-integration',
-    question: 'Ajanı kendi şirket sistemlerime (Backend) bağlayabilir miyim?',
+    question: 'Can I connect an agent to my company systems (backend)?',
     answer: (
       <p>
-        Kesinlikle. Webhook'lar, REST API'ler ve WebSocket aracılığıyla ajanı mevcut ERP, CRM (Salesforce, Hubspot vb.) veya özel backend sistemlerinize doğrudan bağlayabilirsiniz. Ajan, görüşme sırasında müşterinin sipariş durumunu veritabanından çekip saniyeler içinde sesli olarak iletebilir.
+        Absolutely. Connect an agent directly to your existing ERP, CRM (Salesforce, HubSpot, and more), or custom backend systems using webhooks, REST APIs, and WebSockets. During a call, the agent can retrieve a customer's order status from your database and share it verbally in seconds.
       </p>
     ),
   },
   {
     id: 'voice-customization',
-    question: 'Ajanın sesini ve kişiliğini (Prompt) özelleştirebilir miyim?',
+    question: "Can I customize an agent's voice and personality (prompt)?",
     answer: (
       <p>
-        Evet. Miransas Console üzerinden ajanınızın hangi sesi kullanacağını (kendi klonladığınız bir ses dahil), konuşma hızını, duygu durumunu ve en önemlisi <strong>sistem komutlarını (System Prompt)</strong> belirleyebilirsiniz. Onu ciddi bir banka asistanı veya neşeli bir oyun arkadaşı olarak kurgulayabilirsiniz.
+        Yes. In the Miransas Console, you can choose an agent's voice (including one you've cloned), speaking speed, emotional tone, and, most importantly, its <strong>system prompt</strong>. Configure it as a professional banking assistant or a cheerful gaming companion.
       </p>
     ),
   },
   {
     id: 'latency-live',
-    question: 'Canlı görüşmelerde gecikme süresi (Latency) ne kadar?',
+    question: 'What is the latency during live calls?',
     answer: (
       <p>
-        Gerçek zamanlı sohbetlerde akıcılık her şeydir. Edge sunucu mimarimiz ve optimize edilmiş uçtan uca modellerimiz sayesinde, kullanıcının cümlesi bittikten sonra ajanın yanıt vermeye başlama süresi ortalama <strong>400-600 milisaniye</strong> arasındadır. Bu, insan-insan konuşma ritmine neredeyse denktir.
+        Natural turn-taking is essential for real-time conversations. Thanks to our edge server architecture and optimized end-to-end models, agents typically begin responding within <strong>400–600 milliseconds</strong> after a user finishes speaking—almost as quickly as a human conversation.
       </p>
     ),
   },
@@ -100,7 +100,7 @@ export default function AgentSectionAndFAQ() {
         {/* ════ PART 1: AGENT HERO & LIVE DEMO ════ */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
-          {/* Sol Kısım: Metinler ve Use Cases */}
+          {/* Left: copy and use cases */}
           <div className="space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-white/5 text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-300 shadow-sm">
@@ -109,12 +109,12 @@ export default function AgentSectionAndFAQ() {
               </div>
               
               <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.15]">
-                Sadece bir ses değil, <br />
-                <span className="text-zinc-400 dark:text-zinc-500 font-serif ">operasyonel aklınız.</span>
+                More than a voice, <br />
+                <span className="text-zinc-400 dark:text-zinc-500 font-serif ">your operational intelligence.</span>
               </h2>
               
               <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal max-w-lg">
-                Müşterilerinizle telefonda konuşan, söylediklerini anlayan, arka plandaki CRM sisteminizden veri çekip saniyeler içinde çözüm sunan otonom yapay zeka ajanları inşa edin.
+                Build autonomous AI agents that talk with your customers, understand what they say, retrieve data from your CRM, and deliver solutions in seconds.
               </p>
             </div>
 
@@ -122,29 +122,29 @@ export default function AgentSectionAndFAQ() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="p-8 rounded-[32px] bg-white dark:bg-[#141210] shadow-sm">
                 <Briefcase className="size-6 text-zinc-950 dark:text-white mb-4" />
-                <h4 className="text-base font-bold text-zinc-950 dark:text-white">İşletme & Ofis</h4>
+                <h4 className="text-base font-bold text-zinc-950 dark:text-white">Business & Office</h4>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2 leading-relaxed">
-                  7/24 müşteri desteği, otomatik randevu planlama ve telefonda akıllı satış asistanı.
+                  24/7 customer support, automated appointment scheduling, and intelligent phone sales.
                 </p>
               </div>
               <div className="p-8 rounded-[32px] bg-white dark:bg-[#141210] shadow-sm">
                 <Coffee className="size-6 text-zinc-950 dark:text-white mb-4" />
-                <h4 className="text-base font-bold text-zinc-950 dark:text-white">Günlük Hayat</h4>
+                <h4 className="text-base font-bold text-zinc-950 dark:text-white">Everyday Life</h4>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2 leading-relaxed">
-                  Akıllı ev asistanları, kişisel dil koçları ve araç içi interaktif rehberler.
+                  Smart home assistants, personal language coaches, and interactive in-car guides.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Sağ Kısım: Live Demo Arayüzü */}
+          {/* Right: live demo interface */}
           <div className="relative w-full max-w-md mx-auto lg:ml-auto">
             <div className="relative rounded-[40px] p-3 bg-white dark:bg-[#141210] shadow-sm">
               
-              {/* Cihaz Ekranı */}
+              {/* Device screen */}
               <div className="relative rounded-[32px] bg-[#F2F2F2] dark:bg-zinc-900 overflow-hidden aspect-[4/5] flex flex-col">
                 
-                {/* Üst Bar */}
+                {/* Top bar */}
                 <div className="px-8 py-6 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="relative flex h-2.5 w-2.5">
@@ -158,7 +158,7 @@ export default function AgentSectionAndFAQ() {
                   <Database className="size-4 text-zinc-400" />
                 </div>
 
-                {/* Orta Kısım: Visualizer ve Durum */}
+                {/* Visualizer and status */}
                 <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-8">
                   <div className="relative flex items-center justify-center">
                     <AnimatePresence>
@@ -185,18 +185,18 @@ export default function AgentSectionAndFAQ() {
 
                   <div className="text-center space-y-1">
                     <h3 className="text-lg font-bold text-zinc-950 dark:text-white">
-                      {demoState === 'idle' ? 'Satış Asistanı' : 
-                       demoState === 'connecting' ? 'Sistemlere Bağlanıyor...' : 
+                      {demoState === 'idle' ? 'Sales Assistant' :
+                       demoState === 'connecting' ? 'Connecting to systems...' :
                        'Sizi Dinliyor...'}
                     </h3>
                     <p className="text-xs text-zinc-500 max-w-[200px] mx-auto">
-                      {demoState === 'idle' ? 'Mikrofona tıklayın ve stok durumu sormayı deneyin.' : 
-                       demoState === 'listening' ? '"Merhaba, sipariş numaram 1402, kargom nerede?"' : ''}
+                      {demoState === 'idle' ? 'Click the microphone and ask about stock availability.' :
+                       demoState === 'listening' ? '"Hello, my order number is 1402. Where is my package?"' : ''}
                     </p>
                   </div>
                 </div>
 
-                {/* Alt Kısım: Kontrol Butonu */}
+                {/* Control button */}
                 <div className="p-6 pt-0 flex justify-center">
                   <button
                     onClick={handleDemoToggle}
@@ -209,12 +209,12 @@ export default function AgentSectionAndFAQ() {
                     {isDemoActive ? (
                       <>
                         <Square className="size-4 fill-current" />
-                        <span>Görüşmeyi Sonlandır</span>
+                        <span>End Call</span>
                       </>
                     ) : (
                       <>
                         <Mic className="size-4" />
-                        <span>Canlı Demoyu Başlat</span>
+                        <span>Start Live Demo</span>
                       </>
                     )}
                   </button>
@@ -246,7 +246,7 @@ export default function AgentSectionAndFAQ() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
-              Ajanlar hakkında <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">bilmeniz gerekenler</span>
+              What you need to know about <span className="text-zinc-400 dark:text-zinc-500 font-serif italic">AI agents</span>
             </h2>
           </div>
 
@@ -305,7 +305,7 @@ export default function AgentSectionAndFAQ() {
               href="/agents"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white dark:bg-[#141210] text-sm font-bold text-zinc-950 dark:text-white hover:scale-105 transition-transform shadow-sm"
             >
-              <span>Ajan Mimarisini İncele</span>
+              <span>Explore the Agent Architecture</span>
               <ArrowRight className="size-4" />
             </a>
           </div>

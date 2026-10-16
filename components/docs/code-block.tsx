@@ -38,7 +38,7 @@ export function CodeBlock({
 
   const lang =
     language ||
-    (className?.replace(/language-|hljs /g, "") ?? "text").trim();
+    (className?.replace(/language-|js /g, "") ?? "text").trim();
 
   return (
     <div
@@ -57,7 +57,7 @@ export function CodeBlock({
           "flex items-center justify-between",
           "border-b border-border",
           "bg-muted/60",
-          "px-4 py-2.5",
+          "px-1 py-2.5",
           "transition-colors duration-300",
         )}
       >
@@ -86,7 +86,7 @@ export function CodeBlock({
             "focus-visible:ring-2",
             "focus-visible:ring-ring/50",
           )}
-          aria-label={copied ? "Kopyalandı" : "Kodu kopyala"}
+          aria-label={copied ? "Copied" : "Copy code"}
         >
           {copied ? (
             <>
@@ -94,7 +94,7 @@ export function CodeBlock({
                 className="size-3.5"
                 strokeWidth={2}
               />
-              <span>Kopyalandı</span>
+              <span>Copy</span>
             </>
           ) : (
             <>
@@ -102,7 +102,7 @@ export function CodeBlock({
                 className="size-3.5"
                 strokeWidth={1.75}
               />
-              <span>Kopyala</span>
+              <span>Get Copy</span>
             </>
           )}
         </button>
@@ -130,4 +130,3 @@ export function CodeBlock({
     </div>
   );
 }
-
