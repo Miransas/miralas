@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql, type SQL } from "drizzle-orm";
 
-import { db } from "@/db";
+
 import { visitors, trackingEvents } from "@/db/schema";
+import { getDb } from "../../../db";
 
 export const dynamic = "force-dynamic";
+
+
 
 type Attribution = {
   source: string;
@@ -35,6 +38,7 @@ function cleanString(v: unknown, max: number): string | null {
 
 export async function POST(request: NextRequest) {
   try {
+    const db = getDb();
     const visitorId = request.cookies.get("visitor_id")?.value;
     if (!visitorId) {
       return NextResponse.json(
