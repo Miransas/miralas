@@ -1,4 +1,5 @@
 allowBuilds:
+  esbuild: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - nanoid@3.3.18
