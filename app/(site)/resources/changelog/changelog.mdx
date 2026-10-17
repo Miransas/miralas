@@ -1,0 +1,84 @@
+# Changelog
+
+Everything that ships, changes or goes away at Miralas. Newest first.
+
+---
+
+## v0.4.0 — October 17, 2026
+**Docs, changelog and cleaner traffic tracking**
+
+### Added
+- Documentation now lives at `/docs` with its own layout and sidebar, separate from the marketing site.
+- This changelog, at `/changelog`.
+- Permanent-style redirects from the old `/resources/docs` and `/resources/changelog` addresses, so existing links keep working.
+- `/product` and `/resources` no longer dead-end: they send you to the right starting page.
+
+### Changed
+- The site is split into two layouts: marketing pages keep the header and footer, docs get a focused reading layout.
+- Traffic attribution was rebuilt. Visits from Instagram, TikTok, Facebook and other in-app browsers, UTM links and ad click IDs are now credited to the real source, and moving between our own pages no longer overwrites where a visitor came from.
+- Page-view tracking counts each view exactly once, even if the browser sends it twice.
+- Database connections are created on demand, which makes builds and previews more reliable.
+
+### Fixed
+- Visits from social links showing up as `miralas.io` instead of their real source.
+- Inflated page-view counts caused by duplicate events.
+- Missing-dependency build failures on deploy.
+
+### Removed
+- **Donation / superchat webhook.** Miralas will not read donations aloud. We are focusing on voice cloning, text-to-speech and speech-to-speech.
+
+---
+
+## v0.3.0 — October 10, 2026
+**Console beta: first audio out**
+
+### Added
+- Sign in with Google.
+- Text-to-speech in the console: type text on the Generate page and play the result in your browser (English, Turkish and Russian).
+- Per-account rate limiting on generation (10 requests per minute).
+- Dashboard pages: Home, Voices, Generate and Settings.
+
+### Changed
+- Sessions now use secure, HTTP-only cookies.
+- New sign-in screen: lighter, with a static visual instead of a WebGL shader, so it runs smoothly on phones.
+- Turkish and Russian pronunciation is much clearer after switching to a newer multilingual model.
+
+---
+
+## v0.2.0 — October 3, 2026
+**Accounts**
+
+### Added
+- Email and password sign-up, login and logout.
+- Refresh sessions with rotation and reuse detection.
+- Rust backend foundation with an automated test suite covering the full auth flow.
+
+---
+
+## v0.1.0 — September 20, 2026
+**Public site**
+
+### Added
+- Marketing site with Product pages (Agent, API, Models, TTS, Voice Clone), Pricing, Solutions, Stories and About.
+- Resources: Guides, Help Center, Media, Support and Contact.
+- Light and dark themes.
+
+---
+
+## Almost there
+
+- **Uzbek voice.** First licensed voice (female) is being recorded; the fine-tuned Uzbek model follows.
+- **Free beta** for everyone on the waitlist.
+- **Voice cloning profiles** in the console.
+- **Generate page redesign.**
+
+## In progress
+
+- **Speech-to-speech.**
+- **Developer API** with per-token limits.
+
+## Later
+
+- AI agent.
+- Telegram bot channel.
+- Admin and billing dashboard.
