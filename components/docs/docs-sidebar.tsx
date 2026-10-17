@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { navigation } from '@/lib/docs-d';
 import { cn } from '@/lib/utils';
 
-export function Sidebar() {
+export function DocsSidebar() {
   const pathname = usePathname();
 
   return (

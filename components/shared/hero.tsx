@@ -68,7 +68,7 @@ export default function HeroSection() {
 
             <Link
               href={HERO_CONTENT.secondaryCtaHref}
-              className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-border bg-white backdrop-blur-md sm:px-3 sm:py-3.5 px-3 py-3 text-sm font-medium text-foreground transition-all duration-200 hover:bg-accent shadow-sm"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-border bg-white/5 backdrop-blur-md sm:px-3 sm:py-3.5 px-3 py-3 text-sm font-medium text-foreground transition-all duration-200 hover:bg-accent shadow-sm"
             >
               <Play className="size-4 fill-foreground/20 transition-transform group-hover:scale-110" />
               <span>{HERO_CONTENT.secondaryCta}</span>

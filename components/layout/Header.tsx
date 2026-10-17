@@ -24,11 +24,11 @@ export function Header() {
         {/* LOGO & DESKTOP NAV */}
         <div className="flex items-center gap-8">
           <Link href={HEADER_LINKS.home} className="flex items-center gap-2.5 transition-opacity hover:opacity-80 focus:outline-none">
-            <div className="flex size-8 items-center justify-center rounded-xl bg-foreground p-1.5 text-background shadow-sm">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-black p-1.5 text-background shadow-sm">
               <img
                 src="/logo.png"
                 alt="Miralas Logo"
-                className="size-full object-contain filter invert dark:invert-0"
+                className="size-full object-cover "
               />
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground">
