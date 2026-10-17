@@ -11,6 +11,7 @@ import { cn } from "../lib/utils";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { PageViewTracker } from "../components/providers/page-view-tracker";
+import { CookieConsent } from "../components/providers/cookie-consent";
 
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -152,18 +153,19 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="min-h-full bg-background text-foreground">
-          <PageViewTracker />
+        
 
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
+        >  <PageViewTracker />
           {/* {isLocked && <ComingSoonModal />}   */}
           {children}
         </ThemeProvider>
         {googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
+        <CookieConsent />
       </body>
     </html>
   );

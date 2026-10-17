@@ -37,6 +37,10 @@ function cleanString(v: unknown, max: number): string | null {
 }
 
 export async function POST(request: NextRequest) {
+  
+  if (request.cookies.get("consent")?.value !== "granted") {
+  return NextResponse.json({ success: false, error: "no_consent" }, { status: 403 });
+}
   try {
     const db = getDb();
     const visitorId = request.cookies.get("visitor_id")?.value;

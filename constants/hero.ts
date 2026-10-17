@@ -35,7 +35,7 @@ export const HERO_CONTENT = {
   description:
     "Advanced text-to-speech real-time voice cloning and multilingual infrastructure in one platform Natural expressive speech  built for next-generation applications",
   primaryCta: "Get Started",
-  primaryCtaHref: "https://console.miralas.io/auth",
+  primaryCtaHref: "/login",
   secondaryCta: "Listen to Demos",
-  secondaryCtaHref: "https://console.io/studio/create",
+  secondaryCtaHref: "/login",
 };

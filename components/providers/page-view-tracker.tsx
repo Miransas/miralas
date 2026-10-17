@@ -8,6 +8,7 @@ export function PageViewTracker() {
   const lastPath = useRef<string | null>(null);
 
   useEffect(() => {
+    if (!/(?:^|; )consent=granted/.test(document.cookie)) return;
     if (lastPath.current === pathname) return;
     lastPath.current = pathname;
 

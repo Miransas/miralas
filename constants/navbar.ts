@@ -94,25 +94,25 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
       },
       { 
         label: "Miralas Status", 
-        href: "https://privacy.miransas.com/miralas/security", badge: "Live",
+        href: "https://stats.uptimerobot.com/jkUgMNgsLw", badge: "Live",
         description: "Security, compliance and trust info.",
         target: "_blank" 
       },
       { 
         label: "Security", 
-        href: "https://privacy.miransas.com/miralas/security", 
+        href: "https://privacy.miransas.com/miralas/legal", 
         description: "Security, compliance and trust info.",
         target: "_blank" 
       },
       { 
         label: "Miralas Terms", 
-        href: "https://privacy.miransas.com/miralas/terms", 
+        href: "https://privacy.miransas.com/miralas/legal", 
         description: "Legal terms and conditions.",
         target: "_blank" 
       },
       { 
         label: "Cookie Policy", 
-        href: "https://privacy.miransas.com/miralas/cookie", 
+        href: "https://privacy.miransas.com/miralas/legal", 
         description: "Privacy and cookie preferences.",
         target: "_blank" 
       },
@@ -123,6 +123,6 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
 
 export const HEADER_LINKS = {
   home: "/",
-  consoleAuth: "/auth",
-  studio: "/auth",
+  consoleAuth: "/login",
+  studio: "/login",
 };
