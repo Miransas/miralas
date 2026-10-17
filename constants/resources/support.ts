@@ -12,7 +12,7 @@ export const supportCategories = [
     title: "Documentation & Guides",
     description: "Learn how to integrate Miralas APIs, TTS models, and voice cloning into your apps.",
     icon: BookOpen,
-    href: "/resources/docs",
+    href: "/docs",
     count: "12 articles"
   },
   {
@@ -47,7 +47,7 @@ export const popularFaqs = [
   {
     question: "What are the rate limits for the Miralas TTS API?",
     answer: "Rate limits vary depending on your tier. Standard developer plans include up to 60 requests per minute, while enterprise plans offer custom throughput limits.",
-    href: "/resources/docs"
+    href: "/docs"
   },
   {
     question: "How are commercial voice rights handled?",

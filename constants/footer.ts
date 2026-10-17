@@ -30,7 +30,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     title: "Resources",
     links: [
       { label: "About", href: "/resources/about" },
-      { label: "Documentation", href: "/resources/docs" },
+      { label: "Documentation", href: "/docs" },
       { label: "Guides", href: "/resources/guides" },
       { label: "Changelog", href: "/resources/changelog" },
       { label: "Support", href: "/resources/support" },
@@ -41,13 +41,13 @@ export const FOOTER_SECTIONS: FooterSection[] = [
    {
      title: "Documentation",
      links: [
-       { label: "Docs", href: "/resources/docs" },
-       { label: "Get Started", href: "/resources/docs/getting-started" },
-       { label: "Api", href: "/resources/docs/api-reference" },
-       { label: "Spech TS", href: "/resources/docs/speech-to-speech" },
-       { label: "TTS", href: "/resources/docs/tts" },
-       { label: "Voice Agent", href: "/resources/docs/voice-agent" },
-       { label: "Voice Clone", href: "/resources/docs/voice-clone" },
+       { label: "Docs", href: "/docs" },
+       { label: "Get Started", href: "/docs/getting-started" },
+       { label: "Api", href: "/docs/api-reference" },
+       { label: "Spech TS", href: "/docs/speech-to-speech" },
+       { label: "TTS", href: "/docs/tts" },
+       { label: "Voice Agent", href: "/docs/voice-agent" },
+       { label: "Voice Clone", href: "/docs/voice-clone" },
      ],
    },
   {

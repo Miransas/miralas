@@ -12,22 +12,22 @@ export const navigation: NavSection[] = [
   {
     title: 'Getting started',
     items: [
-      { label: 'Overview', href: '/resources/docs' },
-      { label: 'Getting started', href: '/resources/docs/getting-started' },
+      { label: 'Overview', href: '/docs' },
+      { label: 'Getting started', href: '/docs/getting-started' },
     ],
   },
   {
     title: 'Guides',
     items: [
-      { label: 'Voice agents', href: '/resources/docs/voice-agents' },
-      { label: 'Text-to-speech', href: '/resources/docs/tts' },
-      { label: 'Speech-to-speech', href: '/resources/docs/speech-to-speech' },
-      { label: 'Voice cloning', href: '/resources/docs/voice-cloning' },
+      { label: 'Overview', href: '/docs' },                 // satır 15
+      { label: 'Voice agents', href: '#' },                 // satır 22
+      { label: 'Voice cloning', href: '#' },                // satır 25
+  
     ],
   },
   {
     title: 'Reference',
-    items: [{ label: 'API reference', href: '/resources/docs/api-reference' }],
+    items: [{ label: 'API reference', href: '#' }],
   },
 ];
 

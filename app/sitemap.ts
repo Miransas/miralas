@@ -13,7 +13,7 @@ const routes = [
   { path: "/product/voice-clone", priority: 0.9, changeFrequency: "weekly" },
   { path: "/resources/changelog", priority: 0.6, changeFrequency: "weekly" },
   { path: "resoources/about",  priority:0.7, changeFrequency: "weekly"},
-  { path: "/resources/docs", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/docs", priority: 0.9, changeFrequency: "weekly" },
   { path: "/resources/guides", priority: 0.8, changeFrequency: "weekly" },
   { path: "/resources/help-center", priority: 0.7, changeFrequency: "monthly" },
   { path: "/resources/media", priority: 0.6, changeFrequency: "monthly" },

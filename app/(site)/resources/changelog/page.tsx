@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-// @ts-expect-error MDX module types are provided by the Next.js MDX loader.
+
 import Changelog from "./changelog.mdx";
 
 export const metadata: Metadata = {
