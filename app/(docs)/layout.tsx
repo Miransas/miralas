@@ -1,6 +1,6 @@
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { DocsSidebar } from "@/components/docs/docs-sidebar";
-import Footer from "../../components/layout/Footer";
 
 export default function DocsLayout({
   children,
@@ -10,13 +10,15 @@ export default function DocsLayout({
   return (
     <>
       <Header />
-      <div className="mx-auto flex w-full max-w-[1400px] pt-14">
-        <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r border-white/10 px-4 md:block">
+      <div className="mx-auto flex w-full max-w-[1400px]">
+        <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-border px-4 md:block">
           <DocsSidebar />
         </aside>
-        <main className="min-w-0 p-1 mx-auto flex-1">{children}</main>
+        <main className="min-w-0 flex-1 px-6 py-8 md:px-12 md:py-10">
+          {children}
+        </main>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
