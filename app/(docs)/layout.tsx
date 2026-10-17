@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { DocsSidebar } from "@/components/docs/docs-sidebar";
+import { DocsSidebar } from "../../components/docs/docs-sidebar";
+
 
 export default function DocsLayout({
   children,
