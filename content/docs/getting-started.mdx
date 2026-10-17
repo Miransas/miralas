@@ -1,90 +1,27 @@
 ---
 title: "Getting started"
-description: "A practical introduction to Miralas, core product capabilities, and the fastest path to building your first voice experience."
+description: "What Miralas is, what you can use today, and what is coming next."
 category: "Getting started"
 order: 1
 ---
 
 ## Overview
 
-Miralas helps teams build voice-first products with a reliable API layer for agents, speech generation, real-time audio processing, and custom voice experiences.
+Miralas is a voice platform for voice cloning, text-to-speech and speech-to-speech, built with Uzbek as a first-class language.
 
-The platform is organized around four core capabilities:
+## Available today
 
-- **Voice agents** for conversational workflows and live calling
-- **Text-to-speech** for natural audio generation from text
-- **Speech-to-speech** for real-time voice transformation
-- **Voice cloning** for branded or personalized voice experiences
+The console is in beta. You can:
 
-## Install the SDK
+- Sign in with your email or Google account
+- Generate speech from text on the Generate page and play it in your browser (English, Turkish and Russian)
 
-The Node.js SDK is the fastest way to begin. It works with modern JavaScript runtimes and supports the standard auth pattern used across the platform.
+## Coming soon
 
-```bash
-npm install @miralas/sdk
-```
+- Uzbek voice
+- Voice cloning profiles
+- Speech-to-speech
+- Developer API and SDKs
+- Voice agents
 
-If your team uses Yarn:
-
-```bash
-yarn add @miralas/sdk
-```
-
-## Authentication
-
-All API requests require a valid API key. Create and manage keys from the Miralas dashboard.
-
-```bash
-# .env
-MIRALAS_API_KEY=your_key_here
-```
-
-Then initialize the client:
-
-```javascript
-import { MiralasClient } from '@miralas/sdk';
-
-const miralas = new MiralasClient({
-  apiKey: process.env.MIRALAS_API_KEY,
-});
-```
-
-## Create your first voice agent
-
-```javascript
-import { MiralasClient } from '@miralas/sdk';
-
-const miralas = new MiralasClient({
-  apiKey: process.env.MIRALAS_API_KEY,
-});
-
-const agent = await miralas.agents.create({
-  name: 'Customer support agent',
-  voice: 'aria',
-  systemPrompt: 'You are a helpful support assistant. Keep responses brief and professional.',
-});
-
-console.log(agent.id);
-```
-
-## Recommended workflow
-
-1. Create the agent.
-2. Configure the voice and instructions.
-3. Connect your backend tools or business workflows.
-4. Test with a real call or simulation.
-5. Ship with monitoring and analytics.
-
-## Best practices
-
-- Keep prompts concise and explicit.
-- Keep secrets in environment variables.
-- Use separate keys for dev and production.
-- Validate production flows with real-world call scenarios.
-
-## Next steps
-
-- [Voice agents](/resources/docs/voice-agents)
-- [Text-to-speech](/resources/docs/tts)
-- [Speech-to-speech](/resources/docs/speech-to-speech)
-- [API reference](/resources/docs/api-reference)
+Documentation for each of these will be published here as it ships. Follow the [changelog](/resources/changelog) for updates.
