@@ -231,7 +231,7 @@ export default function RobotEyes({ priority = false }: { priority?: boolean }) 
   return (
     <div
       ref={box}
-      className="relative mx-auto aspect-square w-full max-w-[650px] overflow-hidden"
+      className="relative mx-auto aspect-square w-full max-w-[850px] overflow-hidden"
     >
       <div
         ref={stage}
@@ -242,7 +242,7 @@ export default function RobotEyes({ priority = false }: { priority?: boolean }) 
           src="https://res.cloudinary.com/dwdk20m6q/image/upload/v1790282774/Firefly_RemoveBackground_mre4pp.png"
           alt="Miralas robot mascot"
           fill
-          sizes="650px"
+          sizes="850px"
           quality={90}
           priority={priority}
           draggable={false}

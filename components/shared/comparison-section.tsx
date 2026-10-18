@@ -44,7 +44,7 @@ const cell = "border-t border-border px-6 py-7 text-sm text-muted-foreground";
 
 export function ComparisonSection() {
   return (
-    <section className="bg-muted/40 py-20">
+    <section className="dark:bg-black bg-[#f5f5f5] py-20">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
