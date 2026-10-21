@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql, type SQL } from "drizzle-orm";
 
-
 import { visitors, trackingEvents } from "@/db/schema";
 import { getDb } from "../../../db";
 
 export const dynamic = "force-dynamic";
-
-
 
 type Attribution = {
   source: string;
@@ -36,11 +33,26 @@ function cleanString(v: unknown, max: number): string | null {
   return s;
 }
 
-export async function POST(request: NextRequest) {
-  
-  if (request.cookies.get("consent")?.value !== "granted") {
-  return NextResponse.json({ success: false, error: "no_consent" }, { status: 403 });
+// 📌 YENİ: User-Agent'tan Cihaz ve Tarayıcı Çözümleme Fonksiyonu
+function parseUserAgent(ua: string) {
+  let device = "Desktop";
+  if (/mobile/i.test(ua)) device = "Mobile";
+  else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+
+  let browser = "Chrome";
+  if (/firefox/i.test(ua)) browser = "Firefox";
+  else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Safari";
+  else if (/edge/i.test(ua)) browser = "Edge";
+  else if (/opr|opera/i.test(ua)) browser = "Opera";
+  else if (/samsung/i.test(ua)) browser = "Samsung Browser";
+
+  return { device, browser };
 }
+
+export async function POST(request: NextRequest) {
+  if (request.cookies.get("consent")?.value !== "granted") {
+    return NextResponse.json({ success: false, error: "no_consent" }, { status: 403 });
+  }
   try {
     const db = getDb();
     const visitorId = request.cookies.get("visitor_id")?.value;
@@ -50,6 +62,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // 📌 User-Agent bilgisini header'dan alıyoruz
+    const uaHeader = request.headers.get("user-agent") || "";
+    const { device, browser } = parseUserAgent(uaHeader);
 
     const firstTouch = parseCookie<Attribution>(
       request.cookies.get("attribution_first")?.value
@@ -100,6 +116,8 @@ export async function POST(request: NextRequest) {
     const set: Record<string, SQL | Date | string | null> = {
       pageViews: sql`${visitors.pageViews} + 1`,
       lastSeenAt: new Date(),
+      device, // Güncellenirken de cihazı taze tutalım
+      browser, // Tarayıcıyı taze tutalım
     };
 
     if (lastTouch) {
@@ -116,6 +134,10 @@ export async function POST(request: NextRequest) {
       .insert(visitors)
       .values({
         visitorId,
+
+        // 📌 Cihaz ve Tarayıcıyı İlk Kayıtta Veritabanına Yazıyoruz
+        device,
+        browser,
 
         firstSource: firstTouch?.source ?? "direct",
         firstMedium: firstTouch?.medium ?? "none",

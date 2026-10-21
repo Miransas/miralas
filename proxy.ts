@@ -33,6 +33,20 @@ function isOwnHost(hostname: string) {
   return OWN_HOSTS.some((h) => hostname === h || hostname.endsWith("." + h));
 }
 
+function parseUserAgent(ua: string) {
+  let device = "Desktop";
+  if (/mobile/i.test(ua)) device = "Mobile";
+  else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+
+  let browser = "Chrome";
+  if (/firefox/i.test(ua)) browser = "Firefox";
+  else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Safari";
+  else if (/edge/i.test(ua)) browser = "Edge";
+  else if (/opr|opera/i.test(ua)) browser = "Opera";
+
+  return { device, browser };
+}
+
 /*
  * Sadece gerçek tarayıcı sayfa navigasyonları.
  * Prefetch ve RSC istekleri sahte referral üretiyordu.

@@ -15,6 +15,11 @@ export const visitors = pgTable(
 
     visitorId: text("visitor_id").notNull().unique(),
 
+  // YENİ EKLENEN ALANLAR (Cihaz ve Tarayıcı için)
+    device: text("device"),       // Örn: "Mobile" / "Desktop"
+    browser: text("browser"),     // Örn: "Chrome" / "Safari"
+
+    
     // FIRST TOUCH
     firstSource: text("first_source"),
     firstMedium: text("first_medium"),
