@@ -191,7 +191,7 @@ export default function HelpCenter() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen bg-[#F2F2F2] dark:bg-zinc-950 font-sans antialiased">
+      <div className="min-h-screen bg-[#f2f2f2] dark:bg-zinc-950 font-sans antialiased">
         
         {/* HERO / SEARCH SECTION */}
         <section className="relative pt-32 pb-20 px-6 flex flex-col items-center text-center max-w-4xl mx-auto">
