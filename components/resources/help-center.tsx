@@ -1,381 +1,337 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  ChevronRight,
-  Plus,
-  Clock,
-  AlertCircle,
-  ArrowRight,
-  FileText,
-  ChevronDown
-} from "lucide-react";
-import { CATEGORIES, HelpFaqs } from "../../constants/resources/help-center";
-import SmoothScroll from "../providers/SmoothScroll";
+import { useId, useState, useSyncExternalStore } from "react";
+import { ChevronDown, Mail, Search, SearchX } from "lucide-react";
 
-// ─── DATA ───
-const ALL_ARTICLES = CATEGORIES.flatMap((cat) =>
-  cat.articles.map((title) => ({ title, category: cat.title, catId: cat.id, color: cat.color }))
-);
+import { TOPICS, type Article, type Status } from "@/constants/resources/help-center";
+import { cn } from "@/lib/utils";
 
-const POPULAR = [
-  { title: "How do I create an API key?", category: "Getting Started", catId: "getting-started", color: "#c9a87c" },
-  { title: "How does pay-as-you-go billing work?", category: "Billing & Usage", catId: "billing", color: "#10b981" },
-  { title: "How to clone a voice", category: "Voice & Audio", catId: "voice", color: "#0ea5e9" },
-  { title: "REST vs gRPC: which to choose?", category: "API & Integration", catId: "api", color: "#8b5cf6" },
-  { title: "Audio is choppy or distorted", category: "Troubleshooting", catId: "troubleshooting", color: "#78716c" },
-  { title: "Biling and Payment Mothod", category: "Biling Payment", catId: "biling", color: "#030101" },
-];
+const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 
-// ─── COMPONENTS ───
+const surface =
+  "bg-white dark:bg-[#121214] dark:ring-1 dark:ring-white/[0.06]";
 
-function SearchBar({ query, setQuery }: { query: string; setQuery: (s: string) => void }) {
+const statusTone: Record<Status, string> = {
+  "Internal testing": "bg-sky-500/10 text-sky-700 dark:text-sky-300",
+  "In development": "bg-amber-500/10 text-amber-700 dark:text-amber-300",
+  Planned: "bg-zinc-500/10 text-zinc-600 dark:text-zinc-400",
+};
+
+// #konu-id ile doğrudan bağlantı (örn. /resources/help-center#voice-cloning)
+function subscribeHash(onChange: () => void) {
+  window.addEventListener("hashchange", onChange);
+  return () => window.removeEventListener("hashchange", onChange);
+}
+const getHash = () => window.location.hash.slice(1);
+const getServerHash = () => "";
+
+function SmartLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const className =
+    "mt-3 inline-block text-sm font-semibold text-zinc-950 underline underline-offset-4 hover:opacity-70 dark:text-white";
+  return href.startsWith("/") ? (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+      {children}
+    </a>
+  );
+}
+
+function AccordionItem({
+  article,
+  open,
+  onToggle,
+}: {
+  article: Article;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  const id = useId();
+
   return (
-    <div className="relative w-full max-w-2xl mx-auto group">
-      <Search className="absolute left-6 top-1/2 -translate-y-1/2 size-5 text-zinc-400 dark:text-zinc-500 group-focus-within:text-zinc-950 dark:group-focus-within:text-white transition-colors" />
-      <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for guides, API endpoints, or billing..."
-        className="w-full bg-white dark:bg-[#141210] rounded-[32px] py-5 pl-16 pr-16 text-lg font-medium text-zinc-950 dark:text-white focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:focus:ring-white/5 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500 shadow-sm"
-      />
-      {query && (
-        <button
-          onClick={() => setQuery("")}
-          className="absolute right-5 top-1/2 -translate-y-1/2 text-xs font-bold text-zinc-500 hover:text-zinc-950 dark:hover:text-white bg-[#F2F2F2] dark:bg-white/5 px-4 py-2 rounded-full transition-colors"
-        >
-          Clear
-        </button>
+    <div
+      className={cn(
+        "overflow-hidden rounded-[28px] transition-colors duration-300",
+        open
+          ? "bg-white dark:bg-[#1b1b1e] dark:ring-1 dark:ring-white/10"
+          : "bg-white/60 hover:bg-white dark:bg-[#121214] dark:ring-1 dark:ring-white/[0.06] dark:hover:bg-[#18181b]",
       )}
-    </div>
-  );
-}
-
-function CategoryCard({ cat, index }: { cat: (typeof CATEGORIES)[0]; index: number }) {
-  const Icon = cat.icon;
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.04, duration: 0.4 }}
-      className="group overflow-hidden rounded-[32px] bg-white dark:bg-[#141210] transition-colors duration-300"
     >
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-start gap-5 p-8 text-left focus:outline-none"
-      >
-        <div
-          className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#F2F2F2] dark:bg-white/5 transition-colors"
-          style={{ color: cat.color }}
+      <h3>
+        <button
+          id={`${id}-button`}
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={`${id}-panel`}
+          className="flex w-full items-center justify-between gap-6 rounded-[28px] px-7 py-4 text-left text-sm font-bold tracking-tight text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/30 dark:text-zinc-100 dark:focus-visible:ring-white/40 md:text-[16px]"
         >
-          <Icon className="size-5" strokeWidth={2} />
-        </div>
-        <div className="min-w-0 flex-1 mt-1">
-          <h3 className="text-[17px] font-bold text-zinc-950 dark:text-white transition-colors">
-            {cat.title}
-          </h3>
-          <p className="text-[15px] text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed pr-4">
-            {cat.desc}
-          </p>
-        </div>
-        <motion.div
-          animate={{ rotate: expanded ? 45 : 0 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className="p-1.5 rounded-full bg-[#F2F2F2] dark:bg-white/5 text-zinc-950 dark:text-white shrink-0 mt-1"
-        >
-          <Plus className="size-5" />
-        </motion.div>
-      </button>
+          <span>{article.question}</span>
+          <ChevronDown
+            className={cn(
+              "size-5 shrink-0 text-zinc-500 transition-transform duration-300 motion-reduce:transition-none",
+              open && "rotate-180",
+            )}
+            strokeWidth={2.5}
+          />
+        </button>
+      </h3>
 
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="px-8 pb-8 pt-0">
-              <div className="mb-4 h-px bg-[#F2F2F2] dark:bg-white/5 ml-[68px]" />
-              <ul className="space-y-1.5 ml-[68px]">
-                {cat.articles.map((article) => (
-                  <li key={article}>
-                    <Link
-                      href={`/resources/help-center/help/${cat.id}/${article.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="flex items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium text-zinc-500 dark:text-zinc-400 transition-colors hover:bg-[#F2F2F2] dark:hover:bg-white/5 hover:text-zinc-950 dark:hover:text-white"
-                    >
-                      <FileText className="size-4 shrink-0" />
-                      <span className="truncate">{article}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
+      <div
+        id={`${id}-panel`}
+        role="region"
+        aria-labelledby={`${id}-button`}
+        inert={!open}
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
-function FaqAccordion({ faqs }: { faqs: typeof HelpFaqs }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <div className="flex flex-col gap-4">
-      {faqs.map((faq, i) => {
-        const isOpen = openIndex === i;
-        return (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.04, duration: 0.35 }}
-            className="group rounded-[32px] bg-white dark:bg-[#141210] overflow-hidden transition-colors duration-300"
-          >
-            <button
-              onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="w-full flex items-center justify-between gap-6 px-8 py-4 text-left focus:outline-none"
-            >
-              <span className="md:text-[17px] text-sm font-bold text-zinc-950 dark:text-white leading-snug">
-                {faq.q}
-              </span>
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="shrink-0 text-zinc-900 dark:text-white"
-              >
-                <ChevronDown className="size-6" strokeWidth={2.5} />
-              </motion.div>
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-8 pb-8 text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                    {faq.a}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        );
-      })}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div className="px-7 pb-6 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <p>{article.answer}</p>
+            {article.link && (
+              <SmartLink href={article.link.href}>{article.link.label} →</SmartLink>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-// ─── MAIN PAGE ───
-export default function HelpCenter() {
+export function HelpCenter() {
+  const hash = useSyncExternalStore(subscribeHash, getHash, getServerHash);
+  const [picked, setPicked] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [open, setOpen] = useState<Set<string>>(new Set());
 
-  const filtered = useMemo(() => {
-    if (!query.trim()) return [];
-    const q = query.toLowerCase();
-    return ALL_ARTICLES.filter((a) => a.title.toLowerCase().includes(q));
-  }, [query]);
+  const topic =
+    picked ?? (TOPICS.some((t) => t.id === hash) ? hash : "all");
+  const q = query.trim().toLocaleLowerCase("en");
+
+  const groups = TOPICS.filter((t) => topic === "all" || t.id === topic)
+    .map((t) => ({
+      ...t,
+      items: t.articles
+        .map((a, i) => ({ article: a, key: `${t.id}:${i}` }))
+        .filter(({ article }) => !article.hidden)
+        .filter(
+          ({ article }) =>
+            !q ||
+            `${article.question} ${article.answer} ${t.title}`
+              .toLocaleLowerCase("en")
+              .includes(q),
+        ),
+    }))
+    .filter((g) => g.items.length > 0);
+
+  const total = groups.reduce((n, g) => n + g.items.length, 0);
+
+  function selectTopic(id: string) {
+    setPicked(id);
+    window.history.replaceState(
+      null,
+      "",
+      id === "all"
+        ? window.location.pathname + window.location.search
+        : `#${id}`,
+    );
+  }
+
+  function toggle(key: string) {
+    setOpen((current) => {
+      const next = new Set(current);
+      if (!next.delete(key)) next.add(key);
+      return next;
+    });
+  }
 
   return (
-    <SmoothScroll>
-      <div className="min-h-screen bg-[#f2f2f2] dark:bg-zinc-950 font-sans antialiased">
-        
-        {/* HERO / SEARCH SECTION */}
-        <section className="relative pt-32 pb-20 px-6 flex flex-col items-center text-center max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-white/5 px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-300 shadow-sm">
-              <Clock className="size-3.5 text-zinc-950 dark:text-white" />
-              24/7 Support Center
-            </span>
-          </motion.div>
-          
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.1]"
-          >
-            How can we help?
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto mb-12 leading-relaxed"
-          >
-            Search our knowledge base, explore API documentation, or get in touch with our engineering team.
-          </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="w-full"
-          >
-            <SearchBar query={query} setQuery={setQuery} />
-          </motion.div>
-        </section>
+    <div className="mt-12 space-y-12">
+      {/* Arama */}
+      <div className="mx-auto max-w-xl">
+        <label htmlFor="help-search" className="sr-only">
+          Search the Help Center
+        </label>
+        <div
+          className={cn(
+            "flex items-center gap-3 rounded-full px-5 shadow-sm",
+            surface,
+          )}
+        >
+          <Search className="size-5 shrink-0 text-zinc-400" />
+          <input
+            id="help-search"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for an answer"
+            autoComplete="off"
+            className="h-14 min-w-0 flex-1 bg-transparent text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white dark:placeholder:text-zinc-600"
+          />
+        </div>
+        <p role="status" className="sr-only">
+          {q ? `${total} result${total === 1 ? "" : "s"}` : ""}
+        </p>
+      </div>
 
-        {/* SEARCH RESULTS */}
-        <AnimatePresence>
-          {query.trim() && (
-            <motion.section
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mx-auto max-w-3xl px-6 mb-16 overflow-hidden"
+      {/* Konular */}
+      <div>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+            Topics
+          </h2>
+          {topic !== "all" && (
+            <button
+              type="button"
+              onClick={() => selectTopic("all")}
+              className="text-sm font-semibold text-zinc-700 underline underline-offset-4 hover:opacity-70 dark:text-zinc-300"
             >
-              <div className="rounded-[32px] bg-white dark:bg-[#141210] p-8 shadow-sm">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-6">
-                  {filtered.length} results for "{query}"
-                </h3>
-                {filtered.length > 0 ? (
-                  <ul className="space-y-2">
-                    {filtered.map((item, i) => (
-                      <li key={i}>
-                        <Link
-                          href={`/help/${item.catId}`}
-                          className="flex items-center gap-4 rounded-2xl px-5 py-4 hover:bg-[#F2F2F2] dark:hover:bg-white/5 transition-colors group"
-                        >
-                          <span
-                            className="size-2 rounded-full shrink-0 shadow-sm"
-                            style={{ backgroundColor: item.color }}
-                          />
-                          <span className="text-base font-bold text-zinc-950 dark:text-white">{item.title}</span>
-                          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 ml-auto shrink-0">{item.category}</span>
-                          <ChevronRight className="size-5 text-zinc-400 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all shrink-0" />
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="text-center py-12">
-                    <AlertCircle className="size-8 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
-                    <p className="text-base font-medium text-zinc-500">No results found. Try alternative keywords.</p>
-                  </div>
+              Show all topics
+            </button>
+          )}
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {TOPICS.map(({ id, title, summary, icon: Icon, status, articles }) => {
+            const count = articles.filter((a) => !a.hidden).length;
+            const active = topic === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                aria-pressed={active}
+                onClick={() => selectTopic(active ? "all" : id)}
+                className={cn(
+                  "flex flex-col items-start  cursor-pointer gap-3 rounded-3xl p-5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/30 dark:focus-visible:ring-white/40",
+                  surface,
+                  active
+                    ? "ring-2 ring-zinc-950 dark:ring-white"
+                    : "hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0",
                 )}
-              </div>
-            </motion.section>
-          )}
-        </AnimatePresence>
-
-        <main className="mx-auto max-w-5xl px-6 pb-32">
-          
-          {/* POPULAR ARTICLES */}
-          {!query.trim() && (
-            <motion.section
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="mb-24"
-            >
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
-                  Most Popular
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {POPULAR.map((item, i) => (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.04, duration: 0.35 }}
-                  >
-                    <Link
-                      href={`/resources/help-center/help/${item.catId}`}
-                      className="group flex flex-col gap-4 rounded-[32px] bg-white dark:bg-[#141210] p-8 hover:scale-[1.02] transition-transform duration-300 h-full shadow-sm"
+              >
+                <span className="flex size-10 items-center justify-center rounded-xl bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200">
+                  <Icon className="size-5" />
+                </span>
+                <span>
+                  <span className="block text-[15px] font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    {title}
+                  </span>
+                  <span className="mt-1 block text-sm text-zinc-500 dark:text-zinc-400">
+                    {summary}
+                  </span>
+                </span>
+                <span className="mt-auto flex items-center gap-2 text-xs">
+                  <span className="text-zinc-500">
+                    {count} {count === 1 ? "answer" : "answers"}
+                  </span>
+                  {status && (
+                    <span
+                      className={cn(
+                        "rounded-full px-2 py-0.5 font-medium",
+                        statusTone[status],
+                      )}
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                          {item.category}
-                        </span>
-                        <span
-                          className="size-2 rounded-full shrink-0 shadow-sm"
-                          style={{ backgroundColor: item.color }}
-                        />
-                      </div>
-                      <p className="text-lg font-bold text-zinc-950 dark:text-white leading-snug">
-                        {item.title}
-                      </p>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.section>
-          )}
+                      {status}
+                    </span>
+                  )}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-          {/* CATEGORY GRID */}
-          {!query.trim() && (
-            <section className="mb-24">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
-                  Browse by Topic
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {CATEGORIES.map((cat, i) => (
-                  <CategoryCard key={cat.id} cat={cat} index={i} />
+      {/* Cevaplar */}
+      <div className="space-y-10">
+        {groups.length === 0 ? (
+          <div
+            className={cn(
+              "flex flex-col items-center rounded-3xl px-6 py-14 text-center",
+              surface,
+            )}
+          >
+            <SearchX className="size-8 text-zinc-400" />
+            <p className="mt-4 text-[15px] font-bold text-zinc-900 dark:text-zinc-100">
+              No answers match &ldquo;{query.trim()}&rdquo;
+            </p>
+            <p className="mt-1 max-w-sm text-sm text-zinc-500 dark:text-zinc-400">
+              Try a shorter search, or browse the topics above.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                selectTopic("all");
+              }}
+              className="mt-5 rounded-full bg-zinc-950 px-5 py-2.5 text-sm font-bold text-white dark:bg-white dark:text-zinc-950"
+            >
+              Clear search
+            </button>
+          </div>
+        ) : (
+          groups.map((group) => (
+            <section key={group.id} aria-labelledby={`h-${group.id}`}>
+              <h2
+                id={`h-${group.id}`}
+                className="mb-4 flex items-center gap-2.5 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
+              >
+                <group.icon className="size-5 text-zinc-500" />
+                {group.title}
+              </h2>
+              <div className="flex flex-col gap-3">
+                {group.items.map(({ article, key }) => (
+                  <AccordionItem
+                    key={key}
+                    article={article}
+                    open={open.has(key)}
+                    onToggle={() => toggle(key)}
+                  />
                 ))}
               </div>
             </section>
-          )}
-
-          {/* SSS (FAQ) */}
-          <section className="mb-24 max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-zinc-950 dark:text-white mb-10 tracking-tight text-center">
-              Frequently Asked Questions
-            </h2>
-            <FaqAccordion faqs={HelpFaqs} />
-          </section>
-
-          {/* BOTTOM CALL TO ACTION */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <div className="p-12 sm:p-16 rounded-[40px] bg-white dark:bg-[#141210] flex flex-col items-center shadow-sm">
-              <h2 className="text-3xl font-extrabold text-zinc-950 dark:text-white mb-4 tracking-tight">
-                Can't find what you're looking for?
-              </h2>
-              <p className="text-base text-zinc-500 dark:text-zinc-400 mb-8 max-w-md leading-relaxed">
-                Our engineering and support teams are available to help you build the future of voice.
-              </p>
-              <Link
-                href="/resources/support"
-                className="inline-flex items-center gap-3 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-8 py-4 rounded-full text-sm font-bold hover:opacity-90 transition-opacity"
-              >
-                <span>Contact Support</span>
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
-          </motion.section>
-        </main>
+          ))
+        )}
       </div>
-    </SmoothScroll>
+
+      {/* İletişim */}
+      <div
+        className={cn(
+          "flex flex-col items-center justify-between gap-5 rounded-[28px] p-7 sm:flex-row",
+          surface,
+        )}
+      >
+        <div className="text-center sm:text-left">
+          <p className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+            Did not find your answer?
+          </p>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            Check the changelog for the latest progress
+            {SUPPORT_EMAIL ? ", or write to us." : "."}
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/resources/changelog"
+            className="inline-flex h-11 items-center rounded-full border border-zinc-300 px-5 text-sm font-bold text-zinc-900 transition-colors hover:bg-zinc-100 dark:border-white/15 dark:text-white dark:hover:bg-white/[0.06]"
+          >
+            Changelog
+          </Link>
+          {SUPPORT_EMAIL && (
+            <a
+              href={`mailto:${SUPPORT_EMAIL}`}
+              className="inline-flex h-11 items-center gap-2 rounded-full bg-zinc-950 px-5 text-sm font-bold text-white transition-transform hover:scale-105 motion-reduce:hover:scale-100 dark:bg-white dark:text-zinc-950"
+            >
+              <Mail className="size-4" />
+              Contact us
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
