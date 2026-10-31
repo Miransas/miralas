@@ -4,6 +4,7 @@ import DemoCarousel from "../../components/shared/demo-carousel"
 import { DitherShowcase } from "../../components/shared/DitherShowcase"
 import FaqSection from "../../components/shared/faq"
 import Hero from "../../components/shared/hero"
+import ImmersiveSection from "../../components/shared/ImmersiveSection"
 import { RobotSection } from "../../components/shared/robot-section"
 import TeamSection from "../../components/shared/team-section"
 import TestimonialSection from "../../components/shared/testimonial"
@@ -17,7 +18,8 @@ const page = () => {
   return (
     <SmoothScroll>
       <div>
-        <Hero />
+        {/* <Hero /> */}
+        <ImmersiveSection/>
           <VoiceContrastSection/>
           <DemoCarousel/>
           <DitherShowcase/>

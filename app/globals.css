@@ -30,7 +30,8 @@
 
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-
+  --animate-waveform: waveform 1.2s ease-in-out infinite alternate;
+  --animate-card-float: card-float 6s ease-in-out infinite;
   --color-destructive: var(--destructive);
 
   --color-border: var(--border);
@@ -209,3 +210,68 @@ html.lenis body {
 
 /* premium-white-EBE9E5 */
 /* bg-[#EBE9E5] */
+
+
+
+
+@theme {
+
+
+  @keyframes waveform {
+    from {
+      transform: scaleY(0.48);
+      opacity: 0.55;
+    }
+    to {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes card-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+}
+
+/* Reduced motion erişilebilirliği */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+@theme {
+  --animate-waveform: waveform 1.2s ease-in-out infinite;
+  --animate-card-float: card-float 6s ease-in-out infinite;
+ 
+  @keyframes waveform {
+    0%, 100% { transform: scaleY(0.55); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes card-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+}
+ 
+/* Görselin kenarlarını sayfa rengine eriten maske */
+@utility vc-fade {
+  -webkit-mask-image: radial-gradient(ellipse 70% 75% at 55% 45%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 75% at 55% 45%, #000 40%, transparent 100%);
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .animate-waveform,
+  .animate-card-float { animation: none; }
+}
+ 
+html { scroll-behavior: smooth; }

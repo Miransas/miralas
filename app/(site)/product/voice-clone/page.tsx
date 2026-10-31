@@ -19,7 +19,10 @@ import {
   Heart,
   TrendingUp,
 } from "lucide-react";
-import VoiceCloningSection from "../../../../components/studio/VoiceCloningSection";
+import VoiceCloneLanding from "../../../../components/studio/voice-clonelanding";
+
+
+
 
 
 export default function VoiceInterface() {
@@ -33,7 +36,8 @@ export default function VoiceInterface() {
 
   return (
     <div className="min-h-screen bg-background text-foreground  font-sans ">   
-     <VoiceCloningSection/>
+ <VoiceCloneLanding/>
+  
     </div>
   );
 }

@@ -21,7 +21,6 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
     items: [
       { label: "About", href: "/resources/about", description: "This About Miransas & Miralas" },
       { label: "Documentation", href: "/docs", description: "Build with the Miralas platform." },
-      { label: "Guides", href: "/resources/guides", description: "Practical guides and tutorials." },
       { label: "Media", href: "/resources/media", description: "Podcasts, videos and brand assets." },
       { label: "Changelog", href: "/resources/changelog", description: "What's new across Miralas.", badge: "New" },
       { label: "Support", href: "/resources/support", description: "Get help with your Miralas workspace." },
