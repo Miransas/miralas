@@ -35,12 +35,12 @@ const services = [
     label: "RT",
   },
 ];
-
+// Miralas Hero Section /
 export default function ImmersiveSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
-
+  const glowRef = useRef<HTMLDivElement>(null);
   const screenRef = useRef<HTMLDivElement>(null);
   const servicePanelRef = useRef<HTMLDivElement>(null);
   const analyticsRef = useRef<HTMLDivElement>(null);
@@ -49,98 +49,212 @@ export default function ImmersiveSection() {
   const reduceMotion = useReducedMotion();
 
   useLayoutEffect(() => {
-    if (reduceMotion || !sectionRef.current) return;
+    if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.85,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Camera approaches the display.
-      timeline.fromTo(
-        sceneRef.current,
-        { scale: 0.82, y: 90 },
-        {
-          scale: 1.04,
-          y: -8,
-          duration: 1,
-          ease: "none",
-        },
-        0
-      );
-
-      // Intro disappears.
-      timeline.to(
-        introRef.current,
-        {
-          opacity: 0,
-          y: -45,
-          duration: 0.24,
-          ease: "none",
-        },
-        0.05
-      );
-
-      // Screen content enters.
-      timeline.fromTo(
-        screenRef.current,
-        { opacity: 0, scale: 0.95 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.35,
-          ease: "none",
-        },
-        0.2
-      );
-
-      // Services appear one by one.
-      timeline.fromTo(
+      const rows =
         servicePanelRef.current?.querySelectorAll(
           ".immersive-service-row"
-        ) ?? [],
-        { opacity: 0, y: 18 },
-        {
+        ) ?? [];
+
+      if (reduceMotion) {
+        return;
+      }
+
+      // INITIAL STATES
+      gsap.set(introRef.current, {
+        opacity: 0,
+        y: 25,
+      });
+
+      gsap.set(sceneRef.current, {
+        opacity: 0,
+        scale: 0.82,
+        y: 65,
+      });
+
+      gsap.set(glowRef.current, {
+        opacity: 0,
+        scale: 0.7,
+      });
+
+      gsap.set(screenRef.current, {
+        opacity: 0,
+        scale: 0.94,
+        transformOrigin: "center center",
+      });
+
+      gsap.set(rows, {
+        opacity: 0,
+        y: 18,
+      });
+
+      gsap.set(analyticsRef.current, {
+        opacity: 0,
+        x: 30,
+      });
+
+      gsap.set(ctaRef.current, {
+        opacity: 0,
+        y: 22,
+      });
+
+      // INTRO ANIMATION
+      gsap.timeline({
+        defaults: {
+          ease: "power3.out",
+        },
+      })
+        .to(introRef.current, {
           opacity: 1,
           y: 0,
-          stagger: 0.07,
-          duration: 0.24,
-          ease: "none",
+          duration: 1,
+        })
+        .to(
+          sceneRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+          },
+          0.2
+        )
+        .to(
+          glowRef.current,
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+          },
+          0.3
+        );
+
+      // RESPONSIVE SCROLL ANIMATION
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          mobile: "(max-width: 767px)",
+          desktop: "(min-width: 768px)",
         },
-        0.34
+        (context) => {
+          const isMobile = context.conditions?.mobile;
+
+          const timeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 0.8,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          // CAMERA ZOOM
+          timeline.fromTo(
+            sceneRef.current,
+            {
+              scale: 0.82,
+              y: 65,
+            },
+            {
+              scale: isMobile ? 1.32 : 1.48,
+              y: isMobile ? -10 : -35,
+              duration: 1,
+              ease: "none",
+            },
+            0
+          );
+
+          // PURPLE BLUE GLOW
+          timeline.fromTo(
+            glowRef.current,
+            {
+              opacity: 0.8,
+              scale: 0.7,
+            },
+            {
+              opacity: 1,
+              scale: isMobile ? 1.8 : 2.1,
+              duration: 1,
+              ease: "none",
+            },
+            0
+          );
+
+          // INTRO EXIT
+          timeline.to(
+            introRef.current,
+            {
+              opacity: 0,
+              y: -55,
+              duration: 0.22,
+              ease: "none",
+            },
+            0.02
+          );
+
+          // SCREEN REVEAL
+          timeline.fromTo(
+            screenRef.current,
+            {
+              opacity: 0,
+              scale: 0.94,
+            },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.3,
+              ease: "none",
+            },
+            0.18
+          );
+
+          // SERVICES
+          timeline.to(
+            rows ?? [],
+            {
+              opacity: 1,
+              y: 0,
+              stagger: 0.065,
+              duration: 0.2,
+              ease: "none",
+            },
+            0.34
+          );
+
+          // ANALYTICS
+          timeline.to(
+            analyticsRef.current,
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.25,
+              ease: "none",
+            },
+            0.55
+          );
+
+          // CTA
+          timeline.to(
+            ctaRef.current,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.22,
+              ease: "none",
+            },
+            0.76
+          );
+
+          return () => {
+            timeline.scrollTrigger?.kill();
+            timeline.kill();
+          };
+        }
       );
 
-      // Analytics panel enters.
-      timeline.fromTo(
-        analyticsRef.current,
-        { opacity: 0, x: 35 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.3,
-          ease: "none",
-        },
-        0.52
-      );
-
-      // CTA appears last.
-      timeline.fromTo(
-        ctaRef.current,
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.25,
-          ease: "none",
-        },
-        0.7
-      );
+      ScrollTrigger.refresh();
     }, sectionRef);
 
     return () => ctx.revert();
@@ -149,10 +263,38 @@ export default function ImmersiveSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[260vh] bg-[#EFEFEF] text-[#050505] dark:bg-[#050505] dark:text-[#EFEFEF] md:h-[320vh]"
+      id="features"
+      className={`relative isolate overflow-clip bg-[#EFEFEF] text-[#050505] dark:bg-[#050505] dark:text-[#EFEFEF] ${
+        reduceMotion ? "min-h-[100svh]" : "h-[260vh] md:h-[320vh]"
+      }`}
     >
-      {/* STICKY SCENE */}
-      <div className="sticky top-0 flex h-[100svh] min-h-[560px] w-full items-center justify-center overflow-hidden bg-[#EFEFEF] dark:bg-[#050505]">
+      <div
+        className={`relative flex w-full items-center justify-center overflow-hidden bg-[#EFEFEF] dark:bg-[#050505] ${
+          reduceMotion
+            ? "min-h-[100svh]"
+            : "sticky top-0 h-[100svh] min-h-[560px]"
+        }`}
+      >
+        {/* BACKGROUND */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 65% 55% at 50% 55%, rgba(100,115,255,0.08), transparent 75%)",
+          }}
+        />
+
+        {/* BLUE PURPLE GLOW */}
+        <div
+          ref={glowRef}
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-[62%] z-[1] aspect-square w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 blur-[65px] md:w-[55vw] md:blur-[110px]"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(100,110,255,0.25) 0%, rgba(80,130,255,0.19) 30%, rgba(150,85,255,0.13) 55%, transparent 72%)",
+          }}
+        />
 
         {/* INTRO */}
         <div
@@ -175,8 +317,12 @@ export default function ImmersiveSection() {
           </p>
 
           <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
+            animate={reduceMotion ? {} : { y: [0, 5, 0] }}
+            transition={{
+              duration: 1.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
             className="mt-6 text-[9px] font-medium tracking-[0.2em] text-[#050505]/45 dark:text-[#EFEFEF]/45"
           >
             SCROLL TO EXPLORE ↓
@@ -184,46 +330,28 @@ export default function ImmersiveSection() {
         </div>
 
         {/* TABLET */}
-        <div className="absolute left-0 top-[60%] flex w-full -translate-y-1/2 justify-center md:top-[64%]">
+        <div className="absolute left-0 top-[60%] z-[2] flex w-full -translate-y-1/2 justify-center md:top-[64%]">
           <div
             ref={sceneRef}
             className="relative aspect-[1672/941] w-[145vw] origin-center will-change-transform md:w-[112vw] md:max-w-[1480px]"
           >
-            {/* ACTUAL SCREEN AREA */}
+            {/* TABLET GLOW */}
+            <div
+              aria-hidden
+              className="absolute inset-[10%] -z-10 rounded-[50%] bg-[radial-gradient(ellipse,rgba(100,110,255,0.20),rgba(90,140,255,0.12)_40%,transparent_72%)] blur-3xl"
+            />
+
+            {/* SCREEN */}
             <div
               ref={screenRef}
-              className="absolute left-[13.3%] top-[8%] z-10 h-[76.8%] w-[73.4%] overflow-hidden rounded-[10px] bg-[#EFEFEF] opacity-100 text-[#050505] dark:bg-[#050505] dark:text-[#EFEFEF] md:rounded-[18px]"
+              className="absolute left-[13.3%] top-[8%] z-10 h-[76.8%] w-[73.4%] overflow-hidden rounded-[10px] bg-[#EFEFEF] text-[#050505] opacity-0 dark:bg-[#050505] dark:text-[#EFEFEF] md:rounded-[18px]"
             >
-              {/* HEADER */}
-              <header className="flex h-[11%] items-center justify-between border-b border-[#050505]/10 px-[4%] dark:border-[#EFEFEF]/10">
-
-                <div className="flex items-center gap-2">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-[5px] bg-[#050505] text-[9px] font-bold text-[#EFEFEF] dark:bg-[#EFEFEF] dark:text-[#050505] md:h-7 md:w-7 md:text-xs">
-                    M
-                  </span>
-
-                  <span className="text-[8px] font-semibold tracking-[0.15em] md:text-xs">
-                    MIRANSAS
-                  </span>
-                </div>
-
-                <div className="hidden items-center gap-5 text-[9px] text-[#050505]/50 dark:text-[#EFEFEF]/50 md:flex">
-                  <span>Platform</span>
-                  <span>Voice API</span>
-                  <span>Infrastructure</span>
-                </div>
-
-                <span className="text-[7px] font-medium tracking-wider text-[#050505]/45 dark:text-[#EFEFEF]/45 md:text-[9px]">
-                  PLATFORM OVERVIEW
-                </span>
-              </header>
-
-              {/* MAIN CONTENT */}
               <div className="grid h-[72%] grid-cols-[1.15fr_0.85fr] gap-[3%] px-[4%] py-[3%]">
-
-                {/* LEFT: SERVICES */}
-                <div ref={servicePanelRef} className="flex min-w-0 flex-col">
-
+                {/* SERVICES */}
+                <div
+                  ref={servicePanelRef}
+                  className="flex min-w-0 flex-col"
+                >
                   <span className="text-[6px] font-semibold tracking-[0.16em] text-[#050505]/45 dark:text-[#EFEFEF]/45 md:text-[9px]">
                     VOICE INFRASTRUCTURE
                   </span>
@@ -267,13 +395,12 @@ export default function ImmersiveSection() {
                   </div>
                 </div>
 
-                {/* RIGHT: ANALYTICS */}
+                {/* ANALYTICS */}
                 <div
                   ref={analyticsRef}
                   className="flex min-w-0 flex-col gap-[5%]"
                 >
                   <div className="flex flex-1 flex-col rounded-xl border border-[#050505]/10 bg-white/75 p-[6%] dark:border-[#EFEFEF]/10 dark:bg-white/[0.035]">
-
                     <div className="flex items-center justify-between">
                       <span className="text-[7px] font-semibold tracking-wider md:text-[9px]">
                         WORKSPACE
@@ -292,15 +419,16 @@ export default function ImmersiveSection() {
                       A unified environment for every stage of voice processing.
                     </p>
 
-                    {/* Monochrome activity chart */}
                     <div className="mt-auto flex h-[38%] items-end gap-[5%] border-b border-[#050505]/10 pb-1 dark:border-[#EFEFEF]/10">
-                      {[35, 58, 43, 76, 53, 88, 68, 100].map((height, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 rounded-t-sm bg-[#050505]/[0.75] dark:bg-[#EFEFEF]/[0.75]"
-                          style={{ height: `${height}%` }}
-                        />
-                      ))}
+                      {[35, 58, 43, 76, 53, 88, 68, 100].map(
+                        (height, i) => (
+                          <div
+                            key={i}
+                            className="flex-1 rounded-t-sm bg-[#050505]/[0.75] dark:bg-[#EFEFEF]/[0.75]"
+                            style={{ height: `${height}%` }}
+                          />
+                        )
+                      )}
                     </div>
 
                     <div className="mt-2 flex justify-between text-[6px] text-[#050505]/45 dark:text-[#EFEFEF]/45 md:text-[8px]">
@@ -321,7 +449,7 @@ export default function ImmersiveSection() {
                 </div>
               </div>
 
-              {/* BOTTOM CTA */}
+              {/* CTA */}
               <div
                 ref={ctaRef}
                 className="flex h-[17%] items-center justify-between border-t border-[#050505]/10 px-[4%] dark:border-[#EFEFEF]/10"
@@ -348,17 +476,23 @@ export default function ImmersiveSection() {
               </div>
             </div>
 
-            {/* TABLET FRAME + HANDS */}
+            {/* TABLET FRAME */}
             <Image
               src="/tablet-hands.png"
               alt=""
               fill
               priority
               sizes="(max-width: 768px) 145vw, 112vw"
-              className="pointer-events-none absolute inset-0 z-20 h-full w-full select-none object-contain"
+              className="pointer-events-none absolute inset-0 z-20 select-none object-contain"
             />
           </div>
         </div>
+
+        {/* BOTTOM FADE */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[25%] bg-gradient-to-t from-[#EFEFEF] to-transparent dark:from-[#050505]"
+        />
 
         {/* BOTTOM LABEL */}
         <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap text-[8px] font-semibold tracking-[0.2em] text-[#050505]/40 dark:text-[#EFEFEF]/40 md:bottom-7 md:text-[9px]">

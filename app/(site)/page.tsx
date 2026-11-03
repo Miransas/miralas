@@ -18,7 +18,7 @@ const page = () => {
   return (
     <SmoothScroll>
       <div>
-        {/* <Hero /> */}
+        {/* <Hero /> */}           
         <ImmersiveSection/>
           <VoiceContrastSection/>
           <DemoCarousel/>
