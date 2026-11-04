@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeft, 
@@ -123,12 +124,12 @@ export default function LatestUpdatesSection() {
           </h2>
 
           <div className="flex items-center gap-3">
-            <a
+            <Link
               href="/news"
               className="px-4 py-2 rounded-full border border-[#EFECE6] dark:border-white/10 bg-white dark:bg-white/5 text-xs font-semibold hover:border-zinc-300 dark:hover:border-white/20 transition-all shadow-sm"
             >
               View all
-            </a>
+            </Link>
 
             <div className="flex items-center gap-1.5 ml-2">
               <button
@@ -268,13 +269,13 @@ export default function LatestUpdatesSection() {
                   <span>{copied ? 'Copied' : 'Share'}</span>
                 </button>
 
-                <a
-                  href={`/news/${selectedCard.id}`}
+                <Link
+                  href="/news"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-xs font-bold hover:opacity-90 transition-opacity"
                 >
                   <span>Read Full Story</span>
                   <ExternalLink className="size-3.5" />
-                </a>
+                </Link>
               </div>
             </motion.div>
           </div>

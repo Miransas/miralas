@@ -22,6 +22,7 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
       { label: "About", href: "/resources/about", description: "This About Miransas & Miralas" },
       { label: "Documentation", href: "/docs", description: "Build with the Miralas platform." },
       { label: "Media", href: "/resources/media", description: "Podcasts, videos and brand assets." },
+      { label: "News", href: "/news", description: "Company news and announcements." },
       { label: "Changelog", href: "/resources/changelog", description: "What's new across Miralas.", badge: "New" },
       { label: "Support", href: "/resources/support", description: "Get help with your Miralas workspace." },
       { label: "Help Center", href: "/resources/help-center", description: "Talk to the Miralas team and FAQs." },
