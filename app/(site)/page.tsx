@@ -5,7 +5,9 @@ import { DitherShowcase } from "../../components/shared/DitherShowcase"
 import FaqSection from "../../components/shared/faq"
 import Hero from "../../components/shared/hero"
 import ImmersiveSection from "../../components/shared/ImmersiveSection"
+import IntroTeammateSection from "../../components/shared/intro-team-Section"
 import { RobotSection } from "../../components/shared/robot-section"
+import StackedCards from "../../components/shared/Stackedcards"
 import TeamSection from "../../components/shared/team-section"
 import TestimonialSection from "../../components/shared/testimonial"
 import { VoiceContrastSection } from "../../components/shared/voice-contrast-section"
@@ -20,6 +22,8 @@ const page = () => {
       <div>
         {/* <Hero /> */}           
         <ImmersiveSection/>
+        <StackedCards/>
+        <IntroTeammateSection/>
           <VoiceContrastSection/>
           <DemoCarousel/>
           <DitherShowcase/>
