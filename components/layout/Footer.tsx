@@ -149,7 +149,7 @@ export function Footer({
                           href={link.href}
                           target={link.target}
                           rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-[#d7d3d8] hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
+                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-[#6E6E74] hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
                         >
                           {Icon && (
                             <Icon className="size-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shrink-0" />
@@ -169,7 +169,7 @@ export function Footer({
         )}
 
         {/* ── 4. COPYRIGHT & UTILITY BAR ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-zinc-200/80 dark:border-white/10 pt-8 gap-4 text-xs text-zinc-500 dark:text-[#d7d3d8]">
+        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-zinc-200/80 dark:border-white/10 pt-8 gap-4 text-xs text-zinc-500 dark:text-[#F5F5F7]">
           <p>{copyright}</p>
           <div className="flex flex-wrap items-center justify-center gap-6">
             {FOOTER_UTILITY_LINKS.map((link) => (
@@ -197,7 +197,7 @@ export function Footer({
         style={{ containerType: 'inline-size' }}
       >
         {tagline && (
-          <p className="mx-auto mb-8 max-w-[1200px] text-center text-xs sm:text-sm leading-relaxed text-zinc-400 dark:text-[#d7d3d8]">
+          <p className="mx-auto mb-8 max-w-[1200px] text-center text-xs sm:text-sm leading-relaxed text-zinc-400 dark:text-[#F5F5F7]">
             {tagline}
           </p>
         )}

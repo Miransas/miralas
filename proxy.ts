@@ -33,30 +33,19 @@ function isOwnHost(hostname: string) {
   return OWN_HOSTS.some((h) => hostname === h || hostname.endsWith("." + h));
 }
 
-function parseUserAgent(ua: string) {
-  let device = "Desktop";
-  if (/mobile/i.test(ua)) device = "Mobile";
-  else if (/tablet|ipad/i.test(ua)) device = "Tablet";
-
-  let browser = "Chrome";
-  if (/firefox/i.test(ua)) browser = "Firefox";
-  else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Safari";
-  else if (/edge/i.test(ua)) browser = "Edge";
-  else if (/opr|opera/i.test(ua)) browser = "Opera";
-
-  return { device, browser };
-}
-
 /*
  * Sadece gerçek tarayıcı sayfa navigasyonları.
  * Prefetch ve RSC istekleri sahte referral üretiyordu.
  */
 function isDocumentNavigation(request: NextRequest) {
-  const h = request.headers;
-  if (h.get("next-router-prefetch")) return false;
-  if (h.get("purpose") === "prefetch") return false;
-  if (h.get("rsc")) return false;
-  const dest = h.get("sec-fetch-dest");
+  // headers nesnesini güvenli okumak için Object.prototype kontrolü veya get metodu
+  const getHeader = (key: string) => request.headers.get(key);
+
+  if (getHeader("next-router-prefetch")) return false;
+  if (getHeader("purpose") === "prefetch") return false;
+  if (getHeader("rsc")) return false;
+  
+  const dest = getHeader("sec-fetch-dest");
   if (dest && dest !== "document") return false;
   return true;
 }
@@ -120,8 +109,6 @@ function getAttribution(request: NextRequest): Attribution | null {
   if (/musical_ly|BytedanceWebview|TikTok/i.test(ua))
     return { ...base, source: "tiktok", medium: "social" };
 
-  // Attribution yok. "direct" burada set edilmez, internal navigation'da
-  // mevcut attribution bozulmasın.
   return null;
 }
 
