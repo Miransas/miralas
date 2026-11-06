@@ -40,11 +40,13 @@ export default function ImmersiveSection() {
   const blobRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   
+  
 
   const reduceMotion = useReducedMotion();
 
-  useLayoutEffect(() => {
-    if (!sectionRef.current) return;
+   useLayoutEffect(() => {
+     const section = sectionRef.current;
+     if (!section) return;
     
 
     let media: ReturnType<typeof gsap.matchMedia> | undefined;
@@ -85,8 +87,7 @@ export default function ImmersiveSection() {
         .to(glowRef.current, { opacity: 0.92, duration: 0.9 }, 0.35)
         .to(blobRef.current, { opacity: 0.85, duration: 1.2 }, 0.35);
 
-      media = gsap.matchMedia(sectionRef.current);
-
+   media = gsap.matchMedia(section);
       media.add(
         {
           mobile: "(max-width: 767px)",
