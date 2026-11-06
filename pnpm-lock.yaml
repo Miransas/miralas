@@ -243,8 +243,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       cn:
-        specifier: ^0.3.3
-        version: 0.3.3
+        specifier: ^0.5.2
+        version: 0.5.2
       dotenv:
         specifier: ^18.0.9
         version: 18.0.9
@@ -2393,9 +2393,9 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  cn@0.3.3:
-    resolution: {integrity: sha512-OEiyJkSpYm2kOuNOKQ+c2wmzZRG8orrb9fnObtHTbCGNx/E9KLnGcmcocItOzREKk5KzQN5I2e3BUCj563KEpw==}
-    engines: {node: '>=20'}
+  cn@0.5.2:
+    resolution: {integrity: sha512-wm10E6iuJ37rALOw3D+3cfaXXZSLNMh2uxpQn3dNICqfJM59yXqgbA9/9Iiz155j5kYNLdK6WreNdW3NQtx3OQ==}
+    engines: {node: '>=22'}
     hasBin: true
 
   code-block-writer@13.0.3:
@@ -6784,7 +6784,7 @@ snapshots:
 
   cn@0.2.6: {}
 
-  cn@0.3.3: {}
+  cn@0.5.2: {}
 
   code-block-writer@13.0.3: {}
 
