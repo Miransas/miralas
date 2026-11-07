@@ -28,7 +28,7 @@ const page = () => {
         <StackedCards/>
         <WhyMiralas/>
         <IntroTeammateSection/>
-          <VoiceContrastSection/>
+          {/* <VoiceContrastSection/> */}
           <DemoCarousel/>
           <DitherShowcase/>
            <ComparisonSection />

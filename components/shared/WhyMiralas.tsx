@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
-// Resimleri public/why/ altına koyunca true yap.
-const SHOW_IMAGES = false;
+// Görseller public/studio/ klasöründe olmalı.
+// Örnek: public/studio/blue.png -> /studio/blue.png
 
 type Card = {
   eyebrow: string;
@@ -27,7 +27,7 @@ const cards: Card[] = [
     image: '/studio/blue.png',
     modalTitle: 'Text-to-speech, in real Uzbek.',
     body: [
-      'Most tools treat Uzbek as an afterthought. Miralas is trained for it from the start, so names, numbers and everyday phrasing sound the way people actually speak.',
+      'Most tools treat Uzbek as an afterthought. Miransas is trained for it from the start, so names, numbers and everyday phrasing sound the way people actually speak.',
     ],
     points: [
       'Natural pronunciation and pacing',
@@ -57,7 +57,7 @@ const cards: Card[] = [
     image: '/studio/red.png',
     modalTitle: 'A teammate that never clocks out.',
     body: [
-      'The Miralas voice agent greets callers, follows your workflow and hands off cleanly. It runs on your own infrastructure, so your call data stays yours.',
+      'The Miransas voice agent greets callers, follows your workflow and hands off cleanly. It runs on your own infrastructure, so your call data stays yours.',
     ],
     points: [
       'Self-hosted backend',
@@ -112,25 +112,39 @@ function PlusIcon({ open = false }: { open?: boolean }) {
   );
 }
 
-   function Visual({ src, alt, pos = '50% 50%' }: { src: string; alt: string; pos?: string }) {
-     if (!SHOW_IMAGES) {
-       return (
-         <div aria-hidden className="h-full w-full rounded-2xl bg-gradient-to-br from-[#f3f3f4] to-[#e4e4e6] dark:from-white/[0.06] dark:to-white/[0.02]" />
-       );
-     }
-     return (
-       <Image
-         src={src}
-         alt={alt}
-         fill
-         sizes="(max-width: 768px) 82vw, 380px"
-         style={{ objectPosition: pos }}
-         className="rounded-2xl object-cover ring-1 ring-black/5 dark:ring-white/10"
-       />
-     );
-   }
+function Visual({ src, alt, pos = '50% 50%' }: { src: string; alt: string; pos?: string }) {
+  const [hasError, setHasError] = useState(false);
 
-export default function WhyMiralas() {
+  useEffect(() => {
+    setHasError(false);
+  }, [src]);
+
+  if (hasError) {
+    return (
+      <div
+        role="img"
+        aria-label={`${alt} image could not be loaded`}
+        className="flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-br from-[#f3f3f4] to-[#e4e4e6] text-xs text-neutral-500 dark:from-white/[0.06] dark:to-white/[0.02] dark:text-neutral-400"
+      >
+        Image not found: {src}
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes="(max-width: 768px) 82vw, 380px"
+      style={{ objectPosition: pos }}
+      className="rounded-2xl object-cover ring-1 ring-black/5 dark:ring-white/10"
+      onError={() => setHasError(true)}
+    />
+  );
+}
+
+export default function WhyMiransas() {
   const reduce = useReducedMotion();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const lastTrigger = useRef<HTMLElement | null>(null);
@@ -170,14 +184,14 @@ export default function WhyMiralas() {
   const current = active !== null ? cards[active] : null;
 
   return (
-    <section className="bg-[#ededed] py-20 text-[#1d1d1f] transition-colors dark:bg-[#0a0a0a] dark:text-white md:py-28">
+    <section className="bg-[#EFEFEF] py-20 text-[#1d1d1f] transition-colors dark:bg-[#050505] dark:text-white md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         {/* Başlık */}
         <div className="flex items-end justify-between gap-6">
           <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
             Why people choose
             <br />
-            Miralas.
+            Miransas.
           </h2>
           <Link
             href="/product"
@@ -296,11 +310,9 @@ export default function WhyMiralas() {
                 {current.modalTitle}
               </h3>
 
-              {SHOW_IMAGES && (
-                <div className="relative mt-8 h-56 w-full md:h-72">
-                  <Visual src={current.image} alt={current.eyebrow} />
-                </div>
-              )}
+              <div className="relative mt-8 h-56 w-full md:h-72">
+                <Visual src={current.image} alt={current.eyebrow} />
+              </div>
 
               <div className="mt-8 space-y-4 text-[17px] leading-relaxed text-neutral-600 dark:text-neutral-400">
                 {current.body.map((p) => (
