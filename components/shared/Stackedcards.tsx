@@ -337,7 +337,7 @@ function StackCard({
     <div className="sticky top-0 flex h-[100svh] items-center justify-center px-3 md:px-6">
       <motion.div
         style={{ scale, top: `calc(${index} * 26px)` }}
-        className="relative h-[74svh] w-full max-w-[1180px] origin-top overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_30px_80px_rgba(0,0,0,0.45),0_0_60px_rgba(124,92,255,0.12)] md:h-[72svh] md:rounded-[36px]"
+        className="relative h-[74svh] w-full max-w-[1180px] origin-top overflow-hidden rounded-[28px] border border-white/10 bg-black  md:h-[72svh] md:rounded-[36px]"
       >
         {children}
         <motion.div
