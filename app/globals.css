@@ -4,218 +4,38 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* -------------------------------------------------------------------------- */
+/* Miransas design tokens — one source of truth                                */
+/* -------------------------------------------------------------------------- */
 @theme {
-
-  /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-jakarta), "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Plus Jakarta Sans is the primary brand font. Plex/mono are for technical UI. */
+  --font-sans: var(--font-jakarta, "Plus Jakarta Sans"), "Inter", ui-sans-serif,
+    system-ui, sans-serif;
   --font-plex: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "SF Mono", "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
- 
+  --font-mono: var(--font-geist-mono, "JetBrains Mono"), "IBM Plex Mono",
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --animate-waveform: waveform 1.2s ease-in-out infinite alternate;
-  --animate-card-float: card-float 6s ease-in-out infinite;
   --color-destructive: var(--destructive);
-
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --text-md: 1rem;
-}
 
-
-
-:root {
-  color-scheme: light;
-  --background: #f5f5f7;
-  --foreground: #080808;
-
-  --card: #ffffff;
-  --card-foreground: #080808;
-
-  --popover: #ffffff;
-  --popover-foreground: #080808;
-
-  --primary: #080808;
-  --primary-foreground: #ffffff;
-
-  --secondary: #eaeaec;
-  --secondary-foreground: #080808;
-
-  --muted: #eaeaec;
-  --muted-foreground: #6e6e73;
-
-  --accent: #eaeaec;
-  --accent-foreground: #080808;
-
-  --destructive: #ef4444;
-
-  --border: rgba(0, 0, 0, 0.08);
-  --input: rgba(0, 0, 0, 0.1);
-  --ring: #080808;
-
-  --radius: 1rem;
-}
-
-.dark {
-   color-scheme: dark;
-  --background: #080808;
-  --foreground: #f5f5f7;
-
-  --card: #111111;
-  --card-foreground: #f5f5f7;
-
-  --popover: #111111;
-  --popover-foreground: #f5f5f7;
-
-  --primary: #f5f5f7;
-  --primary-foreground: #080808;
-
-  --secondary: #1a1a1a;
-  --secondary-foreground: #f5f5f7;
-
-  --muted: #1a1a1a;
-  --muted-foreground: #8e8e93;
-
-  --accent: #1a1a1a;
-  --accent-foreground: #f5f5f7;
-
-  --destructive: #ef4444;
-
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.12);
-  --ring: #f5f5f7;
-}
-
-/* --- Custom text selection colors --- */
-::selection {
-  background-color: #84cc16; /* lime-500 */
-  color: #44403c; /* stone-700 */
-}
-
-/* Base settings and section transitions */
-html,
-body {
-  height: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-  text-rendering: optimizeLegibility;
-}
-
-section {
-  transition: background-color 0.3s ease, color 0.3s ease;
-  
-}
-
-h1, h2 {
-  letter-spacing: -0.03em;
-}
-
-p{
-  letter-spacing: -0.01;
-}
-
-span{
-  letter-spacing: -0.1 ;
-}
-
-/* --- Marquee animations --- */
-@keyframes marqueeUp {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(-50%);
-  }
-}
-
-@keyframes marqueeDown {
-  0% {
-    transform: translateY(-50%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
-}
-
-.marquee-up-container {
-  display: flex;
-  flex-direction: column;
-  animation: marqueeUp 35s linear infinite;
-  will-change: transform;
-}
-
-.marquee-up-container:hover {
-  animation-play-state: paused;
-}
-
-.marquee-down-container {
-  display: flex;
-  flex-direction: column;
-  animation: marqueeDown 35s linear infinite;
-  will-change: transform;
-}
-
-.marquee-down-container:hover {
-  animation-play-state: paused;
-}
-
-/* Lenis  */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-
-
-/* premium-white-EBE9E5 */
-/* bg-[#EBE9E5] */
-
-
-
-
-@theme {
-
+  --animate-waveform: waveform 1.2s ease-in-out infinite alternate;
+  --animate-card-float: card-float 6s ease-in-out infinite;
 
   @keyframes waveform {
     from {
@@ -229,49 +49,264 @@ html.lenis body {
   }
 
   @keyframes card-float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-7px);
+      transform: translateY(-6px);
     }
   }
 }
 
-/* Reduced motion erişilebilirliği */
+/* -------------------------------------------------------------------------- */
+/* Theme palettes                                                              */
+/* -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --background: #efefef;
+  --foreground: #0b0b0b;
+
+  --card: #f7f7f7;
+  --card-foreground: #0b0b0b;
+
+  --popover: #f7f7f7;
+  --popover-foreground: #0b0b0b;
+
+  --primary: #111111;
+  --primary-foreground: #ffffff;
+
+  --secondary: #e7e7e7;
+  --secondary-foreground: #111111;
+
+  --muted: #e8e8e8;
+  --muted-foreground: #686868;
+
+  --accent: #e9e9e9;
+  --accent-foreground: #111111;
+
+  --destructive: #dc4545;
+
+  --border: rgba(0, 0, 0, 0.085);
+  --input: rgba(0, 0, 0, 0.11);
+  --ring: #303030;
+
+  --radius: 1rem;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #050505;
+  --foreground: #f5f5f5;
+
+  --card: #0d0d0d;
+  --card-foreground: #f5f5f5;
+
+  --popover: #0d0d0d;
+  --popover-foreground: #f5f5f5;
+
+  --primary: #f5f5f5;
+  --primary-foreground: #050505;
+
+  --secondary: #171717;
+  --secondary-foreground: #f5f5f5;
+
+  --muted: #171717;
+  --muted-foreground: #929292;
+
+  --accent: #191919;
+  --accent-foreground: #f5f5f5;
+
+  --destructive: #f06b6b;
+
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.13);
+  --ring: #e8e8e8;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Base typography and page defaults                                           */
+/* -------------------------------------------------------------------------- */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--border);
+  }
+
+  html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  h1 {
+    letter-spacing: -0.055em;
+  }
+
+  h2 {
+    letter-spacing: -0.045em;
+  }
+
+  h3,
+  h4 {
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    letter-spacing: -0.01em;
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Neutral text selection — no lime accent outside the brand palette. */
+::selection {
+  background: #171717;
+  color: #ffffff;
+}
+
+.dark ::selection {
+  background: #f5f5f5;
+  color: #050505;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Theme transitions                                                           */
+/* The old `section { transition: ... }` only animated the section itself.     */
+/* This covers descendants too, without using expensive `transition: all`.     */
+/* -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  :where(body, body *, body *::before, body *::after) {
+    transition-property:
+      color,
+      background-color,
+      border-color,
+      text-decoration-color,
+      fill,
+      stroke,
+      box-shadow;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Marquee animations                                                          */
+/* Keep the source list duplicated in the component for a seamless loop.      */
+/* -------------------------------------------------------------------------- */
+@keyframes marqueeUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+@keyframes marqueeDown {
+  from {
+    transform: translate3d(0, -50%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-up-container {
+  display: flex;
+  flex-direction: column;
+  animation: marqueeUp 35s linear infinite;
+  will-change: transform;
+}
+
+.marquee-down-container {
+  display: flex;
+  flex-direction: column;
+  animation: marqueeDown 35s linear infinite;
+  will-change: transform;
+}
+
+.marquee-up-container:hover,
+.marquee-down-container:hover {
+  animation-play-state: paused;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+html.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Visual fade utility used by media sections. */
+@utility vc-fade {
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 75% at 55% 45%,
+    #000 40%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 75% at 55% 45%,
+    #000 40%,
+    transparent 100%
+  );
+}
+
+/* Reduced-motion preference: keep content visible and stop decorative loops. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
 
-
-@theme {
-  --animate-waveform: waveform 1.2s ease-in-out infinite;
-  --animate-card-float: card-float 6s ease-in-out infinite;
- 
-  @keyframes waveform {
-    0%, 100% { transform: scaleY(0.55); }
-    50% { transform: scaleY(1); }
-  }
-  @keyframes card-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-}
- 
-/* Görselin kenarlarını sayfa rengine eriten maske */
-@utility vc-fade {
-  -webkit-mask-image: radial-gradient(ellipse 70% 75% at 55% 45%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 75% at 55% 45%, #000 40%, transparent 100%);
-}
- 
-@media (prefers-reduced-motion: reduce) {
+  .marquee-up-container,
+  .marquee-down-container,
   .animate-waveform,
-  .animate-card-float { animation: none; }
+  .animate-card-float {
+    animation: none !important;
+    transform: none !important;
+  }
 }
- 
-html { scroll-behavior: smooth; }

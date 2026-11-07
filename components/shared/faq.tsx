@@ -1,10 +1,10 @@
 "use client";
 
 import { useId, useState } from "react";
-import { AnimatePresence, MotionConfig, motion } from "framer-motion";
-import { ChevronDown, HelpCircle, Mail } from "lucide-react";
+import { MotionConfig, motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, ChevronDown, Mail } from "lucide-react";
 
-import { FAQS, FaqItem } from "@/constants/faq";
+import { FAQS, type FaqItem } from "@/constants/faq";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
@@ -14,153 +14,170 @@ function FaqAccordionItem({
   isOpen,
   onToggle,
   index,
+  reducedMotion,
 }: {
   item: FaqItem;
   isOpen: boolean;
   onToggle: () => void;
   index: number;
+  reducedMotion: boolean;
 }) {
   const id = useId();
   const buttonId = `${id}-button`;
   const panelId = `${id}-panel`;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.4, ease, delay: index * 0.04 }}
+    <motion.article
+      initial={reducedMotion ? false : { opacity: 0, y: 14 }}
+      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.16 }}
+      transition={{ duration: reducedMotion ? 0 : 0.48, delay: reducedMotion ? 0 : index * 0.045, ease }}
+      className={[
+        "overflow-hidden rounded-4xl  transition-colors duration-300",
+        isOpen
+          ? " bg-[#fff]  dark:bg-[#101012]"
+          : " bg-[#F7F7F7]  dark:bg-[#0D0D0D]",
+      ].join(" ")}
     >
-      <div
-        className={`group overflow-hidden rounded-[32px] transition-colors duration-300 ${
-          isOpen
-            ? "bg-white dark:bg-[#1b1b1e] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] dark:ring-1 dark:ring-white/10"
-            : "bg-white/60 hover:bg-white dark:bg-[#121214] dark:ring-1 dark:ring-white/[0.06] dark:hover:bg-[#18181b]"
-        }`}
-      >
+      <h3>
         <button
           id={buttonId}
           type="button"
           onClick={onToggle}
           aria-expanded={isOpen}
           aria-controls={panelId}
-          className="flex w-full items-center justify-between gap-6 rounded-[32px] px-8 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/30 dark:focus-visible:ring-white/40"
+          className="group flex w-full items-center justify-between gap-5 px-5 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-black/40 dark:focus-visible:ring-white/50 sm:px-7 sm:py-[22px]"
         >
           <span
-            className={`pr-4 text-sm font-bold tracking-tight transition-colors duration-200 md:text-[17px] ${
+            className={`text-[14px] font-semibold leading-6 tracking-[-0.015em] transition-colors sm:text-[15px] ${
               isOpen
-                ? "text-zinc-950 dark:text-white"
-                : "text-zinc-800 group-hover:text-zinc-950 dark:text-zinc-200 dark:group-hover:text-white"
+                ? "text-[#111111] dark:text-white"
+                : "text-[#303034] group-hover:text-black dark:text-[#D5D5D8] dark:group-hover:text-white"
             }`}
           >
             {item.question}
           </span>
 
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.3, ease }}
-            className={`shrink-0 transition-colors duration-200 ${
+          <span
+            className={`grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${
               isOpen
-                ? "text-zinc-950 dark:text-white"
-                : "text-zinc-500 group-hover:text-zinc-950 dark:group-hover:text-white"
+                ? "border-black/[0.10] bg-[#EFEFEF] text-black dark:border-white/[0.14] dark:bg-white/[0.08] dark:text-white"
+                : "border-black/[0.07] bg-white/70 text-[#77777D] group-hover:border-black/[0.12] group-hover:text-black dark:border-white/[0.08] dark:bg-white/[0.035] dark:text-[#8A8A91] dark:group-hover:text-white"
             }`}
           >
-            <ChevronDown className="size-6" strokeWidth={2.5} />
-          </motion.div>
-        </button>
-
-        <AnimatePresence initial={false}>
-          {isOpen && (
-            <motion.div
-              key="content"
-              id={panelId}
-              role="region"
-              aria-labelledby={buttonId}
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{
-                height: { duration: 0.3, ease },
-                opacity: { duration: 0.2, ease },
-              }}
-              className="overflow-hidden"
+            <motion.span
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: reducedMotion ? 0 : 0.28, ease }}
+              className="flex"
             >
-              <div className="px-8 pb-8 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-300">
-                {item.answer}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
+              <ChevronDown className="size-[17px]" strokeWidth={1.8} />
+            </motion.span>
+          </span>
+        </button>
+      </h3>
+
+      {/* Grid-row animation avoids measuring height:auto and reduces accordion jumps. */}
+      <motion.div
+        id={panelId}
+        role="region"
+        aria-labelledby={buttonId}
+        aria-hidden={!isOpen}
+        initial={false}
+        animate={{
+          gridTemplateRows: isOpen ? "1fr" : "0fr",
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{
+          gridTemplateRows: { duration: reducedMotion ? 0 : 0.34, ease },
+          opacity: { duration: reducedMotion ? 0 : 0.2, ease },
+        }}
+        className="grid overflow-hidden"
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div className="mx-5 border-t border-black/[0.07] pb-6 pt-4 text-[13px] leading-[1.85] text-[#66666D] dark:border-white/[0.09] dark:text-[#A1A1A8] sm:mx-7 sm:pb-7 sm:pt-5 sm:text-[14px]">
+            {item.answer}
+          </div>
+        </div>
+      </motion.div>
+    </motion.article>
   );
 }
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const reducedMotion = !!useReducedMotion();
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative overflow-hidden bg-[#EBE9E5] py-24 font-sans antialiased transition-colors duration-300 dark:bg-[#08080a] sm:py-32">
+      <section className="relative isolate overflow-hidden bg-[#EFEFEF] py-20 text-[#111111] transition-colors duration-500 dark:bg-[#050505] dark:text-white sm:py-28 lg:py-32">
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(60%_40%_at_50%_0%,rgba(255,255,255,0.06),transparent)] dark:block"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/[0.09] to-transparent dark:via-white/[0.10]"
         />
 
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-12 lg:gap-20">
-            {/* LEFT */}
-            <div className="flex flex-col space-y-10 lg:sticky lg:top-32 lg:col-span-5">
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-zinc-200/50 bg-white/50 px-4 py-2 text-xs font-bold uppercase tracking-wider text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
-                <HelpCircle className="size-4" />
-                <span>FAQ</span>
-              </div>
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-5 sm:px-7 lg:grid-cols-[minmax(260px,0.78fr)_minmax(0,1.22fr)] lg:gap-20 lg:px-8">
+          <motion.div
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: reducedMotion ? 0 : 0.55, ease }}
+            className="flex flex-col lg:sticky lg:top-28 lg:self-start"
+          >
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-black/[0.09] bg-white/55 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#55555B] dark:border-white/[0.10] dark:bg-white/[0.045] dark:text-[#A5A5AC]">
+              <span className="size-1.5 rounded-full bg-[#77777D] dark:bg-[#C7C7CC]" />
+              Miransas · FAQ
+            </div>
 
-              <div className="space-y-6">
-                <h2 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-zinc-950 dark:text-white sm:text-5xl">
-                  What we can say today.
-                </h2>
-                <p className="max-w-md text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-                  Miralas is in development. These are straight answers about
-                  where we are.
-                </p>
-              </div>
+            <div className="mt-7 max-w-[440px]">
+              <h2 className="text-[clamp(36px,4.5vw,58px)] font-semibold leading-[1.02] tracking-[-0.055em] text-[#111111] dark:text-white">
+                Good questions.
+                <br />
+                Clear answers.
+              </h2>
+              <p className="mt-5 max-w-[390px] text-[14px] leading-[1.85] text-[#68686E] dark:text-[#92929A] sm:text-[15px]">
+                Learn more about Miransas, our voice technology, and the capabilities we are building.
+              </p>
+            </div>
 
-              {SUPPORT_EMAIL && (
-                <div className="flex flex-col items-center justify-between gap-4 rounded-[24px] bg-white p-6 shadow-sm dark:bg-[#121214] dark:ring-1 dark:ring-white/[0.06] sm:flex-row">
-                  <div className="text-center sm:text-left">
-                    <p className="text-base font-bold text-zinc-950 dark:text-white">
-                      Still have a question?
-                    </p>
-                    <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                      Write to us, we read every message.
-                    </p>
-                  </div>
-                  <a
-                    href={`mailto:${SUPPORT_EMAIL}`}
-                    className="inline-flex shrink-0 items-center gap-2 rounded-full bg-zinc-950 px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105 dark:bg-white dark:text-zinc-950"
-                  >
-                    <Mail className="size-4" />
-                    Contact us
-                  </a>
+            {SUPPORT_EMAIL ? (
+              <div className="mt-9 flex max-w-[430px] flex-col gap-4 rounded-[22px] border border-black/[0.06] bg-[#F7F7F7] p-5 dark:border-white/[0.08] dark:bg-[#0D0D0D] sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                <div>
+                  <p className="text-[14px] font-semibold tracking-tight text-[#171717] dark:text-white">
+                    Still need a hand?
+                  </p>
+                  <p className="mt-1 text-[12px] leading-5 text-[#77777D] dark:text-[#92929A]">
+                    Contact our team for more information.
+                  </p>
                 </div>
-              )}
-            </div>
+                <a
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[#111111] px-4 text-[12px] font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 dark:bg-white dark:text-[#111111] dark:focus-visible:ring-white/50 dark:focus-visible:ring-offset-[#0D0D0D]"
+                >
+                  <Mail className="size-3.5" />
+                  Contact us
+                  <ArrowUpRight className="size-3.5" />
+                </a>
+              </div>
+            ) : null}
 
-            {/* RIGHT */}
-            <div className="flex w-full flex-col gap-4 lg:col-span-7 lg:pt-8">
-              {FAQS.map((faq, i) => (
-                <FaqAccordionItem
-                  key={faq.question}
-                  item={faq}
-                  index={i}
-                  isOpen={openIndex === i}
-                  onToggle={() =>
-                    setOpenIndex((current) => (current === i ? null : i))
-                  }
-                />
-              ))}
-            </div>
+            <p className="mt-7 text-[10px] font-medium uppercase tracking-[0.16em] text-[#99999F] dark:text-[#626269]">
+              Updated as the platform evolves
+            </p>
+          </motion.div>
+
+          <div className="flex w-full flex-col gap-3.5 lg:pt-1">
+            {FAQS.map((faq, index) => (
+              <FaqAccordionItem
+                key={faq.question}
+                item={faq}
+                index={index}
+                reducedMotion={reducedMotion}
+                isOpen={openIndex === index}
+                onToggle={() =>
+                  setOpenIndex((current) => (current === index ? null : index))
+                }
+              />
+            ))}
           </div>
         </div>
       </section>

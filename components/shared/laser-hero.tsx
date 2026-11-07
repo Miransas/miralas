@@ -1,25 +1,21 @@
+
 "use client";
 
-import { useRef } from "react";
+import React, { useRef } from "react";
 import LaserFlow from "../LaserFlow";
 import VoiceStudioDemo from "./voice-studio-demo";
 
-const capabilities = [
-  "TEXT TO SPEECH",
-  "VOICE CLONING",
-  "SPEECH TO SPEECH",
-  "VOICE AGENTS",
-];
-
-export default function LaserHero() {
+const LaserHero = () => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   return (
     <section
-      aria-labelledby="miransas-hero-title"
-      className="dark relative isolate h-[1000px] w-full overflow-hidden bg-[#060608] text-white [color-scheme:dark]"
+      id="home-hero"
+      data-home-hero
+      className="dark relative isolate min-h-[900px] w-full overflow-hidden bg-[#050505] text-white md:h-[1000px]"
+      style={{ colorScheme: "dark" }}
     >
-      {/* Keep the existing laser treatment and its visual tuning. */}
+      {/* Cinematic laser background */}
       <LaserFlow
         surfaceRef={cardRef}
         beamPosition={0.6}
@@ -41,74 +37,79 @@ export default function LaserHero() {
       />
 
       {/* Hero content */}
-      <div className="pointer-events-none absolute left-[7%] right-[7%] top-[10%] z-10 max-w-[820px] md:left-[8%] md:right-auto md:top-[13%]">
-        <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.045] px-4 py-2 backdrop-blur-md">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-40" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-400" />
-          </span>
-          <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/75 sm:text-[11px]">
-            Miransas · AI voice infrastructure
+      <div className="pointer-events-none absolute left-[7%] top-[15%] z-10 max-w-[680px] md:left-[8%] md:top-[14%]">
+        <div className="pointer-events-auto">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[11px] font-medium tracking-[0.12em] text-white/75 backdrop-blur-md">
+            <span className="size-1.5 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.7)]" />
+            AI VOICE INFRASTRUCTURE
           </span>
         </div>
 
-        <h1
-          id="miransas-hero-title"
-          className="max-w-[820px] bg-gradient-to-b from-white via-white to-orange-100/75 bg-clip-text text-[clamp(3.35rem,7.3vw,6.8rem)] font-semibold leading-[0.94] tracking-[-0.065em] text-transparent"
-        >
+        <h1 className="mt-6 bg-gradient-to-b from-white via-white to-white/65 bg-clip-text text-5xl font-semibold leading-[1.02] tracking-[-0.055em] text-transparent sm:text-6xl md:text-7xl">
           Give intelligence
           <br />
           a natural voice.
         </h1>
 
-        <p className="mt-6 max-w-[570px] text-[15px] leading-[1.75] text-white/65 sm:text-base md:mt-7 md:text-lg">
-          Create lifelike speech, shape unique voice identities, and build
-          real-time voice experiences. Everything you need to bring voice AI
-          into your products, connected through one platform.
+        <p className="mt-6 max-w-[520px] text-base leading-relaxed text-white/60 sm:text-lg md:text-xl">
+          Create natural speech, shape unique voice identities, and build
+          intelligent voice experiences. Everything connected through one
+          carefully engineered platform.
         </p>
 
-        <div className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-4">
+        <div className="pointer-events-auto mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
           <a
             href="/studio"
-            className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[linear-gradient(100deg,#dedee1_0%,#f4f1ec_58%,#ffe5cc_100%)] px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.13em] text-[#24160e] shadow-[0_0_34px_rgba(249,115,22,0.23),inset_0_0_0_1px_rgba(255,255,255,0.65)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_48px_rgba(249,115,22,0.38)] sm:px-8"
+            className="group inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-[#241207] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)]"
+            style={{
+              background:
+                "linear-gradient(100deg, #d6d6d8 0%, #f0f0f0 55%, #fff0dc 100%)",
+              boxShadow:
+                "0 0 30px rgba(249,115,22,0.32), inset 0 0 0 1px rgba(255,255,255,0.45)",
+            }}
           >
-            Explore the studio
-            <span className="text-base transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+            Explore the Studio
+            <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>
           </a>
 
           <a
             href="#voice-demo"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.035] px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/80 backdrop-blur-md transition duration-300 hover:border-white/40 hover:bg-white/[0.08] hover:text-white sm:px-7"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-sm font-medium text-white/80 backdrop-blur-sm transition duration-300 hover:border-white/35 hover:bg-white/[0.08] hover:text-white"
           >
             Experience the voice
-            <span className="text-base text-orange-300" aria-hidden="true">
-              ↘
-            </span>
           </a>
         </div>
 
-        <div className="mt-7 flex max-w-[670px] flex-wrap items-center gap-x-3 gap-y-2 text-[9px] font-medium tracking-[0.17em] text-white/40 sm:mt-8 sm:gap-x-4 sm:text-[10px]">
-          {capabilities.map((item, index) => (
-            <span key={item} className="inline-flex items-center gap-3">
-              {index > 0 && (
-                <span className="h-1 w-1 rounded-full bg-orange-400/70" aria-hidden="true" />
-              )}
-              {item}
-            </span>
-          ))}
+        {/* Capability labels */}
+        <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-medium tracking-[0.16em] text-white/40 sm:text-[11px]">
+          <span>TEXT TO SPEECH</span>
+          <span className="size-1 rounded-full bg-white/25" />
+          <span>VOICE CLONING</span>
+          <span className="size-1 rounded-full bg-white/25" />
+          <span>SPEECH TO SPEECH</span>
+          <span className="size-1 rounded-full bg-white/25" />
+          <span>VOICE AGENTS</span>
         </div>
       </div>
 
-      {/* Interactive studio preview: also the LaserFlow surface. */}
+      {/* Voice Studio preview */}
       <div
         id="voice-demo"
         ref={cardRef}
-        className="absolute left-[5%] right-[5%] top-[59%] bottom-[-24px] overflow-hidden rounded-[14px] border border-white/[0.09] bg-[#0b0b0d] shadow-[0_-18px_80px_rgba(0,0,0,0.24)] md:left-[18%] md:right-[28%] md:top-[52%]"
+        className="absolute overflow-hidden rounded-t-[18px] border border-white/[0.09] bg-[#0b0b0d] shadow-[0_-20px_100px_rgba(0,0,0,0.35)]"
+        style={{
+          left: "18%",
+          right: "12%",
+          top: "55%",
+          bottom: "-24px",
+        }}
       >
         <VoiceStudioDemo />
       </div>
     </section>
   );
-}
+};
+
+export default LaserHero;

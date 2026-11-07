@@ -33,7 +33,7 @@ const page = () => {
           <DitherShowcase/>
            <ComparisonSection />
            <RobotSection/>
-         <TeamSection/>
+         {/* <TeamSection/> */}
         <FaqSection />
         <TestimonialSection/>
       </div>

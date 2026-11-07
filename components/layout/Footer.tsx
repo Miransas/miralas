@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useCallback, useRef, useState } from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { GlowButton } from '../ui/glow-button';
 import {
   FOOTER_SECTIONS,
   FOOTER_UTILITY_LINKS,
   CONTACT_DATA,
   type FooterSection,
 } from '@/constants/footer';
-import { ArrowUpRight, Globe, Mail, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Globe, Mail } from 'lucide-react';
 
 export interface SpotlightFooterProps {
   wordmark?: string;
@@ -20,108 +20,123 @@ export interface SpotlightFooterProps {
   className?: string;
 }
 
+const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
+
 export function Footer({
   wordmark = 'MIRANSAS',
-  tagline = 'Next-generation AI voice technology engineered for creators, developers, and enterprise scale.',
+  tagline = 'AI voice infrastructure, thoughtfully engineered for natural communication.',
   groups = FOOTER_SECTIONS,
   copyright = `© ${new Date().getFullYear()} Miransas. All rights reserved.`,
-  radius = 320,
+  radius = 300,
   className,
 }: SpotlightFooterProps) {
   const stageRef = useRef<HTMLDivElement>(null);
-  const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null);
+  const [spotlightActive, setSpotlightActive] = useState(false);
 
-  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    const rect = stageRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setPointer({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  // Update CSS variables directly: pointer movement should not re-render the whole footer.
+  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'touch') return;
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const rect = stage.getBoundingClientRect();
+    stage.style.setProperty('--spotlight-x', `${event.clientX - rect.left}px`);
+    stage.style.setProperty('--spotlight-y', `${event.clientY - rect.top}px`);
+    setSpotlightActive(true);
   }, []);
 
-  const fontSize = `clamp(48px, ${(160 / Math.max(1, wordmark.length)).toFixed(2)}cqi, 260px)`;
+  const fontSize = `clamp(48px, ${(176 / Math.max(1, wordmark.length)).toFixed(2)}cqi, 250px)`;
+  const spotlightStyle: React.CSSProperties = {
+    fontSize,
+    WebkitMaskImage: `radial-gradient(${radius}px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), rgba(0,0,0,1) 0%, rgba(0,0,0,0.32) 58%, transparent 100%)`,
+    maskImage: `radial-gradient(${radius}px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), rgba(0,0,0,1) 0%, rgba(0,0,0,0.32) 58%, transparent 100%)`,
+  };
 
   return (
     <footer
       className={cn(
-        'relative w-full overflow-hidden  bg-[#fafafa] dark:bg-[#000000] text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-500',
-        className
+        'relative w-full overflow-hidden bg-[#EFEFEF] text-[#111111] antialiased transition-colors duration-500 dark:bg-[#050505] dark:text-[#F5F5F5]',
+        className,
       )}
     >
-      {/* Ambient Dark Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[300px] bg-zinc-400/5 dark:bg-white/[0.02] blur-[140px] pointer-events-none rounded-full" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/10 to-transparent dark:via-white/10" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 pt-16 pb-12 space-y-16">
-
-        {/* ── 1. HEADER & NEWSLETTER SECTION ── */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 border-b border-zinc-200/80 dark:border-white/10 pb-12">
-          
-          {/* Brand Info */}
-          <div className="max-w-xl space-y-4">
-            <div className="flex items-center gap-3">
-              <div className=" dark:bg-background bg-[#000000] rounded-2xl  flex items-center justify-center ">
+      <div className="relative z-10 mx-auto max-w-7xl space-y-14 px-6 pb-10 pt-16 sm:px-8 lg:px-12 lg:pt-20">
+        {/* Brand and primary action */}
+        <div className="flex flex-col justify-between gap-9 border-b border-black/10 pb-12 dark:border-white/10 lg:flex-row lg:items-end">
+          <div className="max-w-xl">
+            <Link href="/" className="group inline-flex items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 dark:focus-visible:ring-white/50">
+              <span className="flex size-11 items-center justify-center overflow-hidden rounded-xl bg-[#050505] p-1.5 dark:bg-[#F1F1F1]">
                 <img
-                  src="https://raw.githubusercontent.com/Miransas/miransas/main/public/icons/logo.png"
-                  className="w-12 object-contain"
-                  alt="Miransas Logo "
+                  src="/icons/logo.png"
+                  alt=""
+                  className="size-full object-contain"
                 />
-              </div>
-              <span className="text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+              </span>
+              <span className="text-xl font-semibold tracking-[-0.04em] text-[#111111] dark:text-white">
                 Miransas
               </span>
-            </div>
+            </Link>
 
-            <h2 className="text-xl sm:text-2xl font-medium tracking-tight text-zinc-900 dark:text-zinc-200">
-              Stay ahead in Voice AI
+            <h2 className="mt-7 text-2xl font-semibold tracking-[-0.045em] sm:text-3xl">
+              Voice, engineered to connect.
             </h2>
-            <p className="text-sm text-zinc-500 dark:text-[#d7d3d8] leading-relaxed max-w-md">
-              Subscribe to our newsletter for technical breakdowns, model releases, and voice synthesis architecture updates.
+            <p className="mt-3 max-w-lg text-sm leading-7 text-[#66666B] dark:text-[#929297] sm:text-base">
+              {tagline}
             </p>
           </div>
 
-          {/* Email Input Form */}
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="w-full lg:w-auto flex flex-col sm:flex-row gap-3 min-w-[320px] sm:min-w-[420px]"
-          >
-            <div className="relative w-full">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-zinc-400 dark:text-zinc-500" />
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                required
-                className="w-full rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/5 pl-10 pr-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:border-zinc-900 dark:focus:border-white focus:outline-none transition-colors shadow-sm"
-              />
+          <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center lg:w-auto lg:justify-end">
+            <div className="max-w-xs">
+              <p className="text-sm font-semibold text-[#171719] dark:text-white">
+                Building with voice?
+              </p>
+              <p className="mt-1 text-xs leading-5 text-[#77777C] dark:text-[#88888E]">
+                Explore the studio or get in touch with the team.
+              </p>
             </div>
-            <GlowButton className="shrink-0 rounded-full px-6 py-3 font-semibold text-sm" size="md" color='blue'>
-              <span className="flex items-center gap-2">
-                Subscribe <Sparkles className="size-4" />
-              </span>
-            </GlowButton>
-          </form>
+            <div className="flex shrink-0 flex-wrap gap-2">
+              <Link
+                href="/studio"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#111111] px-5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFEFEF] dark:bg-white dark:text-[#090909] dark:hover:bg-[#E7E7E7] dark:focus-visible:ring-white/50 dark:focus-visible:ring-offset-[#050505]"
+              >
+                Open Studio <ArrowUpRight className="size-4" />
+              </Link>
+              {SUPPORT_EMAIL ? (
+                <a
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-sm font-medium text-[#333338] transition duration-200 hover:-translate-y-0.5 hover:border-black/30 hover:bg-black/[0.03] dark:border-white/15 dark:text-[#E4E4E7] dark:hover:border-white/30 dark:hover:bg-white/[0.04]"
+                >
+                  <Mail className="size-4" /> Contact
+                </a>
+              ) : null}
+            </div>
+          </div>
         </div>
 
-        {/* ── 2. GLOBAL HUBS & PRESENCE BANNER (ENTERPRISE TOUCH) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8 rounded-3xl border border-zinc-200/80 dark:border-white/10 bg-white/60 dark:bg-white/[0.02] backdrop-blur-md">
-          <div className="flex items-start gap-4">
-            <div className="size-10 rounded-2xl bg-zinc-100 dark:bg-white/5 flex items-center justify-center shrink-0 border border-zinc-200/60 dark:border-white/10">
-              <Globe className="size-5 text-zinc-700 dark:text-zinc-300" />
-            </div>
+        {/* Presence information — kept factual from the existing footer constants */}
+        <div className="grid grid-cols-1 gap-6 border-b border-black/10 pb-10 dark:border-white/10 md:grid-cols-[minmax(220px,0.9fr)_2fr] md:gap-10">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl border border-black/10 bg-[#F7F7F7] text-[#55555A] dark:border-white/10 dark:bg-[#0D0D0D] dark:text-[#B8B8BD]">
+              <Globe className="size-4" />
+            </span>
             <div>
-              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">
+              <h3 className="text-sm font-semibold tracking-tight text-[#1B1B1D] dark:text-white">
                 {CONTACT_DATA.presence.title}
-              </h4>
-              <p className="text-xs text-zinc-500 dark:text-[#d7d3d8] mt-1 leading-relaxed">
+              </h3>
+              <p className="mt-1 max-w-sm text-xs leading-6 text-[#77777C] dark:text-[#88888E]">
                 {CONTACT_DATA.presence.description}
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t md:border-t-0 md:border-l border-zinc-200/80 dark:border-white/10 pt-4 md:pt-0 md:pl-6">
-            {CONTACT_DATA.presence.hubs.map((hub, idx) => (
-              <div key={idx} className="space-y-1">
-                <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-600 dark:text-[#d7d3d8]">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-black/10 pt-5 dark:border-white/10 sm:grid-cols-3 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+            {CONTACT_DATA.presence.hubs.map((hub, index) => (
+              <div key={`${hub.location}-${index}`} className="min-w-0">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#909096] dark:text-[#707076]">
                   {hub.status}
                 </span>
-                <p className="text-xs font-medium text-zinc-900 dark:text-zinc-200">
+                <p className="mt-1.5 text-xs font-medium leading-5 text-[#343438] dark:text-[#D4D4D8]">
                   {hub.location}
                 </p>
               </div>
@@ -129,18 +144,15 @@ export function Footer({
           </div>
         </div>
 
-        {/* ── 3. NAVIGATION GRID (OPTIMIZED FOR RESPONSIVENESS) ── */}
-        {groups.length > 0 && (
-          <nav
-            aria-label="Footer Navigation"
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 gap-y-10 pt-4"
-          >
+        {/* Navigation */}
+        {groups.length > 0 ? (
+          <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-8">
             {groups.map((group) => (
-              <div key={group.title} className="flex flex-col gap-4">
-                <h3 className="text-xs font-semibold tracking-wider text-zinc-900 dark:text-white uppercase">
+              <div key={group.title} className="min-w-0">
+                <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#242428] dark:text-[#E5E5E8]">
                   {group.title}
                 </h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm">
+                <ul className="mt-4 space-y-3">
                   {group.links.map((link) => {
                     const Icon = link.icon;
                     return (
@@ -149,15 +161,11 @@ export function Footer({
                           href={link.href}
                           target={link.target}
                           rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                          className="group inline-flex items-center gap-1.5 text-zinc-500 dark:text-[#6E6E74] hover:text-zinc-950 dark:hover:text-white transition-colors duration-200"
+                          className="group inline-flex max-w-full items-center gap-1.5 text-xs leading-5 text-[#77777C] transition-colors duration-200 hover:text-[#111111] dark:text-[#85858B] dark:hover:text-white sm:text-[13px]"
                         >
-                          {Icon && (
-                            <Icon className="size-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shrink-0" />
-                          )}
-                          <span className="font-medium leading-none">{link.label}</span>
-                          {link.target === '_blank' && !Icon && (
-                            <ArrowUpRight className="size-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          )}
+                          {Icon ? <Icon className="size-3.5 shrink-0 text-[#A0A0A5] transition-colors group-hover:text-current" /> : null}
+                          <span className="font-medium">{link.label}</span>
+                          {link.target === '_blank' && !Icon ? <ArrowUpRight className="size-3 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" /> : null}
                         </a>
                       </li>
                     );
@@ -166,74 +174,62 @@ export function Footer({
               </div>
             ))}
           </nav>
-        )}
+        ) : null}
 
-        {/* ── 4. COPYRIGHT & UTILITY BAR ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-zinc-200/80 dark:border-white/10 pt-8 gap-4 text-xs text-zinc-500 dark:text-[#F5F5F7]">
-          <p>{copyright}</p>
-          <div className="flex flex-wrap items-center justify-center gap-6">
+        {/* Legal and utility links */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-black/10 pt-7 text-center dark:border-white/10 sm:flex-row sm:text-left">
+          <p className="text-[11px] text-[#77777C] dark:text-[#85858B]">{copyright}</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {FOOTER_UTILITY_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 target={link.target}
                 rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                className="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+                className="text-[11px] font-medium text-[#77777C] transition-colors hover:text-[#111111] dark:text-[#85858B] dark:hover:text-white"
               >
                 {link.label}
               </a>
             ))}
           </div>
         </div>
-
       </div>
 
-      {/* ── 5. SPOTLIGHT BIG TYPOGRAPHY STAGE ── */}
+      {/* Oversized wordmark with a pointer-following light reveal */}
       <div
-        ref={stageRef}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={() => setPointer(null)}
-        className="relative overflow-hidden px-6 pb-12 pt-6 cursor-default border-t border-zinc-200/40 dark:border-white/5"
-        style={{ containerType: 'inline-size' }}
+        className="relative isolate overflow-hidden border-t border-black/[0.06] px-4 pb-9 pt-7 dark:border-white/[0.06] sm:px-6 sm:pb-12"
       >
-        {tagline && (
-          <p className="mx-auto mb-8 max-w-[1200px] text-center text-xs sm:text-sm leading-relaxed text-zinc-400 dark:text-[#F5F5F7]">
-            {tagline}
-          </p>
-        )}
+        <p className="mb-5 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-[#929297] dark:text-[#707076] sm:text-xs">
+          AI voice infrastructure
+        </p>
 
-        <div className="relative mx-auto max-w-[1200px] flex justify-center items-center">
-          {/* Static Background Text */}
+        <div
+          ref={stageRef}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={() => setSpotlightActive(false)}
+          className="relative mx-auto flex min-h-[clamp(72px,18vw,230px)] max-w-[1320px] items-center justify-center"
+          style={{ containerType: 'inline-size' }}
+        >
           <span
-            aria-hidden
-            className="whitespace-nowrap font-black tracking-tighter leading-none text-zinc-200/80 dark:text-white/[0.03] select-none"
+            aria-hidden="true"
+            className="select-none whitespace-nowrap font-black leading-none tracking-[-0.085em] text-[#D8D8D8] dark:text-white/[0.065]"
             style={{ fontSize }}
           >
             {wordmark}
           </span>
 
-          {/* Interactive Spotlight Layer */}
           <span
-            aria-hidden
+            aria-hidden="true"
             className={cn(
-              'pointer-events-none absolute inset-0 flex justify-center items-center whitespace-nowrap font-black tracking-tighter leading-none text-zinc-950 dark:text-white transition-opacity duration-300 ease-out select-none',
-              pointer ? 'opacity-100' : 'opacity-0'
+              'pointer-events-none absolute inset-0 flex select-none items-center justify-center whitespace-nowrap font-black leading-none tracking-[-0.085em] text-[#111111] transition-opacity duration-300 dark:text-white',
+              spotlightActive ? 'opacity-100' : 'opacity-0',
             )}
-            style={{
-              fontSize,
-              WebkitMaskImage: pointer
-                ? `radial-gradient(${radius}px circle at ${pointer.x}px ${pointer.y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)`
-                : undefined,
-              maskImage: pointer
-                ? `radial-gradient(${radius}px circle at ${pointer.x}px ${pointer.y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)`
-                : undefined,
-            }}
+            style={spotlightStyle}
           >
             {wordmark}
           </span>
-
-          <span className="sr-only">{wordmark}</span>
         </div>
+        <span className="sr-only">{wordmark}</span>
       </div>
     </footer>
   );
