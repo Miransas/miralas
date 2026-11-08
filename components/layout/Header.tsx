@@ -134,7 +134,7 @@ export function Header() {
                 overDarkHero ? "text-white" : "text-foreground"
               }`}
             >
-              Miransas
+              Miralas
             </span>
           </Link>
 

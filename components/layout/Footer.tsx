@@ -68,7 +68,7 @@ export function Footer({
             <Link href="/" className="group inline-flex items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 dark:focus-visible:ring-white/50">
               <span className="flex size-11 items-center justify-center overflow-hidden rounded-xl bg-[#050505] p-1.5 dark:bg-[#F1F1F1]">
                 <img
-                  src="/icons/logo.png"
+                  src="/logo.png"
                   alt=""
                   className="size-full object-contain"
                 />
