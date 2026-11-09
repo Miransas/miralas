@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import OrbitShader from '../shaders/orbit-shader';
 

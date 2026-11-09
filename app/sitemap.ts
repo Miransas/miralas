@@ -19,6 +19,11 @@ const routes = [
   { path: "/resources/media", priority: 0.6, changeFrequency: "monthly" },
   { path: "/resources/support", priority: 0.6, changeFrequency: "monthly" },
   { path: "/solutions", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/solutions/creators", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/solutions/streaming", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/solutions/voice-agents", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/solutions/enterprise-voice", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/solutions/others", priority: 0.7, changeFrequency: "monthly" },
  
 
 ] satisfies Array<{

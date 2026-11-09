@@ -8,7 +8,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   AudioLines,
-  Check,
   Code2,
   Languages,
   Mic2,

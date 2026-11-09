@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import { BackLink,EndCTA,FeatureRows,Heading,Hero,PageShell,wrap } from "@/components/solutions/solution-ui";
+import { DialoguePreview } from "@/components/solutions/dialogue-preview";
+
+export const metadata: Metadata = { title: "Voice AI for Streaming & Gaming", description: "Explore potential voice experiences for streams, game characters and interactive media.", openGraph: { title: "Streaming & Gaming | Miralas", description: "Give every interaction a voice." } };
+const uses = [
+  { number: "01", title: "Interactive streaming", description: "Imagine audience messages and alerts becoming part of the experience. Streaming platform integrations are not currently confirmed." },
+  { number: "02", title: "Game characters", description: "Explore the possibility of giving characters a voice that responds to the world around them, from scripted moments to imagined conversations." },
+  { number: "03", title: "Real-time experiences", description: "Responsive audio could bring new depth to interactive environments. Real-time capabilities are still being developed." },
+];
+export default function StreamingPage() { return <PageShell><Hero label="STREAMING & GAMING" title="Give every interaction a voice." description="Explore how generated speech can support live interactions, virtual characters, and immersive digital experiences." aside={<><BackLink /><p className="mt-5 text-sm leading-6 text-neutral-500">For worlds that have something to say.</p></>} /><section className={`${wrap} grid items-center gap-12 pb-24 lg:grid-cols-2 lg:gap-20 sm:pb-32`}><Heading label="A MOMENT IN THE STORY" title="What could a character say next?" description="A voice experience can begin with a simple exchange. Choose an example to explore the idea." /><DialoguePreview /></section><section className={`${wrap} pb-24 sm:pb-32`}><Heading label="POSSIBILITIES" title="More ways to play." description="These are ideas for future experiences, not existing platform integrations." /><div className="mt-10"><FeatureRows items={uses} /></div></section><EndCTA title="Imagine what comes next." description="Explore the technology being built for voice experiences." href="/product/tts" link="Explore Voice Technology" /></PageShell>; }

@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useRef } from "react";
+import { useRef } from "react";
 import LaserFlow from "../LaserFlow";
 import VoiceStudioDemo from "./voice-studio-demo";
 

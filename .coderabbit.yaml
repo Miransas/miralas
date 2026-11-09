@@ -1,17 +1,22 @@
 language: "en"
 
 reviews:
-  profile: "chill" 
+  profile: "chill"
   auto_review:
     enabled: true
     drafts: false
-  
- 
   path_filters:
     - "!pnpm-lock.yaml"
     - "!.next/**"
     - "!node_modules/**"
     - "!public/**"
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        Focus on actionable bugs, regressions, security issues, and accessibility.
+        Explain the concrete impact and suggest a focused fix when possible.
+        Check Next.js route conventions and preserve existing product behavior.
+        Do not assume unpublished pricing, product capabilities, or billing policies.
 
 chat:
   auto_reply: true

@@ -2,127 +2,18 @@
  
 "use client";
 // bu joyga keyin qoyiladi odam kim kelsa ham artist bolib hozriga default bor 
-import React, { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  ArrowLeft,
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Heart,
-  Share2,
-  ExternalLink,
-  MessageSquare,
   Sparkles,
-  Mic2,
-  Clapperboard,
   User,
-  Globe,
-  ArrowUpRight,
-  CheckCircle2,
-  ChevronDown,
 } from "lucide-react";
-import { IconBrandInstagram, IconBrandX, IconBrandYoutube } from "@tabler/icons-react";
+import { IconBrandInstagram } from "@tabler/icons-react";
 import SmoothScroll from "../../../../components/providers/SmoothScroll";
 
 
 
 
-// ─── CREATOR DATA ───
-const CREATORS = [
-  {
-    id: "c1",
-    name: "Aziz Rakhimov",
-    handle: "@azizvoice",
-    role: "Uzbek Voice Artist",
-    roleIcon: Mic2,
-    color: "#c9a87c",
-    image: "/media/creators/aziz.jpg",
-    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355850/7509024-uhd_2160_4096_25fps_eacmdw.mp4",
-    bio: "Professional Uzbek narrator. 500+ audiobook sessions. Miralas voice partner since 2026.",
-    stats: { clips: "1.2K", followers: "45K" },
-    tags: ["Uzbek", "Narration", "Audiobook"],
-    social: { instagram: "https://instagram.com/azizvoice", youtube: "https://youtube.com/@azizvoice" },
-    verified: true,
-  },
-  {
-    id: "c2",
-    name: "Nodira Karimova",
-    handle: "@nodira.uz",
-    role: "Actor & Dubbing",
-    roleIcon: Clapperboard,
-    color: "#f43f5e",
-    image: "/media/creators/nodira.jpg",
-    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787354903/12330928-uhd_2160_3840_25fps_mvprvw.mp4",
-    bio: "Theatre actress turned voice actor. Leading dubbing artist for Uzbek cinema and streaming content.",
-    stats: { clips: "890", followers: "128K" },
-    tags: ["Dubbing", "Theatre", "Streaming"],
-    social: { instagram: "https://instagram.com/nodira.uz", twitter: "https://twitter.com/nodira_uz" },
-    verified: true,
-  },
-  {
-    id: "c3",
-    name: "Timur Saidov",
-    handle: "@timur.tech",
-    role: "Content Creator",
-    roleIcon: User,
-    color: "#0ea5e9",
-    image: "/media/creators/timur.jpg",
-    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355404/5659595-uhd_2160_4096_25fps_qtum4o.mp4",
-    bio: "Tech educator building in public. Tutorials on AI voice, automation, and Uzbek tech ecosystem.",
-    stats: { clips: "2.4K", followers: "89K" },
-    tags: ["Tutorial", "AI", "Education"],
-    social: { youtube: "https://youtube.com/@timurtech", twitter: "https://twitter.com/timurtech" },
-    verified: true,
-  },
-  {
-    id: "c4",
-    name: "Zarina Umarova",
-    handle: "@zarina.vox",
-    role: "Uzbek Voice Artist",
-    roleIcon: Mic2,
-    color: "#8b5cf6",
-    image: "/media/creators/zarina.jpg",
-    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355404/6962492-hd_1080_1920_25fps_f0vzgy.mp4",
-    bio: "Emotional storytelling specialist. Documentary voiceovers and podcast production in Uzbek and Russian.",
-    stats: { clips: "650", followers: "34K" },
-    tags: ["Documentary", "Podcast", "Russian"],
-    social: { instagram: "https://instagram.com/zarina.vox", youtube: "https://youtube.com/@zarina.vox" },
-    verified: true,
-  },
-  {
-    id: "c5",
-    name: "Dilshod Khasanov",
-    handle: "@dilshod.actor",
-    role: "Actor & Voice",
-    roleIcon: Clapperboard,
-    color: "#10b981",
-    image: "/media/creators/dilshod.jpg",
-    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787355935/17752354-uhd_2160_3840_30fps_hjm7lz.mp4",
-    bio: "Veteran actor with 15+ years on screen. Now lending his voice to AI training and character work.",
-    stats: { clips: "430", followers: "67K" },
-    tags: ["Character", "Film", "AI Training"],
-    social: { instagram: "https://instagram.com/dilshod.actor", twitter: "https://twitter.com/dilshod_actor" },
-    verified: true,
-  },
-  {
-    id: "c6",
-    name: "Madina Yusupova",
-    handle: "@madina.creates",
-    role: "Content Creator",
-    roleIcon: User,
-    color: "#d97706",
-    image: "/media/creators/madina.jpg",
-    video: "https://res.cloudinary.com/dwdk20m6q/video/upload/v1787356204/14988018_2160_3840_30fps_hd9qc0.mp4",
-    bio: "Digital storyteller. Creates short-form content about Uzbek culture, language, and modern tech.",
-    stats: { clips: "3.1K", followers: "210K" },
-    tags: ["Culture", "Short-form", "Language"],
-    social: { instagram: "https://instagram.com/madina.creates", youtube: "https://youtube.com/@madina.creates" },
-    verified: true,
-  },
-];
+
 
 // ─── HERO VIDEO ───
 function HeroVideo() {

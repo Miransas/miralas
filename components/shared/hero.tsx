@@ -1,18 +1,11 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Play, Mic, Waves, ShieldCheck, LucideIcon } from "lucide-react";
+import { Play } from "lucide-react";
 import { ShaderAnimation } from "./shader-hero";
 import { GlowButton } from "../ui/glow-button";
-import { HERO_CONTENT, HERO_HIGHLIGHTS, HeroHighlight } from "@/constants/hero";
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  Mic: Mic,
-  Waves: Waves,
-  ShieldCheck: ShieldCheck,
-};
+import { HERO_CONTENT } from "@/constants/hero";
 
 export default function HeroSection() {
   return (

@@ -8,8 +8,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  RadialBarChart,
-  RadialBar,
   Legend,
   Radar,
   RadarChart,
@@ -17,12 +15,9 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Cell,
-  LineChart,
-  Line,
   Area,
   AreaChart,
 } from 'recharts';
-import { motion } from 'framer-motion';
 import { providers, getRadarData } from '@/lib/benchmark-data';
 
 const tooltipStyle = {

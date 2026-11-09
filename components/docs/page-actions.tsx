@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Copy, Edit, FileText } from 'lucide-react';
+import { Check, Edit, FileText } from 'lucide-react';
 import { REPO_URL } from '@/lib/docs-d';
 
 interface PageActionsProps {

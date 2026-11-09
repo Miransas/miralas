@@ -57,27 +57,27 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
       {
         label: "For Content Creators",
         href: "/solutions/creators",
-        description: "Automate dubbing, audiobooks, and podcasting.",badge: "Soon" 
+        description: "Explore voiceovers, narration, and content workflows.", badge: "Soon"
       },
       {
         label: "For Streamers & Gaming",
         href: "/solutions/streaming",
-        description: "Interactive donation TTS and dynamic NPC audio.",badge: "Soon" 
+        description: "Interactive streaming and gaming voice experiences.", badge: "Soon"
       },
       {
         label: "Conversational AI",
         href: "/solutions/voice-agents",
-        description: "Low-latency voice infrastructure for AI agents.",badge: "Soon" 
+        description: "Voice infrastructure for conversational applications.", badge: "Soon"
       },
       {
         label: "Enterprise Brand Voices",
         href: "/solutions/enterprise-voice",
-        description: "Clone and secure exclusive custom voices.",badge: "Soon" 
+        description: "Controlled voice identities for professional use.", badge: "Soon"
       },
        {
         label: "Others",
         href: "/solutions/others",
-        description: "Clone and secure exclusive custom voices.",badge: "Soon" 
+        description: "Additional voice AI applications and possibilities.", badge: "Soon"
       },
     ],
   },

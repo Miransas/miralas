@@ -241,7 +241,6 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
 
 export default function ApiPage() {
   const [copied, setCopied] = useState(false);
-  const reduce = useReducedMotion();
 
   const copyExample = async () => {
     try {

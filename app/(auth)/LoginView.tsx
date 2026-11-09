@@ -9,8 +9,6 @@ import { SiGoogle } from "@icons-pack/react-simple-icons";
 import { track } from "@/lib/track";
 import { ModeToggle } from "../../components/providers/mode-toggle";
 
-const bars = [24, 48, 80, 120, 160, 120, 200, 140, 90, 60, 110, 70, 40, 28];
-
 const footerLinks = [
   { label: "Docs", href: "/docs" },
   { label: "Privacy", href: "/https://privacy.miransas.com/miralas/legal" },

@@ -1,7 +1,6 @@
 
 
 
-import React from 'react'
 import ModelsHero from "./hero-models";
 
 const page = () => {

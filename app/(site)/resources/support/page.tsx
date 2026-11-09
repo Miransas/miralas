@@ -1,4 +1,3 @@
-import React from 'react'
 import SupportSections from '../../../../components/resources/support-section'
 
 

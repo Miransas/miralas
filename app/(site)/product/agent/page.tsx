@@ -175,11 +175,6 @@ const scenarios = [
   },
 ];
 
-const waveform = Array.from({ length: 54 }, (_, index) => {
-  const value = Math.abs(Math.sin(index * 0.47) * Math.cos(index * 0.19));
-  return Math.round(18 + value * 82);
-});
-
 export default function VoiceAgentPage() {
   const reduce = useReducedMotion();
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Halftone } from "../uibrik/halftone/halftone";
 
 export default function HeroShaders() {

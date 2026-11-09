@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from "react";
 import { Check, Users, Eye, Sparkles } from "lucide-react";
 
 const ARTISTS = [

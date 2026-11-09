@@ -5,11 +5,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import ComingSoonModal from "../components/modals/comming-soon";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
 import { cn } from "../lib/utils";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
 import { PageViewTracker } from "../components/providers/page-view-tracker";
 import { CookieConsent } from "../components/providers/cookie-consent";
 
@@ -138,8 +135,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isLocked = true;
-
   return (
     <html
       lang="en"

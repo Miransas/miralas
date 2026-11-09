@@ -1,4 +1,3 @@
-import { Mic, Waves, ShieldCheck, LucideIcon } from "lucide-react";
 
 export interface HeroHighlight {
   iconName: "Mic" | "Waves" | "ShieldCheck";

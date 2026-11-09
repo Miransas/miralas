@@ -34,7 +34,7 @@ export function TableOfContents() {
           On This Page
         </h3>
         <ul className="space-y-1">
-          {tocSections.map((section, i) => {
+          {tocSections.map((section) => {
             const isActive = activeId === section.id;
             return (
               <li key={section.id}>

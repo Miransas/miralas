@@ -99,7 +99,7 @@ function Lead({ children }: { children: ReactNode }) {
 /* -------------------------------------------------------------------------- */
 function WorkflowMarquee({ reduceMotion }: { reduceMotion: boolean | null }) {
   const renderItems = (copy: string) =>
-    workflowItems.map((item, index) => (
+    workflowItems.map((item) => (
       <li
         key={`${copy}-${item.title}`}
         className="flex items-center gap-3 rounded-2xl border border-neutral-900/[0.08] bg-white/75 px-4 py-3.5 shadow-[0_8px_28px_rgba(0,0,0,0.045)] backdrop-blur-xl dark:border-white/[0.09] dark:bg-[#0b0b0d]/75 dark:shadow-[0_8px_30px_rgba(0,0,0,0.24)] md:gap-4 md:px-5 md:py-4"

@@ -8,7 +8,6 @@ import {
   Globe,
   HelpCircle,
   Mail,
-  MapPin,
   MessageSquare,
   Send,
   Sparkles,
