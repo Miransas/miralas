@@ -60,7 +60,7 @@ const LaserHero = () => {
         <div className="pointer-events-auto mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
           <a
             href="/studio"
-            className="group inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-[#241207] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)]"
+            className="group inline-flex items-center gap-3 rounded-full px-3.5 py-2 text-sm font-semibold text-[#241207] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)]"
             style={{
               background:
                 "linear-gradient(100deg, #d6d6d8 0%, #f0f0f0 55%, #fff0dc 100%)",
@@ -76,7 +76,7 @@ const LaserHero = () => {
 
           <a
             href="#voice-demo"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-sm font-medium text-white/80 backdrop-blur-sm transition duration-300 hover:border-white/35 hover:bg-white/[0.08] hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition duration-300 hover:border-white/35 hover:bg-white/[0.08] hover:text-white"
           >
             Experience the voice
           </a>
