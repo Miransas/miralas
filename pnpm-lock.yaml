@@ -217,8 +217,8 @@ importers:
         specifier: ^16.4.6
         version: 16.4.6(@mdx-js/loader@3.1.1(supports-color@7.2.0))(@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.3.1))
       '@next/third-parties':
-        specifier: ^16.4.5
-        version: 16.4.5(next@16.4.5(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.2.8(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: ^16.4.6
+        version: 16.4.6(next@16.4.5(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.2.8(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@number-flow/react':
         specifier: ^0.6.2
         version: 0.6.2(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
@@ -1246,8 +1246,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@next/third-parties@16.4.5':
-    resolution: {integrity: sha512-O6uK4ZIhbHIt/yFRrdL0Nx7rcPrhcG08oWCXz/avUrFWIEqouu48hkZ8iwlW3ilXrXxtceZSI3vK8o6Rq9oPzg==}
+  '@next/third-parties@16.4.6':
+    resolution: {integrity: sha512-Pp2FLFGkiy6FwLcuVTK1U/TNoZuC/+MK31wcp+MAM4dwjoGKufF3RxvgtnTlkBI14Oq1HSyeBqEw0KVoSsZlmg==}
     peerDependencies:
       next: ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
       react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
@@ -2950,20 +2950,6 @@ packages:
       remix:
         optional: true
 
-  framer-motion@14.9.1:
-    resolution: {integrity: sha512-WDWNT2ixHdmpvGg02BZWI/SWwRYzPiMUf4aIkTBgrxxD8RYFdZO3fCM4pnLMo6j8mUpj0+BuJRHQBChI4v3Anw==}
-    peerDependencies:
-      react: ^18.0.0 || ^19.0.0
-      react-dom: ^18.0.0 || ^19.0.0
-      remix: ^3.1.0
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-      remix:
-        optional: true
-
   fs-extra@11.4.1:
     resolution: {integrity: sha512-KYAb4c9BJQI6QqGKthV68OHe0badztdXJWKo0WtBA9IuCFPTKvE5ZdUBglP833aMjhaSPNO4A5j/EkzZtGlKjA==}
     engines: {node: '>=14.14'}
@@ -3840,9 +3826,6 @@ packages:
 
   motion-dom@14.11.1:
     resolution: {integrity: sha512-H/12gSe24nuV19IR7jHLObI+5Tm34UA/S5JaUye802l19VoVsT1USE+Suv+G/XO1U+YmXI9Nnbs4Krd4FthSSg==}
-
-  motion-dom@14.9.1:
-    resolution: {integrity: sha512-2eCCGXH2Yv09lM8GHK3TdfChrcvHxzVY19LD9VraoHEaQl5+PuGnTNnmJaBAR+5MdxUVdsLFXygFJjR9RwRSxw==}
 
   motion-utils@14.7.0:
     resolution: {integrity: sha512-woO0/Nb7ys75f94fjvQi/6leiHGvZUYkeHUPEZ3vxsV+9OpEVhkxp01x8MlRwX0zt31EqgXsKDAoBoJLC148Tw==}
@@ -5605,7 +5588,7 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.4.5':
     optional: true
 
-  '@next/third-parties@16.4.5(next@16.4.5(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.2.8(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@next/third-parties@16.4.6(next@16.4.5(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.2.8(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
       next: 16.4.5(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
       react: 19.3.1
@@ -7381,15 +7364,6 @@ snapshots:
       react: 19.3.1
       react-dom: 19.2.8(react@19.3.1)
 
-  framer-motion@14.9.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1):
-    dependencies:
-      motion-dom: 14.9.1
-      motion-utils: 14.7.0
-      tslib: 2.9.1
-    optionalDependencies:
-      react: 19.3.1
-      react-dom: 19.2.8(react@19.3.1)
-
   fs-extra@11.4.1:
     dependencies:
       graceful-fs: 4.2.11
@@ -8496,10 +8470,6 @@ snapshots:
       is-extendable: 1.0.1
 
   motion-dom@14.11.1:
-    dependencies:
-      motion-utils: 14.7.0
-
-  motion-dom@14.9.1:
     dependencies:
       motion-utils: 14.7.0
 
