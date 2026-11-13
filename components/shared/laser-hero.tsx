@@ -57,7 +57,7 @@ const LaserHero = () => {
           carefully engineered platform.
         </p>
 
-        <div className="pointer-events-auto mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+        <div className="pointer-events-auto mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
           <a
             href="/studio"
             className="group inline-flex items-center gap-3 rounded-full px-3.5 py-2 text-sm font-semibold text-[#241207] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)]"
@@ -83,7 +83,7 @@ const LaserHero = () => {
         </div>
 
         {/* Capability labels */}
-        <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-medium tracking-[0.16em] text-white/40 sm:text-[11px]">
+        {/* <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-medium tracking-[0.16em] text-white/40 sm:text-[11px]">
           <span>TEXT TO SPEECH</span>
           <span className="size-1 rounded-full bg-white/25" />
           <span>VOICE CLONING</span>
@@ -91,7 +91,7 @@ const LaserHero = () => {
           <span>SPEECH TO SPEECH</span>
           <span className="size-1 rounded-full bg-white/25" />
           <span>VOICE AGENTS</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Voice Studio preview */}
@@ -109,7 +109,7 @@ const LaserHero = () => {
         <VoiceStudioDemo />
       </div>
     </section>
-  );
+  )
 };
 
 export default LaserHero;

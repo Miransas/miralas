@@ -50,9 +50,9 @@ export default function VoiceStudioDemo() {
       <video
         ref={videoRef}
         src="/hero.mp4"
-        poster="/miralas-story-poster.jpg"
-        muted
+        poster="/miralas-story-poster.jpg"   
         loop
+     
         playsInline
         preload="metadata"
         tabIndex={-1}
