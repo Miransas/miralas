@@ -223,8 +223,8 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
       '@paper-design/shaders':
-        specifier: ^0.0.80
-        version: 0.0.80
+        specifier: ^0.0.82
+        version: 0.0.82
       '@paper-design/shaders-react':
         specifier: ^0.0.80
         version: 0.0.80(@types/react@19.3.0)(react@19.3.1)
@@ -1285,6 +1285,9 @@ packages:
 
   '@paper-design/shaders@0.0.80':
     resolution: {integrity: sha512-pcabvt5xDlFoEhpjUj4b1tGJMfqb0i5mXifWMNQf6z7FoOJYxYDo7F8R6k0JAh5D/7ouxjX5+N0cIq5WURyQ1Q==}
+
+  '@paper-design/shaders@0.0.82':
+    resolution: {integrity: sha512-eCxYQrrCxRVc4KG8sLSQecsq8Ymstbaq/FqZjq/fhOa6UiR1ZZfdMO5IJpHmwL0GYmfzvZVQ4l8ZOLux0uLVdg==}
 
   '@radix-ui/primitive@1.2.0':
     resolution: {integrity: sha512-KABY+VMIRPJL+Vyzv/335FEhXXD/xDv8BMb1kl48/aXJZMH0LtHCTx5ga5RnxaEP3nZHtmTLf1P9vanmFX46bw==}
@@ -5623,6 +5626,8 @@ snapshots:
       '@types/react': 19.3.0
 
   '@paper-design/shaders@0.0.80': {}
+
+  '@paper-design/shaders@0.0.82': {}
 
   '@radix-ui/primitive@1.2.0': {}
 
