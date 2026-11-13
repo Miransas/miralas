@@ -280,8 +280,8 @@ importers:
         specifier: ^0.10.8
         version: 0.10.8(@types/three@0.187.0)(three@0.187.0)
       motion:
-        specifier: ^14.9.1
-        version: 14.9.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
+        specifier: ^14.11.1
+        version: 14.11.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
       next:
         specifier: 16.4.5
         version: 16.4.5(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
@@ -3847,8 +3847,8 @@ packages:
   motion-utils@14.7.0:
     resolution: {integrity: sha512-woO0/Nb7ys75f94fjvQi/6leiHGvZUYkeHUPEZ3vxsV+9OpEVhkxp01x8MlRwX0zt31EqgXsKDAoBoJLC148Tw==}
 
-  motion@14.9.1:
-    resolution: {integrity: sha512-u58zTNOs6vefAwvPncTJ8vkQm+P08V4+mhNgap8p/mFZjl8+gWp7SG4cMTamebVSgpX6PcDtqzWpZngqKcfd7A==}
+  motion@14.11.1:
+    resolution: {integrity: sha512-V0AQPpbTlkhXYQGiO6X55KsFHz+fdYlZJVERFEjJpBWZlCggWOcbCA7zd24iYs1q/Le191tAV3J29xBfS5+tWA==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -8505,9 +8505,9 @@ snapshots:
 
   motion-utils@14.7.0: {}
 
-  motion@14.9.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1):
+  motion@14.11.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1):
     dependencies:
-      framer-motion: 14.9.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
+      framer-motion: 14.11.1(react-dom@19.2.8(react@19.3.1))(react@19.3.1)
       tslib: 2.9.1
     optionalDependencies:
       react: 19.3.1
