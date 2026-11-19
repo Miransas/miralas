@@ -21,21 +21,23 @@ const LaserHero = () => {
       {/* Cinematic laser background — DPR capped at 1.5, paused when off-screen */}
       <LaserFlow
         surfaceRef={cardRef}
-        beamPosition={0.6}
-        color="#f97316"
+        beamPosition={0.59}
+        color="#7c3aed"
         intensity={1.8}
         flare={1.5}
         spread={1.5}
-        spill={1.35}
-        fog={0.45}
-        dust={0.25}
-        beamWidth={1.4}
-        streaks={1.1}
-        dots={0.2}
-        pulse={0.35}
-        speed={0.55}
-        seed={17}
-        dpr={1.5}
+        spill={1.15}
+        fog={0.55}
+        dust={1.2}
+        revealImage="/"
+        revealRadius={290}
+        revealOpacity={0.6}
+        beamWidth={1.2}
+        streaks={1.55}
+        dots={0.45}
+        pulse={1.25}
+        speed={2.2}
+        seed={8}
         mouseInteraction
         intro
       />
