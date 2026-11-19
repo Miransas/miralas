@@ -138,7 +138,6 @@
 
   html {
     min-height: 100%;
-    scroll-behavior: smooth;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -254,24 +253,6 @@
 
 .reveal-rise {
   animation: reveal-rise 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* Lenis */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-html.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-html.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-html.lenis.lenis-stopped {
-  overflow: hidden;
 }
 
 /* Visual fade utility used by media sections. */

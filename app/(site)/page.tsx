@@ -5,6 +5,7 @@ import StackedCards from "@/components/shared/Stackedcards";
 import WhyMiralas from "@/components/shared/WhyMiralas";
 import LanguageCoverage from "@/components/shared/language-coverage";
 import { EngineeredAudio, VoiceTechnology, WhatsNext } from "@/components/shared/voice-technology";
+import { LandingSmoothScroll } from "@/components/motion/LandingSmoothScroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { FAQS } from "@/constants/faq";
 import { FOOTER_SECTIONS } from "@/constants/footer";
@@ -81,19 +82,21 @@ export default function HomePage() {
   };
 
   return (
-    <main id="main-content">
-      <JsonLd id="ld-organization" data={organizationSchema} />
-      <JsonLd id="ld-website" data={websiteSchema} />
-      <JsonLd id="ld-software-application" data={softwareApplicationSchema} />
-      <JsonLd id="ld-faq" data={faqSchema} />
-      <LaserHero />
-      <VoiceTechnology />
-      <StackedCards />
-      <LanguageCoverage />
-      <EngineeredAudio />
-      <WhyMiralas />
-      <WhatsNext />
-      <FaqSection />
-    </main>
+    <LandingSmoothScroll>
+      <main id="main-content">
+        <JsonLd id="ld-organization" data={organizationSchema} />
+        <JsonLd id="ld-website" data={websiteSchema} />
+        <JsonLd id="ld-software-application" data={softwareApplicationSchema} />
+        <JsonLd id="ld-faq" data={faqSchema} />
+        <LaserHero />
+        <VoiceTechnology />
+        <StackedCards />
+        <LanguageCoverage />
+        <EngineeredAudio />
+        <WhyMiralas />
+        <WhatsNext />
+        <FaqSection />
+      </main>
+    </LandingSmoothScroll>
   );
 }

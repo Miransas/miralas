@@ -147,7 +147,6 @@ export default function RootLayout({
         plexMono.variable,
         "selection:background-green-500 selection:text-stone-700",
       )}
-      data-scroll-behavior="smooth"
     >
       <body className="min-h-full overflow-x-clip bg-background text-foreground">
         <ThemeProvider

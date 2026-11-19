@@ -133,7 +133,7 @@ export function Header() {
           setMobileMenuOpen(false);
         }
       }}
-      className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,backdrop-filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${headerClass}`}
+      className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,backdrop-filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${headerClass}`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-12">
         {/* Brand and desktop navigation */}
@@ -216,7 +216,10 @@ export function Header() {
                           isLargeMenu ? "w-[520px]" : "w-80"
                         }`}
                       >
-                        <div className={`overflow-hidden rounded-2xl border p-3 backdrop-blur-2xl ${dropdownSurface}`}>
+                        <div
+                          data-lenis-prevent
+                          className={`overflow-hidden rounded-2xl border p-3 backdrop-blur-2xl ${dropdownSurface}`}
+                        >
                           {item.description && (
                             <div className={`mb-2 border-b px-3 py-2 text-[10px] font-mono uppercase tracking-widest ${dropdownHeading}`}>
                               {item.description}
@@ -323,7 +326,10 @@ export function Header() {
             transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
             className={`border-b backdrop-blur-2xl lg:hidden ${mobilePanel}`}
           >
-            <div className="mx-auto flex max-h-[80vh] max-w-7xl flex-col gap-1 overflow-y-auto overscroll-y-contain px-6 py-6">
+            <div
+              data-lenis-prevent
+              className="mx-auto flex max-h-[80vh] max-w-7xl flex-col gap-1 overflow-y-auto overscroll-y-contain px-6 py-6"
+            >
               {HEADER_NAV_ITEMS.map((item) => {
                 const hasSubItems = Boolean(item.items && item.items.length > 0);
                 const isExpanded = expandedMobileAccordion === item.label;

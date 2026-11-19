@@ -87,7 +87,11 @@ export function ComparisonSection() {
           viewport={VIEWPORT_EARLY}
           className="mt-12 overflow-hidden rounded-[26px] border border-black/[0.075] bg-[#F7F7F7] shadow-[0_18px_60px_-42px_rgba(0,0,0,0.22)] dark:border-white/[0.09] dark:bg-[#0D0D0D] dark:shadow-none md:mt-16 md:rounded-[30px]"
         >
-          <div className="overflow-x-auto overscroll-x-contain" style={{ WebkitOverflowScrolling: "touch" }}>
+          <div
+            data-lenis-prevent
+            className="overflow-x-auto overscroll-x-contain"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             <table className="w-full min-w-[760px] border-separate border-spacing-0 text-left">
               <caption className="sr-only">
                 Comparison of Miransas, hiring a voice actor, and generic text-to-speech tools.

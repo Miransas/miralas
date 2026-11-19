@@ -203,6 +203,7 @@ export default function WhyMiransas() {
       {/* Horizontal card strip — overscroll-x-contain prevents locking vertical scroll */}
       <motion.div
         ref={scrollerRef}
+        data-lenis-prevent-horizontal
         variants={sectionStagger}
         initial="hidden"
         whileInView="visible"
@@ -275,6 +276,7 @@ export default function WhyMiransas() {
         {current && (
           <motion.div
             key="overlay"
+            data-lenis-prevent
             role="dialog"
             aria-modal="true"
             aria-label={current.modalTitle}
@@ -286,6 +288,7 @@ export default function WhyMiransas() {
             className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-0 backdrop-blur-sm md:items-center md:p-6"
           >
             <motion.div
+              data-lenis-prevent
               initial={{ opacity: 0, y: 24, scale: 0.985 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.985 }}
