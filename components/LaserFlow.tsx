@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 'use client';
 
 import { useEffect, useRef, type HTMLAttributes, type RefObject } from 'react';

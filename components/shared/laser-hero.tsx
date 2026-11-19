@@ -15,7 +15,7 @@ const LaserHero = () => {
     <section
       id="home-hero"
       data-home-hero
-      className="dark relative isolate min-h-[900px] w-full overflow-clip bg-[#050505] text-white md:h-[1000px]"
+      className="dark relative isolate min-h-screen w-full overflow-clip bg-[#050505] text-white md:h-[1200px]"
       style={{ colorScheme: "dark" }}
     >
       {/* Cinematic laser background — DPR capped at 1.5, paused when off-screen */}

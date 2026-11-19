@@ -60,7 +60,7 @@ export default function VoiceStudioDemo() {
         ref={videoRef}
         src="/hero.mp4"
         poster="/portraits/hero.png"
-        muted
+     
         loop
      
         playsInline
