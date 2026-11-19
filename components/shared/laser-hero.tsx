@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import LaserFlow from "../LaserFlow";
 import VoiceStudioDemo from "./voice-studio-demo";
 import { ScrollReveal, WordReveal } from "@/components/motion/reveal";
-import { MODEL_LANGUAGES, VOICE_TECHNOLOGY } from "@/lib/voice-technology";
+import { VOICE_TECHNOLOGY } from "@/lib/voice-technology";
 
 const LaserHero = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -49,17 +49,16 @@ const LaserHero = () => {
           </span>
         </ScrollReveal>
 
-        <h1 className="mt-6 text-5xl font-semibold leading-[1.02] tracking-[-0.055em] text-white sm:text-6xl md:text-7xl">
+        <h1 className="mt-6 text-5xl font-semibold leading-[1.04] tracking-[-0.03em] [word-spacing:0.04em] text-white sm:text-6xl md:text-7xl">
           <WordReveal trigger="load" delay={0.05} text="Give intelligence" />
           <br />
           <WordReveal trigger="load" delay={0.13} text="a natural voice." className="text-white/75" />
         </h1>
 
         <ScrollReveal trigger="load" delay={0.2}>
-          <p className="mt-6 max-w-[520px] text-base leading-relaxed text-white/60 sm:text-lg md:text-xl">
-            Multilingual speech, thoughtfully engineered. Explore the Chatterbox-powered
-            foundation behind Miralas, with {MODEL_LANGUAGES.length} model-supported
-            languages and native Uzbek speech in development.
+          <p className="mt-6 max-w-[580px] text-base leading-relaxed text-white/65 sm:text-lg md:text-xl">
+            Create natural speech, shape unique voice identities, and build
+            real-time voice agents—all on one unified platform.
           </p>
         </ScrollReveal>
 
@@ -75,7 +74,7 @@ const LaserHero = () => {
                   "0 0 30px rgba(249,115,22,0.32), inset 0 0 0 1px rgba(255,255,255,0.45)",
               }}
             >
-              <span>Console access</span>
+              <span>Open Studio</span>
               <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
 
@@ -83,16 +82,15 @@ const LaserHero = () => {
               href="#technology"
               className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition-[border-color,background-color,color,transform] duration-200 hover:border-white/35 hover:bg-white/[0.08] hover:text-white active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]"
             >
-              Explore the technology
+              Explore the platform
             </a>
           </div>
 
-          <p className="mt-4 text-sm text-white/60">
-            Public access is not confirmed. See the{" "}
+          <p className="mt-4 text-sm text-white/55">
+            Currently in private preview ·{" "}
             <a href="/resources/changelog" className="pointer-events-auto underline underline-offset-4 transition-colors hover:text-white">
-              development updates
+              Follow development updates
             </a>
-            .
           </p>
         </ScrollReveal>
       </div>
