@@ -1,42 +1,30 @@
 ---
 title: "Text-to-speech"
-description: "Turn text into spoken audio from the Miralas console."
+description: "Chatterbox-powered multilingual speech and the current Miralas engineering baseline."
 category: "Guides"
 order: 2
 ---
 
-## Status
+## Current engine
 
-Text-to-speech works in our internal builds for English, Turkish and Russian. Public access opens with the console.
+Miralas uses Chatterbox Multilingual with the approved `t3_mtl23ls_v2.safetensors` checkpoint. The [upstream implementation](https://github.com/resemble-ai/chatterbox/blob/master/src/chatterbox/mtl_tts.py) lists 23 supported languages; explore them in [language coverage](/#languages).
 
-## Planned
+Model support describes the engine. It does not guarantee a published public voice per language or public Console access. Curated public voices have not been announced.
 
-- Type or paste text, generate audio and play it in your browser
-- Uzbek voice
+## Audio output
 
-## Overview
+The engineering baseline validates 24 kHz mono PCM16 output. The model's [sample-rate constant](https://github.com/resemble-ai/chatterbox/blob/master/src/chatterbox/models/s3gen/const.py) is 24,000 Hz. Speech quality varies by language, text and reference recording.
 
-Text-to-speech converts written text into natural-sounding audio. It is available today in the console.
+## Access and limits
 
-## How to use it
+Public Console and API access, quotas and usage terms are not confirmed. Release-specific instructions will be published when access is announced. This page does not provide an unverified endpoint or rate limit.
 
-1. Sign in to the console.
-2. Open the **Generate** page.
-3. Type or paste your text.
-4. Generate and play the audio in your browser.
+## Uzbek Speech — In Development
 
-## Languages
+We're working toward native Uzbek speech capabilities through research, data collection and model evaluation. Uzbek is not supported by the current multilingual checkpoint and is not available for production inference.
 
-English, Turkish and Russian are supported today. Uzbek is coming soon.
+## Performance validation
 
-## Limits
+Docker and CUDA benchmark preparation is complete. Real NVIDIA GPU benchmarks remain pending. Validated output formatting does not establish real-time synthesis, production speed or scalability.
 
-Generation is rate limited per account to 10 requests per minute.
-
-## Coming soon
-
-- Uzbek voice
-- Voice cloning profiles
-- Developer API
-
-Follow the [changelog](/resources/changelog) for updates.
+Follow [development updates](/resources/changelog) for progress.

@@ -1,46 +1,31 @@
 ---
 title: "Getting started"
-description: "What Miralas is, what you can use today, and what is coming next."
+description: "The current Miralas speech foundation, access status and development roadmap."
 category: "Getting started"
 order: 1
 ---
 
+## Current status
 
-## Status
+Miralas is a voice platform by Miransas. This repository is the public marketing website and documentation, separate from the Miralas Console application and private inference services.
 
-Miralas is in development. The console, where you will sign in and generate speech, is being tested internally and is not open to the public yet.
+Public Console and API access are not confirmed. The [Console entry point](https://console.miralas.io) is an access destination, not a promise of public sign-up. Follow [development updates](/resources/changelog) for announcements.
 
-## In development
+## Engineering foundation
 
-- Console with sign-in (email and Google)
-- Text-to-speech in English, Turkish and Russian
-- Uzbek voice
-- Voice cloning
-- Speech-to-speech
-- Developer API and SDKs
-- Voice agents
+The supplied engineering baseline identifies Chatterbox Multilingual as the active text-to-speech engine, using `t3_mtl23ls_v2.safetensors`. The model supports 23 languages. See [language coverage](/#languages) and the [active model](/product/models).
 
-## Available today
+A Rust API connects to a Python inference worker over gRPC. The validated output format is 24 kHz mono PCM16. Voice Catalog infrastructure is implemented; published curated voice seeds have not been verified.
 
-The console is in private beta. Public sign-up opens soon at console.miralas.io.
+## Uzbek Speech — In Development
 
-## Overview
+We're working toward native Uzbek speech capabilities through research, data collection and model evaluation. Uzbek is not included in the current engine's 23 languages and is not available for production inference.
 
-Miralas is a voice platform for voice cloning, text-to-speech and speech-to-speech, built with Uzbek as a first-class language.
+## What remains in development
 
-## Available today
+- Public voice cloning workflows and an expanded curated voice catalog
+- Public API access, endpoints, SDKs and billing terms
+- Speech-to-speech and voice agents
+- Real NVIDIA GPU benchmarks; Docker and CUDA preparation is complete
 
-The console is in beta. You can:
-
-- Sign in with your email or Google account
-- Generate speech from text on the Generate page and play it in your browser (English, Turkish and Russian)
-
-## Coming soon
-
-- Uzbek voice
-- Voice cloning profiles
-- Speech-to-speech
-- Developer API and SDKs
-- Voice agents
-
-Documentation for each of these will be published here as it ships. Follow the [changelog](/resources/changelog) for updates.
+Qwen, CosyVoice and Miransas-native models are future research plans, not current integrations. No production latency or scalability numbers are published.

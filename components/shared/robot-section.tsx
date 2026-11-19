@@ -132,7 +132,7 @@ export function VoiceLayerSection() {
               className="mt-8 flex flex-wrap items-center gap-5"
             >
               <Link
-                href="/studio"
+                href="/product"
                 className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-black dark:bg-white dark:text-[#080808] dark:hover:bg-white/90"
               >
                 Explore the studio

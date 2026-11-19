@@ -539,7 +539,9 @@ export const LaserFlow = ({
     dpr
   };
   const settingsRef = useRef(settings);
-  settingsRef.current = settings;
+  useEffect(() => {
+    settingsRef.current = settings;
+  });
 
   useEffect(() => {
     const container = containerRef.current;

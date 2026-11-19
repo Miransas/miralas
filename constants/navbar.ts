@@ -30,25 +30,16 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
   },
   {
     label: "Product",
-    href: "/studio",
-    description: "Create, clone and generate.",
+    href: "/product",
+    description: "Speech technology and development direction.",
     items: [
       { label: "Text to Speech", href: "/product/tts", description: "Turn text into natural expressive speech." },
-      { label: "Voice Clone", href: "/product/voice-clone", description: "Clone and customize a voice." },
+      { label: "Voice Clone", href: "/product/voice-clone", description: "Explore voice cloning in development." },
       { label: "Models", href: "/product/models", description: "Explore Miralas voice models." },
-      { label: "API", href: "/product/api", description: "Integrate Miralas into your own products." },
-      { label: "Agent", href: "/product/agent", description: "Integrate Miralas into your own products." },
+      { label: "API", href: "/product/api", description: "Explore the architecture and access status." },
+      { label: "Agent", href: "/product/agent", description: "Voice agents in early development." },
     ],
   },
-  // {
-  //   label: "Products",
-  //   href: "/products",
-  //   description: "Explore the Miralas platform.",
-  //   items: [
-  //     { label: "Streamers", href: "/products/donate", description: "Generate natural and expressive AI speech." },
-  //     { label: "API", href: "/products/api", description: "Integrate Miralas into your own products." },
-  //   ],
-  // },
   {
     label: "Solutions",
     href: "/solutions",
@@ -83,7 +74,7 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
   },
   {
     label: "Enterprise",
-    href: "/enterprise",
+    href: "/resources/contact",
     description: "Voice infrastructure for organizations.",
     items: [
       { 
@@ -123,6 +114,6 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
 
 export const HEADER_LINKS = {
   home: "/",
-  consoleAuth: "/login",
-  studio: "/login",
+  consoleAuth: "https://console.miralas.io",
+  studio: "/product",
 };

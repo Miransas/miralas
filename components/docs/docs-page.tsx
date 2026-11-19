@@ -1,11 +1,10 @@
 "use client"
 
-import { motion } from 'framer-motion';
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import type { ReactNode } from 'react';
+import { ScrollReveal } from '@/components/motion/reveal';
 
 import { PageActions } from '@/components/docs/page-actions';
 import type { TocItem } from '@/lib/docs-d';
-import { useMDXComponents } from '@/mdx-components';
 import { TableOfContents } from './tabel-of-content';
 
 interface DocPageProps {
@@ -13,7 +12,7 @@ interface DocPageProps {
   description: string;
   slug: string;
   rawContent: string;
-  mdxSource: MDXRemoteSerializeResult;
+  children: ReactNode;
   toc: TocItem[];
 }
 
@@ -22,20 +21,13 @@ export function DocPage({
   description,
   slug,
   rawContent,
-  mdxSource,
+  children,
   toc,
 }: DocPageProps) {
-  const components = useMDXComponents({});
 
   return (
     <div className="flex gap-8">
-      <motion.article
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="min-w-0 flex-1"
-        style={{ maxWidth: 780 }}
-      >
+      <ScrollReveal className="min-w-0 max-w-[780px] flex-1"><article>
         <header className="mb-8">
           <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {title}
@@ -48,7 +40,7 @@ export function DocPage({
         <PageActions slug={slug} rawContent={rawContent} />
 
         <div className="docs-prose mt-8">
-          <MDXRemote {...mdxSource} components={components} />
+          {children}
         </div>
 
         <footer className="mt-16 border-t border-border pt-6 text-sm text-muted-foreground">
@@ -64,7 +56,7 @@ export function DocPage({
             </a>
           </p>
         </footer>
-      </motion.article>
+      </article></ScrollReveal>
 
       {/* Right sidebar ToC */}
       <div className="hidden w-64 shrink-0 xl:block">

@@ -44,11 +44,11 @@ export const FOOTER_SECTIONS: FooterSection[] = [
      links: [
        { label: "Docs", href: "/docs" },
        { label: "Get Started", href: "/docs/getting-started" },
-       { label: "Api", href: "/docs/api-reference" },
-       { label: "Spech TS", href: "/docs/speech-to-speech" },
+       { label: "Api", href: "/product/api" },
+       { label: "Speech to speech", href: "/docs/speech-to-speech" },
        { label: "TTS", href: "/docs/tts" },
-       { label: "Voice Agent", href: "/docs/voice-agent" },
-       { label: "Voice Clone", href: "/docs/voice-clone" },
+       { label: "Voice Agent", href: "/product/agent" },
+       { label: "Voice Clone", href: "/product/voice-clone" },
      ],
    },
   {
@@ -73,14 +73,11 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     ],
   },
   {
-    title: "Dashboards",
+    title: "Explore",
     links: [
-      { label: "Voice Clone", href: "https://console.miralas.io/voice-clone", target: "_blank" },
-      { label: "Explore", href: "https://console.miralas.io/generate", target: "_blank" },
-      { label: "Video Spech", href: "https://console.miralas.io/explore", target: "_blank" },
-      { label: "Your Projects", href: "https://console.miralas.io/projects", target: "_blank" },
-      { label: "TTS", href: "https://console.miralas.io/tts", target: "_blank" },
-      { label: "Spech TS", href: "https://console.miralas.io/sts", target: "_blank" },
+      { label: "Console access", href: "https://console.miralas.io", target: "_blank" },
+      { label: "Languages", href: "/#languages" },
+      { label: "Research", href: "/#research" },
     ],
   },
   {

@@ -12,7 +12,7 @@ type ComparisonRow = {
 const rows: ComparisonRow[] = [
   {
     label: "Language focus",
-    miransas: "Uzbek-first model development",
+    miransas: "Uzbek speech research — in development",
     voiceActor: "Native speakers and talent selected per project",
     genericTts: "Language coverage and quality vary by provider",
   },

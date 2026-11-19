@@ -1,11 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { serialize } from 'next-mdx-remote/serialize';
+import { compileMDX } from 'next-mdx-remote/rsc';
+import { useMDXComponents as getMDXComponents } from '@/mdx-components';
+import type { ReactElement } from 'react';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug'; // 1. Eklentiyi import ettik
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import type { TocItem } from './docs-d';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'docs');
@@ -15,7 +16,7 @@ export interface DocContent {
   description: string;
   slug: string;
   rawContent: string;
-  mdxSource: MDXRemoteSerializeResult;
+  content: ReactElement;
   toc: TocItem[];
 }
 
@@ -34,15 +35,17 @@ export async function loadDoc(slug: string): Promise<DocContent | null> {
 
   const toc = extractToc(rawContent);
 
-  const mdxSource = await serialize(rawContent, {
-    mdxOptions: {
+  const { content } = await compileMDX({
+    source: rawContent,
+    components: getMDXComponents({}),
+    options: { mdxOptions: {
       remarkPlugins: [remarkGfm],
       // 2. Add rehypeSlug so HTML headings automatically receive IDs.
       rehypePlugins: [rehypeSlug, rehypeHighlight], 
-    },
+    } },
   });
 
-  return { title, description, slug, rawContent, mdxSource, toc };
+  return { title, description, slug, rawContent, content, toc };
 }
 
 function extractToc(content: string): TocItem[] {

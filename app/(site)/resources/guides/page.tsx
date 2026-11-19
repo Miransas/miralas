@@ -1,8 +1,5 @@
+import { redirect } from "next/navigation";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export default function GuidesPage() {
+  redirect("/docs/getting-started");
 }
-
-export default page

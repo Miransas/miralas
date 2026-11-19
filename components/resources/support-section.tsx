@@ -198,7 +198,7 @@ export default function SupportSections() {
               Need direct assistance for your organization?
             </h2>
             <p className="text-base text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              Our engineering and customer success teams are ready to help you set up custom voice models and enterprise security configurations.
+              Contact the team to discuss your use case and current product availability. Custom models and enterprise configurations are not confirmed public offerings.
             </p>
           </div>
 

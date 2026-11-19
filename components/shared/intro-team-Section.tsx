@@ -252,7 +252,7 @@ export default function IntroTeammateSection() {
 
           <motion.div variants={shouldReduceMotion ? staticItemVariants : itemVariants} className="mt-8 flex flex-wrap items-center gap-3">
             <a
-              href="/studio"
+              href="/product"
               className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#171719] px-6 py-3 text-[12px] font-semibold tracking-[0.02em] text-white shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:bg-black dark:bg-white dark:text-[#111113] dark:hover:bg-neutral-200"
             >
               Explore the studio

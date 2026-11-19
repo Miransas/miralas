@@ -6,7 +6,7 @@ export const openGraphMetadata: NonNullable<Metadata["openGraph"]> = {
   
   title: "Miralas Voice — AI Voice Infrastructure",
   description:
-    "Create natural, expressive and production-ready AI voices with an Uzbek-first voice platform built for developers and creators.",
+    "Explore Chatterbox-powered multilingual voice technology. 23 model-supported languages, with native Uzbek speech in development.",
   url: siteUrl,
   siteName: "Miralas Voice",
 

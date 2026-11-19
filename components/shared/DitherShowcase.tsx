@@ -16,7 +16,7 @@ const ITEMS: ShowcaseItem[] = [
     src: "/img/ember.png",
     alt: "Abstract visual representing text-to-speech generation",
     title: "Text-to-speech",
-    text: "Turn written content into spoken audio. English, Turkish and Russian are available in internal builds.",
+    text: "Turn written content into spoken audio. The active engine supports 23 languages; public access is not confirmed.",
     status: "Internal testing",
   },
   {
@@ -43,9 +43,9 @@ const ITEMS: ShowcaseItem[] = [
   {
     src: "/img/aurora.png",
     alt: "Abstract visual representing Uzbek speech technology",
-    title: "Uzbek, first",
-    text: "Uzbek is the first language focus for our voice work. Model training is underway.",
-    status: "Training",
+    title: "Uzbek Speech — In Development",
+    text: "Uzbek is the first language focus for our voice work. Research, data collection and model evaluation are ongoing.",
+    status: "In development",
   },
 ];
 
@@ -67,7 +67,7 @@ export function DitherShowcase() {
           </div>
           <p className="max-w-md text-sm leading-7 text-neutral-600 dark:text-white/55 md:text-base">
             A connected set of voice technologies — from natural speech generation
-            to expressive, real-time voice experiences.
+            to voice identity and conversational research.
           </p>
         </div>
 

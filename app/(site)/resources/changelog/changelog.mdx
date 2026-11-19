@@ -1,14 +1,24 @@
 # Changelog
 
-Everything that ships, changes or goes away at Miralas. Newest first.
+Website changes and engineering updates. Historical entries below describe work at the time, not a guarantee of current public access.
 
 ---
 
-### Behind the scenes
-- Speech generation now runs as its own service, separate from the API, so the voice engine can be updated and scaled independently.
-- Model training on GPU servers (RunPod) has started for the Uzbek voice model.
-- Early work on the Miralas voice agent has begun.
+## November 18, 2026 — Product status clarification
 
+- The active engine is Chatterbox Multilingual with the approved `t3_mtl23ls_v2.safetensors` checkpoint and 23 model-supported languages.
+- **Uzbek Speech — In Development.** We're working toward native Uzbek speech capabilities through research, data collection and model evaluation. Production Uzbek inference is not available.
+- The engineering baseline validates 24 kHz mono PCM16 output and a Rust API connected to Python inference over gRPC.
+- Voice Catalog infrastructure is implemented. Published curated voice seeds have not been verified.
+- Docker and CUDA benchmark preparation is complete; real NVIDIA GPU measurements remain pending.
+- Public Console/API access and pricing are not confirmed. Speech-to-speech and voice agents remain in development.
+- Qwen, CosyVoice and Miransas-native models are future exploration plans, not shipped integrations.
+
+### Reading earlier entries
+
+Previous references to Uzbek training, voice recordings, quotas and Console features are historical development notes. They do not establish public availability or current performance. The status above takes precedence.
+
+---
 
 ## v0.4.0 — October 17, 2026
 **Docs, changelog and cleaner traffic tracking**
@@ -38,7 +48,7 @@ Everything that ships, changes or goes away at Miralas. Newest first.
 ## In progress
 
 - **Console.** Accounts with email and Google sign-in, and text-to-speech in English, Turkish and Russian, work in internal builds. Public access opens when the console launches.
-- **Uzbek model training.** First runs have started on rented GPU servers.
+- **Uzbek speech research.** Research, data collection and model evaluation; no production inference.
 - **Voice agent.** Early development.
 - **Speech-to-speech.**
 - **Developer API** with per-token limits.
@@ -76,16 +86,16 @@ Everything that ships, changes or goes away at Miralas. Newest first.
 
 ---
 
-## Almost there
+## Development direction (no release dates)
 
-- **Uzbek voice.** First licensed voice (female) is being recorded; the fine-tuned Uzbek model follows.
-- **Free beta** for everyone on the waitlist.
+- **Uzbek Speech — In Development.** Research toward native speech capabilities.
+- **Public access.** Availability and access terms remain unconfirmed.
 - **Voice cloning profiles** in the console.
 - **Generate page redesign.**
 
 ## In progress
 
-- **Uzbek model training.** First runs have started on rented GPU servers.
+- **Uzbek speech research.** Research, data collection and model evaluation; no production inference.
 - **Voice agent.** Early development.
 - **Speech-to-speech.**
 - **Developer API** with per-token limits.

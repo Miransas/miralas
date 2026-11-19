@@ -108,6 +108,16 @@ export function Header() {
 
   return (
     <header
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          const target = event.target as HTMLElement;
+          const trigger = target.closest("[data-nav-item]")?.querySelector<HTMLButtonElement>("button");
+          trigger?.focus();
+          if (mobileMenuOpen) document.querySelector<HTMLButtonElement>('[aria-controls="mobile-navigation"]')?.focus();
+          setActiveDropdown(null);
+          setMobileMenuOpen(false);
+        }
+      }}
       className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,border-color,box-shadow] duration-300 ${headerClass}`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-12">
@@ -147,6 +157,10 @@ export function Header() {
               return (
                 <div
                   key={item.label}
+                  data-nav-item
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) setActiveDropdown(null);
+                  }}
                   className="relative"
                   onMouseEnter={() => hasSubItems && setActiveDropdown(item.label)}
                   onMouseLeave={() => setActiveDropdown(null)}
@@ -183,7 +197,7 @@ export function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 4 }}
                         transition={{ duration: 0.17, ease: "easeOut" }}
-                        className={`absolute left-0 top-full z-50 pt-2 ${
+                        className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2 ${
                           isLargeMenu ? "w-[520px]" : "w-80"
                         }`}
                       >
@@ -247,7 +261,7 @@ export function Header() {
             href={HEADER_LINKS.consoleAuth}
             className={`rounded-full px-4 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current/40 ${navMuted}`}
           >
-            Sign in
+            Console access
           </a>
           <Link
             href={HEADER_LINKS.studio}
@@ -258,7 +272,7 @@ export function Header() {
             }`}
           >
             <Sparkles className="size-3.5" />
-            <span>Open Studio</span>
+            <span>Explore products</span>
           </Link>
         </div>
 
@@ -368,14 +382,14 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`w-full rounded-full border py-3 text-center text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current/40 ${overDarkHero ? "border-white/15 text-white hover:bg-white/[0.07]" : "border-border/60 text-foreground hover:bg-card"}`}
                 >
-                  Sign in
+                  Console access
                 </a>
                 <Link
                   href={HEADER_LINKS.studio}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`w-full rounded-full py-3 text-center text-xs font-semibold transition-opacity hover:opacity-90 ${overDarkHero ? "bg-white text-[#050505]" : "bg-foreground text-background"}`}
                 >
-                  Open Studio
+                  Explore products
                 </Link>
               </div>
             </div>

@@ -4,6 +4,8 @@
 import { useRef } from "react";
 import LaserFlow from "../LaserFlow";
 import VoiceStudioDemo from "./voice-studio-demo";
+import { ScrollReveal, WordReveal } from "@/components/motion/reveal";
+import { MODEL_LANGUAGES, VOICE_TECHNOLOGY } from "@/lib/voice-technology";
 
 const LaserHero = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -24,87 +26,79 @@ const LaserHero = () => {
         flare={1.5}
         spread={1.5}
         spill={1.35}
-        fog={1.45}
-        dust={1.6}
+        fog={0.45}
+        dust={0.25}
         beamWidth={1.4}
         streaks={1.1}
-        dots={1}
-        pulse={1.5}
-        speed={2.4}
+        dots={0.2}
+        pulse={0.35}
+        speed={0.55}
         seed={17}
         mouseInteraction
         intro
       />
 
-      {/* Hero content */}
-      <div className="pointer-events-none absolute left-[7%] top-[15%] z-10 max-w-[680px] md:left-[8%] md:top-[14%]">
-        <div className="pointer-events-auto">
+      {/* Hero content: CSS-only entrance so copy is never hidden waiting for JS. */}
+      <div className="pointer-events-none relative z-10 mx-[7%] max-w-[680px] pb-12 pt-32 md:absolute md:left-[8%] md:right-[7%] md:top-[14%] md:mx-0 md:pb-0 md:pt-0">
+        <ScrollReveal trigger="load" className="pointer-events-auto">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[11px] font-medium tracking-[0.12em] text-white/75 backdrop-blur-md">
             <span className="size-1.5 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.7)]" />
             AI VOICE INFRASTRUCTURE
           </span>
-        </div>
+        </ScrollReveal>
 
-        <h1 className="mt-6 bg-gradient-to-b from-white via-white to-white/65 bg-clip-text text-5xl font-semibold leading-[1.02] tracking-[-0.055em] text-transparent sm:text-6xl md:text-7xl">
-          Give intelligence
+        <h1 className="mt-6 text-5xl font-semibold leading-[1.02] tracking-[-0.055em] text-white sm:text-6xl md:text-7xl">
+          <WordReveal trigger="load" delay={0.08} text="Give intelligence" />
           <br />
-          a natural voice.
+          <WordReveal trigger="load" delay={0.2} text="a natural voice." className="text-white/75" />
         </h1>
 
-        <p className="mt-6 max-w-[520px] text-base leading-relaxed text-white/60 sm:text-lg md:text-xl">
-          Create natural speech, shape unique voice identities, and build
-          intelligent voice experiences. Everything connected through one
-          carefully engineered platform.
-        </p>
+        <ScrollReveal trigger="load" delay={0.38}>
+          <p className="mt-6 max-w-[520px] text-base leading-relaxed text-white/60 sm:text-lg md:text-xl">
+            Multilingual speech, thoughtfully engineered. Explore the Chatterbox-powered
+            foundation behind Miralas, with {MODEL_LANGUAGES.length} model-supported
+            languages and native Uzbek speech in development.
+          </p>
+        </ScrollReveal>
 
-        <div className="pointer-events-auto mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
-          <a
-            href="/studio"
-            className="group inline-flex items-center gap-3 rounded-full px-3.5 py-2 text-sm font-semibold text-[#241207] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)]"
-            style={{
-              background:
-                "linear-gradient(100deg, #d6d6d8 0%, #f0f0f0 55%, #fff0dc 100%)",
-              boxShadow:
-                "0 0 30px rgba(249,115,22,0.32), inset 0 0 0 1px rgba(255,255,255,0.45)",
-            }}
-          >
-            Explore the Studio
-            <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </a>
+        <ScrollReveal trigger="load" delay={0.5}>
+          <div className="pointer-events-auto mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
+            <a
+              href={VOICE_TECHNOLOGY.consoleUrl}
+              className="group inline-flex min-h-10 items-center gap-3 rounded-full px-4 py-2 text-sm font-semibold text-[#241207] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]"
+              style={{
+                background:
+                  "linear-gradient(100deg, #d6d6d8 0%, #f0f0f0 55%, #fff0dc 100%)",
+                boxShadow:
+                  "0 0 30px rgba(249,115,22,0.32), inset 0 0 0 1px rgba(255,255,255,0.45)",
+              }}
+            >
+              Console access
+            </a>
 
-          <a
-            href="#voice-demo"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition duration-300 hover:border-white/35 hover:bg-white/[0.08] hover:text-white"
-          >
-            Experience the voice
-          </a>
-        </div>
+            <a
+              href="#technology"
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition duration-300 hover:border-white/35 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]"
+            >
+              Explore the technology
+            </a>
+          </div>
 
-        {/* Capability labels */}
-        {/* <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-medium tracking-[0.16em] text-white/40 sm:text-[11px]">
-          <span>TEXT TO SPEECH</span>
-          <span className="size-1 rounded-full bg-white/25" />
-          <span>VOICE CLONING</span>
-          <span className="size-1 rounded-full bg-white/25" />
-          <span>SPEECH TO SPEECH</span>
-          <span className="size-1 rounded-full bg-white/25" />
-          <span>VOICE AGENTS</span>
-        </div> */}
+          <p className="mt-4 text-sm text-white/60">
+            Public access is not confirmed. See the{" "}
+            <a href="/resources/changelog" className="pointer-events-auto underline underline-offset-4 hover:text-white">
+              development updates
+            </a>
+            .
+          </p>
+        </ScrollReveal>
       </div>
 
       {/* Voice Studio preview */}
       <div
         id="voice-demo"
         ref={cardRef}
-        className="absolute overflow-hidden rounded-t-[18px] border border-white/[0.09] bg-[#0b0b0d] shadow-[0_-20px_100px_rgba(0,0,0,0.35)]"
-        style={{
-          left: "18%",
-          right: "12%",
-          top: "55%",
-          bottom: "-24px",
-        }}
+        className="relative mx-[5%] h-[280px] overflow-hidden sm:h-[380px] md:absolute md:bottom-[-24px] md:mx-0 md:h-auto rounded-t-[18px] md:left-[18%] md:right-[12%] md:top-[65%] border border-white/[0.09] bg-[#0b0b0d] shadow-[0_-20px_100px_rgba(0,0,0,0.35)]"
       >
         <VoiceStudioDemo />
       </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal as Reveal } from "@/components/motion/reveal";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
@@ -19,28 +21,6 @@ import {
 
 import RobotEyes from "@/components/shared/robot-eyes";
 
-type RevealProps = {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-};
-
-function Reveal({ children, className = "", delay = 0 }: RevealProps) {
-  const reduce = useReducedMotion();
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 22 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.16 }}
-      transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function CinematicVideo({
   src,
   poster,
@@ -57,7 +37,8 @@ function CinematicVideo({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reduce) return;
+    if (!video) return;
+    if (reduce) { video.pause(); return; }
 
     if (!("IntersectionObserver" in window)) {
       video.play().catch(() => undefined);
@@ -73,7 +54,7 @@ function CinematicVideo({
     );
 
     observer.observe(video);
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); video.pause(); };
   }, [reduce]);
 
   return (
@@ -186,7 +167,7 @@ export default function VoiceAgentPage() {
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pb-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-12">
           <div className="relative z-10 max-w-2xl">
-            <Reveal>
+            <Reveal trigger="load">
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/55 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-600 backdrop-blur-md dark:border-white/10 dark:bg-white/[0.045] dark:text-neutral-300">
                 <span className="size-1.5 rounded-full bg-neutral-800 dark:bg-neutral-200" />
                 Miransas · Voice Agent
@@ -196,7 +177,7 @@ export default function VoiceAgentPage() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.08}>
+            <Reveal trigger="load" delay={0.08}>
               <h1 className="mt-7 text-[clamp(3.1rem,6.8vw,6.35rem)] font-semibold leading-[0.94] tracking-[-0.075em] text-neutral-950 dark:text-white">
                 Conversations
                 <span className="block text-neutral-500 dark:text-neutral-400">
@@ -205,7 +186,7 @@ export default function VoiceAgentPage() {
               </h1>
             </Reveal>
 
-            <Reveal delay={0.16}>
+            <Reveal trigger="load" delay={0.16}>
               <p className="mt-7 max-w-xl text-base leading-8 text-neutral-600 dark:text-neutral-400 sm:text-lg">
                 Miransas is developing voice agents that can understand a
                 caller&apos;s intent, follow defined workflows and bring a person
@@ -214,7 +195,7 @@ export default function VoiceAgentPage() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.24}>
+            <Reveal trigger="load" delay={0.24}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Link
                   href="/resources/changelog"
@@ -233,7 +214,7 @@ export default function VoiceAgentPage() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.32}>
+            <Reveal trigger="load" delay={0.32}>
               <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:border-white/10 dark:text-neutral-500">
                 <span>Listen</span>
                 <span className="text-neutral-300 dark:text-neutral-700">/</span>
@@ -245,7 +226,7 @@ export default function VoiceAgentPage() {
           </div>
 
           {/* RobotEyes — product identity, not a mascot illustration */}
-          <Reveal delay={0.12} className="relative">
+          <Reveal trigger="load" delay={0.12} className="relative">
             <div className="relative mx-auto flex min-h-[440px] w-full max-w-[620px] items-center justify-center overflow-hidden rounded-[30px] border border-black/10 bg-[#0A0A0B] shadow-[0_35px_100px_-45px_rgba(0,0,0,0.42)] dark:border-white/10 dark:shadow-[0_35px_110px_-45px_rgba(0,0,0,0.85)] sm:min-h-[520px] sm:rounded-[34px]">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_43%,rgba(255,255,255,0.09),transparent_48%)]" />
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />

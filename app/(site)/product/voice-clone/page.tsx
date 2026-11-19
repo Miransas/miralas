@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal as Reveal } from "@/components/motion/reveal";
+
 import { useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -14,28 +16,6 @@ import {
   ShieldCheck,
   Waves,
 } from "lucide-react";
-
-type RevealProps = {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-};
-
-function Reveal({ children, className = "", delay = 0 }: RevealProps) {
-  const reduce = useReducedMotion();
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 22 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 function CinematicVideo({
   src,
@@ -53,7 +33,8 @@ function CinematicVideo({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reduce) return;
+    if (!video) return;
+    if (reduce) { video.pause(); return; }
 
     if (!("IntersectionObserver" in window)) {
       video.play().catch(() => undefined);
@@ -69,7 +50,7 @@ function CinematicVideo({
     );
 
     observer.observe(video);
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); video.pause(); };
   }, [reduce]);
 
   return (
@@ -166,7 +147,7 @@ export default function VoiceClonePage() {
       <section className="relative border-b border-black/[0.06] pb-16 pt-32 dark:border-white/[0.07] sm:pb-20 sm:pt-36">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <div className="mx-auto max-w-4xl text-center">
-            <Reveal>
+            <Reveal trigger="load">
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/55 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-600 backdrop-blur-md dark:border-white/10 dark:bg-white/[0.045] dark:text-neutral-300">
                 <span className="size-1.5 rounded-full bg-neutral-800 dark:bg-neutral-200" />
                 Miransas · Voice Cloning
@@ -176,14 +157,14 @@ export default function VoiceClonePage() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.08}>
+            <Reveal trigger="load" delay={0.08}>
               <h1 className="mt-7 text-[clamp(3.2rem,7vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.075em] text-neutral-950 dark:text-white">
                 A voice has
                 <span className="block text-neutral-500 dark:text-neutral-400">a signature.</span>
               </h1>
             </Reveal>
 
-            <Reveal delay={0.16}>
+            <Reveal trigger="load" delay={0.16}>
               <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-neutral-600 dark:text-neutral-400 sm:text-lg">
                 Create a reusable voice identity from a recording you own or are
                 explicitly authorized to use. Miransas is developing a voice
@@ -192,13 +173,13 @@ export default function VoiceClonePage() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.24}>
+            <Reveal trigger="load" delay={0.24}>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <Link
-                  href="/studio"
+                  href="https://console.miralas.io"
                   className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:bg-black dark:bg-white dark:text-[#080808] dark:hover:bg-neutral-200"
                 >
-                  Explore Studio
+                  View Console access
                   <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
                 <a
@@ -212,7 +193,7 @@ export default function VoiceClonePage() {
             </Reveal>
           </div>
 
-          <Reveal delay={0.12} className="mt-14 sm:mt-16">
+          <Reveal trigger="load" delay={0.12} className="mt-14 sm:mt-16">
             <div className="relative isolate aspect-[16/9] min-h-[280px] overflow-hidden rounded-[28px] border border-black/10 bg-[#090909] shadow-[0_35px_100px_-45px_rgba(0,0,0,0.38)] dark:border-white/10 dark:shadow-[0_35px_110px_-45px_rgba(0,0,0,0.85)] sm:aspect-[2.05/1] sm:rounded-[34px]">
               <CinematicVideo
                 src="/voice-clone.mp4"
@@ -446,10 +427,10 @@ export default function VoiceClonePage() {
                 <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
               <Link
-                href="/studio"
+                href="https://console.miralas.io"
                 className="inline-flex h-12 items-center rounded-full border border-black/10 bg-white/45 px-6 text-sm font-medium text-neutral-700 transition-colors hover:bg-white/80 dark:border-white/15 dark:bg-white/[0.035] dark:text-neutral-300 dark:hover:bg-white/[0.08]"
               >
-                Explore Studio
+                View Console access
               </Link>
             </div>
           </Reveal>

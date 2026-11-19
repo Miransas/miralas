@@ -1,111 +1,57 @@
-# Miralas
+# Miralas public website
 
-**Voice AI infrastructure for text-to-speech, voice cloning, and live creator workflows.**
+The public Miralas marketing website and documentation, built by [Miransas](https://miransas.com). This is separate from Miralas Console and does not contain authenticated workspaces, private Rust services, model inference, billing or deployment secrets.
 
-Miralas is a voice platform by [Miransas](https://miransas.com). This repository contains the public web application for Miralas: the marketing site, product pages, Studio previews, resource pages, and console entry points.
+## Product status and content sources
 
-The production system behind Miralas uses a Rust backend for low-latency API, streaming, and donation workflows. Model inference is handled separately, with Miralas using Resemble AI's Chatterbox family as the base text-to-speech and voice cloning model.
+The current engineering baseline supplied for the website refinement identifies:
 
-## Product Areas
+- Chatterbox Multilingual as the active engine; approved checkpoint `t3_mtl23ls_v2.safetensors`.
+- 23 model-supported languages. This describes model coverage, not a public voice inventory.
+- A Rust API and Python inference worker connected through gRPC.
+- Validated 24 kHz mono PCM16 output.
+- Implemented Voice Catalog infrastructure; published curated voice seeds remain unverified.
+- Completed Docker/CUDA benchmark preparation; real NVIDIA GPU benchmarks remain pending.
 
-- **Studio** - text-to-speech, voice cloning, and model exploration pages.
-- **Products** - API platform and Stream Donate experience for live creators.
-- **Resources** - guides, changelog, media, support, and company information.
-- **Console links** - entry points to the hosted Miralas console for generation, projects, and creator workflows.
+The private service implementation is outside this checkout, so its engineering baseline is supplied context, not a new independent backend audit. Public Console/API access is not confirmed. Links to the existing `https://console.miralas.io` origin identify the access destination without promising public sign-up or specific workspace routes.
 
-## Model
+**Uzbek Speech — In Development.** We're working toward native Uzbek speech capabilities through research, data collection and model evaluation. Uzbek is not one of the current engine's supported languages and is not available for production inference.
 
-Miralas uses **Resemble AI Chatterbox** as its base model layer:
+Qwen, CosyVoice and Miransas-native models are future research plans, not shipped integrations. Do not publish latency, throughput, customer counts or model superiority claims without supporting evidence.
 
-- Model page: [resemble.ai/learn/models/chatterbox](https://www.resemble.ai/learn/models/chatterbox)
-- Source: [github.com/resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox)
-- License: MIT
+Upstream facts checked on November 18, 2026:
 
-Chatterbox provides open-source TTS and zero-shot voice cloning capabilities. Miralas builds product workflows, backend services, streaming APIs, and language/domain tuning around that model layer.
+- [Chatterbox multilingual implementation](https://github.com/resemble-ai/chatterbox/blob/master/src/chatterbox/mtl_tts.py): language list and V2 checkpoint asset name.
+- [Chatterbox sample-rate constant](https://github.com/resemble-ai/chatterbox/blob/master/src/chatterbox/models/s3gen/const.py): 24,000 Hz. This does not independently establish Miralas' PCM encoding or service performance.
+- [Chatterbox source and MIT license](https://github.com/resemble-ai/chatterbox): upstream project. Upstream releases do not imply automatic Miralas integration.
 
-## Tech Stack
+Shared website facts live in `lib/voice-technology.ts`. Keep the FAQ, documentation and metadata consistent when product availability changes.
 
-- **Next.js 16** with the App Router
-- **React 19**
-- **TypeScript**
-- **Tailwind CSS v4**
-- **Framer Motion**
-- **Three.js / React Three Fiber** for richer interactive surfaces
-- **Rust backend** for API, gRPC streaming, donation events, and real-time infrastructure
-- **Python inference service** for AI model execution around Chatterbox
+## Development
 
-## App Routes
+Stack: Next.js 16 App Router, React, TypeScript, Tailwind CSS v4 and Framer Motion. Read `AGENTS.md` and the relevant installed Next.js documentation before modifying the application.
 
-```text
-/
-/pricing
-/products
-/products/api
-/products/donate
-/resources/about
-/resources/changelog
-/resources/guides
-/resources/help-center
-/resources/media
-/resources/support
-/solutions
-/studio
-/studio/models
-/studio/tts
-/studio/voice-clone
-```
-
-## Local Development
-
-Install dependencies:
-
-```bash
+```sh
 pnpm install
-```
-
-Start the development server:
-
-```bash
 pnpm dev
-```
-
-The site runs at:
-
-```text
-http://localhost:3000
-```
-
-Useful scripts:
-
-```bash
-pnpm build
+pnpm exec tsc --noEmit
 pnpm lint
-pnpm start
+pnpm build
 ```
 
-## Project Structure
+The local server runs at `http://localhost:3000`. The build needs Google Fonts access and local worker ports for MDX compilation. There is no component-test runner configured. If pnpm's package-manager version bootstrap is unavailable, the installed binaries can be run directly with Node.
 
-```text
-miralas/
-├── app/                 # Next.js app routes and pages
-├── components/          # Shared layout and UI components
-├── lib/                 # Shared utilities
-├── public/              # Static assets
-├── README.md
-├── license
-└── package.json
-```
+## Public routes
 
-## Repository Scope
+- `/`, `/product`, `/product/tts`, `/product/voice-clone`, `/product/models`, `/product/api`, `/product/agent`
+- `/pricing`, `/solutions` and its use-case pages
+- `/resources/about`, `/resources/changelog`, `/resources/guides`, `/resources/help-center`, `/resources/media`, `/resources/support`, `/resources/contact`
+- `/docs/getting-started`, `/docs/tts`, `/docs/speech-to-speech`
 
-This repository is the public web surface for Miralas. It does not include the full production console, billing system, private Rust services, or deployment secrets.
+## Motion and accessibility
+
+`components/motion/reveal.tsx` supplies viewport-triggered `ScrollReveal` and `WordReveal` primitives. Server HTML starts visible, word effects retain a single accessible text label, transforms reserve layout space and reduced-motion preferences show content immediately. Native page scrolling preserves keyboard, touch and reduced-motion behavior. Decorative audio diagrams are static; the existing laser hero and video identity are retained.
 
 ## License
 
-This repository is released under the MIT License. See [license](./license).
-
-Miralas and Miransas names, logos, product names, and brand assets are not licensed for third-party use except with written permission. Resemble AI Chatterbox is a third-party MIT-licensed model and remains copyright Resemble AI.
-
----
-
-Built by [Miransas](https://miransas.com) for [Miralas](https://miralas.io).
+The repository uses the MIT License; see `license`. Miralas and Miransas names, logos, product names and brand assets are not licensed for third-party use without permission. Chatterbox remains a third-party model under its own MIT license.

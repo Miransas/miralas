@@ -50,7 +50,8 @@ export default function VoiceStudioDemo() {
       <video
         ref={videoRef}
         src="/hero.mp4"
-        poster="/miralas-story-poster.jpg"   
+        poster="/portraits/hero.png"
+        muted
         loop
      
         playsInline

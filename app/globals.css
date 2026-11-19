@@ -9,10 +9,10 @@
 /* -------------------------------------------------------------------------- */
 @theme {
   /* Plus Jakarta Sans is the primary brand font. Plex/mono are for technical UI. */
-  --font-sans: var(--font-jakarta, "Plus Jakarta Sans"), "Inter", ui-sans-serif,
+  --font-sans: var(--font-sans-runtime, "Plus Jakarta Sans"), "Inter", ui-sans-serif,
     system-ui, sans-serif;
   --font-plex: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono, "JetBrains Mono"), "IBM Plex Mono",
+  --font-mono: var(--font-mono-runtime, "IBM Plex Mono"), "IBM Plex Mono",
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --color-background: var(--background);
@@ -255,6 +255,19 @@
   animation-play-state: paused;
 }
 
+/* Above-the-fold entrance for components/motion/reveal.tsx (trigger="load").  */
+/* CSS-only so it runs on first paint, before hydration, and ends visible.     */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-distance, 0.35em), 0);
+  }
+}
+
+.reveal-rise {
+  animation: reveal-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Lenis */
 html.lenis,
 html.lenis body {
@@ -305,7 +318,8 @@ html.lenis.lenis-stopped {
   .marquee-up-container,
   .marquee-down-container,
   .animate-waveform,
-  .animate-card-float {
+  .animate-card-float,
+  .reveal-rise {
     animation: none !important;
     transform: none !important;
   }

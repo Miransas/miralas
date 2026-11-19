@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Miralas is an AI voice platform built by Miransas for creating natural, expressive and production-ready voice experiences, with Uzbek-first speech and developer infrastructure.",
+    "Explore Miralas multilingual voice technology powered by Chatterbox. 23 model-supported languages, with native Uzbek speech in development.",
 
   applicationName: "Miralas Voice",
 

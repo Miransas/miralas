@@ -10,20 +10,20 @@ export const HERO_HIGHLIGHTS: HeroHighlight[] = [
   {
     iconName: "Mic",
     badge: "Neural TTS",
-    title: "Ultra-Realistic Speech",
-    description: "Context-aware pronunciation and emotional cadence tuned for natural delivery.",
+    title: "Multilingual Speech",
+    description: "Speech generation powered by Chatterbox Multilingual.",
   },
   {
     iconName: "Waves",
-    badge: "<50ms Latency",
-    title: "Real-Time Streaming",
-    description: "gRPC & WebSocket streaming for interactive voice bots and live audio.",
+    badge: "Rust + Python",
+    title: "API Architecture",
+    description: "Rust API connected to Python inference over gRPC. GPU performance validation remains pending.",
   },
   {
     iconName: "ShieldCheck",
-    badge: "Enterprise",
-    title: "Instant Voice Cloning",
-    description: "Clone voices from 30s of sample audio with enterprise-grade privacy.",
+    badge: "In Development",
+    title: "Voice Identity",
+    description: "A reference-based voice workflow in development. Use recordings with permission.",
   },
 ];
 
@@ -32,9 +32,9 @@ export const HERO_CONTENT = {
   title: "Intelligence",
   titleItalic: "in motion",
   description:
-    "Advanced text-to-speech real-time voice cloning and multilingual infrastructure in one platform Natural expressive speech  built for next-generation applications",
-  primaryCta: "Get Started",
-  primaryCtaHref: "/login",
-  secondaryCta: "Listen to Demos",
-  secondaryCtaHref: "/login",
+    "Explore multilingual speech technology, with native Uzbek speech in development.",
+  primaryCta: "Explore products",
+  primaryCtaHref: "/product",
+  secondaryCta: "Explore languages",
+  secondaryCtaHref: "/#languages",
 };

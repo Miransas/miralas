@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal as Reveal } from "@/components/motion/reveal";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useId, useState } from "react";
@@ -90,11 +92,11 @@ const capabilities = [
 const faqs = [
   {
     q: "What can I build with the Miransas API?",
-    a: "The API is intended to connect Miransas voice capabilities to your own applications, services and bots. Text-to-speech is the core workflow being developed first; additional voice capabilities will be introduced in stages.",
+    a: "The API architecture is intended to connect Miransas voice capabilities to your own applications, services and bots. Text-to-speech is the core workflow being developed first; additional voice capabilities will be introduced in stages.",
   },
   {
     q: "Which API capabilities are available today?",
-    a: "Availability depends on the current release and access granted to your account. Text-to-speech is in internal testing. Voice cloning and speech-to-speech remain in development, so this page does not present them as generally available endpoints.",
+    a: "Availability depends on the current release and access granted to your account. The engineering baseline uses a Rust API and Python inference worker connected through gRPC. Public API access is not confirmed. Voice cloning and speech-to-speech remain in development, so this page does not present them as generally available endpoints.",
   },
   {
     q: "How should I manage API credentials?",
@@ -113,29 +115,6 @@ const faqs = [
     a: "Visit the developer documentation for the latest integration details and the changelog for product and API release updates. Endpoint names, request fields and response formats should always follow the current documentation.",
   },
 ];
-
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      initial={reduce ? false : { opacity: 0, y: 20 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.16 }}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -257,7 +236,7 @@ export default function ApiPage() {
       {/* HERO */}
       <section className="relative border-b border-black/[0.06] pb-20 pt-36 dark:border-white/[0.08] md:pb-28 md:pt-44">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-12">
-          <Reveal className="relative z-10">
+          <Reveal trigger="load" className="relative z-10">
             <Eyebrow><Code2 className="size-3.5" /> DEVELOPER API</Eyebrow>
             <h1 className="mt-7 max-w-3xl text-[clamp(3.2rem,7vw,6.4rem)] font-semibold leading-[0.94] tracking-[-0.065em] text-[#080809] dark:text-white">
               Voice, built into <span className="text-neutral-400 dark:text-neutral-500">your product.</span>
@@ -279,7 +258,7 @@ export default function ApiPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.12}>
+          <Reveal trigger="load" delay={0.12}>
             <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-[#F7F7F7] p-4 shadow-[0_24px_80px_-46px_rgba(0,0,0,0.22)] dark:border-white/10 dark:bg-[#0D0D0D] dark:shadow-none sm:p-6">
               <div className="flex items-center justify-between border-b border-black/10 px-1 pb-4 dark:border-white/10">
                 <div className="flex items-center gap-2.5">

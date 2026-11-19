@@ -92,15 +92,15 @@ export function Footer({
                 Building with voice?
               </p>
               <p className="mt-1 text-xs leading-5 text-[#77777C] dark:text-[#88888E]">
-                Explore the studio or get in touch with the team.
+                Explore the technology or get in touch with the team.
               </p>
             </div>
             <div className="flex shrink-0 flex-wrap gap-2">
               <Link
-                href="/studio"
+                href="https://console.miralas.io"
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#111111] px-5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFEFEF] dark:bg-white dark:text-[#090909] dark:hover:bg-[#E7E7E7] dark:focus-visible:ring-white/50 dark:focus-visible:ring-offset-[#050505]"
               >
-                Open Studio <ArrowUpRight className="size-4" />
+                Console access <ArrowUpRight className="size-4" />
               </Link>
               {SUPPORT_EMAIL ? (
                 <a

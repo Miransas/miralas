@@ -47,7 +47,7 @@ const SCENES: Scene[] = [
     prompt: "Read this intro in a calm, warm voice.",
     reply: "Done. Here is your intro. Want it a little slower?",
     status: "Text-to-speech",
-    chips: ["English · internal", "Turkish · internal", "Russian · internal", "Uzbek · training"],
+    chips: ["English · internal", "Turkish · internal", "Russian · internal", "Uzbek · in development"],
     video: "/stack-card-1.mp4",
     visualTitle: "Words become voice.",
     visualDescription: "Turn written language into natural-sounding speech.",
@@ -96,7 +96,7 @@ const SCENES: Scene[] = [
     reply:
       "Yes. Uzbek is the first language focus for the voice work. Model training is underway, with progress shared through the product updates.",
     status: "Uzbek voice",
-    chips: ["Uzbek · training"],
+    chips: ["Uzbek · in development"],
     video: "/stack-card-1.mp4",
     visualTitle: "Voice that feels familiar.",
     visualDescription: "A language-first approach to natural Uzbek speech.",

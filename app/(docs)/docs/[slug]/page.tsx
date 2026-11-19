@@ -19,8 +19,9 @@ export default async function DocSlugPage({ params }: { params: Promise<{ slug: 
             description={doc.description}
             slug={doc.slug}
             rawContent={doc.rawContent}
-            mdxSource={doc.mdxSource}
             toc={doc.toc}
-        />
+        >
+            {doc.content}
+        </DocPage>
     );
 }

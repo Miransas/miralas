@@ -316,12 +316,12 @@ function CardThree({ reduceMotion }: { reduceMotion: boolean | null }) {
 
       <div className="relative z-10 grid h-full grid-cols-1 gap-7 overflow-y-auto p-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-7 md:grid-cols-2 md:items-center md:gap-12 md:p-11 lg:p-14">
         <div className="flex flex-col justify-center">
-          <Pill>VOICE CLONING · PROCESS</Pill>
+          <Pill>VOICE CLONING · IN DEVELOPMENT</Pill>
           <Heading>One voice identity. A reusable creative workflow.</Heading>
           <Lead>
             Bring a reference recording into a structured process, review the
             voice profile and generate speech from text. Clear steps keep the
-            experience understandable from start to finish.
+            experience understandable from start to finish. This is a proposed workflow; public cloning access is not confirmed.
           </Lead>
         </div>
 

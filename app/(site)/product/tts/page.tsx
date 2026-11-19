@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal as Reveal } from "@/components/motion/reveal";
+
 import { useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -14,28 +16,6 @@ import {
   Sparkles,
   Volume2,
 } from "lucide-react";
-
-type RevealProps = {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-};
-
-function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const reduce = useReducedMotion();
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 22 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 function CinematicVideo({
   src,
@@ -53,7 +33,8 @@ function CinematicVideo({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reduce) return;
+    if (!video) return;
+    if (reduce) { video.pause(); return; }
 
     if (!("IntersectionObserver" in window)) {
       video.play().catch(() => undefined);
@@ -72,7 +53,7 @@ function CinematicVideo({
     );
 
     observer.observe(video);
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); video.pause(); };
   }, [reduce]);
 
   return (
@@ -144,35 +125,35 @@ export default function TTSPage() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_38%,rgba(255,255,255,0.8),transparent_44%)] dark:bg-[radial-gradient(ellipse_at_72%_38%,rgba(255,255,255,0.07),transparent_44%)]" />
         <div className="relative mx-auto grid min-h-[760px] max-w-7xl items-center gap-12 px-6 pb-24 pt-32 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:px-12">
           <div className="relative z-10 max-w-2xl">
-            <Reveal>
+            <Reveal trigger="load">
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/55 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-600 backdrop-blur-md dark:border-white/10 dark:bg-white/[0.045] dark:text-neutral-300">
                 <span className="size-1.5 rounded-full bg-neutral-800 dark:bg-neutral-200" />
                 Miransas · Text to Speech
               </div>
             </Reveal>
 
-            <Reveal delay={0.08}>
+            <Reveal trigger="load" delay={0.08}>
               <h1 className="mt-7 max-w-[760px] text-[clamp(3.2rem,7vw,6.6rem)] font-semibold leading-[0.96] tracking-[-0.075em] text-neutral-950 dark:text-white">
                 Words become
                 <span className="block text-neutral-500 dark:text-neutral-400">voice.</span>
               </h1>
             </Reveal>
 
-            <Reveal delay={0.16}>
+            <Reveal trigger="load" delay={0.16}>
               <p className="mt-7 max-w-xl text-base leading-8 text-neutral-600 dark:text-neutral-400 sm:text-lg">
                 Turn written language into spoken audio with Miransas Text to
-                Speech. A focused voice workflow for creators, product teams and
+                Speech, powered by Chatterbox Multilingual. Public access is not confirmed. A focused voice workflow for creators, product teams and
                 developers who want their words to be heard.
               </p>
             </Reveal>
 
-            <Reveal delay={0.24}>
+            <Reveal trigger="load" delay={0.24}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Link
-                  href="/studio"
+                  href="https://console.miralas.io"
                   className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:bg-black dark:bg-white dark:text-[#080808] dark:hover:bg-neutral-200"
                 >
-                  Open Studio
+                  Console access
                   <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
                 <a
@@ -185,7 +166,7 @@ export default function TTSPage() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.32}>
+            <Reveal trigger="load" delay={0.32}>
               <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:border-white/10 dark:text-neutral-500">
                 <span>Written input</span>
                 <span className="text-neutral-300 dark:text-neutral-700">/</span>
@@ -196,7 +177,7 @@ export default function TTSPage() {
             </Reveal>
           </div>
 
-          <Reveal delay={0.12} className="relative">
+          <Reveal trigger="load" delay={0.12} className="relative">
             <div className="relative aspect-[4/4.25] min-h-[420px] overflow-hidden rounded-[30px] border border-black/10 bg-[#111111] shadow-[0_35px_100px_-45px_rgba(0,0,0,0.38)] dark:border-white/10 dark:shadow-[0_35px_110px_-45px_rgba(0,0,0,0.85)] sm:aspect-[5/4] lg:aspect-[0.95/1]">
               <CinematicVideo
                 src="/stack-card-1.mp4"
@@ -287,8 +268,8 @@ export default function TTSPage() {
                 the words, choose an available voice, then create and review
                 your audio.
               </p>
-              <Link href="/studio" className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 transition-colors hover:text-neutral-500 dark:text-white dark:hover:text-neutral-300">
-                Try the Studio
+              <Link href="https://console.miralas.io" className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 transition-colors hover:text-neutral-500 dark:text-white dark:hover:text-neutral-300">
+                View Console access
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Reveal>
@@ -332,19 +313,18 @@ export default function TTSPage() {
           <Reveal delay={0.1}>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-500">A language with a place of its own</p>
             <h2 className="mt-5 max-w-xl text-4xl font-semibold leading-[1.03] tracking-[-0.06em] text-neutral-950 dark:text-white sm:text-5xl">
-              Uzbek is where our work begins.
+              Uzbek Speech — In Development
             </h2>
             <p className="mt-6 max-w-xl text-base leading-8 text-neutral-600 dark:text-neutral-400">
-              We believe language deserves more than an afterthought. Uzbek is
-              Miransas&apos; first language focus, and model training is in
-              progress. We will share availability and supported workflows as
-              they are ready.
+              We're working toward native Uzbek speech capabilities through
+              research, data collection and model evaluation. Uzbek is separate
+              from the engine's 23 supported languages and is not available for production inference.
             </p>
             <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-3 text-sm text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-300">
               <span className="grid size-7 place-items-center rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">
                 <Languages className="size-3.5" />
               </span>
-              <span className="font-medium">Uzbek · Model training in progress</span>
+              <span className="font-medium">Research · Not available for inference</span>
             </div>
           </Reveal>
         </div>
@@ -394,8 +374,8 @@ export default function TTSPage() {
                 voice generation tools.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/studio" className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-neutral-950 transition hover:-translate-y-0.5 hover:bg-neutral-200">
-                  Open Studio <ArrowUpRight className="size-4" />
+                <Link href="https://console.miralas.io" className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-neutral-950 transition hover:-translate-y-0.5 hover:bg-neutral-200">
+                  Console access <ArrowUpRight className="size-4" />
                 </Link>
                 <Link href="/resources/changelog" className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-medium text-white/80 transition hover:border-white/40 hover:bg-white/[0.06] hover:text-white">
                   Follow development <ArrowRight className="size-4" />
