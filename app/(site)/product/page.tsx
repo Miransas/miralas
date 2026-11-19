@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ScrollReveal, WordReveal } from "@/components/motion/reveal";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Voice Technology & Products",
-  description: "Explore Miralas multilingual speech technology and the development status of voice cloning, API access and voice agents.",
-};
+  description:
+    "Explore Miralas multilingual speech technology powered by Chatterbox, plus the development status of voice cloning, developer API access, and voice agents.",
+  path: "/product",
+});
 
 const products = [
   { title: "Text to speech", status: "Active engine · Public access unconfirmed", description: "Chatterbox Multilingual powers the current speech engine, with 23 model-supported languages.", href: "/product/tts" },

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
 import { HelpCenter } from "@/components/resources/help-center";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Help Center",
   description:
-    "Answers about Miralas: what works today, what is still in development, and how we handle voices and data.",
-};
+    "Clear answers about Miralas voice technology: current Chatterbox Multilingual capabilities, Uzbek speech development status, permissions, and data handling.",
+  path: "/resources/help-center",
+});
 
 export default function HelpCenterPage() {
   return (

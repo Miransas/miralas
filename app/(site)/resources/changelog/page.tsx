@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-
-
+import { createPageMetadata } from "@/lib/seo";
 import Changelog from "./changelog.mdx";
 
-export const metadata: Metadata = {
-  title: "Changelog",
-  description: "Everything that ships, changes or goes away at Miralas.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Changelog & Updates",
+  description:
+    "Follow Miralas engineering milestones, website updates, Chatterbox Multilingual baseline notes, and progress on native Uzbek speech research and validation.",
+  path: "/resources/changelog",
+});
 
 export default function ChangelogPage() {
   return (

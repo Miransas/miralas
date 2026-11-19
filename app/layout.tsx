@@ -7,6 +7,14 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { MotionProvider } from "@/components/motion/primitives";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
+import {
+  BRAND_NAME,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  DEFAULT_TITLE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 import { cn } from "../lib/utils";
 import { PageViewTracker } from "../components/providers/page-view-tracker";
 import { CookieConsent } from "../components/providers/cookie-consent";
@@ -32,42 +40,28 @@ const plexMono = IBM_Plex_Mono({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://miralas.io"),
+  metadataBase: new URL(SITE_URL),
 
   title: {
-    default: "Miralas Voice — AI Voice Infrastructure",
-    template: "%s — Miralas Voice",
+    default: DEFAULT_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
 
-  description:
-    "Explore Miralas multilingual voice technology powered by Chatterbox. 23 model-supported languages, with native Uzbek speech in development.",
+  description: DEFAULT_DESCRIPTION,
 
-  applicationName: "Miralas Voice",
+  applicationName: SITE_NAME,
 
   authors: [
     {
-      name: "Miransas",
+      name: BRAND_NAME,
       url: "https://miransas.com",
     },
   ],
 
-  creator: "Miransas",
-  publisher: "Miransas",
+  creator: BRAND_NAME,
+  publisher: BRAND_NAME,
 
-  keywords: [
-    "Miralas",
-    "Miralas Voice",
-    "AI voice",
-    "voice AI",
-    "text to speech",
-    "Uzbek TTS",
-    "Uzbek voice",
-    "voice generation",
-    "voice cloning",
-    "AI speech",
-    "developer API",
-    "Miransas",
-  ],
+  keywords: DEFAULT_KEYWORDS,
 
   icons: {
     icon: [
@@ -104,6 +98,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 
   category: "technology",

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { BackLink,EndCTA,FeatureRows,Heading,Hero,PageShell,eyebrow,wrap } from "@/components/solutions/solution-ui";
 import { SolutionFlow } from "@/components/solutions/solution-flow";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Conversational AI Solutions", description: "Explore how conversational voice systems could support product assistants and interactive applications.", openGraph: { title: "Conversational AI | Miralas", description: "From listening to understanding." } };
+export const metadata: Metadata = createPageMetadata({
+  title: "Conversational AI Solutions",
+  description:
+    "Explore Miralas conversational voice research for product assistants, workflow-driven customer interactions, and interactive spoken interfaces in development.",
+  path: "/solutions/voice-agents",
+});
 const architecture = ["Audio input", "Speech recognition", "Intelligence layer", "Speech synthesis", "Audio output"];
 const uses = [
   { number: "01", title: "Product assistants", description: "Explore a more conversational way for people to navigate a product and find the information they need." },

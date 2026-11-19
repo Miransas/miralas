@@ -1330,7 +1330,7 @@ export default function MiransasComingSoon(props: MiransasComingSoonProps) {
       <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{imageAlt}</span>
 
       <div className="ms-content">
-        <h1 className="ms-brand">{brand}</h1>
+        <p className="ms-brand">{brand}</p>
         <p className="ms-msg">{message}</p>
       </div>
     </section>

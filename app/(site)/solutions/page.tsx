@@ -3,8 +3,14 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { HEADER_NAV_ITEMS } from "@/constants/navbar";
 import { EndCTA,Hero,PageShell,eyebrow,wrap } from "@/components/solutions/solution-ui";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Solutions", description: "Explore potential voice AI applications for creators, interactive experiences, businesses and developers.", openGraph: { title: "Solutions | Miralas", description: "Voice AI for the way you build." } };
+export const metadata: Metadata = createPageMetadata({
+  title: "Voice AI Solutions",
+  description:
+    "Explore potential Miralas voice AI applications across content creation, streaming, conversational systems, enterprise brand voices, and digital products.",
+  path: "/solutions",
+});
 const descriptions = ["Create voiceovers, explore multilingual content workflows, and simplify audio production.", "Explore interactive voice experiences for streams, games, and digital characters.", "Explore conversational voice systems still in development.", "Explore controlled voice identities for brands and professional teams.", "Discover additional possibilities for integrating voice into digital products."];
 
 export default function SolutionsPage() {

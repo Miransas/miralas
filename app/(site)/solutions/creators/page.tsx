@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { BackLink,EndCTA,FeatureRows,Heading,Hero,PageShell,eyebrow,wrap } from "@/components/solutions/solution-ui";
 import { SolutionFlow } from "@/components/solutions/solution-flow";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Voice AI for Content Creators", description: "Explore potential voice workflows for narration, podcasts, video and multilingual content.", openGraph: { title: "For Content Creators | Miralas", description: "Make your content heard." } };
+export const metadata: Metadata = createPageMetadata({
+  title: "Voice AI for Content Creators",
+  description:
+    "Explore potential Miralas voice workflows for narration, podcasts, audiobooks, video voiceovers, and multilingual creator audio production as features roll out.",
+  path: "/solutions/creators",
+});
 const uses = [
   { number: "01", title: "Voiceovers", description: "Text-to-speech can offer a starting point for narration, helping creators explore how a script could sound alongside their visual work." },
   { number: "02", title: "Podcasts & audiobooks", description: "Imagine bringing voice into longer-form production, from an introduction to narrated passages. Supported lengths and workflows depend on the product release." },

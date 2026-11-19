@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ScrollReveal, WordReveal } from "@/components/motion/reveal";
+import { createPageMetadata } from "@/lib/seo";
 import { MODEL_LANGUAGES, VOICE_TECHNOLOGY } from "@/lib/voice-technology";
 
-export const metadata: Metadata = {
-  title: "Voice Models",
-  description: "The active Chatterbox Multilingual engine behind Miralas: 23 model-supported languages, approved model assets and a clear research roadmap.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Voice Models & Active Engine",
+  description:
+    "Inspect the active Chatterbox Multilingual engine powering Miralas: 23 model-supported languages, 24 kHz mono PCM16 output, and ongoing Uzbek speech research.",
+  path: "/product/models",
+});
 
 export default function ModelsPage() {
   return (

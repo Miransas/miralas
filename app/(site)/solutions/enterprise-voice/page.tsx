@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { BackLink,EndCTA,FeatureRows,Heading,Hero,PageShell,eyebrow,wrap } from "@/components/solutions/solution-ui";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Enterprise Brand Voices", description: "Explore responsible voice identity concepts for brands, professional content and digital products.", openGraph: { title: "Enterprise Brand Voices | Miralas", description: "A voice that belongs to your brand." } };
+export const metadata: Metadata = createPageMetadata({
+  title: "Enterprise Brand Voices",
+  description:
+    "Explore consent-first voice identity concepts for organizations, brand consistency, and controlled audio creation with Miralas voice infrastructure research.",
+  path: "/solutions/enterprise-voice",
+});
 const principles = [
   { number: "01", title: "Voice identity", description: "A recognizable voice can express a brand's character through tone, pacing and delivery, helping connect separate experiences." },
   { number: "02", title: "Brand consistency", description: "Consider how a consistent voice identity could extend across content, interfaces and other professional communications." },

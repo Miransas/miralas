@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function Page() {
-  redirect("/product/about");
+export default function ResourcesIndexPage() {
+  redirect("/resources/about");
 }

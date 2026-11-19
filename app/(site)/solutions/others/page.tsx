@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { BackLink,EndCTA,Hero,PageShell,eyebrow,wrap } from "@/components/solutions/solution-ui";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "More Voice AI Applications", description: "Discover potential applications of voice AI in education, accessibility, storytelling and digital products.", openGraph: { title: "More Possibilities | Miralas", description: "Voice belongs everywhere." } };
+export const metadata: Metadata = createPageMetadata({
+  title: "More Voice AI Applications",
+  description:
+    "Discover potential Miralas voice AI applications in education, spoken accessibility, digital storytelling, and custom audio workflows across modern products.",
+  path: "/solutions/others",
+});
 const ideas = [
   ["Education", "Bring an audio dimension to lessons and learning materials."],
   ["Accessibility", "Explore spoken interfaces that offer another way to engage with content."],

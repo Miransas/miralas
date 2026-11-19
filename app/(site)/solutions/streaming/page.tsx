@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { BackLink,EndCTA,FeatureRows,Heading,Hero,PageShell,wrap } from "@/components/solutions/solution-ui";
 import { DialoguePreview } from "@/components/solutions/dialogue-preview";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Voice AI for Streaming & Gaming", description: "Explore potential voice experiences for streams, game characters and interactive media.", openGraph: { title: "Streaming & Gaming | Miralas", description: "Give every interaction a voice." } };
+export const metadata: Metadata = createPageMetadata({
+  title: "Voice AI for Streaming & Gaming",
+  description:
+    "Explore potential Miralas voice experiences for live streams, game characters, and interactive media. Real-time streaming capabilities remain in development.",
+  path: "/solutions/streaming",
+});
 const uses = [
   { number: "01", title: "Interactive streaming", description: "Imagine audience messages and alerts becoming part of the experience. Streaming platform integrations are not currently confirmed." },
   { number: "02", title: "Game characters", description: "Explore the possibility of giving characters a voice that responds to the world around them, from scripted moments to imagined conversations." },
