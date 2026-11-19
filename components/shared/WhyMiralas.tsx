@@ -1,9 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import {
+  DURATION_UI,
+  EASE_OUT_EXPO,
+  VIEWPORT_EARLY,
+  VIEWPORT_ONCE,
+  cardReveal,
+  headingReveal,
+  staggerContainer,
+} from '@/lib/motion';
+
+const sectionStagger = staggerContainer(0.06);
 
 // Görseller public/studio/ klasöründe olmalı.
 // Örnek: public/studio/blue.png -> /studio/blue.png
@@ -126,15 +137,20 @@ export default function WhyMiransas() {
     setActive(i);
   };
 
-  const close = useCallback(() => {
+  const close = () => {
     setActive(null);
     lastTrigger.current?.focus();
-  }, []);
+  };
 
-  // ESC, scroll kilidi, odak
+  // ESC, scroll lock, focus restoration
   useEffect(() => {
     if (active === null) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActive(null);
+        lastTrigger.current?.focus();
+      }
+    };
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -143,7 +159,7 @@ export default function WhyMiransas() {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
     };
-  }, [active, close]);
+  }, [active]);
 
   const scrollByCard = (dir: 1 | -1) => {
     const el = scrollerRef.current;
@@ -154,38 +170,52 @@ export default function WhyMiransas() {
   const current = active !== null ? cards[active] : null;
 
   return (
-    <section className="bg-[#EFEFEF] py-20 text-[#1d1d1f] transition-colors dark:bg-[#050505] dark:text-white md:py-28">
+    <section className="overflow-x-clip bg-[#EFEFEF] py-20 text-[#1d1d1f] dark:bg-[#050505] dark:text-white md:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Başlık */}
-        <div className="flex items-end justify-between gap-6">
-          <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
+        {/* Heading */}
+        <motion.div
+          variants={sectionStagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+          className="flex items-end justify-between gap-6"
+        >
+          <motion.h2
+            variants={headingReveal}
+            className="text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl"
+          >
             Why people choose
             <br />
             Miransas.
-          </h2>
-          <Link
-            href="/product"
-            className="shrink-0 pb-2 text-base font-medium underline-offset-4 hover:underline"
-          >
-            Explore products ›
-          </Link>
-        </div>
+          </motion.h2>
+          <motion.div variants={headingReveal} className="shrink-0 pb-2">
+            <Link
+              href="/product"
+              className="group inline-flex items-center gap-1 text-base font-medium underline-offset-4 hover:underline"
+            >
+              <span>Explore products</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">›</span>
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Kartlar */}
-      <div
+      {/* Horizontal card strip — overscroll-x-contain prevents locking vertical scroll */}
+      <motion.div
         ref={scrollerRef}
-        className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-6 pb-4 [scrollbar-width:none] md:mt-16 md:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] [&::-webkit-scrollbar]:hidden"
+        variants={sectionStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VIEWPORT_EARLY}
+        style={{ WebkitOverflowScrolling: 'touch' }}
+        className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain px-6 pb-4 [scrollbar-width:none] md:mt-16 md:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] [&::-webkit-scrollbar]:hidden"
       >
         {cards.map((c, i) => (
           <motion.article
             key={c.title}
-            initial={reduce ? false : { opacity: 0, y: 24 }}
-            whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: i * 0.06, ease: 'easeOut' }}
+            variants={cardReveal}
             onClick={(e) => open(i, e.currentTarget)}
-            className="group relative flex h-[560px] w-[82vw] max-w-[380px] shrink-0 cursor-pointer snap-start flex-col overflow-hidden rounded-[28px] bg-white p-8 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:bg-[#161617] dark:hover:shadow-none"
+            className="group relative flex h-[560px] w-[82vw] max-w-[380px] shrink-0 cursor-pointer snap-start flex-col overflow-hidden rounded-[28px] border border-black/[0.06] bg-white p-8 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-black/15 dark:border-white/[0.08] dark:bg-[#161617] dark:hover:border-white/20"
           >
             <p className="text-[15px] font-semibold text-neutral-800 dark:text-neutral-200">
               {c.eyebrow}
@@ -197,7 +227,7 @@ export default function WhyMiransas() {
               {c.summary}
             </p>
 
-            {/* Görsel alanı */}
+            {/* Visual area */}
             <div className="relative mt-auto h-[250px] w-full">
               <Visual src={c.image} alt={c.eyebrow} />
             </div>
@@ -209,15 +239,15 @@ export default function WhyMiransas() {
                 e.stopPropagation();
                 open(i, e.currentTarget);
               }}
-              className="absolute bottom-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#e8e8ed]/90 text-[#1d1d1f] backdrop-blur transition hover:scale-105 hover:bg-[#dcdce1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:bg-white/15 dark:text-white dark:hover:bg-white/25 dark:focus-visible:outline-white"
+              className="absolute bottom-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#e8e8ed]/95 text-[#1d1d1f] transition-[transform,background-color] duration-200 hover:scale-105 hover:bg-[#dcdce1] active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:bg-white/15 dark:text-white dark:hover:bg-white/25 dark:focus-visible:outline-white"
             >
               <PlusIcon />
             </button>
           </motion.article>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Önceki / sonraki */}
+      {/* Previous / Next */}
       <div className="mx-auto mt-6 flex max-w-6xl justify-end gap-3 px-6">
         {([-1, 1] as const).map((dir) => (
           <button
@@ -225,7 +255,7 @@ export default function WhyMiransas() {
             type="button"
             aria-label={dir === -1 ? 'Previous' : 'Next'}
             onClick={() => scrollByCard(dir)}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-black/10 text-[#1d1d1f] transition hover:bg-black/20 dark:bg-white/15 dark:text-white dark:hover:bg-white/25"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-black/10 text-[#1d1d1f] transition-[background-color,transform] duration-200 hover:bg-black/20 active:scale-95 dark:bg-white/15 dark:text-white dark:hover:bg-white/25"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path
@@ -251,17 +281,17 @@ export default function WhyMiransas() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: reduce ? 0 : 0.25 }}
+            transition={{ duration: 0.22 }}
             onClick={close}
             className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-0 backdrop-blur-sm md:items-center md:p-6"
           >
             <motion.div
-              initial={reduce ? false : { opacity: 0, y: 40, scale: 0.98 }}
+              initial={{ opacity: 0, y: 24, scale: 0.985 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduce ? undefined : { opacity: 0, y: 24, scale: 0.98 }}
-              transition={{ duration: reduce ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, y: 16, scale: 0.985 }}
+              transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-t-[28px] bg-white p-8 text-[#1d1d1f] md:rounded-[28px] md:p-12 dark:bg-[#161617] dark:text-white"
+              className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto overscroll-y-contain rounded-t-[28px] bg-white p-8 text-[#1d1d1f] md:rounded-[28px] md:p-12 dark:bg-[#161617] dark:text-white"
             >
               <button
                 ref={closeRef}

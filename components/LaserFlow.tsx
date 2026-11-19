@@ -613,6 +613,8 @@ export const LaserFlow = ({
       colorKey: '',
       tints: buildTints([0.22, 0.28, 1]),
       observed: null as HTMLElement | null,
+      surfaceLevelKey: -1,
+      surface: { left: -2, top: 0.65, right: 3, bottom: 3, radius: 0, real: false } as Surface,
       pointer: { x: 0, y: 0, inside: false },
       lens: { x: 0, y: 0, vx: 0, vy: 0, strength: 0, placed: false },
       reveal: { src: '', ready: false, width: 1, height: 1, image: null as HTMLImageElement | null }
@@ -707,11 +709,16 @@ export const LaserFlow = ({
       };
     };
 
+    const updateSurface = (s: Settings, width: number, height: number) => {
+      state.surfaceLevelKey = s.surfaceLevel;
+      state.surface = measure(s, width, height);
+    };
+
     const resize = () => {
       const width = Math.max(1, container.clientWidth);
       const height = Math.max(1, container.clientHeight);
       const s = settingsRef.current;
-      const baseDpr = Math.min(s.dpr || window.devicePixelRatio || 1, 2);
+      const baseDpr = Math.min(s.dpr || window.devicePixelRatio || 1, 1.5);
       const longest = Math.max(width, height) * baseDpr;
       const ratio = longest > MAX_RENDER_DIM ? (baseDpr * MAX_RENDER_DIM) / longest : baseDpr;
       const pixelWidth = Math.max(1, Math.round(width * ratio));
@@ -723,6 +730,7 @@ export const LaserFlow = ({
       state.width = width;
       state.height = height;
       state.ratio = canvas.width / width;
+      updateSurface(s, width, height);
       render();
     };
 
@@ -731,7 +739,12 @@ export const LaserFlow = ({
       resolveColor(s);
       const { width, height } = state;
       const scale = Math.max(0.2, Math.min(width / 585, height / 507));
-      let surface = measure(s, width, height);
+      // Only re-measure layout when target element or surfaceLevel actually changes (never per frame).
+      const targetElement = s.surfaceRef?.current ?? null;
+      if (targetElement !== state.observed || s.surfaceLevel !== state.surfaceLevelKey) {
+        updateSurface(s, width, height);
+      }
+      let surface = state.surface;
       let beamX = s.beamPosition * width;
       if (surface.real) {
         const margin = surface.radius + 6;
@@ -859,6 +872,7 @@ export const LaserFlow = ({
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (!visible || document.hidden || reduce || !settingsRef.current.mouseInteraction) return;
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -869,11 +883,20 @@ export const LaserFlow = ({
     };
 
     const onPointerLeave = () => {
+      if (!state.pointer.inside) return;
       state.pointer.inside = false;
       wake();
     };
 
     const onVisibility = () => {
+      if (document.hidden) {
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+        last = 0;
+        return;
+      }
       last = 0;
       wake();
     };
@@ -885,6 +908,12 @@ export const LaserFlow = ({
       if (visible) {
         last = 0;
         wake();
+      } else {
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+        last = 0;
       }
     });
     intersection.observe(container);
@@ -919,12 +948,13 @@ export const LaserFlow = ({
     wakeRef.current?.();
   });
 
-  const { className = '', ...attributes } = rest;
+  const { className = '', style, ...attributes } = rest;
 
   return (
     <div
       ref={containerRef}
       className={`pointer-events-none relative h-full w-full${className ? ` ${className}` : ''}`}
+      style={{ contain: 'layout paint', ...style }}
       {...attributes}
     >
       <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" aria-hidden="true" />

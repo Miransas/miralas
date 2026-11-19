@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { motion, useAnimationControls } from "framer-motion";
+import { DURATION_REVEAL, EASE_OUT_EXPO } from "@/lib/motion";
 
 /*
  * Motion primitives for the marketing site.
@@ -24,8 +25,8 @@ import { motion, useAnimationControls } from "framer-motion";
 
 type Trigger = "view" | "load";
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const WORD_STAGGER = 0.045;
+const ease = EASE_OUT_EXPO;
+const WORD_STAGGER = 0.04;
 
 function useViewReveal<T extends HTMLElement>(enabled: boolean) {
   const ref = useRef<T>(null);
@@ -105,8 +106,8 @@ export function ScrollReveal({
       initial={false}
       animate={controls}
       variants={{
-        hidden: { opacity: 0, y: 18 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.65, delay, ease } },
+        hidden: { opacity: 0, y: 16 },
+        visible: { opacity: 1, y: 0, transition: { duration: DURATION_REVEAL, delay, ease } },
       }}
     >
       {children}

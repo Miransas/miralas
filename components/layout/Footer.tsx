@@ -2,7 +2,9 @@
 
 import React, { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useReducedMotion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { RevealWordmark } from '@/components/motion/primitives';
 import {
   FOOTER_SECTIONS,
   FOOTER_UTILITY_LINKS,
@@ -31,18 +33,29 @@ export function Footer({
   className,
 }: SpotlightFooterProps) {
   const stageRef = useRef<HTMLDivElement>(null);
+  const spotlightActiveRef = useRef(false);
+  const reduceMotion = useReducedMotion();
   const [spotlightActive, setSpotlightActive] = useState(false);
 
   // Update CSS variables directly: pointer movement should not re-render the whole footer.
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'touch') return;
+    if (event.pointerType === 'touch' || reduceMotion) return;
     const stage = stageRef.current;
     if (!stage) return;
 
     const rect = stage.getBoundingClientRect();
     stage.style.setProperty('--spotlight-x', `${event.clientX - rect.left}px`);
     stage.style.setProperty('--spotlight-y', `${event.clientY - rect.top}px`);
-    setSpotlightActive(true);
+    if (!spotlightActiveRef.current) {
+      spotlightActiveRef.current = true;
+      setSpotlightActive(true);
+    }
+  }, [reduceMotion]);
+
+  const handlePointerLeave = useCallback(() => {
+    if (!spotlightActiveRef.current) return;
+    spotlightActiveRef.current = false;
+    setSpotlightActive(false);
   }, []);
 
   const fontSize = `clamp(48px, ${(176 / Math.max(1, wordmark.length)).toFixed(2)}cqi, 250px)`;
@@ -55,7 +68,7 @@ export function Footer({
   return (
     <footer
       className={cn(
-        'relative w-full overflow-hidden bg-[#EFEFEF] text-[#111111] antialiased transition-colors duration-500 dark:bg-[#050505] dark:text-[#F5F5F5]',
+        'relative w-full overflow-x-clip bg-[#EFEFEF] text-[#111111] antialiased dark:bg-[#050505] dark:text-[#F5F5F5]',
         className,
       )}
     >
@@ -98,14 +111,15 @@ export function Footer({
             <div className="flex shrink-0 flex-wrap gap-2">
               <Link
                 href="https://console.miralas.io"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#111111] px-5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFEFEF] dark:bg-white dark:text-[#090909] dark:hover:bg-[#E7E7E7] dark:focus-visible:ring-white/50 dark:focus-visible:ring-offset-[#050505]"
+                className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#111111] px-5 text-sm font-semibold text-white transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-black active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFEFEF] dark:bg-white dark:text-[#090909] dark:hover:bg-[#E7E7E7] dark:focus-visible:ring-white/50 dark:focus-visible:ring-offset-[#050505]"
               >
-                Console access <ArrowUpRight className="size-4" />
+                <span>Console access</span>
+                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
               {SUPPORT_EMAIL ? (
                 <a
                   href={`mailto:${SUPPORT_EMAIL}`}
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-sm font-medium text-[#333338] transition duration-200 hover:-translate-y-0.5 hover:border-black/30 hover:bg-black/[0.03] dark:border-white/15 dark:text-[#E4E4E7] dark:hover:border-white/30 dark:hover:bg-white/[0.04]"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-sm font-medium text-[#333338] transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-black/30 hover:bg-black/[0.03] active:scale-[0.98] dark:border-white/15 dark:text-[#E4E4E7] dark:hover:border-white/30 dark:hover:bg-white/[0.04]"
                 >
                   <Mail className="size-4" /> Contact
                 </a>
@@ -195,7 +209,7 @@ export function Footer({
         </div>
       </div>
 
-      {/* Oversized wordmark with a pointer-following light reveal */}
+      {/* Oversized wordmark with single-trigger scroll reveal and pointer-following spotlight */}
       <div
         className="relative isolate overflow-hidden border-t border-black/[0.06] px-4 pb-9 pt-7 dark:border-white/[0.06] sm:px-6 sm:pb-12"
       >
@@ -203,32 +217,34 @@ export function Footer({
           AI voice infrastructure
         </p>
 
-        <div
-          ref={stageRef}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={() => setSpotlightActive(false)}
-          className="relative mx-auto flex min-h-[clamp(72px,18vw,230px)] max-w-[1320px] items-center justify-center"
-          style={{ containerType: 'inline-size' }}
-        >
-          <span
-            aria-hidden="true"
-            className="select-none whitespace-nowrap font-black leading-none tracking-[-0.085em] text-[#D8D8D8] dark:text-white/[0.065]"
-            style={{ fontSize }}
+        <RevealWordmark>
+          <div
+            ref={stageRef}
+            onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            className="relative mx-auto flex min-h-[clamp(72px,18vw,230px)] max-w-[1320px] items-center justify-center"
+            style={{ containerType: 'inline-size' }}
           >
-            {wordmark}
-          </span>
+            <span
+              aria-hidden="true"
+              className="select-none whitespace-nowrap font-black leading-none tracking-[-0.085em] text-[#D8D8D8] dark:text-white/[0.065]"
+              style={{ fontSize }}
+            >
+              {wordmark}
+            </span>
 
-          <span
-            aria-hidden="true"
-            className={cn(
-              'pointer-events-none absolute inset-0 flex select-none items-center justify-center whitespace-nowrap font-black leading-none tracking-[-0.085em] text-[#111111] transition-opacity duration-300 dark:text-white',
-              spotlightActive ? 'opacity-100' : 'opacity-0',
-            )}
-            style={spotlightStyle}
-          >
-            {wordmark}
-          </span>
-        </div>
+            <span
+              aria-hidden="true"
+              className={cn(
+                'pointer-events-none absolute inset-0 flex select-none items-center justify-center whitespace-nowrap font-black leading-none tracking-[-0.085em] text-[#111111] transition-opacity duration-300 dark:text-white',
+                spotlightActive ? 'opacity-100' : 'opacity-0',
+              )}
+              style={spotlightStyle}
+            >
+              {wordmark}
+            </span>
+          </div>
+        </RevealWordmark>
         <span className="sr-only">{wordmark}</span>
       </div>
     </footer>

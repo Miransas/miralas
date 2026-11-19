@@ -4,8 +4,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
+  useInView,
   useReducedMotion,
 } from "framer-motion";
+import {
+  DURATION_UI,
+  EASE_OUT_EXPO,
+  VIEWPORT_EARLY,
+  VIEWPORT_ONCE,
+  cardReveal,
+  headingReveal,
+  staggerContainer,
+} from "@/lib/motion";
 import {
   Activity,
   ArrowUpRight,
@@ -245,7 +255,7 @@ function VideoVisual({ scene }: { scene: Scene }) {
   );
 }
 
-function VoiceWaveform({ reduced }: { reduced: boolean }) {
+function VoiceWaveform({ active }: { active: boolean }) {
   return (
     <div className="mt-4 max-w-[360px] rounded-[18px] border border-black/[0.07] bg-[#F5F5F4] p-4 dark:border-white/10 dark:bg-white/[0.035]">
       <div className="mb-3 flex items-center justify-between gap-3">
@@ -266,11 +276,11 @@ function VoiceWaveform({ reduced }: { reduced: boolean }) {
             key={index}
             className="w-[3px] min-w-[2px] rounded-full bg-neutral-500 dark:bg-white/75"
             style={{ height: `${height}%`, transformOrigin: "center" }}
-            animate={reduced ? { scaleY: 0.7 } : { scaleY: [0.38, 1, 0.58, 0.92, 0.38] }}
+            animate={active ? { scaleY: [0.38, 1, 0.58, 0.92, 0.38] } : { scaleY: 0.7 }}
             transition={{
               duration: 1.05 + (index % 5) * 0.08,
               delay: index * 0.016,
-              repeat: reduced ? 0 : Infinity,
+              repeat: active ? Infinity : 0,
               ease: "easeInOut",
             }}
           />
@@ -289,6 +299,7 @@ export default function DemoCarousel() {
   const [paused, setPaused] = useState(false);
   const [thinkingStep, setThinkingStep] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { amount: 0.08 });
 
   const scene = SCENES[index];
   const visiblePhase: Phase = reduced ? "reply" : phase;
@@ -307,7 +318,7 @@ export default function DemoCarousel() {
   }, []);
 
   useEffect(() => {
-    if (reduced || paused) return;
+    if (reduced || paused || !isInView) return;
 
     const current = SCENES[index];
     if (phase === "compose") {
@@ -343,16 +354,16 @@ export default function DemoCarousel() {
       );
       return () => window.clearTimeout(timer);
     }
-  }, [index, phase, typed, chars, reduced, paused]);
+  }, [index, phase, typed, chars, reduced, paused, isInView]);
 
   useEffect(() => {
-    if (reduced || paused || phase !== "thinking") return;
+    if (reduced || paused || !isInView || phase !== "thinking") return;
     const interval = window.setInterval(
       () => setThinkingStep((value) => (value + 1) % THINK_STEPS.length),
       760,
     );
     return () => window.clearInterval(interval);
-  }, [phase, reduced, paused]);
+  }, [phase, reduced, paused, isInView]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -378,18 +389,18 @@ export default function DemoCarousel() {
       tabIndex={0}
       aria-roledescription="carousel"
       aria-label="Miransas interactive voice demo"
-      className="relative isolate overflow-hidden bg-[#EFEFEF] py-24 text-[#111111] transition-colors duration-500 selection:bg-neutral-900 selection:text-white dark:bg-[#050505] dark:text-white dark:selection:bg-white dark:selection:text-black md:py-32"
+      className="relative isolate overflow-x-clip bg-[#EFEFEF] py-24 text-[#111111] selection:bg-neutral-900 selection:text-white dark:bg-[#050505] dark:text-white dark:selection:bg-white dark:selection:text-black md:py-32"
     >
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8 lg:px-10">
         {/* Section introduction */}
         <motion.div
-          initial={reduced ? false : { opacity: 0, y: 20 }}
-          whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          variants={staggerContainer(0.06)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
           className="mb-10 grid gap-6 md:mb-14 md:grid-cols-[1.1fr_0.9fr] md:items-end"
         >
-          <div>
+          <motion.div variants={headingReveal}>
             <div className="mb-5 inline-flex items-center gap-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-white/45">
               <span className="h-px w-7 bg-neutral-400 dark:bg-white/35" />
               Experience Miransas
@@ -397,20 +408,20 @@ export default function DemoCarousel() {
             <h2 className="max-w-[760px] text-[clamp(36px,5.5vw,68px)] font-medium leading-[0.98] tracking-[-0.06em]">
               See how voice becomes <span className="text-neutral-400 dark:text-white/40">conversation.</span>
             </h2>
-          </div>
-          <p className="max-w-[440px] text-sm leading-7 text-neutral-600 dark:text-white/50 md:justify-self-end md:text-[15px]">
+          </motion.div>
+          <motion.p variants={headingReveal} className="max-w-[440px] text-sm leading-7 text-neutral-600 dark:text-white/50 md:justify-self-end md:text-[15px]">
             Explore the ideas behind the Miransas voice platform. Switch between
             capabilities and watch a guided product preview move from a written
             request to a voice response.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Main demo surface */}
         <motion.div
-          initial={reduced ? false : { opacity: 0, y: 26, scale: 0.99 }}
-          whileInView={reduced ? undefined : { opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.12 }}
-          transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          variants={cardReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_EARLY}
           className="overflow-hidden rounded-[28px] border border-black/[0.08] bg-white shadow-[0_24px_80px_-48px_rgba(0,0,0,0.24)] dark:border-white/[0.09] dark:bg-[#0B0B0C] dark:shadow-[0_28px_90px_-48px_rgba(0,0,0,0.85)] md:rounded-[34px]"
         >
           <div className="grid lg:min-h-[660px] lg:grid-cols-[1.02fr_0.98fr]">
@@ -520,9 +531,9 @@ export default function DemoCarousel() {
                           </div>
                           <div className="mt-3 h-1 overflow-hidden rounded-full bg-neutral-200 dark:bg-white/10">
                             <motion.div
-                              className="h-full rounded-full bg-neutral-700 dark:bg-white/75"
-                              initial={{ width: "7%" }}
-                              animate={reduced ? { width: "100%" } : { width: ["12%", "54%", "88%"] }}
+                              className="h-full w-full origin-left rounded-full bg-neutral-700 dark:bg-white/75"
+                              initial={{ scaleX: 0.08 }}
+                              animate={reduced ? { scaleX: 1 } : { scaleX: [0.12, 0.54, 0.88] }}
                               transition={{ duration: THINK_DURATION / 1000, ease: "easeInOut" }}
                             />
                           </div>
@@ -531,7 +542,7 @@ export default function DemoCarousel() {
                         <div className="max-w-[98%]">
                           <p className="whitespace-pre-wrap text-[13px] leading-[1.8] text-neutral-700 dark:text-white/80 sm:text-sm">
                             {scene.reply.slice(0, visibleChars)}
-                            {!replyFinished && !reduced && (
+                            {!replyFinished && !reduced && isInView && (
                               <motion.span
                                 aria-hidden="true"
                                 className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[2px] rounded-full bg-neutral-700 dark:bg-white"
@@ -540,7 +551,7 @@ export default function DemoCarousel() {
                               />
                             )}
                           </p>
-                          {scene.hasWaveform && replyFinished && <VoiceWaveform reduced={reduced} />}
+                          {scene.hasWaveform && replyFinished && <VoiceWaveform active={isInView && !reduced && !paused} />}
                         </div>
                       )}
                     </div>
@@ -657,15 +668,38 @@ export default function DemoCarousel() {
           </div>
         </div>
 
-        {/* Capability footer */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 border-t border-black/[0.08] pt-7 text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-400 dark:border-white/10 dark:text-white/30 md:mt-20">
-          <span>Text-to-speech</span>
-          <span className="hidden size-1 rounded-full bg-neutral-300 dark:bg-white/20 sm:block" />
-          <span>Voice cloning</span>
-          <span className="hidden size-1 rounded-full bg-neutral-300 dark:bg-white/20 sm:block" />
-          <span>Speech-to-speech</span>
-          <span className="hidden size-1 rounded-full bg-neutral-300 dark:bg-white/20 sm:block" />
-          <span>Voice agents</span>
+        {/* Interactive capability tabs with layoutId pill */}
+        <div
+          role="tablist"
+          aria-label="Voice capabilities"
+          className="mt-10 flex flex-wrap items-center justify-center gap-2 border-t border-black/[0.08] pt-7 dark:border-white/10 md:mt-14"
+        >
+          {SCENES.map((item, itemIndex) => {
+            const active = itemIndex === index;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => go(itemIndex)}
+                className={`relative rounded-full px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 ${
+                  active
+                    ? "text-white dark:text-[#080808]"
+                    : "text-neutral-500 hover:text-neutral-900 dark:text-white/45 dark:hover:text-white"
+                }`}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="active-capability-pill"
+                    transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
+                    className="absolute inset-0 -z-10 rounded-full bg-[#111111] dark:bg-white"
+                  />
+                )}
+                {item.label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

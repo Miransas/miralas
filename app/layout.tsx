@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { MotionProvider } from "@/components/motion/primitives";
 import { openGraphMetadata, twitterMetadata } from "./opengraph";
 import { cn } from "../lib/utils";
 import { PageViewTracker } from "../components/providers/page-view-tracker";
@@ -147,20 +148,21 @@ export default function RootLayout({
       )}
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-full bg-background text-foreground">
-        
-
+      <body className="min-h-full overflow-x-clip bg-background text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >  <PageViewTracker />
-          {/* {isLocked && <ComingSoonModal />}   */}
-          {children}
+        >
+          <MotionProvider>
+            <PageViewTracker />
+            {/* {isLocked && <ComingSoonModal />}   */}
+            {children}
+            <CookieConsent />
+          </MotionProvider>
         </ThemeProvider>
         {googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
-        <CookieConsent />
       </body>
     </html>
   );

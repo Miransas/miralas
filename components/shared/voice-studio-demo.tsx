@@ -23,21 +23,30 @@ export default function VoiceStudioDemo() {
       return;
     }
 
+    let isIntersecting = false;
+
+    const syncPlayback = () => {
+      if (isIntersecting && !document.hidden) {
+        void video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !document.hidden) {
-          void video.play().catch(() => undefined);
-        } else {
-          video.pause();
-        }
+        isIntersecting = Boolean(entry?.isIntersecting);
+        syncPlayback();
       },
-      { threshold: 0.25 }
+      { threshold: 0.15 }
     );
 
     observer.observe(video);
+    document.addEventListener("visibilitychange", syncPlayback);
 
     return () => {
       observer.disconnect();
+      document.removeEventListener("visibilitychange", syncPlayback);
       video.pause();
     };
   }, [reduceMotion]);

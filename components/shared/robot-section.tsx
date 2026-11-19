@@ -4,6 +4,15 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, AudioLines, Fingerprint, Radio } from "lucide-react";
+import {
+  VIEWPORT_EARLY,
+  VIEWPORT_ONCE,
+  cardReveal,
+  eyebrowReveal,
+  headingReveal,
+  paragraphReveal,
+  staggerContainer,
+} from "@/lib/motion";
 
 const capabilities = [
   {
@@ -38,65 +47,82 @@ export function VoiceLayerSection() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reduceMotion || typeof IntersectionObserver === "undefined") return;
+    if (!video) return;
+
+    if (reduceMotion) {
+      video.pause();
+      return;
+    }
+
+    if (typeof IntersectionObserver === "undefined") {
+      void video.play().catch(() => undefined);
+      return;
+    }
+
+    let isIntersecting = false;
+    const syncPlayback = () => {
+      if (isIntersecting && !document.hidden) {
+        void video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => undefined);
-        } else {
-          video.pause();
-        }
+        isIntersecting = Boolean(entry?.isIntersecting);
+        syncPlayback();
       },
       { threshold: 0.15 },
     );
 
     observer.observe(video);
+    document.addEventListener("visibilitychange", syncPlayback);
     return () => {
       observer.disconnect();
+      document.removeEventListener("visibilitychange", syncPlayback);
       video.pause();
     };
   }, [reduceMotion]);
 
   return (
-    <section className="relative overflow-hidden bg-[#EFEFEF] py-24 text-[#111111] transition-colors duration-500 dark:bg-[#050505] dark:text-white md:py-32">
+    <section className="relative overflow-x-clip bg-[#EFEFEF] py-24 text-[#111111] dark:bg-[#050505] dark:text-white md:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
           {/* Editorial copy and product capabilities */}
           <div className="relative z-10">
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              variants={staggerContainer(0.06)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEWPORT_ONCE}
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-white/45">
+              <motion.p variants={eyebrowReveal} className="text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-white/45">
                 The Miransas voice layer
-              </p>
-              <h2 className="mt-5 max-w-[620px] text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.065em]">
+              </motion.p>
+              <motion.h2 variants={headingReveal} className="mt-5 max-w-[620px] text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.065em]">
                 From a single voice to a whole conversation.
-              </h2>
-              <p className="mt-6 max-w-xl text-[15px] leading-7 text-neutral-600 dark:text-white/55 md:text-base md:leading-8">
+              </motion.h2>
+              <motion.p variants={paragraphReveal} className="mt-6 max-w-xl text-[15px] leading-7 text-neutral-600 dark:text-white/55 md:text-base md:leading-8">
                 Miransas brings speech generation, voice identity and conversational
                 experiences into one voice-focused platform. Start with spoken
                 content, then build toward more natural voice interactions.
-              </p>
+              </motion.p>
             </motion.div>
 
-            <div className="mt-10 border-t border-black/10 dark:border-white/10">
-              {capabilities.map((item, index) => {
+            <motion.div
+              variants={staggerContainer(0.06)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEWPORT_EARLY}
+              className="mt-10 border-t border-black/10 dark:border-white/10"
+            >
+              {capabilities.map((item) => {
                 const Icon = item.icon;
                 return (
                   <motion.div
                     key={item.number}
-                    initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                      duration: 0.55,
-                      delay: reduceMotion ? 0 : index * 0.09,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                    variants={cardReveal}
                     className="grid grid-cols-[34px_1fr] gap-4 border-b border-black/10 py-5 dark:border-white/10 sm:grid-cols-[34px_1fr_auto] sm:items-start sm:gap-5"
                   >
                     <span className="pt-0.5 font-mono text-[11px] tabular-nums text-neutral-400 dark:text-white/30">
@@ -122,21 +148,21 @@ export function VoiceLayerSection() {
                   </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
 
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              variants={paragraphReveal}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEWPORT_ONCE}
               className="mt-8 flex flex-wrap items-center gap-5"
             >
               <Link
                 href="/product"
-                className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-black dark:bg-white dark:text-[#080808] dark:hover:bg-white/90"
+                className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-black active:scale-[0.98] dark:bg-white dark:text-[#080808] dark:hover:bg-white/90"
               >
-                Explore the studio
-                <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                Explore products
+                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
               <Link
                 href="/resources/changelog"
@@ -147,12 +173,12 @@ export function VoiceLayerSection() {
             </motion.div>
           </div>
 
-          {/* One cinematic visual — no mascot, decorative cards or dot grid */}
+          {/* One cinematic visual — clean single-pass entrance */}
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 22, scale: 0.985 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            variants={cardReveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEWPORT_EARLY}
             className="relative min-w-0"
           >
             <div className="group relative aspect-[4/4.5] overflow-hidden rounded-[28px] border border-black/10 bg-[#0B0B0D] shadow-[0_28px_90px_-48px_rgba(0,0,0,0.35)] dark:border-white/10 dark:shadow-[0_30px_100px_-48px_rgba(0,0,0,0.8)] sm:aspect-[5/4] lg:aspect-[4/4.5]">
@@ -160,7 +186,6 @@ export function VoiceLayerSection() {
                 ref={videoRef}
                 className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.025]"
                 src="/stack-card-1.mp4"
-                autoPlay={!reduceMotion}
                 muted
                 loop
                 playsInline

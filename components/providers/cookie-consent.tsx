@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { DURATION_UI, EASE_OUT_EXPO } from "@/lib/motion";
 
 type Choice = "granted" | "denied";
 
@@ -51,8 +53,7 @@ export function CookieConsent() {
     if (next === "denied") clearGaCookies();
     setOpen(false);
 
-    // Onay verilince ya da geri alınınca yeniden yükle: proxy çerezleri
-    // geçerli URL'deki UTM ile yazar, GA de yüklenir ya da kalkar.
+    // Reload when consent is granted or revoked so proxy cookies and GA stay aligned.
     if (next === "granted" || choice === "granted") {
       window.location.reload();
       return;
@@ -66,41 +67,48 @@ export function CookieConsent() {
     <>
       {choice === "granted" && GA_ID && <GoogleAnalytics gaId={GA_ID} />}
 
-      {open && (
-        <div
-          role="dialog"
-          aria-label="Cookie settings"
-          className="fixed inset-x-4 bottom-4 z-[100] mx-auto max-w-xl rounded-2xl border border-border bg-background p-5 shadow-lg"
-        >
-          <p className="text-sm text-muted-foreground">
-            We use optional cookies to measure which links bring visitors to
-            Miralas. Nothing is stored unless you accept. Read our{" "}
-            <a
-              href="https://privacy.miransas.com"
-              className="underline underline-offset-4 hover:text-foreground"
-            >
-              privacy policy
-            </a>
-            .
-          </p>
-          <div className="mt-4 flex gap-3">
-            <button
-              type="button"
-              onClick={() => decide("denied")}
-              className="h-10 flex-1 rounded-xl border border-border text-sm font-medium transition-colors hover:bg-muted"
-            >
-              Reject
-            </button>
-            <button
-              type="button"
-              onClick={() => decide("granted")}
-              className="h-10 flex-1 rounded-xl border border-border text-sm font-medium transition-colors hover:bg-muted"
-            >
-              Accept
-            </button>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="cookie-consent-banner"
+            role="dialog"
+            aria-label="Cookie settings"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
+            className="fixed inset-x-4 bottom-4 z-[100] mx-auto max-w-xl rounded-2xl border border-border bg-background p-5 shadow-lg"
+          >
+            <p className="text-sm text-muted-foreground">
+              We use optional cookies to measure which links bring visitors to
+              Miralas. Nothing is stored unless you accept. Read our{" "}
+              <a
+                href="https://privacy.miransas.com"
+                className="underline underline-offset-4 transition-colors hover:text-foreground"
+              >
+                privacy policy
+              </a>
+              .
+            </p>
+            <div className="mt-4 flex gap-3">
+              <button
+                type="button"
+                onClick={() => decide("denied")}
+                className="h-10 flex-1 rounded-xl border border-border text-sm font-medium transition-[background-color,transform] duration-200 hover:bg-muted active:scale-[0.98]"
+              >
+                Reject
+              </button>
+              <button
+                type="button"
+                onClick={() => decide("granted")}
+                className="h-10 flex-1 rounded-xl border border-border text-sm font-medium transition-[background-color,transform] duration-200 hover:bg-muted active:scale-[0.98]"
+              >
+                Accept
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -1,6 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import {
+  VIEWPORT_EARLY,
+  VIEWPORT_ONCE,
+  cardReveal,
+  eyebrowReveal,
+  headingReveal,
+  paragraphReveal,
+  staggerContainer,
+} from "@/lib/motion";
 
 type ComparisonRow = {
   label: string;
@@ -49,38 +58,36 @@ const tableRows = [
 ] as const;
 
 export function ComparisonSection() {
-  const reduceMotion = useReducedMotion();
-
   return (
-    <section className="relative overflow-hidden bg-[#EFEFEF] py-24 text-[#171717] transition-colors duration-500 dark:bg-[#050505] dark:text-[#F5F5F5] md:py-32">
+    <section className="relative overflow-x-clip bg-[#EFEFEF] py-24 text-[#171717] dark:bg-[#050505] dark:text-[#F5F5F5] md:py-32">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-6">
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          variants={staggerContainer(0.06)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
           className="mx-auto max-w-2xl text-center"
         >
-          <span className="inline-flex items-center rounded-full border border-black/10 bg-black/[0.025] px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-black/55 dark:border-white/10 dark:bg-white/[0.035] dark:text-white/55">
+          <motion.span variants={eyebrowReveal} className="inline-flex items-center rounded-full border border-black/10 bg-black/[0.025] px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-black/55 dark:border-white/10 dark:bg-white/[0.035] dark:text-white/55">
             The difference
-          </span>
-          <h2 className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-4xl md:text-5xl">
+          </motion.span>
+          <motion.h2 variants={headingReveal} className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-4xl md:text-5xl">
             A voice workflow built around your needs.
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-black/60 dark:text-white/55 sm:text-base">
+          </motion.h2>
+          <motion.p variants={paragraphReveal} className="mx-auto mt-4 max-w-xl text-sm leading-7 text-black/60 dark:text-white/55 sm:text-base">
             Compare the approaches to creating voice content — from working
             with a voice actor to using an AI voice platform.
-          </p>
+          </motion.p>
         </motion.div>
 
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.12 }}
-          transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          variants={cardReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_EARLY}
           className="mt-12 overflow-hidden rounded-[26px] border border-black/[0.075] bg-[#F7F7F7] shadow-[0_18px_60px_-42px_rgba(0,0,0,0.22)] dark:border-white/[0.09] dark:bg-[#0D0D0D] dark:shadow-none md:mt-16 md:rounded-[30px]"
         >
-          <div className="overflow-x-auto overscroll-x-contain">
+          <div className="overflow-x-auto overscroll-x-contain" style={{ WebkitOverflowScrolling: "touch" }}>
             <table className="w-full min-w-[760px] border-separate border-spacing-0 text-left">
               <caption className="sr-only">
                 Comparison of Miransas, hiring a voice actor, and generic text-to-speech tools.
@@ -123,14 +130,8 @@ export function ComparisonSection() {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, index) => (
-                  <motion.tr
-                    key={row.label}
-                    initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-                    whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.45, delay: reduceMotion ? 0 : index * 0.055, ease: "easeOut" }}
-                  >
+                {rows.map((row) => (
+                  <tr key={row.label}>
                     <th
                       scope="row"
                       className="border-t border-black/[0.075] px-6 py-6 text-[12px] font-semibold text-black/75 dark:border-white/[0.085] dark:text-white/75 md:px-8 md:py-7 md:text-[13px]"
@@ -146,7 +147,7 @@ export function ComparisonSection() {
                     <td className="border-t border-black/[0.075] px-6 py-6 text-[12px] leading-6 text-black/55 dark:border-white/[0.085] dark:text-white/55 md:px-7 md:py-7 md:text-[13px]">
                       {row.genericTts}
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))}
               </tbody>
             </table>
