@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import PricingExperience from "@/components/pricing/pricing-experience";
+import PricingClient from "@/components/pricing/PricingClient";
 import type { TabId } from "@/lib/pricing/types";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Pricing Direction",
+  title: "Pricing",
   description:
-    "Explore the proposed pricing direction for Miralas Studio, Developer API, and Voice Agents. Public billing terms, usage rates, and access remain unconfirmed.",
+    "Simple, transparent pricing for Miralas Voice Studio, Developer API, and Voice Agents. Start free with 10,000 monthly characters and scale predictably.",
   path: "/pricing",
 });
 
-export default async function PricingPage({ searchParams }: { searchParams: Promise<{ tab?: string | string[] }> }) {
-  const tab = (await searchParams).tab;
+export default async function PricingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const tab = Array.isArray(params.tab) ? params.tab[0] : params.tab;
   const initialTab: TabId = tab === "api" || tab === "agents" ? tab : "studio";
-  return <PricingExperience initialTab={initialTab} />;
+  return <PricingClient initialTab={initialTab} />;
 }
