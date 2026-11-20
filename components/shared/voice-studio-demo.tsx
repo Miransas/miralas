@@ -54,15 +54,13 @@ export default function VoiceStudioDemo() {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 h-full w-full overflow-hidden bg-[#060608]"
+      className="absolute inset-0 h-full w-full overflow-hidden bg-[#000103]"
     >
       <video
         ref={videoRef}
         src="/hero.mp4"
         poster="/portraits/hero.png"
-     
         loop
-     
         playsInline
         preload="metadata"
         tabIndex={-1}
@@ -70,8 +68,8 @@ export default function VoiceStudioDemo() {
       />
 
       {/* Blend the video edges into the dark hero card. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#060608]/90 via-transparent via-[24%] to-[#060608]/90" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#060608]/20 via-transparent to-[#060608]/20" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#000103]/90 via-transparent via-[24%] to-[#000103]/90" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#000103]/25 via-transparent to-[#000103]/25" />
     </div>
   );
 }

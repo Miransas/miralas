@@ -18,6 +18,7 @@ type ShowcaseItem = {
   title: string;
   text: string;
   status: string;
+  featured?: boolean;
 };
 
 const ITEMS: ShowcaseItem[] = [
@@ -55,12 +56,13 @@ const ITEMS: ShowcaseItem[] = [
     title: "Uzbek Speech — In Development",
     text: "Uzbek is the first language focus for our voice work. Research, data collection and model evaluation are ongoing.",
     status: "In development",
+    featured: true,
   },
 ];
 
 export function DitherShowcase() {
   return (
-    <section className="relative overflow-x-clip bg-[#EFEFEF] py-24 text-[#111111] dark:bg-[#050505] dark:text-white md:py-32">
+    <section className="relative overflow-x-clip bg-surface-page py-24 text-text-heading md:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Section heading */}
         <motion.div
@@ -68,17 +70,26 @@ export function DitherShowcase() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mb-12 flex flex-col gap-5 border-b border-black/10 pb-8 dark:border-white/10 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10 md:pb-10"
+          className="mb-12 flex flex-col gap-5 pb-4 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10"
         >
           <div className="max-w-2xl">
-            <motion.p variants={eyebrowReveal} className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-neutral-500 dark:text-white/45">
+            <motion.p
+              variants={eyebrowReveal}
+              className="mb-4 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
+            >
               The Miransas voice stack
             </motion.p>
-            <motion.h2 variants={headingReveal} className="text-[clamp(2.4rem,5vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.055em]">
+            <motion.h2
+              variants={headingReveal}
+              className="text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
+            >
               What we&apos;re building.
             </motion.h2>
           </div>
-          <motion.p variants={paragraphReveal} className="max-w-md text-sm leading-7 text-neutral-600 dark:text-white/55 md:text-base">
+          <motion.p
+            variants={paragraphReveal}
+            className="max-w-md text-[15px] leading-[1.6] text-text-muted sm:text-base"
+          >
             A connected set of voice technologies — from natural speech generation
             to voice identity and conversational research.
           </motion.p>
@@ -97,13 +108,25 @@ export function DitherShowcase() {
               key={item.title}
               variants={cardReveal}
               className={[
-                "group flex min-w-0 flex-col overflow-hidden rounded-[26px] border border-black/[0.06] bg-[#F7F7F7] shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-black/15 dark:border-white/[0.09] dark:bg-[#0D0D0D] dark:shadow-none dark:hover:border-white/20",
+                "group surface-shadow relative flex min-w-0 flex-col overflow-hidden rounded-[26px] transition-[transform,background-color] duration-200 hover:-translate-y-0.5",
+                item.featured
+                  ? "surface-accent"
+                  : "bg-surface-card hover:bg-surface-card-hover",
                 "lg:col-span-2",
                 index === 3 ? "lg:col-start-2" : "",
-                index === 4 ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.625rem)] lg:col-span-2 lg:col-start-4 lg:w-full" : "",
+                index === 4
+                  ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.625rem)] lg:col-span-2 lg:col-start-4 lg:w-full"
+                  : "",
               ].join(" ")}
             >
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#E5E5E5] dark:bg-[#151515]">
+              {!item.featured && (
+                <div
+                  aria-hidden="true"
+                  className="surface-hover-sheen pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+              )}
+
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-page dark:bg-[#050505]">
                 <Image
                   src={item.src}
                   alt={item.alt}
@@ -113,24 +136,24 @@ export function DitherShowcase() {
                 />
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.12] via-transparent to-white/[0.06] dark:from-black/20 dark:to-white/[0.025]"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.15] via-transparent to-transparent dark:from-[#000103]/45"
                 />
               </div>
 
-              <div className="flex flex-1 flex-col p-6 sm:p-7">
+              <div className="relative z-10 flex flex-1 flex-col p-6 sm:p-7">
                 <div className="mb-5 flex items-center justify-between gap-3">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.19em] text-neutral-500 dark:text-white/45">
+                  <span className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-text-muted sm:text-[13px]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="inline-flex max-w-full items-center rounded-full border border-black/[0.07] bg-black/[0.025] px-3 py-1.5 text-[10px] font-medium tracking-wide text-neutral-600 dark:border-white/[0.09] dark:bg-white/[0.045] dark:text-white/60">
+                  <span className="inline-flex max-w-full items-center rounded-full bg-surface-page px-3 py-1 text-xs font-medium text-text-primary dark:bg-white/[0.06]">
                     {item.status}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-semibold tracking-[-0.035em] text-[#151515] dark:text-white sm:text-[1.35rem]">
+                <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-[13px] leading-[1.75] text-neutral-600 dark:text-white/55 sm:text-sm">
+                <p className="mt-3 text-[15px] leading-[1.6] text-text-muted sm:text-base">
                   {item.text}
                 </p>
               </div>

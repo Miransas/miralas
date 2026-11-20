@@ -1,6 +1,6 @@
 'use client';
 
-import {  useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,6 +16,8 @@ import {
 } from '@/lib/motion';
 
 const sectionStagger = staggerContainer(0.06);
+const FOCUS_RING =
+  'focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2';
 
 type Card = {
   eyebrow: string;
@@ -27,6 +29,7 @@ type Card = {
   points: string[];
   ctaLabel: string;
   ctaHref: string;
+  featured?: boolean;
 };
 
 const cards: Card[] = [
@@ -46,6 +49,7 @@ const cards: Card[] = [
     ],
     ctaLabel: 'Follow development updates',
     ctaHref: '/changelog',
+    featured: true,
   },
   {
     eyebrow: 'Voice Cloning · In Development',
@@ -144,7 +148,7 @@ function Visual({ src, alt, pos = '50% 50%' }: { src: string; alt: string; pos?:
       <div
         role="img"
         aria-label={`${alt} image could not be loaded`}
-        className="flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-br from-[#f3f3f4] to-[#e4e4e6] text-xs text-neutral-500 dark:from-white/[0.06] dark:to-white/[0.02] dark:text-neutral-400"
+        className="flex h-full w-full items-center justify-center rounded-2xl bg-surface-page text-xs text-text-muted dark:bg-white/[0.04]"
       >
         Image not found: {src}
       </div>
@@ -158,7 +162,7 @@ function Visual({ src, alt, pos = '50% 50%' }: { src: string; alt: string; pos?:
       fill
       sizes="(max-width: 768px) 90vw, 440px"
       style={{ objectPosition: pos }}
-      className="rounded-2xl object-cover ring-1 ring-black/5 dark:ring-white/10"
+      className="rounded-2xl object-cover"
       onError={() => setHasError(true)}
     />
   );
@@ -182,7 +186,7 @@ export default function WhyMiransas() {
     setActive(i);
   };
 
-const close = () => {
+  const close = () => {
     setActive(null);
     requestAnimationFrame(() => {
       lastTrigger.current?.focus();
@@ -243,39 +247,6 @@ const close = () => {
       }
     };
   }, [active]);
-  // Keyboard navigation + Lenis-safe background scroll lock
-  useEffect(() => {
-    if (active === null) return;
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowRight') stepModal(1);
-      if (e.key === 'ArrowLeft') stepModal(-1);
-    };
-
-    document.addEventListener('keydown', onKey);
-
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-    const hadLenisStopped = html.classList.contains('lenis-stopped');
-
-    html.style.overflow = 'hidden';
-    body.style.overflow = 'hidden';
-    html.classList.add('lenis-stopped');
-
-    closeRef.current?.focus();
-
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
-      if (!hadLenisStopped) {
-        html.classList.remove('lenis-stopped');
-      }
-    };
-  }, [active, close, stepModal]);
 
   const scrollByCard = (dir: 1 | -1) => {
     const el = scrollerRef.current;
@@ -301,7 +272,7 @@ const close = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22 }}
           onClick={close}
-          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 p-0 backdrop-blur-md md:items-center md:p-6"
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/65 p-0 backdrop-blur-md md:items-center md:p-6"
         >
           <motion.div
             data-lenis-prevent
@@ -312,15 +283,15 @@ const close = () => {
             exit={{ opacity: 0, y: 16, scale: 0.985 }}
             transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
             onClick={(e) => e.stopPropagation()}
-            className="flex max-h-[90dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-[28px] border border-black/[0.08] bg-white text-[#1d1d1f] shadow-2xl md:max-h-[86dvh] md:rounded-[32px] dark:border-white/[0.1] dark:bg-[#111112] dark:text-white"
+            className="surface-shadow-lg flex max-h-[90dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-[28px] bg-surface-card text-text-heading md:max-h-[86dvh] md:rounded-[28px]"
           >
-            {/* Sticky Modal Header */}
-            <div className="flex shrink-0 items-center justify-between gap-4 border-b border-black/[0.06] px-6 py-4 md:px-10 md:py-5 dark:border-white/[0.08]">
+            {/* Sticky Modal Header — borderless */}
+            <div className="flex shrink-0 items-center justify-between gap-4 px-6 py-4 md:px-10 md:py-5">
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center rounded-full bg-black/[0.05] px-3 py-1 text-xs font-medium text-neutral-700 dark:bg-white/[0.08] dark:text-neutral-300">
+                <span className="inline-flex items-center rounded-full bg-surface-page px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary dark:bg-white/[0.06] sm:text-[13px]">
                   {current.eyebrow}
                 </span>
-                <span className="font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500">
+                <span className="font-mono text-xs leading-[1.45] tabular-nums text-text-muted sm:text-[13px]">
                   {String(active + 1).padStart(2, '0')} / {String(cards.length).padStart(2, '0')}
                 </span>
               </div>
@@ -330,7 +301,7 @@ const close = () => {
                 type="button"
                 aria-label="Close modal"
                 onClick={close}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black/[0.06] text-[#1d1d1f] transition hover:bg-black/[0.12] active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-neutral-900 dark:bg-white/[0.1] dark:text-white dark:hover:bg-white/[0.18] dark:focus-visible:outline-white"
+                className={`flex size-9 shrink-0 items-center justify-center rounded-full bg-black/[0.06] text-text-heading transition hover:bg-black/[0.12] active:scale-95 dark:bg-white/[0.08] dark:hover:bg-white/[0.15] ${FOCUS_RING}`}
               >
                 <PlusIcon open />
               </button>
@@ -343,7 +314,7 @@ const close = () => {
               data-lenis-prevent-wheel
               data-lenis-prevent-touch
               style={{ WebkitOverflowScrolling: 'touch' }}
-              className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-6 py-6 md:px-10 md:py-9"
+              className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-6 py-6 md:px-10 md:py-8"
             >
               <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-start md:gap-10">
                 {/* Left: Visual */}
@@ -353,26 +324,29 @@ const close = () => {
 
                 {/* Right: Copy & Key Points */}
                 <div className="flex flex-col md:col-span-7">
-                  <h3 className="text-2xl font-semibold leading-[1.12] tracking-tight md:text-4xl">
+                  <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
                     {current.modalTitle}
                   </h3>
 
-                  <div className="mt-5 space-y-4 text-[16px] leading-relaxed text-neutral-600 md:text-[17px] dark:text-neutral-300">
+                  <div className="mt-5 space-y-4 text-[15px] leading-[1.6] text-text-primary sm:text-base">
                     {current.body.map((p) => (
                       <p key={p}>{p}</p>
                     ))}
                   </div>
 
-                  <div className="mt-7 rounded-2xl border border-black/[0.06] bg-black/[0.02] p-5 dark:border-white/[0.08] dark:bg-white/[0.03]">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-                      Key Highlights
+                  <div className="surface-accent-soft mt-7 rounded-[22px] p-5 sm:p-6">
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
+                      Key highlights
                     </p>
                     <ul className="mt-3.5 space-y-3">
                       {current.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-3 text-[15px] leading-snug text-neutral-800 dark:text-neutral-200">
+                        <li
+                          key={pt}
+                          className="flex items-start gap-3 text-[15px] leading-[1.6] text-text-primary sm:text-base"
+                        >
                           <span
                             aria-hidden
-                            className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-900 dark:bg-white"
+                            className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#7c3aed]"
                           />
                           <span>{pt}</span>
                         </li>
@@ -383,14 +357,14 @@ const close = () => {
               </div>
             </div>
 
-            {/* Sticky Modal Footer with Navigation + CTA */}
-            <div className="flex shrink-0 flex-wrap items-center justify-between gap-4 border-t border-black/[0.06] bg-neutral-50/80 px-6 py-4 md:px-10 md:py-5 dark:border-white/[0.08] dark:bg-white/[0.02]">
+            {/* Sticky Modal Footer with Navigation + CTA — borderless tonal lift */}
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-4 bg-surface-page/60 px-6 py-4 dark:bg-white/[0.025] md:px-10 md:py-5">
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => stepModal(-1)}
                   aria-label="Previous item"
-                  className="inline-flex h-10 items-center gap-1.5 rounded-full border border-black/10 px-4 text-sm font-medium text-neutral-700 transition hover:bg-black/[0.05] active:scale-[0.98] dark:border-white/15 dark:text-neutral-200 dark:hover:bg-white/[0.08]"
+                  className={`inline-flex h-10 items-center gap-1.5 rounded-full bg-surface-card px-4 text-sm font-medium text-text-primary transition hover:bg-surface-card-hover hover:text-text-heading active:scale-[0.98] dark:bg-white/[0.06] dark:hover:bg-white/[0.12] ${FOCUS_RING}`}
                 >
                   <span aria-hidden>←</span>
                   <span className="hidden sm:inline">Previous</span>
@@ -399,7 +373,7 @@ const close = () => {
                   type="button"
                   onClick={() => stepModal(1)}
                   aria-label="Next item"
-                  className="inline-flex h-10 items-center gap-1.5 rounded-full border border-black/10 px-4 text-sm font-medium text-neutral-700 transition hover:bg-black/[0.05] active:scale-[0.98] dark:border-white/15 dark:text-neutral-200 dark:hover:bg-white/[0.08]"
+                  className={`inline-flex h-10 items-center gap-1.5 rounded-full bg-surface-card px-4 text-sm font-medium text-text-primary transition hover:bg-surface-card-hover hover:text-text-heading active:scale-[0.98] dark:bg-white/[0.06] dark:hover:bg-white/[0.12] ${FOCUS_RING}`}
                 >
                   <span className="hidden sm:inline">Next</span>
                   <span aria-hidden>→</span>
@@ -409,7 +383,7 @@ const close = () => {
               <Link
                 href={current.ctaHref}
                 onClick={close}
-                className="group inline-flex h-10 items-center gap-2 rounded-full bg-[#1d1d1f] px-5 text-sm font-medium text-white transition hover:bg-neutral-800 active:scale-[0.98] dark:bg-white dark:text-[#050505] dark:hover:bg-neutral-200"
+                className={`group inline-flex h-10 items-center gap-2 rounded-full bg-text-heading px-5 text-sm font-semibold text-surface-page transition hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
               >
                 <span>{current.ctaLabel}</span>
                 <span
@@ -427,7 +401,7 @@ const close = () => {
   );
 
   return (
-    <section className="overflow-x-clip bg-[#EFEFEF] py-20 text-[#1d1d1f] dark:bg-[#050505] dark:text-white md:py-28">
+    <section className="overflow-x-clip bg-surface-page py-20 text-text-heading md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         {/* Heading */}
         <motion.div
@@ -435,23 +409,26 @@ const close = () => {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="flex items-end justify-between gap-6"
+          className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
         >
           <motion.h2
             variants={headingReveal}
-            className="text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl"
+            className="text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
           >
             Why people choose
             <br />
             Miransas.
           </motion.h2>
-          <motion.div variants={headingReveal} className="shrink-0 pb-2">
+          <motion.div variants={headingReveal} className="shrink-0 pb-1">
             <Link
               href="/product"
-              className="group inline-flex items-center gap-1 text-base font-medium underline-offset-4 hover:underline"
+              className={`group inline-flex items-center gap-1.5 rounded-full bg-surface-card px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface-card-hover hover:text-text-heading ${FOCUS_RING}`}
             >
               <span>Explore products</span>
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
+              <span
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              >
                 ›
               </span>
             </Link>
@@ -475,21 +452,34 @@ const close = () => {
             key={c.title}
             variants={cardReveal}
             onClick={(e) => open(i, e.currentTarget)}
-            className="group relative flex h-[560px] w-[82vw] max-w-[380px] shrink-0 cursor-pointer snap-start flex-col overflow-hidden rounded-[28px] border border-black/[0.06] bg-white p-8 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-black/15 dark:border-white/[0.08] dark:bg-[#161617] dark:hover:border-white/20"
+            className={`group surface-shadow relative flex h-[560px] w-[82vw] max-w-[380px] shrink-0 cursor-pointer snap-start flex-col overflow-hidden rounded-[28px] p-8 transition-[transform,background-color] duration-200 hover:-translate-y-0.5 ${
+              c.featured
+                ? 'surface-accent'
+                : 'bg-surface-card hover:bg-surface-card-hover'
+            }`}
           >
-            <p className="text-[15px] font-semibold text-neutral-800 dark:text-neutral-200">
-              {c.eyebrow}
-            </p>
-            <h3 className="mt-2 text-[28px] font-semibold leading-[1.1] tracking-tight">
-              {c.title}
-            </h3>
-            <p className="mt-3 text-[17px] leading-snug text-neutral-600 dark:text-neutral-400">
-              {c.summary}
-            </p>
+            {!c.featured && (
+              <div
+                aria-hidden="true"
+                className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+            )}
 
-            {/* Visual area */}
-            <div className="relative mt-auto h-[250px] w-full">
-              <Visual src={c.image} alt={c.eyebrow} />
+            <div className="relative z-10 flex h-full flex-col">
+              <span className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
+                {c.eyebrow}
+              </span>
+              <h3 className="mt-3 text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
+                {c.title}
+              </h3>
+              <p className="mt-3 text-[15px] leading-[1.6] text-text-muted sm:text-base">
+                {c.summary}
+              </p>
+
+              {/* Visual area */}
+              <div className="relative mt-auto h-[250px] w-full">
+                <Visual src={c.image} alt={c.eyebrow} />
+              </div>
             </div>
 
             <button
@@ -499,7 +489,7 @@ const close = () => {
                 e.stopPropagation();
                 open(i, e.currentTarget);
               }}
-              className="absolute bottom-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#e8e8ed]/95 text-[#1d1d1f] transition-[transform,background-color] duration-200 hover:scale-105 hover:bg-[#dcdce1] active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:bg-white/15 dark:text-white dark:hover:bg-white/25 dark:focus-visible:outline-white"
+              className={`absolute bottom-5 right-5 z-20 flex size-10 items-center justify-center rounded-full bg-surface-page/90 text-text-heading backdrop-blur-sm transition-[transform,background-color] duration-200 hover:scale-105 hover:bg-surface-card active:scale-95 dark:bg-white/[0.12] dark:hover:bg-[#7c3aed]/30 ${FOCUS_RING}`}
             >
               <PlusIcon />
             </button>
@@ -515,7 +505,7 @@ const close = () => {
             type="button"
             aria-label={dir === -1 ? 'Previous' : 'Next'}
             onClick={() => scrollByCard(dir)}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-black/10 text-[#1d1d1f] transition-[background-color,transform] duration-200 hover:bg-black/20 active:scale-95 dark:bg-white/15 dark:text-white dark:hover:bg-white/25"
+            className={`flex size-10 items-center justify-center rounded-full bg-surface-card text-text-primary transition-[background-color,color,transform] duration-200 hover:bg-surface-card-hover hover:text-text-heading active:scale-95 ${FOCUS_RING}`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path

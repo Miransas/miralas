@@ -59,7 +59,7 @@ const tableRows = [
 
 export function ComparisonSection() {
   return (
-    <section className="relative overflow-x-clip bg-[#EFEFEF] py-24 text-[#171717] dark:bg-[#050505] dark:text-[#F5F5F5] md:py-32">
+    <section className="relative overflow-x-clip bg-surface-page py-24 text-text-heading md:py-32">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-6">
         <motion.div
           variants={staggerContainer(0.06)}
@@ -68,13 +68,23 @@ export function ComparisonSection() {
           viewport={VIEWPORT_ONCE}
           className="mx-auto max-w-2xl text-center"
         >
-          <motion.span variants={eyebrowReveal} className="inline-flex items-center rounded-full border border-black/10 bg-black/[0.025] px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-black/55 dark:border-white/10 dark:bg-white/[0.035] dark:text-white/55">
+          <motion.span
+            variants={eyebrowReveal}
+            className="inline-flex items-center gap-2 rounded-full bg-surface-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
+          >
+            <span className="size-1.5 rounded-full bg-[#7c3aed]" />
             The difference
           </motion.span>
-          <motion.h2 variants={headingReveal} className="mt-5 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-4xl md:text-5xl">
+          <motion.h2
+            variants={headingReveal}
+            className="mt-5 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
+          >
             A voice workflow built around your needs.
           </motion.h2>
-          <motion.p variants={paragraphReveal} className="mx-auto mt-4 max-w-xl text-sm leading-7 text-black/60 dark:text-white/55 sm:text-base">
+          <motion.p
+            variants={paragraphReveal}
+            className="mx-auto mt-5 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base"
+          >
             Compare the approaches to creating voice content — from working
             with a voice actor to using an AI voice platform.
           </motion.p>
@@ -85,7 +95,7 @@ export function ComparisonSection() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_EARLY}
-          className="mt-12 overflow-hidden rounded-[26px] border border-black/[0.075] bg-[#F7F7F7] shadow-[0_18px_60px_-42px_rgba(0,0,0,0.22)] dark:border-white/[0.09] dark:bg-[#0D0D0D] dark:shadow-none md:mt-16 md:rounded-[30px]"
+          className="surface-shadow mt-12 overflow-hidden rounded-[28px] bg-surface-card md:mt-16"
         >
           <div
             data-lenis-prevent
@@ -104,7 +114,10 @@ export function ComparisonSection() {
               </colgroup>
               <thead>
                 <tr>
-                  <th scope="col" className="px-6 py-7 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/35 dark:text-white/35 md:px-8">
+                  <th
+                    scope="col"
+                    className="px-6 py-7 text-xs font-medium uppercase tracking-[0.12em] text-text-muted md:px-8"
+                  >
                     Compared by
                   </th>
                   {tableRows.map((column) => (
@@ -112,20 +125,20 @@ export function ComparisonSection() {
                       key={column.key}
                       scope="col"
                       className={[
-                        "px-6 py-7 text-sm font-semibold tracking-tight md:px-7 md:text-base",
+                        "px-6 py-7 text-base font-semibold tracking-[-0.02em] md:px-7",
                         column.featured
-                          ? "border-x border-black/[0.07] bg-[#ECECEC] text-[#171717] dark:border-white/[0.09] dark:bg-[#151515] dark:text-white"
-                          : "text-black/75 dark:text-white/75",
+                          ? "bg-[#7c3aed]/[0.07] text-text-heading dark:bg-[#7c3aed]/[0.14]"
+                          : "text-text-primary",
                       ].join(" ")}
                     >
                       <div className="flex items-center gap-2.5">
                         {column.featured && (
-                          <span className="size-1.5 rounded-full bg-[#242424] dark:bg-white" />
+                          <span className="size-2 rounded-full bg-[#7c3aed]" />
                         )}
                         {column.title}
                       </div>
                       {column.featured && (
-                        <span className="mt-2 block text-[9px] font-medium uppercase tracking-[0.16em] text-black/45 dark:text-white/40">
+                        <span className="mt-2 block text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
                           Voice infrastructure
                         </span>
                       )}
@@ -134,21 +147,28 @@ export function ComparisonSection() {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row) => (
-                  <tr key={row.label}>
+                {rows.map((row, rowIndex) => (
+                  <tr
+                    key={row.label}
+                    className={
+                      rowIndex % 2 === 1
+                        ? "bg-black/[0.02] dark:bg-white/[0.02]"
+                        : ""
+                    }
+                  >
                     <th
                       scope="row"
-                      className="border-t border-black/[0.075] px-6 py-6 text-[12px] font-semibold text-black/75 dark:border-white/[0.085] dark:text-white/75 md:px-8 md:py-7 md:text-[13px]"
+                      className="px-6 py-6 text-sm font-semibold text-text-primary md:px-8 md:py-7"
                     >
                       {row.label}
                     </th>
-                    <td className="border-x border-t border-black/[0.07] bg-[#ECECEC] px-6 py-6 text-[12px] leading-6 text-[#292929] dark:border-white/[0.09] dark:bg-[#151515] dark:text-white/85 md:px-7 md:py-7 md:text-[13px]">
+                    <td className="bg-[#7c3aed]/[0.06] px-6 py-6 text-[15px] leading-[1.6] text-text-heading dark:bg-[#7c3aed]/[0.11] md:px-7 md:py-7">
                       {row.miransas}
                     </td>
-                    <td className="border-t border-black/[0.075] px-6 py-6 text-[12px] leading-6 text-black/55 dark:border-white/[0.085] dark:text-white/55 md:px-7 md:py-7 md:text-[13px]">
+                    <td className="px-6 py-6 text-[15px] leading-[1.6] text-text-muted md:px-7 md:py-7">
                       {row.voiceActor}
                     </td>
-                    <td className="border-t border-black/[0.075] px-6 py-6 text-[12px] leading-6 text-black/55 dark:border-white/[0.085] dark:text-white/55 md:px-7 md:py-7 md:text-[13px]">
+                    <td className="px-6 py-6 text-[15px] leading-[1.6] text-text-muted md:px-7 md:py-7">
                       {row.genericTts}
                     </td>
                   </tr>
@@ -156,17 +176,17 @@ export function ComparisonSection() {
               </tbody>
             </table>
           </div>
-          <div className="flex flex-col gap-2 border-t border-black/[0.06] px-6 py-4 dark:border-white/[0.07] sm:flex-row sm:items-center sm:justify-between md:px-8">
-            <p className="text-[10px] leading-5 text-black/45 dark:text-white/40">
+          <div className="flex flex-col gap-2 bg-surface-page/55 px-6 py-4 dark:bg-white/[0.02] sm:flex-row sm:items-center sm:justify-between md:px-8">
+            <p className="text-xs leading-[1.45] text-text-muted sm:text-[13px]">
               Product capabilities and availability may vary by development stage.
             </p>
-            <span className="shrink-0 font-mono text-[9px] tracking-[0.16em] text-black/35 dark:text-white/30">
+            <span className="shrink-0 font-mono text-xs tracking-[0.12em] text-text-muted">
               MIRANSAS / OVERVIEW
             </span>
           </div>
         </motion.div>
 
-        <p className="mt-4 text-center text-[11px] text-black/40 dark:text-white/35 md:hidden">
+        <p className="mt-4 text-center text-xs text-text-muted md:hidden">
           Swipe horizontally to compare all columns.
         </p>
       </div>

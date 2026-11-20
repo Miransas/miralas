@@ -1,6 +1,5 @@
 const COUNT = 48;
 
-// Rastgele değil, deterministik: sunucu ve tarayıcı aynı çizimi üretir.
 const flat = Array.from({ length: COUNT }, () => 36);
 const natural = Array.from({ length: COUNT }, (_, i) =>
   Math.round(18 + Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.21)) * 82),
@@ -22,42 +21,46 @@ function Bars({ heights, className }: { heights: number[]; className: string }) 
 
 export function VoiceContrastSection() {
   return (
-    <section className="py-20">
+    <section className="bg-surface-page py-24 text-text-heading">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+          <h2 className="text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]">
             Speech should have rhythm
           </h2>
-          <p className="mt-3 text-muted-foreground">
+          <p className="mt-4 text-[15px] leading-[1.6] text-text-muted sm:text-base">
             Flat delivery is the first thing listeners notice. This is the
             quality bar we are building toward.
           </p>
         </div>
 
-        <div className="mt-12 grid divide-y divide-border overflow-hidden rounded-3xl border border-border md:grid-cols-2 md:divide-x md:divide-y-0">
-          <div className="space-y-6 bg-muted/40 p-8 md:p-12">
+        <div className="mt-12 grid gap-5 md:grid-cols-2">
+          <div className="space-y-6 rounded-[26px] bg-surface-card p-8 md:p-10">
             <div className="space-y-2">
-              <h3 className="text-xl font-semibold">Flat speech</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
+                Flat speech
+              </h3>
+              <p className="text-[15px] leading-[1.6] text-text-muted sm:text-base">
                 Even pacing and no emphasis. Easy to tell it is a machine.
               </p>
             </div>
-            <Bars heights={flat} className="bg-muted-foreground/40" />
+            <Bars heights={flat} className="bg-text-muted/45" />
           </div>
 
-          <div className="space-y-6 bg-card p-8 md:p-12">
+          <div className="surface-accent surface-shadow space-y-6 rounded-[26px] p-8 md:p-10">
             <div className="space-y-2">
-              <h3 className="text-xl font-semibold">Expressive speech</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
+                Expressive speech
+              </h3>
+              <p className="text-[15px] leading-[1.6] text-text-primary sm:text-base">
                 Pauses, emphasis and rhythm that follow the meaning of the
                 sentence.
               </p>
             </div>
-            <Bars heights={natural} className="bg-foreground" />
+            <Bars heights={natural} className="bg-[#7c3aed] dark:bg-white" />
           </div>
         </div>
 
-        <p className="mt-4 text-center text-xs text-muted-foreground">
+        <p className="mt-5 text-center text-xs leading-[1.45] text-text-muted sm:text-[13px]">
           Illustration, not a real recording.
         </p>
       </div>

@@ -38,6 +38,8 @@ const workflowItems = [
 
 const INITIAL_MINUTES = 120;
 const INITIAL_RATE = 6;
+const FOCUS_RING =
+  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
 
 /* -------------------------------------------------------------------------- */
 /* Shared UI                                                                   */
@@ -80,7 +82,7 @@ const VideoBackground = memo(function VideoBackground({
         isIntersecting = Boolean(entry?.isIntersecting);
         syncPlayback();
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     observer.observe(video);
@@ -97,11 +99,11 @@ const VideoBackground = memo(function VideoBackground({
     <>
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_45%,rgba(120,120,120,0.16),transparent_54%)] dark:bg-[radial-gradient(ellipse_at_72%_45%,rgba(255,255,255,0.10),transparent_54%)]"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_45%,rgba(124,58,237,0.08),transparent_56%)] dark:bg-[radial-gradient(ellipse_at_72%_45%,rgba(124,58,237,0.12),transparent_56%)]"
       />
       <video
         ref={videoRef}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 dark:opacity-45"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-15 dark:opacity-35"
         src={src}
         muted
         loop
@@ -120,8 +122,8 @@ function CardOverlay({ variant = "standard" }: { variant?: "standard" | "soft" }
       aria-hidden="true"
       className={
         variant === "soft"
-          ? "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#EFEFEF]/92 via-[#EFEFEF]/78 to-[#EFEFEF]/48 dark:from-[#050505]/92 dark:via-[#050505]/72 dark:to-[#050505]/32"
-          : "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#EFEFEF]/95 via-[#EFEFEF]/84 to-[#EFEFEF]/52 dark:from-[#050505]/95 dark:via-[#050505]/78 dark:to-[#050505]/34"
+          ? "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FFFFFF]/94 via-[#FFFFFF]/82 to-[#FFFFFF]/55 dark:from-[#000103]/94 dark:via-[#000103]/78 dark:to-[#000103]/42"
+          : "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FFFFFF]/96 via-[#FFFFFF]/86 to-[#FFFFFF]/58 dark:from-[#000103]/96 dark:via-[#000103]/82 dark:to-[#000103]/44"
       }
     />
   );
@@ -131,7 +133,7 @@ function Pill({ children }: { children: ReactNode }) {
   return (
     <motion.span
       variants={eyebrowReveal}
-      className="inline-flex w-fit items-center rounded-full border border-neutral-900/10 bg-white/85 px-4 py-1.5 text-[11px] font-medium tracking-wide text-neutral-700 dark:border-white/10 dark:bg-white/[0.07] dark:text-white/80 md:px-5 md:py-2 md:text-xs"
+      className="inline-flex w-fit items-center rounded-full bg-surface-page px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary dark:bg-white/[0.06] sm:text-[13px] md:px-5 md:py-2"
     >
       {children}
     </motion.span>
@@ -140,12 +142,12 @@ function Pill({ children }: { children: ReactNode }) {
 
 function Heading({ children }: { children: ReactNode }) {
   return (
-    <motion.h3
+    <motion.h2
       variants={headingReveal}
-      className="mt-4 text-[clamp(26px,3.6vw,52px)] font-medium leading-[1.04] tracking-[-0.05em] text-neutral-950 dark:text-white md:mt-6"
+      className="mt-4 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem] md:mt-6"
     >
       {children}
-    </motion.h3>
+    </motion.h2>
   );
 }
 
@@ -153,7 +155,7 @@ function Lead({ children }: { children: ReactNode }) {
   return (
     <motion.p
       variants={paragraphReveal}
-      className="mt-3 max-w-[520px] text-[13px] leading-relaxed text-neutral-600 dark:text-white/58 md:mt-5 md:text-base lg:text-lg"
+      className="mt-3 max-w-[520px] text-[15px] leading-[1.6] text-text-muted sm:text-base md:mt-5"
     >
       {children}
     </motion.p>
@@ -171,18 +173,18 @@ function WorkflowMarquee({ reduceMotion }: { reduceMotion: boolean | null }) {
     workflowItems.map((item) => (
       <li
         key={`${copy}-${item.title}`}
-        className="flex items-center gap-3 rounded-2xl border border-neutral-900/[0.08] bg-white/95 px-4 py-3.5 dark:border-white/[0.09] dark:bg-[#111113]/95 md:gap-4 md:px-5 md:py-4"
+        className="flex items-center gap-3 rounded-2xl bg-surface-page/90 px-4 py-3.5 dark:bg-[#050505]/90 md:gap-4 md:px-5 md:py-4"
       >
-        <span className="h-2 w-2 shrink-0 rounded-full bg-neutral-500 dark:bg-neutral-300" />
+        <span className="size-2 shrink-0 rounded-full bg-[#7c3aed]" />
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-semibold text-neutral-900 dark:text-white/90 md:text-base">
+          <span className="block truncate text-[15px] font-semibold text-text-heading sm:text-base">
             {item.title}
           </span>
-          <span className="mt-0.5 block truncate text-xs text-neutral-500 dark:text-white/50 md:text-sm">
+          <span className="mt-0.5 block truncate text-xs leading-[1.45] text-text-muted sm:text-[13px]">
             {item.sub}
           </span>
         </span>
-        <span className="shrink-0 font-mono text-[10px] tabular-nums text-neutral-400 dark:text-white/35 md:text-xs">
+        <span className="shrink-0 font-mono text-xs leading-[1.45] tabular-nums text-text-muted sm:text-[13px]">
           {item.time}
         </span>
       </li>
@@ -196,7 +198,8 @@ function WorkflowMarquee({ reduceMotion }: { reduceMotion: boolean | null }) {
       className="relative h-[230px] overflow-hidden md:h-[340px]"
       style={{
         maskImage: "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
-        WebkitMaskImage: "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
         contain: "layout paint",
       }}
     >
@@ -229,7 +232,7 @@ function CardOne({ reduceMotion }: { reduceMotion: boolean | null }) {
           viewport={VIEWPORT_ONCE}
           className="flex flex-col justify-center"
         >
-          <Pill>VOICE GENERATION · WORKFLOW</Pill>
+          <Pill>Voice generation · Workflow</Pill>
           <Heading>Turn written language into natural voice.</Heading>
           <Lead>
             Move from prepared text to generated speech through a focused voice
@@ -239,10 +242,10 @@ function CardOne({ reduceMotion }: { reduceMotion: boolean | null }) {
 
         <div className="flex flex-col justify-center">
           <div className="mb-3 flex items-center justify-between gap-3 px-1">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.19em] text-neutral-500 dark:text-white/45 md:text-xs">
+            <span className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
               Workflow preview
             </span>
-            <span className="rounded-full border border-neutral-900/10 bg-white/80 px-2.5 py-1 text-[9px] text-neutral-500 dark:border-white/10 dark:bg-white/[0.06] dark:text-white/45 md:text-[10px]">
+            <span className="rounded-full bg-surface-page px-3 py-1 text-xs leading-[1.45] text-text-muted dark:bg-white/[0.06]">
               Illustrative activity
             </span>
           </div>
@@ -274,10 +277,10 @@ function Range({
   const percentage = ((value - min) / (max - min)) * 100;
 
   return (
-    <div className="mt-5 md:mt-7">
-      <div className="flex items-center justify-between gap-4 text-sm text-neutral-600 dark:text-white/60 md:text-base">
+    <div className="mt-5 md:mt-6">
+      <div className="flex items-center justify-between gap-4 text-[15px] text-text-primary sm:text-base">
         <label>{label}</label>
-        <span className="font-semibold tabular-nums text-neutral-950 dark:text-white">
+        <span className="font-semibold tabular-nums text-text-heading">
           {prefix}
           {value.toLocaleString("en-US")}
         </span>
@@ -289,9 +292,9 @@ function Range({
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
         aria-label={label}
-        className="mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-neutral-200 [--range-track:#dedede] outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30 dark:bg-neutral-800 dark:[--range-track:#292929] dark:focus-visible:ring-white/30 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:bg-neutral-900 [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(0,0,0,0.08)] dark:[&::-webkit-slider-thumb]:border-neutral-900 dark:[&::-webkit-slider-thumb]:bg-white dark:[&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(255,255,255,0.12)] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-neutral-900 dark:[&::-moz-range-thumb]:bg-white"
+        className={`mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 [--range-track:rgba(0,0,0,0.1)] dark:bg-white/10 dark:[--range-track:rgba(255,255,255,0.12)] ${FOCUS_RING} [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#7c3aed] [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(124,58,237,0.18)] [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#7c3aed]`}
         style={{
-          background: `linear-gradient(to right, #737373 0%, #737373 ${percentage}%, var(--range-track, #dedede) ${percentage}%, var(--range-track, #dedede) 100%)`,
+          background: `linear-gradient(to right, #7c3aed 0%, #7c3aed ${percentage}%, var(--range-track) ${percentage}%, var(--range-track) 100%)`,
         }}
       />
     </div>
@@ -309,10 +312,10 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
   const yearlyValue = useMotionValue(INITIAL_MINUTES * INITIAL_RATE * 12);
 
   const formattedMonthly = useTransform(monthlyValue, (value) =>
-    `$${Math.round(value).toLocaleString("en-US")}`
+    `$${Math.round(value).toLocaleString("en-US")}`,
   );
   const formattedYearly = useTransform(yearlyValue, (value) =>
-    `$${Math.round(value).toLocaleString("en-US")}`
+    `$${Math.round(value).toLocaleString("en-US")}`,
   );
 
   useEffect(() => {
@@ -334,7 +337,7 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
         >
-          <Pill>VOICE PRODUCTION · ESTIMATOR</Pill>
+          <Pill>Voice production · Estimator</Pill>
           <Heading>See what recording time can add up to.</Heading>
           <Lead>
             Adjust the sample workload and studio rate to estimate a traditional
@@ -360,22 +363,23 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
         />
       </div>
 
+      {/* Primary Estimator output panel — Strategic Violet Gradient focal surface */}
       <motion.div
         variants={cardReveal}
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT_ONCE}
-        className="flex flex-col justify-center border-t border-neutral-900/10 pt-6 dark:border-white/10 md:border-l md:border-t-0 md:py-5 md:pl-9 lg:pl-12"
+        className="surface-accent surface-shadow flex flex-col justify-center rounded-[24px] p-6 sm:p-8 md:p-10"
       >
-        <span className="text-[10px] font-medium uppercase tracking-[0.19em] text-neutral-500 dark:text-white/45 md:text-xs">
+        <span className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
           Estimated recording spend / month
         </span>
-        <motion.span className="mt-3 bg-gradient-to-r from-neutral-950 via-neutral-600 to-neutral-400 bg-clip-text text-[clamp(44px,7vw,92px)] font-medium leading-none tracking-[-0.065em] tabular-nums text-transparent dark:from-white dark:via-neutral-200 dark:to-neutral-500 md:mt-4">
+        <motion.span className="mt-4 text-[clamp(44px,6.5vw,84px)] font-semibold leading-none tracking-[-0.03em] tabular-nums text-text-heading">
           {formattedMonthly}
         </motion.span>
-        <p className="mt-4 max-w-[390px] text-xs leading-relaxed text-neutral-600 dark:text-white/55 md:mt-5 md:text-sm">
+        <p className="mt-5 max-w-[390px] text-[15px] leading-[1.6] text-text-primary sm:text-base">
           Approximately{" "}
-          <motion.span className="font-medium tabular-nums text-neutral-900 dark:text-white/85">
+          <motion.span className="font-semibold tabular-nums text-text-heading">
             {formattedYearly}
           </motion.span>{" "}
           per year at these assumptions. This is an illustrative estimate, not a
@@ -431,7 +435,7 @@ function CardThree({ reduceMotion }: { reduceMotion: boolean | null }) {
           viewport={VIEWPORT_ONCE}
           className="flex flex-col justify-center"
         >
-          <Pill>VOICE CLONING · IN DEVELOPMENT</Pill>
+          <Pill>Voice cloning · In development</Pill>
           <Heading>One voice identity. A reusable creative workflow.</Heading>
           <Lead>
             Bring a reference recording into a structured process, review the
@@ -448,23 +452,27 @@ function CardThree({ reduceMotion }: { reduceMotion: boolean | null }) {
           viewport={VIEWPORT_ONCE}
           className="flex flex-col justify-center gap-3"
         >
-          <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.19em] text-neutral-500 dark:text-white/45 md:text-xs">
+          <div className="mb-1 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
             From reference to output
           </div>
           {cloningSteps.map((step) => (
             <motion.div
               key={step.number}
               variants={cardReveal}
-              className="flex items-start gap-4 rounded-2xl border border-neutral-900/[0.08] bg-white/92 px-4 py-3.5 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-neutral-900/20 dark:border-white/[0.09] dark:bg-[#111113]/92 dark:hover:border-white/22 md:gap-5 md:px-5 md:py-5"
+              className="group relative flex items-start gap-4 overflow-hidden rounded-2xl bg-surface-page/90 px-4 py-4 transition-[transform,background-color] duration-200 hover:-translate-y-0.5 dark:bg-[#050505]/90 md:gap-5 md:px-5 md:py-5"
             >
-              <span className="pt-0.5 font-mono text-base tabular-nums text-neutral-400 dark:text-white/45 md:text-xl">
+              <div
+                aria-hidden="true"
+                className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+              <span className="relative z-10 pt-0.5 font-mono text-sm tabular-nums text-text-muted md:text-base">
                 {step.number}
               </span>
-              <span className="min-w-0">
-                <span className="block text-sm font-semibold text-neutral-900 dark:text-white/90 md:text-base">
+              <span className="relative z-10 min-w-0">
+                <span className="block text-[15px] font-semibold text-text-heading sm:text-base">
                   {step.title}
                 </span>
-                <span className="mt-1 block text-xs leading-relaxed text-neutral-600 dark:text-white/50 md:text-sm">
+                <span className="mt-1 block text-xs leading-[1.45] text-text-muted sm:text-[13px]">
                   {step.description}
                 </span>
               </span>
@@ -500,17 +508,17 @@ function StackCard({
   const scale = useTransform(
     progress,
     isLast ? [0, 1] : [start, end],
-    isLast ? [1, 1] : [1, 0.94]
+    isLast ? [1, 1] : [1, 0.94],
   );
   const dim = useTransform(
     progress,
     isLast ? [0, 1] : [start, end],
-    isLast ? [0, 0] : [0, 0.16]
+    isLast ? [0, 0] : [0, 0.16],
   );
   const lift = useTransform(
     progress,
     isLast ? [0, 1] : [start, end],
-    isLast ? [0, 0] : [0, -10]
+    isLast ? [0, 0] : [0, -10],
   );
 
   return (
@@ -525,7 +533,7 @@ function StackCard({
           transformOrigin: "top center",
           willChange: !isLast && !reduceMotion ? "transform" : undefined,
         }}
-        className="relative h-[82svh] min-h-[540px] max-h-[780px] w-full max-w-[1220px] overflow-hidden rounded-[25px] border border-neutral-900/10 bg-[#f7f7f5] shadow-[0_24px_90px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-[#090909] dark:shadow-[0_28px_100px_rgba(0,0,0,0.38)] sm:rounded-[30px] md:rounded-[36px]"
+        className="surface-shadow-lg relative h-[82svh] min-h-[540px] max-h-[780px] w-full max-w-[1220px] overflow-hidden rounded-[24px] bg-surface-card sm:rounded-[28px]"
       >
         {children}
         <motion.div
@@ -554,7 +562,7 @@ export default function StackedCards() {
   ];
 
   return (
-    <section className="relative overflow-x-clip bg-[#EFEFEF] text-neutral-950 dark:bg-[#050505] dark:text-white">
+    <section className="relative overflow-x-clip bg-surface-page text-text-heading">
       <div ref={containerRef} className="relative">
         {cards.map((card, index) => (
           <StackCard

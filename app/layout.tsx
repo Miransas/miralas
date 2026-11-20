@@ -119,11 +119,11 @@ export const viewport: Viewport = {
   themeColor: [
     {
       media: "(prefers-color-scheme: light)",
-      color: "#fdfdfc",
+      color: "#EFEFEF",
     },
     {
       media: "(prefers-color-scheme: dark)",
-      color: "#090a09",
+      color: "#050505",
     },
   ],
 };
@@ -145,10 +145,9 @@ export default function RootLayout({
         "h-full antialiased",
         jakarta.variable,
         plexMono.variable,
-        "selection:background-green-500 selection:text-stone-700",
       )}
     >
-      <body className="min-h-full overflow-x-clip bg-background text-foreground">
+      <body className="min-h-full overflow-x-clip bg-surface-page text-text-heading">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

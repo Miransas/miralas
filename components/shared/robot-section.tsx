@@ -14,6 +14,9 @@ import {
   staggerContainer,
 } from "@/lib/motion";
 
+const FOCUS_RING =
+  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+
 const capabilities = [
   {
     number: "01",
@@ -86,7 +89,7 @@ export function VoiceLayerSection() {
   }, [reduceMotion]);
 
   return (
-    <section className="relative overflow-x-clip bg-[#EFEFEF] py-24 text-[#111111] dark:bg-[#050505] dark:text-white md:py-32">
+    <section className="relative overflow-x-clip bg-surface-page py-24 text-text-heading md:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
           {/* Editorial copy and product capabilities */}
@@ -97,13 +100,22 @@ export function VoiceLayerSection() {
               whileInView="visible"
               viewport={VIEWPORT_ONCE}
             >
-              <motion.p variants={eyebrowReveal} className="text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-white/45">
+              <motion.p
+                variants={eyebrowReveal}
+                className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
+              >
                 The Miransas voice layer
               </motion.p>
-              <motion.h2 variants={headingReveal} className="mt-5 max-w-[620px] text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.065em]">
+              <motion.h2
+                variants={headingReveal}
+                className="mt-5 max-w-[620px] text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
+              >
                 From a single voice to a whole conversation.
               </motion.h2>
-              <motion.p variants={paragraphReveal} className="mt-6 max-w-xl text-[15px] leading-7 text-neutral-600 dark:text-white/55 md:text-base md:leading-8">
+              <motion.p
+                variants={paragraphReveal}
+                className="mt-6 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base"
+              >
                 Miransas brings speech generation, voice identity and conversational
                 experiences into one voice-focused platform. Start with spoken
                 content, then build toward more natural voice interactions.
@@ -115,7 +127,7 @@ export function VoiceLayerSection() {
               initial="hidden"
               whileInView="visible"
               viewport={VIEWPORT_EARLY}
-              className="mt-10 border-t border-black/10 dark:border-white/10"
+              className="mt-10 flex flex-col gap-3"
             >
               {capabilities.map((item) => {
                 const Icon = item.icon;
@@ -123,26 +135,30 @@ export function VoiceLayerSection() {
                   <motion.div
                     key={item.number}
                     variants={cardReveal}
-                    className="grid grid-cols-[34px_1fr] gap-4 border-b border-black/10 py-5 dark:border-white/10 sm:grid-cols-[34px_1fr_auto] sm:items-start sm:gap-5"
+                    className="group relative grid grid-cols-[34px_1fr] gap-4 overflow-hidden rounded-[22px] bg-surface-card p-5 transition-colors duration-300 hover:bg-surface-card-hover sm:grid-cols-[34px_1fr_auto] sm:items-start sm:gap-5"
                   >
-                    <span className="pt-0.5 font-mono text-[11px] tabular-nums text-neutral-400 dark:text-white/30">
+                    <div
+                      aria-hidden="true"
+                      className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                    <span className="relative z-10 pt-0.5 font-mono text-xs tabular-nums text-text-muted">
                       {item.number}
                     </span>
-                    <div className="min-w-0">
+                    <div className="relative z-10 min-w-0">
                       <div className="flex items-center gap-2.5">
-                        <Icon className="size-4 shrink-0 text-neutral-500 dark:text-white/55" strokeWidth={1.7} />
-                        <h3 className="text-[15px] font-semibold tracking-[-0.02em] sm:text-base">
+                        <Icon className="size-4 shrink-0 text-[#7c3aed]" strokeWidth={1.7} />
+                        <h3 className="text-base font-semibold tracking-[-0.02em] text-text-heading sm:text-lg">
                           {item.title}
                         </h3>
                       </div>
-                      <p className="mt-2 max-w-lg text-[13px] leading-6 text-neutral-600 dark:text-white/50 sm:text-sm">
+                      <p className="mt-2 max-w-lg text-[15px] leading-[1.6] text-text-muted">
                         {item.description}
                       </p>
-                      <span className="mt-3 inline-flex rounded-full border border-black/10 px-2.5 py-1 text-[10px] font-medium tracking-wide text-neutral-500 dark:border-white/10 dark:text-white/45 sm:hidden">
+                      <span className="mt-3 inline-flex rounded-full bg-surface-page px-3 py-1 text-xs font-medium text-text-muted dark:bg-white/[0.06] sm:hidden">
                         {item.status}
                       </span>
                     </div>
-                    <span className="hidden whitespace-nowrap rounded-full border border-black/10 px-2.5 py-1 text-[10px] font-medium tracking-wide text-neutral-500 dark:border-white/10 dark:text-white/45 sm:inline-flex">
+                    <span className="relative z-10 hidden whitespace-nowrap rounded-full bg-surface-page px-3 py-1 text-xs font-medium text-text-muted dark:bg-white/[0.06] sm:inline-flex">
                       {item.status}
                     </span>
                   </motion.div>
@@ -159,21 +175,21 @@ export function VoiceLayerSection() {
             >
               <Link
                 href="/product"
-                className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-black active:scale-[0.98] dark:bg-white dark:text-[#080808] dark:hover:bg-white/90"
+                className={`group inline-flex h-12 items-center gap-3 rounded-full bg-text-heading px-6 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
               >
                 Explore products
                 <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
               <Link
                 href="/resources/changelog"
-                className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 transition-colors hover:text-black dark:text-white/55 dark:hover:text-white"
+                className={`inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-text-primary transition-colors hover:text-text-heading ${FOCUS_RING}`}
               >
                 Follow development <ArrowUpRight className="size-3.5" />
               </Link>
             </motion.div>
           </div>
 
-          {/* One cinematic visual — clean single-pass entrance */}
+          {/* One cinematic visual — borderless elevated surface */}
           <motion.div
             variants={cardReveal}
             initial="hidden"
@@ -181,7 +197,7 @@ export function VoiceLayerSection() {
             viewport={VIEWPORT_EARLY}
             className="relative min-w-0"
           >
-            <div className="group relative aspect-[4/4.5] overflow-hidden rounded-[28px] border border-black/10 bg-[#0B0B0D] shadow-[0_28px_90px_-48px_rgba(0,0,0,0.35)] dark:border-white/10 dark:shadow-[0_30px_100px_-48px_rgba(0,0,0,0.8)] sm:aspect-[5/4] lg:aspect-[4/4.5]">
+            <div className="group surface-shadow-lg relative aspect-[4/4.5] overflow-hidden rounded-[28px] bg-[#000103] sm:aspect-[5/4] lg:aspect-[4/4.5]">
               <video
                 ref={videoRef}
                 className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.025]"
@@ -192,22 +208,25 @@ export function VoiceLayerSection() {
                 preload="metadata"
                 aria-label="Cinematic visualization of the Miransas voice generation experience"
               />
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-black/10" />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#000103]/85 via-[#000103]/10 to-transparent"
+              />
               <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 sm:p-8">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
-                    MIRANSAS / VOICE
+                  <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#D1D1D1]">
+                    Miransas / Voice
                   </p>
-                  <p className="mt-2 text-xl font-medium tracking-[-0.035em] text-white sm:text-2xl">
+                  <p className="mt-2 text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-2xl">
                     Sound, shaped by intelligence.
                   </p>
                 </div>
-                <span className="mb-1 inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/20 text-white backdrop-blur-md">
+                <span className="mb-1 inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white/[0.12] text-white backdrop-blur-md">
                   <AudioLines className="size-[17px]" strokeWidth={1.6} />
                 </span>
               </div>
             </div>
-            <p className="mt-3 text-right text-[10px] tracking-wide text-neutral-400 dark:text-white/30">
+            <p className="mt-3 text-right text-xs leading-[1.45] text-text-muted sm:text-[13px]">
               A look inside the Miransas voice experience
             </p>
           </motion.div>

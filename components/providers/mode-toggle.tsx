@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client"
 
 import * as React from "react"
@@ -27,7 +26,7 @@ export function ModeToggle({ className }: ModeToggleProps) {
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "relative inline-flex size-9 items-center justify-center rounded-full border border-border bg-background/60 text-foreground/80 backdrop-blur transition hover:bg-accent hover:text-foreground",
+        "relative inline-flex size-9 items-center justify-center rounded-full bg-black/[0.06] text-text-primary backdrop-blur transition-colors duration-200 hover:bg-black/[0.11] hover:text-text-heading focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2 dark:bg-white/[0.08] dark:hover:bg-white/[0.14]",
         className,
       )}
     >

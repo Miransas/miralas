@@ -45,11 +45,9 @@ type Scene = {
   hasWaveform?: boolean;
 };
 
-/**
- * Keep these asset paths in /public. The three existing stack-card videos are
- * reused as cinematic visual material; no extra image or shader dependency is
- * required for this section.
- */
+const FOCUS_RING =
+  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+
 const SCENES: Scene[] = [
   {
     id: "tts",
@@ -146,10 +144,7 @@ function VideoVisual({ scene }: { scene: Scene }) {
     let visible = false;
     const playWhenVisible = () => {
       if (!visible) return;
-      void video.play().catch(() => {
-        // Autoplay can be blocked by browser policy; controls are intentionally
-        // omitted because this is decorative background media.
-      });
+      void video.play().catch(() => {});
     };
 
     if (typeof IntersectionObserver === "undefined") {
@@ -175,7 +170,7 @@ function VideoVisual({ scene }: { scene: Scene }) {
   }, [scene.video, videoFailed]);
 
   return (
-    <div className="relative isolate min-h-[340px] overflow-hidden rounded-[24px] bg-[#080808] sm:min-h-[420px] lg:min-h-0 lg:h-full">
+    <div className="relative isolate min-h-[340px] overflow-hidden rounded-[22px] bg-[#000103] sm:min-h-[420px] lg:h-full lg:min-h-0">
       {!videoFailed ? (
         <video
           key={scene.video}
@@ -188,31 +183,31 @@ function VideoVisual({ scene }: { scene: Scene }) {
           preload="metadata"
           aria-hidden="true"
           onError={() => setVideoFailed(true)}
-          className="absolute inset-0 h-full w-full object-cover opacity-75"
+          className="absolute inset-0 h-full w-full object-cover opacity-70"
         />
       ) : (
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_68%_38%,rgba(255,255,255,0.16),transparent_34%),linear-gradient(135deg,#171717,#050505_72%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_68%_38%,rgba(124,58,237,0.28),transparent_44%),linear-gradient(135deg,#02040a,#000103_72%)]"
         />
       )}
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/10 to-black/85"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#000103]/60 via-[#000103]/15 to-[#000103]/90"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#000103]/40 via-transparent to-transparent"
       />
 
       <div className="relative z-10 flex h-full min-h-[340px] flex-col justify-between p-5 text-white sm:min-h-[420px] sm:p-7 lg:min-h-0">
         <div className="flex items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-2 text-[10px] font-medium uppercase tracking-[0.17em] text-white/80 backdrop-blur-md">
-            <span className="size-1.5 rounded-full bg-white" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#000103]/55 px-3.5 py-2 text-xs font-medium uppercase tracking-[0.12em] text-[#D1D1D1] backdrop-blur-md">
+            <span className="size-1.5 rounded-full bg-[#7c3aed]" />
             Miransas / voice systems
           </div>
-          <span className="rounded-full border border-white/15 bg-black/30 px-3 py-2 font-mono text-[10px] text-white/65 backdrop-blur-md">
+          <span className="rounded-full bg-[#000103]/50 px-3 py-2 font-mono text-xs text-[#D1D1D1] backdrop-blur-md">
             0{SCENES.findIndex((item) => item.id === scene.id) + 1} / 0{SCENES.length}
           </span>
         </div>
@@ -226,13 +221,13 @@ function VideoVisual({ scene }: { scene: Scene }) {
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-[440px]"
           >
-            <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.2em] text-white/55">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.12em] text-[#D1D1D1]">
               {scene.status}
             </p>
-            <h3 className="max-w-[420px] text-[clamp(28px,3.4vw,48px)] font-medium leading-[1.03] tracking-[-0.055em]">
+            <h3 className="max-w-[420px] text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-2xl lg:text-[1.75rem]">
               {scene.visualTitle}
             </h3>
-            <p className="mt-3 max-w-sm text-sm leading-6 text-white/65 sm:text-[15px]">
+            <p className="mt-3 max-w-sm text-[15px] leading-[1.6] text-[#D1D1D1] sm:text-base">
               {scene.visualDescription}
             </p>
           </motion.div>
@@ -240,13 +235,13 @@ function VideoVisual({ scene }: { scene: Scene }) {
 
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-white/45">
+            <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#6E6E74]">
               Current capability
             </p>
-            <p className="mt-1 truncate text-sm font-medium text-white/90">{scene.label}</p>
+            <p className="mt-1 truncate text-sm font-medium text-white">{scene.label}</p>
           </div>
-          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-black/35 px-3 py-2 text-[10px] text-white/75 backdrop-blur-md">
-            <Activity className="size-3.5" />
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#000103]/55 px-3 py-2 text-xs text-[#D1D1D1] backdrop-blur-md">
+            <Activity className="size-3.5 text-[#7c3aed]" />
             Visual preview
           </div>
         </div>
@@ -257,24 +252,27 @@ function VideoVisual({ scene }: { scene: Scene }) {
 
 function VoiceWaveform({ active }: { active: boolean }) {
   return (
-    <div className="mt-4 max-w-[360px] rounded-[18px] border border-black/[0.07] bg-[#F5F5F4] p-4 dark:border-white/10 dark:bg-white/[0.035]">
+    <div className="mt-4 max-w-[360px] rounded-[18px] bg-surface-page p-4 dark:bg-white/[0.04]">
       <div className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="grid size-8 place-items-center rounded-xl bg-white text-neutral-800 shadow-sm dark:bg-white/10 dark:text-white">
+          <span className="grid size-8 place-items-center rounded-xl bg-surface-card text-text-heading dark:bg-white/[0.08]">
             <Volume2 className="size-4" />
           </span>
           <div>
-            <p className="text-xs font-semibold text-neutral-900 dark:text-white">Voice response</p>
-            <p className="mt-0.5 text-[10px] text-neutral-500 dark:text-white/45">Speech preview · waveform</p>
+            <p className="text-xs font-semibold text-text-heading sm:text-[13px]">Voice response</p>
+            <p className="mt-0.5 text-xs text-text-muted">Speech preview · waveform</p>
           </div>
         </div>
-        <AudioLines className="size-4 text-neutral-500 dark:text-white/55" />
+        <AudioLines className="size-4 text-[#7c3aed]" />
       </div>
-      <div className="flex h-9 items-center justify-between gap-[3px] overflow-hidden px-0.5" aria-label="Animated voice waveform">
+      <div
+        className="flex h-9 items-center justify-between gap-[3px] overflow-hidden px-0.5"
+        aria-label="Animated voice waveform"
+      >
         {WAVE.map((height, index) => (
           <motion.span
             key={index}
-            className="w-[3px] min-w-[2px] rounded-full bg-neutral-500 dark:bg-white/75"
+            className="w-[3px] min-w-[2px] rounded-full bg-[#7c3aed]/75 dark:bg-[#D1D1D1]"
             style={{ height: `${height}%`, transformOrigin: "center" }}
             animate={active ? { scaleY: [0.38, 1, 0.58, 0.92, 0.38] } : { scaleY: 0.7 }}
             transition={{
@@ -354,7 +352,7 @@ export default function DemoCarousel() {
       );
       return () => window.clearTimeout(timer);
     }
-  }, [index, phase, typed, chars, reduced, paused, isInView]);
+  }, [index, phase, typed, chars, reduced, paused, isInView, go]);
 
   useEffect(() => {
     if (reduced || paused || !isInView || phase !== "thinking") return;
@@ -379,8 +377,7 @@ export default function DemoCarousel() {
     return () => section.removeEventListener("keydown", handleKey);
   }, [index, go]);
 
-  const controlClass =
-    "inline-flex size-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-800 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-black/20 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 dark:border-white/10 dark:bg-[#111113] dark:text-white dark:hover:border-white/20 dark:hover:bg-white/[0.07]";
+  const controlClass = `inline-flex size-10 items-center justify-center rounded-full bg-surface-card text-text-primary transition duration-200 hover:-translate-y-0.5 hover:bg-surface-card-hover hover:text-text-heading ${FOCUS_RING}`;
 
   return (
     <section
@@ -389,7 +386,7 @@ export default function DemoCarousel() {
       tabIndex={0}
       aria-roledescription="carousel"
       aria-label="Miransas interactive voice demo"
-      className="relative isolate overflow-x-clip bg-[#EFEFEF] py-24 text-[#111111] selection:bg-neutral-900 selection:text-white dark:bg-[#050505] dark:text-white dark:selection:bg-white dark:selection:text-black md:py-32"
+      className="relative isolate overflow-x-clip bg-surface-page py-24 text-text-heading md:py-32"
     >
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8 lg:px-10">
         {/* Section introduction */}
@@ -401,58 +398,65 @@ export default function DemoCarousel() {
           className="mb-10 grid gap-6 md:mb-14 md:grid-cols-[1.1fr_0.9fr] md:items-end"
         >
           <motion.div variants={headingReveal}>
-            <div className="mb-5 inline-flex items-center gap-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-white/45">
-              <span className="h-px w-7 bg-neutral-400 dark:bg-white/35" />
+            <div className="mb-5 inline-flex items-center gap-2.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
+              <span className="size-1.5 rounded-full bg-[#7c3aed]" />
               Experience Miransas
             </div>
-            <h2 className="max-w-[760px] text-[clamp(36px,5.5vw,68px)] font-medium leading-[0.98] tracking-[-0.06em]">
-              See how voice becomes <span className="text-neutral-400 dark:text-white/40">conversation.</span>
+            <h2 className="max-w-[760px] text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]">
+              See how voice becomes <span className="text-text-muted">conversation.</span>
             </h2>
           </motion.div>
-          <motion.p variants={headingReveal} className="max-w-[440px] text-sm leading-7 text-neutral-600 dark:text-white/50 md:justify-self-end md:text-[15px]">
+          <motion.p
+            variants={headingReveal}
+            className="max-w-[440px] text-[15px] leading-[1.6] text-text-muted sm:text-base md:justify-self-end"
+          >
             Explore the ideas behind the Miransas voice platform. Switch between
             capabilities and watch a guided product preview move from a written
             request to a voice response.
           </motion.p>
         </motion.div>
 
-        {/* Main demo surface */}
+        {/* Main demo surface — Strategic Violet Gradient focal container */}
         <motion.div
           variants={cardReveal}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_EARLY}
-          className="overflow-hidden rounded-[28px] border border-black/[0.08] bg-white shadow-[0_24px_80px_-48px_rgba(0,0,0,0.24)] dark:border-white/[0.09] dark:bg-[#0B0B0C] dark:shadow-[0_28px_90px_-48px_rgba(0,0,0,0.85)] md:rounded-[34px]"
+          className="surface-accent surface-shadow-lg overflow-hidden rounded-[28px]"
         >
           <div className="grid lg:min-h-[660px] lg:grid-cols-[1.02fr_0.98fr]">
             {/* Conversation panel */}
             <div className="flex min-w-0 flex-col p-5 sm:p-7 lg:p-9">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className="grid size-11 shrink-0 place-items-center rounded-[15px] border border-black/10 bg-[#F3F3F2] text-neutral-900 dark:border-white/10 dark:bg-white/[0.06] dark:text-white">
+                  <div className="grid size-11 shrink-0 place-items-center rounded-[15px] bg-surface-page text-text-heading dark:bg-white/[0.07]">
                     <AudioLines className="size-[19px]" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm font-semibold tracking-tight">Miransas AI</h3>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/15 bg-emerald-600/[0.06] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/[0.07] dark:text-emerald-300">
-                        <span className="size-1.5 rounded-full bg-emerald-500" />
+                      <h3 className="text-base font-semibold tracking-[-0.02em] text-text-heading">
+                        Miransas AI
+                      </h3>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#7c3aed]/12 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#7c3aed] dark:bg-[#7c3aed]/20 dark:text-[#D1D1D1]">
+                        <span className="size-1.5 rounded-full bg-[#7c3aed]" />
                         Interactive preview
                       </span>
                     </div>
-                    <p className="mt-0.5 text-xs text-neutral-500 dark:text-white/40">
+                    <p className="mt-0.5 text-xs text-text-muted sm:text-[13px]">
                       A guided conversation flow
                     </p>
                   </div>
                 </div>
-                <span className="shrink-0 rounded-full border border-black/[0.07] px-3 py-1.5 font-mono text-[10px] text-neutral-500 dark:border-white/10 dark:text-white/40">
+                <span className="shrink-0 rounded-full bg-surface-page px-3 py-1.5 font-mono text-xs text-text-muted dark:bg-white/[0.06]">
                   {String(index + 1).padStart(2, "0")} / {String(SCENES.length).padStart(2, "0")}
                 </span>
               </div>
 
-              <div className="my-6 h-px bg-neutral-200 dark:bg-white/10" />
-
-              <div className="flex min-h-[330px] flex-1 flex-col gap-5" aria-live="polite" aria-atomic="false">
+              <div
+                className="mt-7 flex min-h-[330px] flex-1 flex-col gap-5"
+                aria-live="polite"
+                aria-atomic="false"
+              >
                 <AnimatePresence mode="wait">
                   {userMessageVisible && (
                     <motion.div
@@ -464,14 +468,14 @@ export default function DemoCarousel() {
                       className="flex items-end justify-end gap-3"
                     >
                       <div className="max-w-[86%]">
-                        <p className="mb-1.5 pr-1 text-right text-[10px] font-medium uppercase tracking-[0.14em] text-neutral-400 dark:text-white/35">
+                        <p className="mb-1.5 pr-1 text-right text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
                           You
                         </p>
-                        <div className="rounded-[20px] rounded-br-md border border-black/[0.06] bg-[#F2F2F0] px-4 py-3 text-[13px] leading-6 text-neutral-800 dark:border-white/[0.07] dark:bg-white/[0.055] dark:text-white/85 sm:text-sm">
+                        <div className="rounded-[20px] rounded-br-md bg-surface-page px-4 py-3 text-[15px] leading-[1.6] text-text-primary dark:bg-white/[0.06]">
                           {scene.prompt}
                         </div>
                       </div>
-                      <div className="grid size-9 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-[9px] font-semibold tracking-[0.12em] text-neutral-600 dark:border-white/10 dark:bg-white/[0.06] dark:text-white/65">
+                      <div className="grid size-9 shrink-0 place-items-center rounded-full bg-surface-page text-[10px] font-semibold tracking-[0.12em] text-text-muted dark:bg-white/[0.06]">
                         YOU
                       </div>
                     </motion.div>
@@ -486,15 +490,15 @@ export default function DemoCarousel() {
                     transition={{ duration: 0.35, ease: "easeOut" }}
                     className="flex items-start gap-3"
                   >
-                    <div className="grid size-9 shrink-0 place-items-center rounded-full bg-[#111111] text-white dark:bg-white dark:text-[#090909]">
+                    <div className="grid size-9 shrink-0 place-items-center rounded-full bg-text-heading text-surface-page">
                       <AudioLines className="size-4" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="mb-1.5 flex flex-wrap items-center gap-2">
-                        <span className="text-[11px] font-semibold">Miransas</span>
-                        <span className="text-[10px] text-neutral-400 dark:text-white/35">Voice assistant</span>
+                        <span className="text-xs font-semibold text-text-heading">Miransas</span>
+                        <span className="text-xs text-text-muted">Voice assistant</span>
                         {visiblePhase === "reply" && replyFinished && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600/[0.06] px-1.5 py-0.5 text-[9px] font-medium text-emerald-700 dark:bg-emerald-400/[0.07] dark:text-emerald-300">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#7c3aed]/12 px-2 py-0.5 text-[10px] font-medium text-[#7c3aed] dark:bg-[#7c3aed]/20 dark:text-[#D1D1D1]">
                             <Check className="size-3" />
                             Ready
                           </span>
@@ -506,15 +510,17 @@ export default function DemoCarousel() {
                           key="thinking-state"
                           initial={reduced ? false : { opacity: 0, scale: 0.985 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          className="max-w-[95%] rounded-[19px] rounded-tl-md border border-black/[0.07] bg-[#F7F7F5] p-4 dark:border-white/10 dark:bg-white/[0.035]"
+                          className="max-w-[95%] rounded-[19px] rounded-tl-md bg-surface-page p-4 dark:bg-white/[0.04]"
                         >
                           <div className="flex items-center gap-3">
-                            <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-white text-neutral-700 dark:bg-white/[0.08] dark:text-white">
+                            <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-surface-card text-[#7c3aed] dark:bg-white/[0.08]">
                               <Sparkles className="size-4" />
                             </span>
                             <div className="min-w-0 flex-1">
-                              <p className="text-sm font-medium">{THINK_STEPS[thinkingStep]}</p>
-                              <p className="mt-0.5 text-xs text-neutral-500 dark:text-white/40">
+                              <p className="text-sm font-medium text-text-heading">
+                                {THINK_STEPS[thinkingStep]}
+                              </p>
+                              <p className="mt-0.5 text-xs text-text-muted">
                                 Preparing the voice response
                               </p>
                             </div>
@@ -522,16 +528,25 @@ export default function DemoCarousel() {
                               {[0, 1, 2].map((dot) => (
                                 <motion.span
                                   key={dot}
-                                  className="size-1.5 rounded-full bg-neutral-500 dark:bg-white/70"
-                                  animate={reduced ? { opacity: 1 } : { opacity: [0.25, 1, 0.25], y: [0, -2, 0] }}
-                                  transition={{ duration: 0.9, delay: dot * 0.13, repeat: reduced ? 0 : Infinity, ease: "easeInOut" }}
+                                  className="size-1.5 rounded-full bg-[#7c3aed]"
+                                  animate={
+                                    reduced
+                                      ? { opacity: 1 }
+                                      : { opacity: [0.25, 1, 0.25], y: [0, -2, 0] }
+                                  }
+                                  transition={{
+                                    duration: 0.9,
+                                    delay: dot * 0.13,
+                                    repeat: reduced ? 0 : Infinity,
+                                    ease: "easeInOut",
+                                  }}
                                 />
                               ))}
                             </div>
                           </div>
-                          <div className="mt-3 h-1 overflow-hidden rounded-full bg-neutral-200 dark:bg-white/10">
+                          <div className="mt-3 h-1 overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
                             <motion.div
-                              className="h-full w-full origin-left rounded-full bg-neutral-700 dark:bg-white/75"
+                              className="h-full w-full origin-left rounded-full bg-[#7c3aed]"
                               initial={{ scaleX: 0.08 }}
                               animate={reduced ? { scaleX: 1 } : { scaleX: [0.12, 0.54, 0.88] }}
                               transition={{ duration: THINK_DURATION / 1000, ease: "easeInOut" }}
@@ -540,18 +555,20 @@ export default function DemoCarousel() {
                         </motion.div>
                       ) : (
                         <div className="max-w-[98%]">
-                          <p className="whitespace-pre-wrap text-[13px] leading-[1.8] text-neutral-700 dark:text-white/80 sm:text-sm">
+                          <p className="whitespace-pre-wrap text-[15px] leading-[1.6] text-text-primary sm:text-base">
                             {scene.reply.slice(0, visibleChars)}
                             {!replyFinished && !reduced && isInView && (
                               <motion.span
                                 aria-hidden="true"
-                                className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[2px] rounded-full bg-neutral-700 dark:bg-white"
+                                className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[2px] rounded-full bg-[#7c3aed]"
                                 animate={{ opacity: [1, 0.2, 1] }}
                                 transition={{ duration: 0.8, repeat: Infinity }}
                               />
                             )}
                           </p>
-                          {scene.hasWaveform && replyFinished && <VoiceWaveform active={isInView && !reduced && !paused} />}
+                          {scene.hasWaveform && replyFinished && (
+                            <VoiceWaveform active={isInView && !reduced && !paused} />
+                          )}
                         </div>
                       )}
                     </div>
@@ -561,26 +578,29 @@ export default function DemoCarousel() {
 
               {/* Composer preview */}
               <div className="mt-6">
-                <div className="flex items-center gap-3 rounded-[18px] border border-black/10 bg-[#FAFAF9] px-3 py-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.025)] dark:border-white/10 dark:bg-white/[0.035] dark:shadow-none">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-white text-neutral-600 dark:bg-white/[0.07] dark:text-white/70">
+                <div className="flex items-center gap-3 rounded-[18px] bg-surface-page px-3.5 py-2.5 dark:bg-white/[0.04]">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-surface-card text-text-muted dark:bg-white/[0.07]">
                     <AudioLines className="size-4" />
                   </span>
-                  <span className="min-h-6 min-w-0 flex-1 truncate text-[12px] leading-6 text-neutral-600 dark:text-white/65 sm:text-[13px]">
-                    {composerText || (phase === "compose" && !reduced ? "Preparing your message…" : "Message preview complete")}
+                  <span className="min-h-6 min-w-0 flex-1 truncate text-xs leading-6 text-text-primary sm:text-[13px]">
+                    {composerText ||
+                      (phase === "compose" && !reduced
+                        ? "Preparing your message…"
+                        : "Message preview complete")}
                     {composerText && !reduced && (
                       <motion.span
                         aria-hidden="true"
-                        className="ml-0.5 inline-block h-4 w-[2px] translate-y-[3px] rounded-full bg-neutral-700 dark:bg-white"
+                        className="ml-0.5 inline-block h-4 w-[2px] translate-y-[3px] rounded-full bg-[#7c3aed]"
                         animate={{ opacity: [1, 0.15, 1] }}
                         transition={{ duration: 0.8, repeat: Infinity }}
                       />
                     )}
                   </span>
-                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#111111] text-white dark:bg-white dark:text-[#080808]">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-text-heading text-surface-page">
                     <ArrowUpRight className="size-4" />
                   </span>
                 </div>
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1 text-[10px] text-neutral-400 dark:text-white/35 sm:text-[11px]">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1 text-xs leading-[1.45] text-text-muted sm:text-[13px]">
                   <span className="inline-flex items-center gap-1.5">
                     <Radio className="size-3.5" />
                     Text and voice in one interface
@@ -591,20 +611,20 @@ export default function DemoCarousel() {
             </div>
 
             {/* Video / capability panel */}
-            <div className="min-w-0 border-t border-black/[0.07] bg-[#F5F5F3] p-3 dark:border-white/[0.08] dark:bg-[#080808] sm:p-4 lg:border-l lg:border-t-0 lg:p-4">
+            <div className="min-w-0 bg-surface-page/55 p-3 dark:bg-[#050505]/50 sm:p-4 lg:p-4">
               <VideoVisual scene={scene} />
               <div className="flex flex-wrap items-center justify-between gap-3 px-2 pb-1 pt-4 sm:px-3">
                 <div className="flex flex-wrap gap-1.5">
                   {scene.chips.map((chip) => (
                     <span
                       key={chip}
-                      className="rounded-full border border-black/[0.08] bg-white/80 px-2.5 py-1.5 text-[9px] font-medium text-neutral-500 dark:border-white/10 dark:bg-white/[0.045] dark:text-white/50"
+                      className="rounded-full bg-surface-card px-3 py-1.5 text-xs font-medium text-text-muted dark:bg-white/[0.05]"
                     >
                       {chip}
                     </span>
                   ))}
                 </div>
-                <span className="font-mono text-[9px] tracking-[0.14em] text-neutral-400 dark:text-white/30">
+                <span className="font-mono text-xs tracking-[0.12em] text-text-muted">
                   MIRANSAS / AI
                 </span>
               </div>
@@ -615,10 +635,18 @@ export default function DemoCarousel() {
         {/* Scene navigation */}
         <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-3">
-            <button type="button" aria-label="Previous demo scene" className={controlClass} onClick={() => go(index - 1)}>
+            <button
+              type="button"
+              aria-label="Previous demo scene"
+              className={controlClass}
+              onClick={() => go(index - 1)}
+            >
               <ChevronLeft className="size-[17px]" />
             </button>
-            <div className="flex items-center gap-1.5 rounded-full border border-black/[0.08] bg-white/80 px-3.5 py-3 shadow-sm dark:border-white/10 dark:bg-white/[0.035] dark:shadow-none" aria-label="Choose a demo scene">
+            <div
+              className="flex items-center gap-1.5 rounded-full bg-surface-card px-3.5 py-3"
+              aria-label="Choose a demo scene"
+            >
               {SCENES.map((item, itemIndex) => (
                 <button
                   key={item.id}
@@ -626,15 +654,20 @@ export default function DemoCarousel() {
                   aria-label={`Show ${item.label}`}
                   aria-current={itemIndex === index ? "true" : undefined}
                   onClick={() => go(itemIndex)}
-                  className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 ${
+                  className={`h-1.5 rounded-full transition-all duration-300 ${FOCUS_RING} ${
                     itemIndex === index
-                      ? "w-7 bg-neutral-800 dark:bg-white"
-                      : "w-1.5 bg-neutral-300 hover:bg-neutral-500 dark:bg-white/25 dark:hover:bg-white/55"
+                      ? "w-7 bg-[#7c3aed]"
+                      : "w-1.5 bg-text-muted/40 hover:bg-text-primary"
                   }`}
                 />
               ))}
             </div>
-            <button type="button" aria-label="Next demo scene" className={controlClass} onClick={() => go(index + 1)}>
+            <button
+              type="button"
+              aria-label="Next demo scene"
+              className={controlClass}
+              onClick={() => go(index + 1)}
+            >
               <ChevronRight className="size-[17px]" />
             </button>
             {!reduced && (
@@ -642,7 +675,9 @@ export default function DemoCarousel() {
                 type="button"
                 aria-label={paused ? "Resume demo" : "Pause demo"}
                 aria-pressed={paused}
-                className={`${controlClass} ${paused ? "border-neutral-400 bg-neutral-100 dark:border-white/25 dark:bg-white/10" : ""}`}
+                className={`${controlClass} ${
+                  paused ? "bg-[#7c3aed]/15 text-[#7c3aed] dark:bg-[#7c3aed]/25 dark:text-white" : ""
+                }`}
                 onClick={() => setPaused((value) => !value)}
               >
                 {paused ? <Play className="size-4" /> : <Pause className="size-4" />}
@@ -650,9 +685,8 @@ export default function DemoCarousel() {
             )}
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-neutral-500 dark:text-white/40">
-            <span className="font-mono text-[10px] tracking-[0.12em]">NOW VIEWING</span>
-            <span className="h-3 w-px bg-neutral-300 dark:bg-white/15" />
+          <div className="flex items-center gap-3 text-xs text-text-muted sm:text-[13px]">
+            <span className="font-mono uppercase tracking-[0.12em]">Now viewing</span>
             <AnimatePresence mode="wait">
               <motion.span
                 key={scene.id}
@@ -660,7 +694,7 @@ export default function DemoCarousel() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.2 }}
-                className="font-medium text-neutral-800 dark:text-white/80"
+                className="font-medium text-text-heading"
               >
                 {scene.label}
               </motion.span>
@@ -672,7 +706,7 @@ export default function DemoCarousel() {
         <div
           role="tablist"
           aria-label="Voice capabilities"
-          className="mt-10 flex flex-wrap items-center justify-center gap-2 border-t border-black/[0.08] pt-7 dark:border-white/10 md:mt-14"
+          className="mt-10 flex flex-wrap items-center justify-center gap-2 pt-2 md:mt-12"
         >
           {SCENES.map((item, itemIndex) => {
             const active = itemIndex === index;
@@ -683,17 +717,17 @@ export default function DemoCarousel() {
                 role="tab"
                 aria-selected={active}
                 onClick={() => go(itemIndex)}
-                className={`relative rounded-full px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 ${
+                className={`relative rounded-full px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition-colors duration-200 ${FOCUS_RING} ${
                   active
-                    ? "text-white dark:text-[#080808]"
-                    : "text-neutral-500 hover:text-neutral-900 dark:text-white/45 dark:hover:text-white"
+                    ? "text-surface-page"
+                    : "text-text-muted hover:text-text-heading"
                 }`}
               >
                 {active && (
                   <motion.span
                     layoutId="active-capability-pill"
                     transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
-                    className="absolute inset-0 -z-10 rounded-full bg-[#111111] dark:bg-white"
+                    className="absolute inset-0 -z-10 rounded-full bg-text-heading"
                   />
                 )}
                 {item.label}

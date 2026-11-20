@@ -34,7 +34,7 @@ const lines = [
 ];
 
 const cardClass =
-  "rounded-[6px] border border-white/10 bg-[#09080F]/90 shadow-lg md:rounded-[8px]";
+  "rounded-[8px] bg-[#000103]/90 shadow-lg md:rounded-[10px]";
 
 export default function ImmersiveSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -222,33 +222,33 @@ export default function ImmersiveSection() {
             className={`relative aspect-[1672/941] w-[142vw] origin-center will-change-transform md:w-[112vw] md:max-w-[1480px] ${visibleWithoutMotion}`}
           >
             {/* Tablet Ekranı */}
-            <div className="pointer-events-auto absolute left-[13.3%] top-[8%] z-10 h-[76.8%] w-[73.4%] overflow-hidden rounded-[10px] border border-white/15 bg-[#09080F]/95 text-[#F2EFFA] shadow-2xl md:rounded-[18px]">
+            <div className="pointer-events-auto absolute left-[13.3%] top-[8%] z-10 h-[76.8%] w-[73.4%] overflow-hidden rounded-[10px] bg-[#000103]/95 text-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)] md:rounded-[18px]">
               <div className="relative flex h-full flex-col">
                 <div className="relative min-h-0 flex-1">
                   
                   {/* STAGE 1 */}
                   <div className="stage-1 absolute inset-0 grid grid-cols-[1.04fr_0.96fr] items-center gap-[3%] px-[4.5%] py-[2.5%]">
                     <div className="flex min-w-0 flex-col justify-center">
-                      <span className="text-[6px] font-semibold tracking-[0.2em] text-violet-300 md:text-[9px]">
-                        AI VOICE CLONING <span className="text-rose-400">/ 01</span>
+                      <span className="text-[6px] font-semibold tracking-[0.2em] text-[#7c3aed] md:text-[9px]">
+                        AI VOICE CLONING <span className="text-[#D1D1D1]">/ 01</span>
                       </span>
 
-                      <h3 className="mt-[5%] max-w-[440px] text-[clamp(13px,2.15vw,31px)] font-medium leading-[1.05] tracking-[-0.055em]">
+                      <h3 className="mt-[5%] max-w-[440px] text-[clamp(13px,2.15vw,31px)] font-semibold leading-[1.08] tracking-[-0.02em] text-white">
                         A voice that feels unmistakably yours.
                       </h3>
 
-                      <p className="mt-[5%] max-w-[390px] text-[clamp(7px,0.88vw,12px)] leading-[1.65] text-white/60">
+                      <p className="mt-[5%] max-w-[390px] text-[clamp(7px,0.88vw,12px)] leading-[1.6] text-[#D1D1D1]">
                         Start with a reference recording. The model learns its
                         vocal character — tone, rhythm and texture — to create
                         a reusable voice identity for generated speech.
                       </p>
 
-                      <div className="mt-[8%] flex items-center gap-3 border-t border-white/10 pt-[4%]">
-                        <span className="flex items-center gap-1.5 text-[6px] font-semibold tracking-[0.14em] text-white/50 md:text-[8px]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                      <div className="mt-[8%] flex items-center gap-3 pt-[4%]">
+                        <span className="flex items-center gap-1.5 text-[6px] font-semibold tracking-[0.14em] text-[#D1D1D1] md:text-[8px]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#7c3aed]" />
                           REFERENCE SAMPLE
                         </span>
-                        <span className="text-[7px] tabular-nums text-white/40 md:text-[9px]">
+                        <span className="text-[7px] tabular-nums text-[#6E6E74] md:text-[9px]">
                           00:18
                         </span>
                       </div>
@@ -260,13 +260,13 @@ export default function ImmersiveSection() {
                           aria-hidden="true"
                           animate={reduceMotion ? undefined : { rotate: 360 }}
                           transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
-                          className="absolute h-[84%] w-[84%] rounded-full border border-dashed border-sky-300/30"
+                          className="absolute h-[84%] w-[84%] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.12)_0%,transparent_70%)]"
                         />
                         <motion.div
                           aria-hidden="true"
                           animate={reduceMotion ? undefined : { rotate: -360 }}
                           transition={{ duration: 27, repeat: Infinity, ease: "linear" }}
-                          className="absolute h-[66%] w-[66%] rounded-full border border-rose-300/25"
+                          className="absolute h-[66%] w-[66%] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.18)_0%,transparent_70%)]"
                         />
 
                         <div className="relative z-10 flex w-[78%] flex-col items-center">
@@ -358,7 +358,7 @@ export default function ImmersiveSection() {
                         {["EN", "TR", "UZ"].map((l) => (
                           <span
                             key={l}
-                            className="rounded-full border border-rose-300/30 bg-rose-300/10 px-[4%] py-[1%] text-[6px] font-semibold tracking-[0.14em] text-rose-200 md:text-[8px]"
+                            className="rounded-full bg-[#7c3aed]/20 px-[4%] py-[1%] text-[6px] font-semibold tracking-[0.14em] text-[#D1D1D1] md:text-[8px]"
                           >
                             {l}
                           </span>
@@ -388,7 +388,7 @@ export default function ImmersiveSection() {
                 </div>
 
                 {/* Alt Stepper Bar */}
-                <div className="shrink-0 border-t border-white/10 px-[4.5%] pb-[1.6%] pt-[1.4%]">
+                <div className="shrink-0 bg-white/[0.025] px-[4.5%] pb-[1.6%] pt-[1.4%]">
                   <div className="flex items-center justify-between text-[6px] font-semibold tracking-[0.15em] text-white/65 md:text-[8px]">
                     <span className="step step-1">01 REFERENCE AUDIO</span>
                     <span className="step step-2">02 VOICE IDENTITY</span>

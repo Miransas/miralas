@@ -15,36 +15,61 @@ import { cardReveal, staggerContainer, VIEWPORT_EARLY, VIEWPORT_ONCE } from "@/l
 import { MODEL_LANGUAGES, VOICE_TECHNOLOGY } from "@/lib/voice-technology";
 
 const wrap = "mx-auto max-w-7xl px-6 lg:px-12";
-const eyebrow = "text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground";
-const heading = "mt-5 text-4xl font-medium leading-[1.05] tracking-tight sm:text-6xl";
+const eyebrow =
+  "text-xs sm:text-[13px] font-medium uppercase tracking-[0.12em] text-text-primary";
+const heading =
+  "mt-5 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]";
+const focusRing =
+  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
 
 export function VoiceTechnology() {
   const capabilities = [
-    ["Multilingual text-to-speech", "Turn written content into speech with Chatterbox Multilingual, the active engine behind Miralas."],
-    [`${MODEL_LANGUAGES.length} model-supported languages`, "Explore the engine’s language coverage, with Uzbek speech on a separate research path."],
-    ["Rust-backed voice infrastructure", "A Rust API connects to a Python inference worker over gRPC, keeping application and model work separate."],
-    ["An intentional audio pipeline", "A validated 24 kHz mono PCM16 output format gives the engineering work a clear audio foundation."],
+    [
+      "Multilingual text-to-speech",
+      "Turn written content into speech with Chatterbox Multilingual, the active engine behind Miralas.",
+    ],
+    [
+      `${MODEL_LANGUAGES.length} model-supported languages`,
+      "Explore the engine’s language coverage, with Uzbek speech on a separate research path.",
+    ],
+    [
+      "Rust-backed voice infrastructure",
+      "A Rust API connects to a Python inference worker over gRPC, keeping application and model work separate.",
+    ],
+    [
+      "An intentional audio pipeline",
+      "A validated 24 kHz mono PCM16 output format gives the engineering work a clear audio foundation.",
+    ],
   ];
 
   return (
-    <section id="technology" aria-labelledby="technology-heading" className="scroll-mt-24 overflow-x-clip bg-card py-24 sm:py-32">
+    <section
+      id="technology"
+      aria-labelledby="technology-heading"
+      className="scroll-mt-24 overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+    >
       <div className={wrap}>
-        <div className="grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:gap-24">
-          <RevealContainer>
+        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+          <RevealContainer className="lg:sticky lg:top-28 lg:self-start">
             <RevealEyebrow className={eyebrow}>The voice foundation</RevealEyebrow>
             <RevealHeading id="technology-heading" className={heading}>
               <WordReveal text="Voice technology, built with intention." />
             </RevealHeading>
-            <RevealParagraph className="mt-7 max-w-lg text-base leading-8 text-muted-foreground">
-              Good voice experiences begin with a clear foundation. We’re building on an open speech model and a focused infrastructure layer, while being open about what still needs validation.
+            <RevealParagraph className="mt-6 max-w-lg text-[15px] leading-[1.6] text-text-muted sm:text-base">
+              Good voice experiences begin with a clear foundation. We’re building on an open
+              speech model and a focused infrastructure layer, while being open about what still
+              needs validation.
             </RevealParagraph>
             <motion.div variants={cardReveal} className="mt-8">
               <Link
                 href="/product/models"
-                className="group inline-flex min-h-11 items-center gap-2 text-sm font-semibold underline underline-offset-8 transition-opacity hover:opacity-75 active:scale-[0.98]"
+                className={`group inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-card px-5 py-2.5 text-sm font-semibold text-text-heading surface-shadow transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-surface-card-hover active:scale-[0.98] ${focusRing}`}
               >
                 <span>Meet the active engine</span>
-                <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                <ArrowRight
+                  className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
               </Link>
             </motion.div>
           </RevealContainer>
@@ -54,16 +79,29 @@ export function VoiceTechnology() {
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT_EARLY}
-            className="border-t border-border"
+            className="flex flex-col gap-3.5"
           >
-            {capabilities.map(([title, description]) => (
+            {capabilities.map(([title, description], index) => (
               <motion.div
                 key={title}
                 variants={cardReveal}
-                className="border-b border-border py-7"
+                className="group relative overflow-hidden rounded-[24px] bg-surface-card p-6 transition-colors duration-300 hover:bg-surface-card-hover sm:p-7"
               >
-                <h3 className="text-xl font-medium tracking-tight">{title}</h3>
-                <p className="mt-3 text-base leading-8 text-muted-foreground">{description}</p>
+                <div
+                  aria-hidden="true"
+                  className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+                <div className="relative z-10">
+                  <span className="font-mono text-xs leading-[1.45] tabular-nums text-text-muted sm:text-[13px]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-2.5 text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
+                    {title}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-[1.6] text-text-muted sm:text-base">
+                    {description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -75,56 +113,81 @@ export function VoiceTechnology() {
 
 export function EngineeredAudio() {
   return (
-    <section aria-labelledby="audio-heading" className="overflow-x-clip bg-[#111111] py-24 text-white sm:py-32">
-      <div className={`${wrap} grid gap-14 lg:grid-cols-2 lg:gap-24`}>
+    <section
+      aria-labelledby="audio-heading"
+      className="overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+    >
+      <div className={`${wrap} grid gap-14 lg:grid-cols-2 lg:items-center lg:gap-20`}>
         <RevealContainer>
-          <RevealEyebrow className="text-sm font-medium uppercase tracking-[0.16em] text-white/60">
-            Engineered for real audio
-          </RevealEyebrow>
+          <RevealEyebrow className={eyebrow}>Engineered for real audio</RevealEyebrow>
           <RevealHeading id="audio-heading" className={heading}>
             <WordReveal text="Care in every part of the signal." />
           </RevealHeading>
-          <RevealParagraph className="mt-7 text-base leading-8 text-white/65">
-            From an API request to a waveform, each stage has a purpose. The current engineering baseline validates the output format and model assets. NVIDIA GPU benchmarks are still pending.
+          <RevealParagraph className="mt-6 text-[15px] leading-[1.6] text-text-muted sm:text-base">
+            From an API request to a waveform, each stage has a purpose. The current engineering
+            baseline validates the output format and model assets. NVIDIA GPU benchmarks are still
+            pending.
           </RevealParagraph>
           <motion.div variants={cardReveal} className="mt-8">
             <Link
               href="/product/api"
-              className="group inline-flex min-h-11 items-center gap-2 text-sm font-semibold underline underline-offset-8 transition-opacity hover:opacity-75 active:scale-[0.98]"
+              className={`group inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-card px-5 py-2.5 text-sm font-semibold text-text-heading surface-shadow transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-surface-card-hover active:scale-[0.98] ${focusRing}`}
             >
               <span>Explore the API architecture</span>
-              <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+              <ArrowRight
+                className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
             </Link>
           </motion.div>
         </RevealContainer>
 
-        <RevealCard standalone early className="min-w-0 rounded-4xl border border-white/[0.08] bg-white/[0.045] p-7 sm:p-10">
+        {/* Strategic violet gradient focal card */}
+        <RevealCard
+          standalone
+          early
+          className="surface-accent surface-shadow min-w-0 rounded-[28px] p-7 sm:p-10"
+        >
           <div aria-hidden="true" className="flex h-24 items-center gap-1 overflow-hidden">
             {Array.from({ length: 48 }, (_, index) => (
               <span
                 key={index}
-                className="min-w-0 flex-1 rounded-full bg-white/65"
-                style={{ height: `${12 + Math.abs(Math.sin(index * 0.47) * Math.cos(index * 0.17)) * 80}%` }}
+                className={`min-w-0 flex-1 rounded-full ${
+                  index % 7 === 0
+                    ? "bg-[#7c3aed]"
+                    : "bg-text-heading/65 dark:bg-[#D1D1D1]/70"
+                }`}
+                style={{
+                  height: `${12 + Math.abs(Math.sin(index * 0.47) * Math.cos(index * 0.17)) * 80}%`,
+                }}
               />
             ))}
           </div>
-          <p className="mt-4 text-sm text-white/50">Signal illustration</p>
-          <dl className="mt-8 divide-y divide-white/10">
+          <p className="mt-4 text-xs leading-[1.45] text-text-muted sm:text-[13px]">
+            Signal illustration
+          </p>
+          <dl className="mt-7 flex flex-col gap-2.5">
             {[
               ["Audio output", "24 kHz · Mono · PCM16"],
               ["Application / inference", "Rust + Python"],
               ["Service connection", "gRPC"],
               ["Model assets", "Approved multilingual checkpoint"],
             ].map(([term, value]) => (
-              <div key={term} className="flex flex-wrap justify-between gap-2 py-4 text-sm">
-                <dt className="text-white/60">{term}</dt>
-                <dd className="font-medium tabular-nums">{value}</dd>
+              <div
+                key={term}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-black/[0.03] px-4 py-3.5 text-sm dark:bg-white/[0.035]"
+              >
+                <dt className="text-text-muted">{term}</dt>
+                <dd className="font-medium tabular-nums text-text-heading">{value}</dd>
               </div>
             ))}
           </dl>
-          <p className="mt-5 text-sm leading-7 text-white/60">
+          <p className="mt-6 text-xs leading-[1.6] text-text-muted sm:text-[13px]">
             Output format is an engineering capability, not a latency or scalability benchmark.{" "}
-            <a href={VOICE_TECHNOLOGY.audioSource} className="text-white underline underline-offset-4 transition-opacity hover:opacity-80">
+            <a
+              href={VOICE_TECHNOLOGY.audioSource}
+              className={`text-text-primary underline underline-offset-4 transition-colors hover:text-text-heading ${focusRing}`}
+            >
               Model sample-rate source
             </a>
             .
@@ -137,14 +200,30 @@ export function EngineeredAudio() {
 
 export function WhatsNext() {
   const research = [
-    ["Uzbek speech research", "Research, data collection and model evaluation toward native Uzbek speech. Production inference is not available."],
-    ["An expanded voice catalog", "Voice Catalog infrastructure is implemented. Curated public voice releases are still ahead."],
-    ["GPU inference validation", "Docker and CUDA benchmark preparation is complete. Real NVIDIA GPU measurements remain pending."],
-    ["Future model exploration", "Qwen, CosyVoice and Miransas-native models are long-term research plans. They are not integrated into the current engine."],
+    [
+      "Uzbek speech research",
+      "Research, data collection and model evaluation toward native Uzbek speech. Production inference is not available.",
+    ],
+    [
+      "An expanded voice catalog",
+      "Voice Catalog infrastructure is implemented. Curated public voice releases are still ahead.",
+    ],
+    [
+      "GPU inference validation",
+      "Docker and CUDA benchmark preparation is complete. Real NVIDIA GPU measurements remain pending.",
+    ],
+    [
+      "Future model exploration",
+      "Qwen, CosyVoice and Miransas-native models are long-term research plans. They are not integrated into the current engine.",
+    ],
   ];
 
   return (
-    <section id="research" aria-labelledby="research-heading" className="scroll-mt-24 overflow-x-clip py-24 sm:py-32">
+    <section
+      id="research"
+      aria-labelledby="research-heading"
+      className="scroll-mt-24 overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+    >
       <div className={wrap}>
         <RevealContainer className="grid gap-6 lg:grid-cols-2 lg:items-end">
           <div>
@@ -153,8 +232,9 @@ export function WhatsNext() {
               <WordReveal text="A thoughtful path forward." />
             </RevealHeading>
           </div>
-          <RevealParagraph className="max-w-lg text-base leading-8 text-muted-foreground lg:justify-self-end">
-            A roadmap shaped by research and evaluation. These are development directions, with no promised release dates.
+          <RevealParagraph className="max-w-lg text-[15px] leading-[1.6] text-text-muted sm:text-base lg:justify-self-end">
+            A roadmap shaped by research and evaluation. These are development directions, with no
+            promised release dates.
           </RevealParagraph>
         </RevealContainer>
 
@@ -163,16 +243,29 @@ export function WhatsNext() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_EARLY}
-          className="mt-14 border-t border-border"
+          className="mt-12 flex flex-col gap-3.5"
         >
-          {research.map(([title, description]) => (
+          {research.map(([title, description], index) => (
             <motion.div
               key={title}
               variants={cardReveal}
-              className="grid gap-4 border-b border-border py-8 md:grid-cols-2 md:gap-16"
+              className="group relative grid gap-4 overflow-hidden rounded-[24px] bg-surface-card p-7 transition-colors duration-300 hover:bg-surface-card-hover md:grid-cols-2 md:items-center md:gap-16 sm:p-8"
             >
-              <h3 className="text-2xl font-medium tracking-tight">{title}</h3>
-              <p className="max-w-xl text-base leading-8 text-muted-foreground">{description}</p>
+              <div
+                aria-hidden="true"
+                className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+              <div className="relative z-10 flex items-baseline gap-4">
+                <span className="font-mono text-xs leading-[1.45] tabular-nums text-text-muted sm:text-[13px]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
+                  {title}
+                </h3>
+              </div>
+              <p className="relative z-10 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base">
+                {description}
+              </p>
             </motion.div>
           ))}
         </motion.div>
@@ -182,14 +275,17 @@ export function WhatsNext() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-9"
+          className="mt-10"
         >
           <Link
             href="/resources/changelog"
-            className="group inline-flex min-h-12 items-center gap-2.5 rounded-full bg-foreground px-6 text-sm font-semibold text-background transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98]"
+            className={`group inline-flex min-h-12 items-center gap-2.5 rounded-full bg-text-heading px-6 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${focusRing}`}
           >
             <span>Read development updates</span>
-            <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+            <ArrowRight
+              className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
           </Link>
         </motion.div>
       </div>
