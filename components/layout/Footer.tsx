@@ -85,12 +85,23 @@ export function Footer({
               href="/"
               className={`group inline-flex items-center gap-3 rounded-xl ${FOCUS_RING}`}
             >
-              <span className="flex size-11 items-center justify-center overflow-hidden rounded-xl bg-[#050505] p-1.5 dark:bg-white">
-                <img src="/logo.png" alt="" className="size-full object-contain" />
-              </span>
-              <span className="text-xl font-semibold tracking-[-0.02em] text-text-heading">
-                Miransas
-              </span>
+              <span className="flex size-16 items-center justify-center overflow-hidden p-1.5 ">
+                <>
+                  <img
+                    src="/icons/logo-dark.png"
+                    alt=""
+                    className="block size-full object-contain dark:hidden"
+                  />
+                  <img
+                    src="/icons/logo-white.png"
+                    alt=""
+                    className="hidden size-full object-contain dark:block"
+                  />
+                </>
+                </span>
+                <span className="text-xl font-semibold tracking-[-0.02em] text-text-heading">
+                  Miransas
+                </span>
             </Link>
 
             <h2 className="mt-7 text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">

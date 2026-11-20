@@ -150,8 +150,17 @@ export function Header() {
             className={`flex items-center gap-2.5 rounded-lg transition-opacity hover:opacity-80 ${FOCUS_RING}`}
             aria-label="Miransas home"
           >
-            <span className="flex size-9 items-center justify-center rounded-xl bg-[#050505] p-1.5">
-              <img src="/logo.png" alt="" className="size-full object-contain" />
+            <span className="flex size-9 items-center bg-accent justify-center rounded-xl  p-1.5">
+               <img
+                    src="/icons/logo-dark-miralas.png"
+                    alt=""
+                    className="block size-full object-contain dark:hidden"
+                  />
+                  <img
+                    src="/icons/logo-white-miralas.png"
+                    alt=""
+                    className="hidden size-full object-contain dark:block"
+                  />
             </span>
             <span
               className={`text-lg font-semibold tracking-[-0.025em] ${
