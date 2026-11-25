@@ -3,23 +3,30 @@ import { test } from "node:test";
 import fs from "node:fs";
 import { createElement, Fragment } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { compileMDX } from "next-mdx-remote/rsc";
-import rehypeSlug from "rehype-slug";
-import rehypeHighlight from "rehype-highlight";
-import remarkGfm from "remark-gfm";
 import { useMDXComponents as getMDXComponents } from "../mdx-components";
 import { rehypeDocMetadata } from "../lib/docs-mdx";
 import { codeLanguage, codeText } from "../lib/docs-code";
 import { copyText } from "../lib/clipboard";
 import { tocTree, headingIndex, decodeHeadingHash } from "../lib/docs-navigation";
 import { getDoc, getDocEditUrl, getDocs } from "../lib/docs";
-import type { TocItem } from "../lib/docs-d";
 
 const code = 'const message: string = "<script>inert</script>";\nconsole.log(message);\n';
 const fixture = '## Same **title**\n\n### A `value`\n\n## Same **title**\n\n## Ürün & API\n\n```text\n## Not a heading\n```\n\nSetext title\n------------\n\n```typescript filename="example.ts"\n'+code+'```\n\n| Key | Value |\n| --- | --- |\n| Example | A long value |\n\n<Callout title="Note">Generic rendering fixture.</Callout>\n';
 
+async function loadMdxTools() {
+  const [{ compileMDX }, { default: rehypeSlug }, { default: rehypeHighlight }, { default: remarkGfm }] =
+    await Promise.all([
+      import("next-mdx-remote/rsc"),
+      import("rehype-slug"),
+      import("rehype-highlight"),
+      import("remark-gfm"),
+    ]);
+  return { compileMDX, rehypeSlug, rehypeHighlight, remarkGfm };
+}
+
 test("TOC uses rendered IDs for duplicates, inline formatting, Unicode and setext; ignores fenced headings", async () => {
-  const toc: TocItem[] = [];
+  const { compileMDX, rehypeSlug, rehypeHighlight, remarkGfm } = await loadMdxTools();
+  const toc = [];
   const { content } = await compileMDX({ source: fixture, components: getMDXComponents({}, { reading: true }), options: { mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, [rehypeDocMetadata, { toc }], [rehypeHighlight, { detect: false }]] } } });
   const html = renderToStaticMarkup(content);
   assert.deepEqual(toc.map(item => item.title), ["Same title", "A value", "Same title", "Ürün & API", "Setext title"]);
@@ -43,9 +50,10 @@ test("code text preserves nested syntax tokens, whitespace and trailing newline 
 });
 
 test("all published docs retain actual source and matching rendered headings; invalid slugs cannot read files", async () => {
+  const { compileMDX, rehypeSlug, rehypeHighlight, remarkGfm } = await loadMdxTools();
   for (const doc of getDocs()) {
     assert.equal(doc.source, fs.readFileSync(`content/docs/${doc.slug}.mdx`, "utf8"));
-    const toc: TocItem[] = [];
+    const toc = [];
     const { content } = await compileMDX({ source: doc.content, components: getMDXComponents({}, { reading: true }), options: { mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, [rehypeDocMetadata, { toc }], [rehypeHighlight, { detect: false }]] } } });
     const html = renderToStaticMarkup(content);
     assert.deepEqual(toc.map(item => item.id), [...html.matchAll(/<h[23][^>]*id="([^"]+)"/g)].map(match => match[1]));
@@ -68,10 +76,10 @@ test("TOC nesting and hash navigation preserve source order and Unicode", () => 
 });
 
 test("clipboard success waits for the write, and denial/unavailability remain failures", async () => {
-  let resolve!: () => void;
+  let resolve;
   let finished = false;
   let received = "";
-  const writing = copyText(code, { writeText: text => { received = text; return new Promise<void>(done => { resolve = done; }); } }).then(() => { finished = true; });
+  const writing = copyText(code, { writeText: text => { received = text; return new Promise(done => { resolve = done; }); } }).then(() => { finished = true; });
   await Promise.resolve();
   assert.equal(finished, false);
   assert.equal(received, code);

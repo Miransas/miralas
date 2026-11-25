@@ -3,11 +3,11 @@ import { test } from 'node:test';
 import { mountLaserFlow } from '../components/laser-flow/renderer';
 import { createLaserProgram } from '../components/laser-flow/program';
 import { FRAGMENT } from '../components/laser-flow/shaders';
-import { laserEnvironment } from './helpers/laser-environment';
+import { laserEnvironment } from './helpers/laser-environment.js';
 
 function mounted() {
   const env = laserEnvironment();
-  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
+  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake);
   env.intersect(true); env.tick();
   return { env, clean, finish() { clean(); env.rawCanvas.isConnected = false; env.tick(); env.restoreGlobals(); } };
 }
@@ -41,7 +41,7 @@ test('scroll, resize, mutation and replaced refs refresh geometry; scroll keeps 
     const previous = env.surface;
     env.settings.current.surfaceRef = { current: null }; env.wake.current?.(); env.tick();
     assert.equal(env.uniforms.get('uSurface')?.[0], -1600);
-    env.settings.current.surfaceRef.current = previous as unknown as HTMLElement; env.wake.current?.(); env.tick();
+    env.settings.current.surfaceRef.current = previous; env.wake.current?.(); env.tick();
     assert.equal(env.uniforms.get('uSurface')?.[0], 200);
   } finally { finish(); }
 });
@@ -113,7 +113,7 @@ test('sibling layout animations refresh surface position; nested decorative anim
 
 test('context loss cancels pending compilation; restoration recreates all resources; unmount leaves no listeners/observers', () => {
   const env = laserEnvironment(); env.config.parallel = true; env.config.complete = false;
-  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
+  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake);
   try {
     env.intersect(true); env.tick(3); assert.equal(env.metrics.draws, 0);
     assert.equal(env.lose(), true); assert.equal(env.frames.size, 0); assert.equal(env.wake.current, null); assert.equal(env.observers(), 0);
@@ -131,15 +131,15 @@ test('context loss cancels pending compilation; restoration recreates all resour
 test('Strict Mode replay cancels deferred context release, and partial GPU allocation cleans up', () => {
   const env = laserEnvironment();
   try {
-    const first = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
+    const first = mountLaserFlow(env.container, env.canvas, env.settings, env.wake);
     first(); assert.equal(env.frames.size, 1);
-    const second = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
+    const second = mountLaserFlow(env.container, env.canvas, env.settings, env.wake);
     env.intersect(true); env.tick(); assert.equal(env.metrics.lost, 0); assert.equal(env.metrics.draws, 1);
     env.rawCanvas.isConnected = false; second(); assert.equal(env.frames.size, 0);
     for (const allocation of ['createVertexArray', 'createBuffer', 'createTexture']) {
       env.config.failAllocation = allocation;
       const error = console.error; console.error = () => {};
-      try { mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!(); } finally { console.error = error; }
+      try { mountLaserFlow(env.container, env.canvas, env.settings, env.wake)(); } finally { console.error = error; }
       assert.equal(env.created.length, env.deleted.length); assert.equal(env.observers(), 0);
     }
   } finally { env.restoreGlobals(); }
@@ -159,7 +159,7 @@ test('pausing early freezes the intro; render-resolution prop updates keep the e
 });
 
 test('partial allocation and failed linking release resources; diagnostics are development-only', () => {
-  const env = laserEnvironment(); const error = console.error; const logs: unknown[][] = []; console.error = (...args) => logs.push(args);
+  const env = laserEnvironment(); const error = console.error; const logs = []; console.error = (...args) => logs.push(args);
   const previousMode = process.env.NODE_ENV;
   try {
     Reflect.set(process.env, 'NODE_ENV', 'development');
@@ -167,28 +167,28 @@ test('partial allocation and failed linking release resources; diagnostics are d
     assert.equal(createLaserProgram(env.gl, 'vertex', 'fragment'), null);
     assert.equal(env.created.length, env.deleted.length);
     env.config.failAllocation = ''; env.config.link = false; env.config.shader = false;
-    const program = createLaserProgram(env.gl, 'vertex', 'fragment')!; assert.equal(program.resolve(), false); program.dispose(); program.dispose();
+    const program = createLaserProgram(env.gl, 'vertex', 'fragment'); assert.equal(program.resolve(), false); program.dispose(); program.dispose();
     assert.equal(logs.length, 4); // allocation, two shaders, link
     assert.equal(env.created.length, env.deleted.length);
     logs.length = 0; Reflect.set(process.env, 'NODE_ENV', 'production');
-    const production = createLaserProgram(env.gl, 'vertex', 'fragment')!; production.resolve(); production.dispose(); assert.equal(logs.length, 0);
+    const production = createLaserProgram(env.gl, 'vertex', 'fragment'); production.resolve(); production.dispose(); assert.equal(logs.length, 0);
     assert.equal(env.created.length, env.deleted.length);
   } finally { if (previousMode === undefined) Reflect.deleteProperty(process.env, 'NODE_ENV'); else Reflect.set(process.env, 'NODE_ENV', previousMode); console.error = error; env.restoreGlobals(); }
 });
 
 test('reveal textures use decoded image dimensions, ignore stale loads and detach callbacks on teardown', () => {
-  const { env, clean, finish } = mounted(); const error = console.error; const logs: unknown[][] = []; console.error = (...args) => logs.push(args);
+  const { env, clean, finish } = mounted(); const error = console.error; const logs = []; console.error = (...args) => logs.push(args);
   try {
     assert.equal(env.images.length, 0); // actual hero omits revealImage
     env.settings.current.revealImage = '/images/hero-studio.jpg'; env.wake.current?.(); env.tick();
-    const first = env.images[0]; const stale = first.onload!;
+    const first = env.images[0]; const stale = first.onload;
     env.settings.current.revealImage = '/img/mono.png'; env.wake.current?.(); env.tick();
     assert.equal(first.onload, null); assert.equal(first.onerror, null);
     stale(); assert.equal(env.uniforms.get('uRevealInfo')?.[1], 0);
-    env.images[1].onload!(); env.tick(); assert.equal(env.uniforms.get('uRevealInfo')?.[1], .6);
-    env.settings.current.revealImage = '/not-an-image'; env.wake.current?.(); env.tick(); env.images[2].onerror!();
+    env.images[1].onload(); env.tick(); assert.equal(env.uniforms.get('uRevealInfo')?.[1], .6);
+    env.settings.current.revealImage = '/not-an-image'; env.wake.current?.(); env.tick(); env.images[2].onerror();
     assert.equal(env.uniforms.get('uRevealInfo')?.[1], 0); assert.equal(logs.length, 1);
-    env.settings.current.revealImage = '/blocked.png'; env.wake.current?.(); env.tick(); env.config.uploadFails = true; env.images[3].onload!();
+    env.settings.current.revealImage = '/blocked.png'; env.wake.current?.(); env.tick(); env.config.uploadFails = true; env.images[3].onload();
     assert.equal(logs.length, 2); assert.equal(env.uniforms.get('uRevealInfo')?.[1], 0);
     clean(); assert.equal(env.images[3].onload, null); assert.equal(env.images[3].onerror, null);
   } finally { console.error = error; finish(); }
@@ -197,6 +197,6 @@ test('reveal textures use decoded image dimensions, ignore stale loads and detac
 test('defined ascending smoothstep complements retain the descending mask profile', () => {
   assert.match(FRAGMENT, /1\.0 - smoothstep\(front - 110\.0, front \+ 10\.0, p\.y\)/);
   assert.match(FRAGMENT, /1\.0 - smoothstep\(front - 40\.0, front \+ 80\.0, p\.y\)/);
-  const smooth = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
+  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
   for (const [a, b] of [[10, -110], [80, -40]]) for (let x = -200; x <= 200; x += .25) assert.ok(Math.abs(smooth(a, b, x) - (1-smooth(b, a, x))) < 1e-14);
 });

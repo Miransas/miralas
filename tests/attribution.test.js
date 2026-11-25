@@ -10,7 +10,6 @@ import {
   matchesDomain,
   parseAttributionCookie,
   resolveAttribution,
-  type Attribution,
 } from "../lib/attribution";
 import { proxy } from "../proxy";
 import { GET as getAttributionRoute } from "../app/api/attribution/route";
@@ -19,54 +18,16 @@ import { POST as postConsentRoute } from "../app/api/consent/route";
 import { setDbForTesting } from "../db";
 import { trackingEvents, visitors } from "../db/schema";
 
-type StoredEvent = {
-  id: string;
-  eventId: string;
-  visitorId: string;
-  eventName: string;
-  page: string | null;
-  source: string | null;
-  medium: string | null;
-  campaign: string | null;
-  content: string | null;
-  term: string | null;
-  campaignId: string | null;
-  referrer: string | null;
-};
-
-type StoredVisitor = {
-  visitorId: string;
-  device: string | null;
-  browser: string | null;
-  firstSource: string | null;
-  firstMedium: string | null;
-  firstCampaign: string | null;
-  firstContent: string | null;
-  firstTerm: string | null;
-  firstCampaignId: string | null;
-  firstReferrer: string | null;
-  firstLandingUrl: string | null;
-  lastSource: string | null;
-  lastMedium: string | null;
-  lastCampaign: string | null;
-  lastContent: string | null;
-  lastTerm: string | null;
-  lastCampaignId: string | null;
-  lastReferrer: string | null;
-  lastLandingUrl: string | null;
-  pageViews: number;
-};
-
-function createInMemoryDb(options?: { failOnInsert?: boolean }) {
-  const eventsMap = new Map<string, StoredEvent>();
-  const visitorsMap = new Map<string, StoredVisitor>();
+function createInMemoryDb(options) {
+  const eventsMap = new Map();
+  const visitorsMap = new Map();
 
   const mockDb = {
     eventsMap,
     visitorsMap,
-    insert(table: unknown) {
+    insert(table) {
       return {
-        values(row: Record<string, unknown>) {
+        values(row) {
           if (options?.failOnInsert) {
             throw new Error("Simulated database connection failure");
           }
@@ -85,14 +46,14 @@ function createInMemoryDb(options?: { failOnInsert?: boolean }) {
                       eventId,
                       visitorId: String(row.visitorId),
                       eventName: String(row.eventName),
-                      page: (row.page as string | null) ?? null,
-                      source: (row.source as string | null) ?? null,
-                      medium: (row.medium as string | null) ?? null,
-                      campaign: (row.campaign as string | null) ?? null,
-                      content: (row.content as string | null) ?? null,
-                      term: (row.term as string | null) ?? null,
-                      campaignId: (row.campaignId as string | null) ?? null,
-                      referrer: (row.referrer as string | null) ?? null,
+                      page: row.page ?? null,
+                      source: row.source ?? null,
+                      medium: row.medium ?? null,
+                      campaign: row.campaign ?? null,
+                      content: row.content ?? null,
+                      term: row.term ?? null,
+                      campaignId: row.campaignId ?? null,
+                      referrer: row.referrer ?? null,
                     });
                     return [{ id }];
                   },
@@ -103,36 +64,35 @@ function createInMemoryDb(options?: { failOnInsert?: boolean }) {
 
           if (table === visitors) {
             return {
-              async onConflictDoUpdate(cfg: { set: Record<string, unknown> }) {
+              async onConflictDoUpdate(cfg) {
                 const visitorId = String(row.visitorId);
                 const existing = visitorsMap.get(visitorId);
                 if (!existing) {
                   visitorsMap.set(visitorId, {
                     visitorId,
-                    device: (row.device as string | null) ?? null,
-                    browser: (row.browser as string | null) ?? null,
-                    firstSource: (row.firstSource as string | null) ?? null,
-                    firstMedium: (row.firstMedium as string | null) ?? null,
-                    firstCampaign: (row.firstCampaign as string | null) ?? null,
-                    firstContent: (row.firstContent as string | null) ?? null,
-                    firstTerm: (row.firstTerm as string | null) ?? null,
-                    firstCampaignId: (row.firstCampaignId as string | null) ?? null,
-                    firstReferrer: (row.firstReferrer as string | null) ?? null,
-                    firstLandingUrl: (row.firstLandingUrl as string | null) ?? null,
-                    lastSource: (row.lastSource as string | null) ?? null,
-                    lastMedium: (row.lastMedium as string | null) ?? null,
-                    lastCampaign: (row.lastCampaign as string | null) ?? null,
-                    lastContent: (row.lastContent as string | null) ?? null,
-                    lastTerm: (row.lastTerm as string | null) ?? null,
-                    lastCampaignId: (row.lastCampaignId as string | null) ?? null,
-                    lastReferrer: (row.lastReferrer as string | null) ?? null,
-                    lastLandingUrl: (row.lastLandingUrl as string | null) ?? null,
+                    device: row.device ?? null,
+                    browser: row.browser ?? null,
+                    firstSource: row.firstSource ?? null,
+                    firstMedium: row.firstMedium ?? null,
+                    firstCampaign: row.firstCampaign ?? null,
+                    firstContent: row.firstContent ?? null,
+                    firstTerm: row.firstTerm ?? null,
+                    firstCampaignId: row.firstCampaignId ?? null,
+                    firstReferrer: row.firstReferrer ?? null,
+                    firstLandingUrl: row.firstLandingUrl ?? null,
+                    lastSource: row.lastSource ?? null,
+                    lastMedium: row.lastMedium ?? null,
+                    lastCampaign: row.lastCampaign ?? null,
+                    lastContent: row.lastContent ?? null,
+                    lastTerm: row.lastTerm ?? null,
+                    lastCampaignId: row.lastCampaignId ?? null,
+                    lastReferrer: row.lastReferrer ?? null,
+                    lastLandingUrl: row.lastLandingUrl ?? null,
                     pageViews: Number(row.pageViews ?? 1),
                   });
                   return;
                 }
 
-                // Apply update semantics matching SQL CASE/COALESCE logic
                 existing.pageViews += 1;
                 if (typeof cfg.set.device === "string") existing.device = cfg.set.device;
                 if (typeof cfg.set.browser === "string") existing.browser = cfg.set.browser;
@@ -145,25 +105,25 @@ function createInMemoryDb(options?: { failOnInsert?: boolean }) {
                   row.firstSource !== "direct" &&
                   row.firstSource !== "unknown"
                 ) {
-                  existing.firstSource = row.firstSource as string;
-                  existing.firstMedium = (row.firstMedium as string | null) ?? existing.firstMedium;
+                  existing.firstSource = row.firstSource;
+                  existing.firstMedium = row.firstMedium ?? existing.firstMedium;
                 }
-                existing.firstCampaign ??= (row.firstCampaign as string | null) ?? null;
-                existing.firstContent ??= (row.firstContent as string | null) ?? null;
-                existing.firstTerm ??= (row.firstTerm as string | null) ?? null;
-                existing.firstCampaignId ??= (row.firstCampaignId as string | null) ?? null;
-                existing.firstReferrer ??= (row.firstReferrer as string | null) ?? null;
-                existing.firstLandingUrl ??= (row.firstLandingUrl as string | null) ?? null;
+                existing.firstCampaign ??= row.firstCampaign ?? null;
+                existing.firstContent ??= row.firstContent ?? null;
+                existing.firstTerm ??= row.firstTerm ?? null;
+                existing.firstCampaignId ??= row.firstCampaignId ?? null;
+                existing.firstReferrer ??= row.firstReferrer ?? null;
+                existing.firstLandingUrl ??= row.firstLandingUrl ?? null;
 
                 if (typeof cfg.set.lastSource === "string") {
                   existing.lastSource = cfg.set.lastSource;
-                  existing.lastMedium = (cfg.set.lastMedium as string | null) ?? null;
-                  existing.lastCampaign = (cfg.set.lastCampaign as string | null) ?? null;
-                  existing.lastContent = (cfg.set.lastContent as string | null) ?? null;
-                  existing.lastTerm = (cfg.set.lastTerm as string | null) ?? null;
-                  existing.lastCampaignId = (cfg.set.lastCampaignId as string | null) ?? null;
-                  existing.lastReferrer = (cfg.set.lastReferrer as string | null) ?? null;
-                  existing.lastLandingUrl = (cfg.set.lastLandingUrl as string | null) ?? null;
+                  existing.lastMedium = cfg.set.lastMedium ?? null;
+                  existing.lastCampaign = cfg.set.lastCampaign ?? null;
+                  existing.lastContent = cfg.set.lastContent ?? null;
+                  existing.lastTerm = cfg.set.lastTerm ?? null;
+                  existing.lastCampaignId = cfg.set.lastCampaignId ?? null;
+                  existing.lastReferrer = cfg.set.lastReferrer ?? null;
+                  existing.lastLandingUrl = cfg.set.lastLandingUrl ?? null;
                 }
               },
             };
@@ -179,7 +139,6 @@ function createInMemoryDb(options?: { failOnInsert?: boolean }) {
 }
 
 test("Instagram and YouTube backward compatibility (UTM, Referer, click ID, and in-app UA)", () => {
-  // 1) Instagram Referer
   const igRef = resolveAttribution({
     searchParams: new URLSearchParams(),
     pathname: "/product/tts",
@@ -192,7 +151,6 @@ test("Instagram and YouTube backward compatibility (UTM, Referer, click ID, and 
   assert.equal(igRef.referrer, "l.instagram.com");
   assert.equal(igRef.landing_url, "/product/tts");
 
-  // 2) Instagram igshid click ID
   const igClick = resolveAttribution({
     searchParams: new URLSearchParams("igshid=MzRlODBiNWFlZA=="),
     pathname: "/",
@@ -203,7 +161,6 @@ test("Instagram and YouTube backward compatibility (UTM, Referer, click ID, and 
   assert.equal(igClick.medium, "social");
   assert.equal(igClick.landing_url, "/");
 
-  // 3) Instagram in-app User-Agent when Referer is missing
   const igUa = resolveAttribution({
     searchParams: new URLSearchParams(),
     pathname: "/pricing",
@@ -215,7 +172,6 @@ test("Instagram and YouTube backward compatibility (UTM, Referer, click ID, and 
   assert.equal(igUa.source, "instagram");
   assert.equal(igUa.medium, "social");
 
-  // 4) YouTube shortlink (youtu.be) and full domain (youtube.com)
   const ytShort = resolveAttribution({
     searchParams: new URLSearchParams(),
     pathname: "/",
@@ -264,19 +220,16 @@ test("Universal UTM support: arbitrary sources, all 6 UTM parameters, case prese
   assert.equal(attr.term, "uzbek+voice+ai");
   assert.equal(attr.campaign_id, "cmp_99481A");
   assert.equal(attr.referrer, "techcrunch.com");
-  // Query parameters on landing_url must be stripped for privacy
   assert.equal(attr.landing_url, "/solutions/enterprise-voice");
 });
 
 test("Referrer classification: search engines, social platforms, AI assistants, communities, newsletters, and unknown external domains", () => {
-  const cases: Array<[string, string, string, string]> = [
-    // Search engines
+  const cases = [
     ["https://www.google.com/search?q=miralas", "google", "organic", "google.com"],
     ["https://www.google.co.uk/search?q=miralas", "google", "organic", "google.co.uk"],
     ["https://www.google.com.tr/", "google", "organic", "google.com.tr"],
     ["https://www.bing.com/search?q=miralas", "bing", "organic", "bing.com"],
     ["https://duckduckgo.com/?q=miralas", "duckduckgo", "organic", "duckduckgo.com"],
-    // Social media
     ["https://x.com/miransas/status/12345", "x", "social", "x.com"],
     ["https://t.co/abcd123", "x", "social", "t.co"],
     ["https://www.linkedin.com/feed/", "linkedin", "social", "linkedin.com"],
@@ -284,19 +237,15 @@ test("Referrer classification: search engines, social platforms, AI assistants, 
     ["https://m.facebook.com/story.php", "facebook", "social", "m.facebook.com"],
     ["https://www.tiktok.com/@miralas", "tiktok", "social", "tiktok.com"],
     ["https://old.reddit.com/r/MachineLearning/", "reddit", "social", "old.reddit.com"],
-    // AI assistants
     ["https://chatgpt.com/c/1234-5678", "chatgpt", "ai", "chatgpt.com"],
     ["https://chat.openai.com/", "chatgpt", "ai", "chat.openai.com"],
     ["https://gemini.google.com/app", "gemini", "ai", "gemini.google.com"],
     ["https://www.perplexity.ai/search/uzbek-tts", "perplexity", "ai", "perplexity.ai"],
     ["https://claude.ai/chat/abc", "claude", "ai", "claude.ai"],
-    // Developer communities & launch platforms
     ["https://github.com/Miransas/miralas", "github", "community", "github.com"],
     ["https://www.producthunt.com/posts/miralas", "producthunt", "community", "producthunt.com"],
     ["https://news.ycombinator.com/item?id=400000", "hackernews", "community", "news.ycombinator.com"],
-    // Newsletters
     ["https://aiweekly.substack.com/p/voice-ai", "substack", "newsletter", "aiweekly.substack.com"],
-    // Arbitrary unknown external domain
     ["https://www.uzdaily.uz/en/post/12345?token=secret", "uzdaily.uz", "referral", "uzdaily.uz"],
   ];
 
@@ -310,7 +259,6 @@ test("Referrer classification: search engines, social platforms, AI assistants, 
 });
 
 test("Hostname spoofing resistance and internal navigation exclusion", () => {
-  // Substring spoofing attempts must NOT match trusted platforms
   assert.equal(matchesDomain("google.com.evil.example", "google.com"), false);
   assert.equal(matchesDomain("fakeinstagram.com", "instagram.com"), false);
   assert.equal(matchesDomain("myyoutube.com", "youtube.com"), false);
@@ -326,14 +274,12 @@ test("Hostname spoofing resistance and internal navigation exclusion", () => {
   assert.equal(spoofedIg.source, "notinstagram.com");
   assert.equal(spoofedIg.medium, "referral");
 
-  // Internal navigation must return null and never be classified as an external referral
   assert.equal(classifyReferrer("https://miralas.io/pricing", "miralas.io"), null);
   assert.equal(classifyReferrer("https://console.miralas.io/studio", "miralas.io"), null);
   assert.equal(classifyReferrer("https://miralas.org/docs", "miralas.io"), null);
   assert.equal(classifyReferrer("https://miransas.com/", "miralas.io"), null);
   assert.equal(classifyReferrer("http://localhost:3000/product", "localhost:3000"), null);
 
-  // Even inside an in-app browser (e.g. Instagram webview), internal page-to-page navigation must return null
   const internalInApp = resolveAttribution({
     searchParams: new URLSearchParams(),
     pathname: "/pricing",
@@ -345,7 +291,6 @@ test("Hostname spoofing resistance and internal navigation exclusion", () => {
 });
 
 test("Direct traffic and malformed/oversized parameter rejection", () => {
-  // Direct visit with no UTMs, no Referer, standard desktop UA -> null attribution in proxy
   const direct = resolveAttribution({
     searchParams: new URLSearchParams(),
     pathname: "/",
@@ -355,7 +300,6 @@ test("Direct traffic and malformed/oversized parameter rejection", () => {
   });
   assert.equal(direct, null);
 
-  // Oversized & malicious UTM parameters must be rejected
   const oversizedSource = "a".repeat(200);
   const xssCampaign = "<script>alert(1)</script>";
   const sqliContent = "banner' OR 1=1 --";
@@ -371,14 +315,12 @@ test("Direct traffic and malformed/oversized parameter rejection", () => {
   });
   assert.equal(badUtm, null);
 
-  // Unsupported referrer protocols (javascript:, data:) must be rejected
   assert.equal(classifyReferrer("javascript:alert(1)", "miralas.io"), null);
   assert.equal(classifyReferrer("data:text/html,hello", "miralas.io"), null);
   assert.equal(classifyReferrer("not a valid url", "miralas.io"), null);
 });
 
 test("Prefetch, RSC, API, and static asset exclusion in proxy", () => {
-  // Prefetch request
   const prefetchReq = new NextRequest("https://miralas.io/pricing?utm_source=google", {
     headers: { "next-router-prefetch": "1", "sec-fetch-dest": "empty" },
   });
@@ -386,13 +328,11 @@ test("Prefetch, RSC, API, and static asset exclusion in proxy", () => {
   const prefetchRes = proxy(prefetchReq);
   assert.equal(prefetchRes.cookies.get(FIRST_TOUCH_COOKIE), undefined);
 
-  // RSC request
   const rscReq = new NextRequest("https://miralas.io/product?utm_source=github", {
     headers: { rsc: "1" },
   });
   assert.equal(isTrackableDocumentNavigation(rscReq), false);
 
-  // Static assets, shaders, videos, fonts, API routes
   for (const path of [
     "/api/track",
     "/_next/static/chunks/main.js",
@@ -417,7 +357,6 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
   setDbForTesting(mockDb);
 
   try {
-    // Visit 1: Visitor arrives from Perplexity AI
     const req1 = new NextRequest("https://miralas.io/?utm_source=perplexity&utm_medium=ai&utm_campaign=VoiceSearch&utm_id=px_01", {
       headers: {
         referer: "https://www.perplexity.ai/search/uzbek-voice-ai",
@@ -433,14 +372,13 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
     assert.ok(firstTouch1);
     assert.ok(lastTouch1);
 
-    const parsedFirst1 = parseAttributionCookie(firstTouch1)!;
+    const parsedFirst1 = parseAttributionCookie(firstTouch1);
     assert.equal(parsedFirst1.source, "perplexity");
     assert.equal(parsedFirst1.medium, "ai");
     assert.equal(parsedFirst1.campaign, "VoiceSearch");
     assert.equal(parsedFirst1.campaign_id, "px_01");
     assert.equal(parsedFirst1.referrer, "perplexity.ai");
 
-    // Visit 2: Internal navigation to /pricing (Referer is miralas.io, no UTMs)
     const req2 = new NextRequest("https://miralas.io/pricing", {
       headers: {
         referer: "https://miralas.io/",
@@ -448,11 +386,9 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
       },
     });
     const res2 = proxy(req2);
-    // Proxy must NOT overwrite first or last touch on internal navigation
     assert.equal(res2.cookies.get(FIRST_TOUCH_COOKIE), undefined);
     assert.equal(res2.cookies.get(LAST_TOUCH_COOKIE), undefined);
 
-    // Visit 3: Later visit from GitHub community link
     const req3 = new NextRequest("https://miralas.io/docs", {
       headers: {
         referer: "https://github.com/Miransas/miralas",
@@ -460,27 +396,24 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
       },
     });
     const res3 = proxy(req3);
-    // First touch cookie must remain untouched; Last touch cookie must update to GitHub
     assert.equal(res3.cookies.get(FIRST_TOUCH_COOKIE), undefined);
     const lastTouch3 = res3.cookies.get(LAST_TOUCH_COOKIE)?.value;
     assert.ok(lastTouch3);
-    const parsedLast3 = parseAttributionCookie(lastTouch3)!;
+    const parsedLast3 = parseAttributionCookie(lastTouch3);
     assert.equal(parsedLast3.source, "github");
     assert.equal(parsedLast3.medium, "community");
     assert.equal(parsedLast3.landing_url, "/docs");
 
-    // Verify /api/attribution endpoint returns sanitized first and last touch
     const attrApiReq = new NextRequest("https://miralas.io/api/attribution", {
       headers: {
         cookie: `${FIRST_TOUCH_COOKIE}=${firstTouch1}; ${LAST_TOUCH_COOKIE}=${lastTouch3}`,
       },
     });
     const attrApiRes = await getAttributionRoute(attrApiReq);
-    const attrJson = (await attrApiRes.json()) as { first: Attribution; last: Attribution };
+    const attrJson = await attrApiRes.json();
     assert.equal(attrJson.first.source, "perplexity");
     assert.equal(attrJson.last.source, "github");
 
-    // Record page_view events via /api/track and verify database state
     const trackReq1 = new NextRequest("https://miralas.io/api/track", {
       method: "POST",
       headers: {
@@ -498,7 +431,6 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
     assert.equal(trackRes1.status, 200);
     assert.deepEqual(await trackRes1.json(), { success: true, duplicate: false });
 
-    // Second event after returning from GitHub
     const trackReq2 = new NextRequest("https://miralas.io/api/track", {
       method: "POST",
       headers: {
@@ -515,7 +447,6 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
     const trackRes2 = await postTrackRoute(trackReq2);
     assert.equal(trackRes2.status, 200);
 
-    // Third event: subsequent direct visit (no last_touch cookie sent, e.g. expired, or direct fallback) must NOT overwrite visitor's lastSource in DB
     const trackReq3 = new NextRequest("https://miralas.io/api/track", {
       method: "POST",
       headers: {
@@ -531,7 +462,7 @@ test("First-touch and last-non-direct-touch preservation across sessions and int
     const trackRes3 = await postTrackRoute(trackReq3);
     assert.equal(trackRes3.status, 200);
 
-    const savedVisitor = mockDb.visitorsMap.get(visitorId)!;
+    const savedVisitor = mockDb.visitorsMap.get(visitorId);
     assert.ok(savedVisitor);
     assert.equal(savedVisitor.pageViews, 3);
     assert.equal(savedVisitor.firstSource, "perplexity");
@@ -554,7 +485,6 @@ test("Duplicate requests idempotency, consent enforcement, and graceful database
   try {
     const visitorId = "visitor_dedup_test_12345";
 
-    // 1) Without consent=granted, /api/track rejects with 403 and writes nothing
     const noConsentReq = new NextRequest("https://miralas.io/api/track", {
       method: "POST",
       headers: {
@@ -567,7 +497,6 @@ test("Duplicate requests idempotency, consent enforcement, and graceful database
     assert.equal(noConsentRes.status, 403);
     assert.equal(mockDb.eventsMap.size, 0);
 
-    // 2) With consent=denied, proxy sets NO tracking cookies
     const deniedProxyReq = new NextRequest("https://miralas.io/?utm_source=instagram", {
       headers: { cookie: "consent=denied" },
     });
@@ -575,7 +504,6 @@ test("Duplicate requests idempotency, consent enforcement, and graceful database
     assert.equal(deniedProxyRes.cookies.get(VISITOR_COOKIE), undefined);
     assert.equal(deniedProxyRes.cookies.get(FIRST_TOUCH_COOKIE), undefined);
 
-    // 3) Duplicate eventId is ignored and does not increment pageViews twice
     const makeDupReq = () =>
       new NextRequest("https://miralas.io/api/track", {
         method: "POST",
@@ -605,7 +533,6 @@ test("Duplicate requests idempotency, consent enforcement, and graceful database
     assert.equal(mockDb.visitorsMap.get(visitorId)?.pageViews, 1);
     assert.equal(mockDb.visitorsMap.get(visitorId)?.firstSource, "chatgpt");
 
-    // 4) Database outage / failure is caught gracefully and never throws an unhandled error
     const failingDb = createInMemoryDb({ failOnInsert: true });
     setDbForTesting(failingDb);
     const origError = console.error;
@@ -625,13 +552,12 @@ test("Duplicate requests idempotency, consent enforcement, and graceful database
       });
       const failRes = await postTrackRoute(failReq);
       assert.equal(failRes.status, 202);
-      const failBody = (await failRes.json()) as { success: boolean; degraded: boolean };
+      const failBody = await failRes.json();
       assert.equal(failBody.degraded, true);
     } finally {
       console.error = origError;
     }
 
-    // 5) Revoking consent via /api/consent clears visitor_id, attribution_first, and attribution_last cookies
     const revokeReq = new NextRequest("https://miralas.io/api/consent", {
       method: "POST",
       headers: { "content-type": "application/json" },

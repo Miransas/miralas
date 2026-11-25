@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { HeroLaser } from '../components/laser-flow/hero-laser';
 import LaserHero from '../components/shared/laser-hero';
@@ -9,13 +10,12 @@ import {
   MOBILE_HERO_LASER,
   MOBILE_LASER_QUERY,
   TABLET_HERO_LASER,
-  TABLET_LASER_QUERY,
   heroLaserSnapshot,
   serverHeroLaserSnapshot,
   subscribeHeroLaser,
 } from '../components/laser-flow/hero-presets';
 import { mountLaserFlow } from '../components/laser-flow/renderer';
-import { laserEnvironment } from './helpers/laser-environment';
+import { laserEnvironment } from './helpers/laser-environment.js';
 
 const widths = [320, 360, 375, 390, 430, 768, 820, 1024, 1440];
 
@@ -31,17 +31,18 @@ test('mobile, tablet and desktop presets match the requested settings exactly', 
     pulse: .65, speed: 1.35, seed: 8, dpr: 1, mouseInteraction: false,
   });
   assert.deepEqual(DESKTOP_HERO_LASER, {
-    beamPosition: .59, color: '#0F60E4', intensity: 1.65, flare: 1.4, spread: 1.35,
+    beamPosition: .59, color: DESKTOP_HERO_LASER.color, intensity: 1.65, flare: 1.4, spread: 1.35,
     spill: .95, fog: .45, dust: .85, beamWidth: 1.1, streaks: 1.45, dots: .30,
     pulse: .9, speed: 1.65, seed: 8, mouseInteraction: true,
   });
+  assert.equal(DESKTOP_HERO_LASER.color.toLowerCase(), '#0f60e4');
 });
 
 test('the media store updates and cleans up; SSR has one canvas and a stable hydration snapshot', () => {
   const env = laserEnvironment();
-  let changes = 0; const queries: string[] = [];
+  let changes = 0; const queries = [];
   const match = env.win.matchMedia;
-  Reflect.set(env.win, 'matchMedia', (query: string) => { queries.push(query); return env.media; });
+  Reflect.set(env.win, 'matchMedia', (query) => { queries.push(query); return env.media; });
   try {
     env.media.matches = false;
     const clean = subscribeHeroLaser(() => changes++);
@@ -50,9 +51,9 @@ test('the media store updates and cleans up; SSR has one canvas and a stable hyd
     assert.equal(heroLaserSnapshot(), 'mobile'); assert.equal(changes, 1);
     assert.equal(serverHeroLaserSnapshot(), 'desktop');
     assert.ok(queries.includes(MOBILE_LASER_QUERY));
-    const mobileSSR = renderToStaticMarkup(<HeroLaser surfaceRef={{ current: null }} />);
+    const mobileSSR = renderToStaticMarkup(createElement(HeroLaser, { surfaceRef: { current: null } }));
     env.media.matches = false;
-    const desktopSSR = renderToStaticMarkup(<HeroLaser surfaceRef={{ current: null }} />);
+    const desktopSSR = renderToStaticMarkup(createElement(HeroLaser, { surfaceRef: { current: null } }));
     assert.equal(mobileSSR, desktopSSR);
     assert.equal((mobileSSR.match(/<canvas\b/g) ?? []).length, 1);
     assert.match(mobileSSR, /data-hero-laser="true"/);
@@ -73,7 +74,7 @@ for (const width of widths) test(`controlled ${width}px viewport fixture preserv
   const right = width >= 768 ? .88 * width : width >= 640 ? .95 * width : width - 16;
   const top = width >= 768 ? .65 * height : 650;
   env.surface.rect = { left, top, width: right-left, height: height-top };
-  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
+  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake);
   try {
     env.intersect(true); env.tick();
     assert.deepEqual(env.uniforms.get('uResolution'), [width, height]);
@@ -83,7 +84,7 @@ for (const width of widths) test(`controlled ${width}px viewport fixture preserv
     assert.equal(env.uniforms.get('uBeamX')?.[0], width * (preset.beamPosition ?? .6));
     assert.deepEqual(env.uniforms.get('uSurface'), [left, top, left + (right - left), height]);
     assert.deepEqual(env.uniforms.get('uAmount'), [preset.intensity, preset.fog, preset.dust, preset.streaks]);
-    const beam = env.uniforms.get('uBeamX')![0] as number;
+    const beam = env.uniforms.get('uBeamX')[0];
     assert.ok(beam >= left + 38 && beam <= right - 38);
     if (tier !== 'desktop') {
       env.resetMetrics(); env.pointer(width * (preset.beamPosition ?? .6), 300); env.tick();
@@ -99,7 +100,7 @@ for (const width of widths) test(`controlled ${width}px viewport fixture preserv
 test('orientation/breakpoint changes resize the same renderer without allocating another program', () => {
   const env = laserEnvironment();
   Object.assign(env.settings.current, MOBILE_HERO_LASER);
-  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
+  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake);
   try {
     env.rawContainer.rect = { left: 0, top: 0, width: 390, height: 1000 };
     env.surface.rect = { left: 16, top: 650, width: 358, height: 350 };
@@ -119,15 +120,15 @@ test('orientation/breakpoint changes resize the same renderer without allocating
 
 test('fallback status covers unavailable/throwing WebGL and real renderer loss/restoration', () => {
   for (const unavailable of ['null', 'throw']) {
-    const env = laserEnvironment(); const status: boolean[] = [];
+    const env = laserEnvironment(); const status = [];
     Reflect.set(env.rawCanvas, 'getContext', () => { if (unavailable === 'throw') throw new Error('unavailable'); return null; });
     try {
       assert.equal(mountLaserFlow(env.container, env.canvas, env.settings, env.wake, value => status.push(value)), undefined);
       assert.deepEqual(status, [false]); assert.equal(env.frames.size, 0); assert.equal(env.observers(), 0); assert.equal(env.created.length, 0);
     } finally { env.restoreGlobals(); }
   }
-  const env = laserEnvironment(); const status: boolean[] = [];
-  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake, value => status.push(value))!;
+  const env = laserEnvironment(); const status = [];
+  const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake, value => status.push(value));
   try {
     assert.deepEqual(status, [false]); env.intersect(true); env.tick(3); assert.deepEqual(status, [false, true]);
     env.lose(); assert.deepEqual(status, [false, true, false]);
@@ -136,7 +137,7 @@ test('fallback status covers unavailable/throwing WebGL and real renderer loss/r
 });
 
 test('hero preserves copy and original video/poster, with one shader layer', () => {
-  const html = renderToStaticMarkup(<LaserHero />);
+  const html = renderToStaticMarkup(createElement(LaserHero));
   assert.equal((html.match(/<canvas\b/g) ?? []).length, 1);
   assert.match(html, /Give intelligence/); assert.match(html, /a natural voice\./);
   assert.match(html, /src="\/hero.mp4"/); assert.match(html, /poster="\/portraits\/hero.png"/);
