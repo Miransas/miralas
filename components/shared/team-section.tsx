@@ -3,7 +3,7 @@
 import { Check, Users, Eye, Sparkles } from "lucide-react";
 
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 const ARTISTS = [
   {
@@ -50,13 +50,13 @@ const ARTISTS = [
 
 export default function TeamSection() {
   return (
-    <section className="w-full bg-surface-page px-6 py-24 font-sans text-text-heading transition-colors duration-300 md:px-12">
+    <section className="w-full bg-surface-page px-6 py-24 font-sans text-text-heading transition-colors duration-(--motion-interaction-duration) md:px-12">
       <div className="mx-auto max-w-[1200px] space-y-12">
         {/* Heading section */}
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full bg-surface-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
-              <Sparkles className="size-3.5 text-[#7c3aed]" />
+              <Sparkles className="size-3.5 text-text-heading" />
               <span>Miransas Creators</span>
             </div>
             <h2 className="text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]">
@@ -74,7 +74,7 @@ export default function TeamSection() {
           {ARTISTS.map((artist) => (
             <div
               key={artist.id}
-              className="group surface-shadow relative h-[460px] w-full overflow-hidden rounded-[28px] bg-surface-card transition-transform duration-300 hover:-translate-y-0.5"
+              className="dark group surface-shadow relative h-[460px] w-full overflow-hidden rounded-4xl bg-surface-card transition-transform duration-(--motion-interaction-duration) hover:-translate-y-0.5"
             >
               {/* Background portrait */}
               <img
@@ -83,12 +83,8 @@ export default function TeamSection() {
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
               />
 
-              {/* Dark gradient scrim + subtle violet hover sheen */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#000103]/95 via-[#000103]/45 to-transparent opacity-95" />
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_80%_at_0%_0%,rgba(124,58,237,0.22),transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
+              {/* Neutral contrast scrim */}
+              <div className="absolute inset-0 bg-gradient-to-t from-surface-card/95 via-surface-card/45 to-transparent opacity-95" />
 
               {/* Card content */}
               <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end space-y-3.5 p-6 backdrop-blur-[2px]">
@@ -97,31 +93,31 @@ export default function TeamSection() {
                     {artist.name}.
                   </h3>
                   {artist.verified && (
-                    <span className="flex size-5 items-center justify-center rounded-full bg-[#7c3aed] text-white">
+                    <span className="flex size-5 items-center justify-center rounded-full bg-text-heading text-white">
                       <Check className="size-3 stroke-[3]" />
                     </span>
                   )}
                 </div>
 
-                <p className="line-clamp-2 text-xs leading-[1.5] text-[#D1D1D1] sm:text-[13px]">
+                <p className="line-clamp-2 text-xs leading-[1.5] text-text-primary sm:text-[13px]">
                   {artist.bio}
                 </p>
 
                 <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-3 text-xs font-medium text-[#D1D1D1]">
+                  <div className="flex items-center gap-3 text-xs font-medium text-text-primary">
                     <div className="flex items-center gap-1.5">
-                      <Users className="size-3.5 text-[#6E6E74]" />
+                      <Users className="size-3.5 text-text-muted" />
                       <span>{artist.stats.followers}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Eye className="size-3.5 text-[#6E6E74]" />
+                      <Eye className="size-3.5 text-text-muted" />
                       <span>{artist.stats.views}</span>
                     </div>
                   </div>
 
                   <button
                     type="button"
-                    className={`cursor-pointer rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-[#050505] transition-all duration-200 hover:bg-[#D1D1D1] active:scale-95 ${FOCUS_RING}`}
+                    className={`cursor-pointer rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-[#050505] transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration) hover:bg-[#D1D1D1] active:scale-[0.98] ${FOCUS_RING}`}
                   >
                     {artist.buttonText}
                   </button>

@@ -55,7 +55,7 @@ export function CodeBlock({ children, className, language }: CodeBlockProps) {
           className={cn(
             "inline-flex items-center gap-1.5 rounded-md px-2 py-1",
             "text-xs font-medium text-muted-foreground",
-            "transition-colors duration-200",
+            "transition-colors duration-(--motion-interaction-duration)",
             "hover:bg-foreground/[0.06] hover:text-foreground",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
           )}

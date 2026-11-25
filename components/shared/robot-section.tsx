@@ -1,21 +1,14 @@
 "use client";
 
+import { StaggerReveal, RevealEyebrow, RevealHeading, RevealParagraph, RevealCard } from "@/components/motion/primitives";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { ArrowUpRight, AudioLines, Fingerprint, Radio } from "lucide-react";
-import {
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-} from "@/lib/motion";
+
 
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 const capabilities = [
   {
@@ -94,59 +87,43 @@ export function VoiceLayerSection() {
         <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
           {/* Editorial copy and product capabilities */}
           <div className="relative z-10">
-            <motion.div
-              variants={staggerContainer(0.06)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEWPORT_ONCE}
+            <StaggerReveal
             >
-              <motion.p
-                variants={eyebrowReveal}
+              <RevealEyebrow
                 className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
               >
                 The Miransas voice layer
-              </motion.p>
-              <motion.h2
-                variants={headingReveal}
+              </RevealEyebrow>
+              <RevealHeading
                 className="mt-5 max-w-[620px] text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
               >
                 From a single voice to a whole conversation.
-              </motion.h2>
-              <motion.p
-                variants={paragraphReveal}
+              </RevealHeading>
+              <RevealParagraph
                 className="mt-6 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base"
               >
                 Miransas brings speech generation, voice identity and conversational
                 experiences into one voice-focused platform. Start with spoken
                 content, then build toward more natural voice interactions.
-              </motion.p>
-            </motion.div>
+              </RevealParagraph>
+            </StaggerReveal>
 
-            <motion.div
-              variants={staggerContainer(0.06)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEWPORT_EARLY}
+            <StaggerReveal
               className="mt-10 flex flex-col gap-3"
             >
               {capabilities.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <motion.div
+                  <RevealCard
                     key={item.number}
-                    variants={cardReveal}
-                    className="group relative grid grid-cols-[34px_1fr] gap-4 overflow-hidden rounded-[22px] bg-surface-card p-5 transition-colors duration-300 hover:bg-surface-card-hover sm:grid-cols-[34px_1fr_auto] sm:items-start sm:gap-5"
+                    className="group relative grid grid-cols-[34px_1fr] gap-4 overflow-hidden rounded-4xl bg-surface-card p-5 transition-colors duration-(--motion-interaction-duration) hover:bg-surface-card-hover sm:grid-cols-[34px_1fr_auto] sm:items-start sm:gap-5"
                   >
-                    <div
-                      aria-hidden="true"
-                      className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    />
                     <span className="relative z-10 pt-0.5 font-mono text-xs tabular-nums text-text-muted">
                       {item.number}
                     </span>
                     <div className="relative z-10 min-w-0">
                       <div className="flex items-center gap-2.5">
-                        <Icon className="size-4 shrink-0 text-[#7c3aed]" strokeWidth={1.7} />
+                        <Icon className="size-4 shrink-0 text-text-heading" strokeWidth={1.7} />
                         <h3 className="text-base font-semibold tracking-[-0.02em] text-text-heading sm:text-lg">
                           {item.title}
                         </h3>
@@ -161,24 +138,20 @@ export function VoiceLayerSection() {
                     <span className="relative z-10 hidden whitespace-nowrap rounded-full bg-surface-page px-3 py-1 text-xs font-medium text-text-muted dark:bg-white/[0.06] sm:inline-flex">
                       {item.status}
                     </span>
-                  </motion.div>
+                  </RevealCard>
                 );
               })}
-            </motion.div>
+            </StaggerReveal>
 
-            <motion.div
-              variants={paragraphReveal}
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEWPORT_ONCE}
+            <RevealParagraph as="div"
               className="mt-8 flex flex-wrap items-center gap-5"
             >
               <Link
                 href="/product"
-                className={`group inline-flex h-12 items-center gap-3 rounded-full bg-text-heading px-6 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
+                className={`group inline-flex h-12 items-center gap-3 rounded-full bg-text-heading px-6 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
               >
                 Explore products
-                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <ArrowUpRight className="size-4 transition-transform duration-(--motion-interaction-duration) group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
               <Link
                 href="/resources/changelog"
@@ -186,18 +159,14 @@ export function VoiceLayerSection() {
               >
                 Follow development <ArrowUpRight className="size-3.5" />
               </Link>
-            </motion.div>
+            </RevealParagraph>
           </div>
 
           {/* One cinematic visual — borderless elevated surface */}
-          <motion.div
-            variants={cardReveal}
-            initial="hidden"
-            whileInView="visible"
-            viewport={VIEWPORT_EARLY}
+          <RevealCard
             className="relative min-w-0"
           >
-            <div className="group surface-shadow-lg relative aspect-[4/4.5] overflow-hidden rounded-[28px] bg-[#000103] sm:aspect-[5/4] lg:aspect-[4/4.5]">
+            <div className="dark group surface-shadow-lg relative aspect-[4/4.5] overflow-hidden rounded-4xl bg-surface-card sm:aspect-[5/4] lg:aspect-[4/4.5]">
               <video
                 ref={videoRef}
                 className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.025]"
@@ -210,11 +179,11 @@ export function VoiceLayerSection() {
               />
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#000103]/85 via-[#000103]/10 to-transparent"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-card/85 via-surface-card/10 to-transparent"
               />
               <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 sm:p-8">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#D1D1D1]">
+                  <p className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary">
                     Miransas / Voice
                   </p>
                   <p className="mt-2 text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-2xl">
@@ -229,7 +198,7 @@ export function VoiceLayerSection() {
             <p className="mt-3 text-right text-xs leading-[1.45] text-text-muted sm:text-[13px]">
               A look inside the Miransas voice experience
             </p>
-          </motion.div>
+          </RevealCard>
         </div>
       </div>
     </section>

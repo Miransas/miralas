@@ -1,157 +1,79 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { MotionConfig, motion, type Variants } from "framer-motion";
-import {
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-  wordmarkReveal,
-} from "@/lib/motion";
+import type { HTMLAttributes, ReactNode } from "react";
+import { MotionConfig, motion, type HTMLMotionProps, type Variants } from "framer-motion";
+import { cardReveal, eyebrowReveal, paragraphReveal, staggerContainer, TRANSITION_MICRO } from "@/lib/motion";
+import { TextReveal } from "./text-reveal";
+import { RevealGroup, useReveal, type RevealTrigger } from "./use-reveal";
 
-/**
- * Global Framer Motion configuration for the public marketing site.
- * Respects OS reduced-motion preferences without SSR/client hydration mismatches.
- */
 export function MotionProvider({ children }: { children: ReactNode }) {
-  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+  return <MotionConfig reducedMotion="user" transition={TRANSITION_MICRO}>{children}</MotionConfig>;
 }
 
-interface RevealContainerProps {
-  children: ReactNode;
-  className?: string;
-  stagger?: number;
+type BlockProps = Omit<HTMLMotionProps<"div">, "initial" | "animate" | "whileInView"> & {
+  trigger?: RevealTrigger;
   delay?: number;
   early?: boolean;
-}
+  standalone?: boolean;
+  as?: "div" | "article" | "section" | "span" | "header";
+};
 
-export function RevealContainer({
-  children,
-  className,
-  stagger = 0.06,
-  delay = 0,
-  early = false,
-}: RevealContainerProps) {
+type GroupProps = BlockProps & { stagger?: number; variants?: Variants };
+
+/** Group scopes own viewport observation; descendants inherit a single reveal. */
+export function StaggerReveal({ children, trigger = "view", stagger = 0.06, delay = 0, variants, early: _early, standalone: _standalone, as = "div", ...props }: GroupProps) {
+  const { ref, initial, animate, nested } = useReveal<HTMLDivElement>(trigger);
+  const Tag = motion[as];
   return (
-    <motion.div
-      variants={staggerContainer(stagger, delay)}
-      initial="hidden"
-      whileInView="visible"
-      viewport={early ? VIEWPORT_EARLY : VIEWPORT_ONCE}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <RevealGroup.Provider value={nested || "group"}>
+      <Tag {...props} ref={ref} data-reveal initial={initial} animate={animate} variants={nested ? undefined : variants ?? staggerContainer(stagger, delay)}>
+        {children}
+      </Tag>
+    </RevealGroup.Provider>
   );
 }
 
-interface RevealBlockProps {
-  children: ReactNode;
-  className?: string;
-  variants?: Variants;
+export const RevealContainer = StaggerReveal;
+
+/** One meaningful content block. Nested wrappers never add another transform. */
+export function Reveal({ children, trigger = "view", delay: _delay, early: _early, standalone: _standalone, as = "div", variants = cardReveal, ...props }: BlockProps) {
+  const { ref, initial, animate, nested } = useReveal<HTMLDivElement>(trigger);
+  const Tag = motion[as];
+  return (
+    <RevealGroup.Provider value="block">
+      <Tag {...props} ref={ref} data-reveal initial={initial} animate={animate} variants={nested === "block" ? undefined : variants}>
+        {children}
+      </Tag>
+    </RevealGroup.Provider>
+  );
+}
+export const ScrollReveal = Reveal;
+export function SectionReveal({ as = "section", ...props }: GroupProps) {
+  return <StaggerReveal as={as} {...props} />;
+}
+export const RevealCard = Reveal;
+export const RevealWordmark = Reveal;
+
+interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
+  trigger?: RevealTrigger;
   early?: boolean;
   standalone?: boolean;
-  id?: string;
+  as?: "h1" | "h2" | "h3" | "h4";
+}
+export function RevealHeading({ children, trigger = "view", as = "h2", early: _early, standalone: _standalone, ...props }: HeadingProps) {
+  const Tag = as;
+  return <Tag {...props}><TextReveal trigger={trigger}>{children}</TextReveal></Tag>;
 }
 
-export function RevealEyebrow({
-  children,
-  className,
-  standalone = false,
-  early = false,
-}: RevealBlockProps) {
-  return (
-    <motion.p
-      variants={eyebrowReveal}
-      initial={standalone ? "hidden" : undefined}
-      whileInView={standalone ? "visible" : undefined}
-      viewport={standalone ? (early ? VIEWPORT_EARLY : VIEWPORT_ONCE) : undefined}
-      className={className}
-    >
-      {children}
-    </motion.p>
-  );
-}
+type TextProps = Omit<HTMLMotionProps<"p">, "initial" | "animate" | "whileInView"> & { trigger?: RevealTrigger; early?: boolean; standalone?: boolean; as?: "p" | "div" | "span" };
 
-export function RevealHeading({
-  children,
-  className,
-  id,
-  standalone = false,
-  early = false,
-}: RevealBlockProps) {
-  return (
-    <motion.h2
-      id={id}
-      variants={headingReveal}
-      initial={standalone ? "hidden" : undefined}
-      whileInView={standalone ? "visible" : undefined}
-      viewport={standalone ? (early ? VIEWPORT_EARLY : VIEWPORT_ONCE) : undefined}
-      className={className}
-    >
-      {children}
-    </motion.h2>
-  );
+export function RevealParagraph({ children, trigger = "view", early: _early, standalone: _standalone, as = "p", ...props }: TextProps) {
+  const { ref, initial, animate, nested } = useReveal<HTMLParagraphElement>(trigger);
+  const Tag = motion[as];
+  return <Tag {...props} ref={ref} data-reveal initial={initial} animate={animate} variants={nested === "block" ? undefined : paragraphReveal}>{children}</Tag>;
 }
-
-export function RevealParagraph({
-  children,
-  className,
-  standalone = false,
-  early = false,
-}: RevealBlockProps) {
-  return (
-    <motion.p
-      variants={paragraphReveal}
-      initial={standalone ? "hidden" : undefined}
-      whileInView={standalone ? "visible" : undefined}
-      viewport={standalone ? (early ? VIEWPORT_EARLY : VIEWPORT_ONCE) : undefined}
-      className={className}
-    >
-      {children}
-    </motion.p>
-  );
-}
-
-export function RevealCard({
-  children,
-  className,
-  standalone = false,
-  early = false,
-}: RevealBlockProps) {
-  return (
-    <motion.div
-      variants={cardReveal}
-      initial={standalone ? "hidden" : undefined}
-      whileInView={standalone ? "visible" : undefined}
-      viewport={standalone ? (early ? VIEWPORT_EARLY : VIEWPORT_ONCE) : undefined}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-export function RevealWordmark({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      variants={wordmarkReveal}
-      initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT_ONCE}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+export function RevealEyebrow({ children, trigger = "view", early: _early, standalone: _standalone, as = "p", ...props }: TextProps) {
+  const { ref, initial, animate, nested } = useReveal<HTMLParagraphElement>(trigger);
+  const Tag = motion[as];
+  return <Tag {...props} ref={ref} data-reveal initial={initial} animate={animate} variants={nested === "block" ? undefined : eyebrowReveal}>{children}</Tag>;
 }

@@ -611,7 +611,8 @@ export const LaserFlow = ({
     probe.width = 1;
     probe.height = 1;
     const probeContext = probe.getContext('2d', { willReadFrequently: true });
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let reduce = motionPreference.matches;
     const state = {
       time: 0,
       introTime: settingsRef.current.intro && !reduce ? 0 : INTRO_END,
@@ -867,7 +868,7 @@ export const LaserFlow = ({
 
       render();
       const settling =
-        Math.abs(state.lens.strength - (s.mouseInteraction && state.pointer.inside ? 1 : 0)) > 0.002 ||
+        Math.abs(state.lens.strength - goal) > 0.002 ||
         Math.hypot(state.lens.vx, state.lens.vy) > 0.5;
       if (moving || introducing || settling) raf = requestAnimationFrame(frame);
       else last = 0;
@@ -878,6 +879,7 @@ export const LaserFlow = ({
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (reduce || !visible || document.hidden) return;
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -889,6 +891,20 @@ export const LaserFlow = ({
 
     const onPointerLeave = () => {
       state.pointer.inside = false;
+      wake();
+    };
+
+    const onMotionPreference = () => {
+      reduce = motionPreference.matches;
+      if (reduce) {
+        state.introTime = INTRO_END;
+        state.pointer.inside = false;
+        state.lens.strength = 0;
+        state.lens.vx = 0;
+        state.lens.vy = 0;
+        state.lens.placed = false;
+      }
+      last = 0;
       wake();
     };
 
@@ -910,6 +926,7 @@ export const LaserFlow = ({
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     document.documentElement.addEventListener('pointerleave', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
+    motionPreference.addEventListener('change', onMotionPreference);
 
     const release = () => {
       if (gl.isContextLost()) return;
@@ -930,6 +947,7 @@ export const LaserFlow = ({
       window.removeEventListener('pointermove', onPointerMove);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
+      motionPreference.removeEventListener('change', onMotionPreference);
       gl.deleteTexture(revealTexture);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);

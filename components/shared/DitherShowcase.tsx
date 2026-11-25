@@ -1,16 +1,9 @@
 "use client";
 
+import { StaggerReveal, RevealEyebrow, RevealHeading, RevealParagraph, RevealCard } from "@/components/motion/primitives";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import {
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-} from "@/lib/motion";
+
+
 
 type ShowcaseItem = {
   src: string;
@@ -65,52 +58,40 @@ export function DitherShowcase() {
     <section className="relative overflow-x-clip bg-surface-page py-24 text-text-heading md:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Section heading */}
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="mb-12 flex flex-col gap-5 pb-4 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10"
         >
           <div className="max-w-2xl">
-            <motion.p
-              variants={eyebrowReveal}
+            <RevealEyebrow
               className="mb-4 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
             >
               The Miransas voice stack
-            </motion.p>
-            <motion.h2
-              variants={headingReveal}
+            </RevealEyebrow>
+            <RevealHeading
               className="text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
             >
               What we&apos;re building.
-            </motion.h2>
+            </RevealHeading>
           </div>
-          <motion.p
-            variants={paragraphReveal}
+          <RevealParagraph
             className="max-w-md text-[15px] leading-[1.6] text-text-muted sm:text-base"
           >
             A connected set of voice technologies — from natural speech generation
             to voice identity and conversational research.
-          </motion.p>
-        </motion.div>
+          </RevealParagraph>
+        </StaggerReveal>
 
         {/* Equal-sized cards — deliberately not a bento layout */}
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_EARLY}
+        <StaggerReveal
           className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6"
         >
           {ITEMS.map((item, index) => (
-            <motion.article
+            <RevealCard as="article"
               key={item.title}
-              variants={cardReveal}
               className={[
-                "group surface-shadow relative flex min-w-0 flex-col overflow-hidden rounded-[26px] transition-[transform,background-color] duration-200 hover:-translate-y-0.5",
+                "group surface-shadow relative flex min-w-0 flex-col overflow-hidden rounded-4xl transition-[transform,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5",
                 item.featured
-                  ? "surface-accent"
+                  ? "bg-surface-card"
                   : "bg-surface-card hover:bg-surface-card-hover",
                 "lg:col-span-2",
                 index === 3 ? "lg:col-start-2" : "",
@@ -119,12 +100,6 @@ export function DitherShowcase() {
                   : "",
               ].join(" ")}
             >
-              {!item.featured && (
-                <div
-                  aria-hidden="true"
-                  className="surface-hover-sheen pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                />
-              )}
 
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-page dark:bg-[#050505]">
                 <Image
@@ -136,7 +111,7 @@ export function DitherShowcase() {
                 />
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.15] via-transparent to-transparent dark:from-[#000103]/45"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.15] via-transparent to-transparent dark:from-surface-card/45"
                 />
               </div>
 
@@ -157,9 +132,9 @@ export function DitherShowcase() {
                   {item.text}
                 </p>
               </div>
-            </motion.article>
+            </RevealCard>
           ))}
-        </motion.div>
+        </StaggerReveal>
       </div>
     </section>
   );

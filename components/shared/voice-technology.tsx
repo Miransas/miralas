@@ -1,17 +1,11 @@
 "use client";
 
+import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { WordReveal } from "@/components/motion/reveal";
-import {
-  RevealCard,
-  RevealContainer,
-  RevealEyebrow,
-  RevealHeading,
-  RevealParagraph,
-} from "@/components/motion/primitives";
-import { cardReveal, staggerContainer, VIEWPORT_EARLY, VIEWPORT_ONCE } from "@/lib/motion";
+
+import { RevealCard, RevealContainer, RevealEyebrow, RevealHeading, RevealParagraph, StaggerReveal } from "@/components/motion/primitives";
+
 import { MODEL_LANGUAGES, VOICE_TECHNOLOGY } from "@/lib/voice-technology";
 
 const wrap = "mx-auto max-w-7xl px-6 lg:px-12";
@@ -20,7 +14,7 @@ const eyebrow =
 const heading =
   "mt-5 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]";
 const focusRing =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 export function VoiceTechnology() {
   const capabilities = [
@@ -46,51 +40,42 @@ export function VoiceTechnology() {
     <section
       id="technology"
       aria-labelledby="technology-heading"
-      className="scroll-mt-24 overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+      className="scroll-mt-24 overflow-x-clip bg-surface-page transition-colors duration-(--motion-theme-duration) section-spacing text-text-heading"
     >
       <div className={wrap}>
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <RevealContainer className="lg:sticky lg:top-28 lg:self-start">
             <RevealEyebrow className={eyebrow}>The voice foundation</RevealEyebrow>
             <RevealHeading id="technology-heading" className={heading}>
-              <WordReveal text="Voice technology, built with intention." />
+              Voice technology, built with intention.
             </RevealHeading>
             <RevealParagraph className="mt-6 max-w-lg text-[15px] leading-[1.6] text-text-muted sm:text-base">
               Good voice experiences begin with a clear foundation. We’re building on an open
               speech model and a focused infrastructure layer, while being open about what still
               needs validation.
             </RevealParagraph>
-            <motion.div variants={cardReveal} className="mt-8">
+            <RevealCard  className="mt-8">
               <Link
                 href="/product/models"
-                className={`group inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-card px-5 py-2.5 text-sm font-semibold text-text-heading surface-shadow transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-surface-card-hover active:scale-[0.98] ${focusRing}`}
+                className={buttonVariants({ variant: "secondary", className: "group" })}
               >
                 <span>Meet the active engine</span>
                 <ArrowRight
-                  className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                  className="size-3.5 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
                   aria-hidden="true"
                 />
               </Link>
-            </motion.div>
+            </RevealCard>
           </RevealContainer>
 
-          <motion.div
-            variants={staggerContainer(0.06, 0.04)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={VIEWPORT_EARLY}
+          <StaggerReveal
             className="flex flex-col gap-3.5"
           >
             {capabilities.map(([title, description], index) => (
-              <motion.div
+              <RevealCard
                 key={title}
-                variants={cardReveal}
-                className="group relative overflow-hidden rounded-[24px] bg-surface-card p-6 transition-colors duration-300 hover:bg-surface-card-hover sm:p-7"
+                className="group relative overflow-hidden rounded-4xl bg-surface-card p-6 transition-colors duration-(--motion-interaction-duration) hover:bg-surface-card-hover sm:p-7"
               >
-                <div
-                  aria-hidden="true"
-                  className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                />
                 <div className="relative z-10">
                   <span className="font-mono text-xs leading-[1.45] tabular-nums text-text-muted sm:text-[13px]">
                     {String(index + 1).padStart(2, "0")}
@@ -102,9 +87,9 @@ export function VoiceTechnology() {
                     {description}
                   </p>
                 </div>
-              </motion.div>
+              </RevealCard>
             ))}
-          </motion.div>
+          </StaggerReveal>
         </div>
       </div>
     </section>
@@ -115,38 +100,38 @@ export function EngineeredAudio() {
   return (
     <section
       aria-labelledby="audio-heading"
-      className="overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+      className="overflow-x-clip bg-surface-page transition-colors duration-(--motion-theme-duration) section-spacing text-text-heading"
     >
       <div className={`${wrap} grid gap-14 lg:grid-cols-2 lg:items-center lg:gap-20`}>
         <RevealContainer>
           <RevealEyebrow className={eyebrow}>Engineered for real audio</RevealEyebrow>
           <RevealHeading id="audio-heading" className={heading}>
-            <WordReveal text="Care in every part of the signal." />
+            Care in every part of the signal.
           </RevealHeading>
           <RevealParagraph className="mt-6 text-[15px] leading-[1.6] text-text-muted sm:text-base">
             From an API request to a waveform, each stage has a purpose. The current engineering
             baseline validates the output format and model assets. NVIDIA GPU benchmarks are still
             pending.
           </RevealParagraph>
-          <motion.div variants={cardReveal} className="mt-8">
+          <RevealCard  className="mt-8">
             <Link
               href="/product/api"
-              className={`group inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-card px-5 py-2.5 text-sm font-semibold text-text-heading surface-shadow transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-surface-card-hover active:scale-[0.98] ${focusRing}`}
+              className={buttonVariants({ variant: "secondary", className: "group" })}
             >
               <span>Explore the API architecture</span>
               <ArrowRight
-                className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                className="size-3.5 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
                 aria-hidden="true"
               />
             </Link>
-          </motion.div>
+          </RevealCard>
         </RevealContainer>
 
-        {/* Strategic violet gradient focal card */}
+        {/* Neutral signal illustration */}
         <RevealCard
           standalone
           early
-          className="surface-accent surface-shadow min-w-0 rounded-[28px] p-7 sm:p-10"
+          className="bg-surface-card surface-shadow min-w-0 rounded-4xl p-7 sm:p-10"
         >
           <div aria-hidden="true" className="flex h-24 items-center gap-1 overflow-hidden">
             {Array.from({ length: 48 }, (_, index) => (
@@ -154,11 +139,12 @@ export function EngineeredAudio() {
                 key={index}
                 className={`min-w-0 flex-1 rounded-full ${
                   index % 7 === 0
-                    ? "bg-[#7c3aed]"
+                    ? "bg-text-heading"
                     : "bg-text-heading/65 dark:bg-[#D1D1D1]/70"
                 }`}
                 style={{
-                  height: `${12 + Math.abs(Math.sin(index * 0.47) * Math.cos(index * 0.17)) * 80}%`,
+                  // Fixed precision survives browser CSS serialization during hydration.
+                  height: `${(12 + Math.abs(Math.sin(index * 0.47) * Math.cos(index * 0.17)) * 80).toFixed(3)}%`,
                 }}
               />
             ))}
@@ -175,7 +161,7 @@ export function EngineeredAudio() {
             ].map(([term, value]) => (
               <div
                 key={term}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-black/[0.03] px-4 py-3.5 text-sm dark:bg-white/[0.035]"
+                className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3.5 text-sm last:border-0"
               >
                 <dt className="text-text-muted">{term}</dt>
                 <dd className="font-medium tabular-nums text-text-heading">{value}</dd>
@@ -222,14 +208,14 @@ export function WhatsNext() {
     <section
       id="research"
       aria-labelledby="research-heading"
-      className="scroll-mt-24 overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+      className="scroll-mt-24 overflow-x-clip bg-surface-page transition-colors duration-(--motion-theme-duration) section-spacing text-text-heading"
     >
       <div className={wrap}>
         <RevealContainer className="grid gap-6 lg:grid-cols-2 lg:items-end">
           <div>
             <RevealEyebrow className={eyebrow}>What’s next</RevealEyebrow>
             <RevealHeading id="research-heading" className={heading}>
-              <WordReveal text="A thoughtful path forward." />
+              A thoughtful path forward.
             </RevealHeading>
           </div>
           <RevealParagraph className="max-w-lg text-[15px] leading-[1.6] text-text-muted sm:text-base lg:justify-self-end">
@@ -238,23 +224,14 @@ export function WhatsNext() {
           </RevealParagraph>
         </RevealContainer>
 
-        <motion.div
-          variants={staggerContainer(0.06, 0.04)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_EARLY}
+        <StaggerReveal
           className="mt-12 flex flex-col gap-3.5"
         >
           {research.map(([title, description], index) => (
-            <motion.div
+            <RevealCard
               key={title}
-              variants={cardReveal}
-              className="group relative grid gap-4 overflow-hidden rounded-[24px] bg-surface-card p-7 transition-colors duration-300 hover:bg-surface-card-hover md:grid-cols-2 md:items-center md:gap-16 sm:p-8"
+              className="group relative grid gap-4 overflow-hidden rounded-4xl bg-surface-card p-7 transition-colors duration-(--motion-interaction-duration) hover:bg-surface-card-hover md:grid-cols-2 md:items-center md:gap-16 sm:p-8"
             >
-              <div
-                aria-hidden="true"
-                className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
               <div className="relative z-10 flex items-baseline gap-4">
                 <span className="font-mono text-xs leading-[1.45] tabular-nums text-text-muted sm:text-[13px]">
                   {String(index + 1).padStart(2, "0")}
@@ -266,28 +243,24 @@ export function WhatsNext() {
               <p className="relative z-10 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base">
                 {description}
               </p>
-            </motion.div>
+            </RevealCard>
           ))}
-        </motion.div>
+        </StaggerReveal>
 
-        <motion.div
-          variants={cardReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <RevealCard
           className="mt-10"
         >
           <Link
             href="/resources/changelog"
-            className={`group inline-flex min-h-12 items-center gap-2.5 rounded-full bg-text-heading px-6 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${focusRing}`}
+            className={buttonVariants({ className: "group" })}
           >
             <span>Read development updates</span>
             <ArrowRight
-              className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+              className="size-4 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
               aria-hidden="true"
             />
           </Link>
-        </motion.div>
+        </RevealCard>
       </div>
     </section>
   );

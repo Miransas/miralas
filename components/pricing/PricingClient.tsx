@@ -1,20 +1,11 @@
 "use client";
 
+import { RevealCard, StaggerReveal, RevealEyebrow, RevealHeading, RevealParagraph } from "@/components/motion/primitives";
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, Lock, Minus, Plus, Sparkles } from "lucide-react";
-import {
-  DURATION_UI,
-  EASE_OUT_EXPO,
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-} from "@/lib/motion";
+import { DURATION_UI, EASE_OUT_EXPO } from "@/lib/motion";
 import type { TabId } from "@/lib/pricing/types";
 import { VOICE_TECHNOLOGY } from "@/lib/voice-technology";
 
@@ -60,10 +51,10 @@ type PricingTabConfig = {
 };
 
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 const FEATURED_CARD_SURFACE =
-  "bg-[#FFFFFF] bg-[radial-gradient(120%_110%_at_100%_0%,rgba(124,58,237,0.12)_0%,#FFFFFF_68%)] dark:bg-[#000103] dark:bg-[radial-gradient(120%_110%_at_0%_0%,rgba(124,58,237,0.26)_0%,#000103_65%)]";
+  "bg-surface-elevated";
 
 const PRICING_TABS: PricingTabConfig[] = [
   {
@@ -369,15 +360,15 @@ function PricingCard({
   const isFree = tier.monthlyPrice === 0;
 
   const ctaClasses = tier.featured
-    ? `group inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#1d1d1f] px-5 text-sm font-semibold text-white transition-[transform,opacity,background-color] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] dark:bg-white dark:text-[#050505] dark:hover:bg-[#D1D1D1] ${FOCUS_RING}`
-    : `group inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-surface-page px-5 text-sm font-semibold text-text-heading transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-black/[0.08] active:scale-[0.98] dark:bg-white/[0.07] dark:hover:bg-white/[0.13] ${FOCUS_RING}`;
+    ? `group inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#1d1d1f] px-5 text-sm font-semibold text-white transition-[transform,opacity,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] dark:bg-white dark:text-[#050505] dark:hover:bg-[#D1D1D1] ${FOCUS_RING}`
+    : `group inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-surface-page px-5 text-sm font-semibold text-text-heading transition-[transform,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:bg-black/[0.08] active:scale-[0.98] dark:bg-white/[0.07] dark:hover:bg-white/[0.13] ${FOCUS_RING}`;
 
   const ctaContent = (
     <>
       <span>{tier.ctaLabel}</span>
       {(tier.featured || isCustom) && (
         <ArrowRight
-          className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+          className="size-4 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
           aria-hidden="true"
         />
       )}
@@ -385,21 +376,14 @@ function PricingCard({
   );
 
   return (
-    <motion.article
-      variants={cardReveal}
+    <RevealCard as="article"
       className={[
-        "group relative flex h-full flex-col overflow-hidden rounded-[26px] p-6 transition-[transform,background-color] duration-300 hover:-translate-y-0.5 sm:p-7",
+        "group relative flex h-full flex-col overflow-hidden rounded-4xl p-6 transition-[transform,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5 sm:p-7",
         tier.featured
           ? `${FEATURED_CARD_SURFACE} surface-shadow-lg`
           : "bg-surface-card surface-shadow hover:bg-surface-card-hover",
       ].join(" ")}
     >
-      {!tier.featured && (
-        <div
-          aria-hidden="true"
-          className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        />
-      )}
 
       <div className="relative z-10 flex h-full flex-col">
         {/* Tier Name + Badge */}
@@ -408,7 +392,7 @@ function PricingCard({
             {tier.name}
           </h3>
           {tier.badge ? (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#7c3aed]/15 px-3 py-1 text-xs font-medium text-[#7c3aed] dark:bg-[#7c3aed]/25 dark:text-[#D1D1D1]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-elevated px-3 py-1 text-xs font-medium text-text-heading dark:bg-surface-elevated dark:text-text-primary">
               <Sparkles className="size-3" aria-hidden="true" />
               {tier.badge}
             </span>
@@ -486,8 +470,8 @@ function PricingCard({
                   aria-hidden="true"
                   className={`mt-0.5 grid size-5 shrink-0 place-items-center rounded-full ${
                     tier.featured
-                      ? "bg-[#7c3aed]/18 text-[#7c3aed] dark:bg-[#7c3aed]/28 dark:text-white"
-                      : "bg-black/[0.06] text-text-heading dark:bg-white/[0.08] dark:text-[#D1D1D1]"
+                      ? "bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-white"
+                      : "bg-black/[0.06] text-text-heading dark:bg-white/[0.08] dark:text-text-primary"
                   }`}
                 >
                   <Check className="size-3" strokeWidth={2.4} />
@@ -504,17 +488,13 @@ function PricingCard({
           ))}
         </ul>
       </div>
-    </motion.article>
+    </RevealCard>
   );
 }
 
 function ComparisonMatrix({ config }: { config: PricingTabConfig }) {
   return (
-    <motion.section
-      variants={cardReveal}
-      initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT_EARLY}
+    <RevealCard as="section"
       aria-label={config.matrixTitle}
       className="mt-16 sm:mt-20"
     >
@@ -532,7 +512,7 @@ function ComparisonMatrix({ config }: { config: PricingTabConfig }) {
         </p>
       </div>
 
-      <div className="surface-shadow overflow-hidden rounded-[28px] bg-surface-card">
+      <div className="surface-shadow overflow-hidden rounded-4xl bg-surface-card">
         <div
           data-lenis-prevent
           className="overflow-x-auto overscroll-x-contain"
@@ -555,13 +535,13 @@ function ComparisonMatrix({ config }: { config: PricingTabConfig }) {
                     className={[
                       "px-5 py-6 text-sm font-semibold tracking-[-0.015em] sm:px-6 sm:text-base",
                       tier.featured
-                        ? "bg-[#7c3aed]/[0.07] text-text-heading dark:bg-[#7c3aed]/[0.13]"
+                        ? "bg-surface-elevated text-text-heading dark:bg-surface-elevated"
                         : "text-text-primary",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-2">
                       {tier.featured && (
-                        <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+                        <span className="size-1.5 rounded-full bg-text-heading" />
                       )}
                       <span>{tier.name}</span>
                     </div>
@@ -594,14 +574,14 @@ function ComparisonMatrix({ config }: { config: PricingTabConfig }) {
                         className={[
                           "px-5 py-5 text-sm tabular-nums sm:px-6",
                           isFeatured
-                            ? "bg-[#7c3aed]/[0.05] text-text-heading dark:bg-[#7c3aed]/[0.1]"
+                            ? "bg-surface-elevated text-text-heading dark:bg-surface-elevated"
                             : "text-text-muted",
                         ].join(" ")}
                       >
                         {typeof val === "boolean" ? (
                           val ? (
                             <span
-                              className="inline-flex size-6 items-center justify-center rounded-full bg-[#7c3aed]/14 text-[#7c3aed] dark:bg-[#7c3aed]/24 dark:text-white"
+                              className="inline-flex size-6 items-center justify-center rounded-full bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-white"
                               aria-label="Included"
                             >
                               <Check className="size-3.5" strokeWidth={2.4} />
@@ -632,7 +612,7 @@ function ComparisonMatrix({ config }: { config: PricingTabConfig }) {
       <p className="mt-3 text-center text-xs text-text-muted md:hidden">
         Swipe horizontally to compare all tiers.
       </p>
-    </motion.section>
+    </RevealCard>
   );
 }
 
@@ -652,21 +632,14 @@ function PricingFaqAccordionItem({
   const panelId = `${id}-panel`;
 
   return (
-    <motion.article
-      variants={cardReveal}
+    <RevealCard as="article"
       className={[
-        "group relative overflow-hidden rounded-[22px] transition-[background-color,box-shadow] duration-300",
+        "group relative overflow-hidden rounded-4xl transition-[background-color,box-shadow] duration-(--motion-interaction-duration)",
         isOpen
-          ? "surface-accent-soft surface-shadow"
+          ? "bg-surface-elevated surface-shadow"
           : "bg-surface-card hover:bg-surface-card-hover",
       ].join(" ")}
     >
-      {!isOpen && (
-        <div
-          aria-hidden="true"
-          className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        />
-      )}
 
       <h3 className="relative z-10">
         <button
@@ -675,10 +648,10 @@ function PricingFaqAccordionItem({
           onClick={onToggle}
           aria-expanded={isOpen}
           aria-controls={panelId}
-          className={`flex w-full items-center justify-between gap-5 rounded-[22px] px-5 py-5 text-left transition-colors sm:px-7 sm:py-6 ${FOCUS_RING}`}
+          className={`flex w-full items-center justify-between gap-5 rounded-4xl px-5 py-5 text-left transition-colors sm:px-7 sm:py-6 ${FOCUS_RING}`}
         >
           <span
-            className={`text-[15px] font-semibold leading-[1.45] tracking-[-0.015em] transition-colors duration-200 sm:text-base ${
+            className={`text-[15px] font-semibold leading-[1.45] tracking-[-0.015em] transition-colors duration-(--motion-interaction-duration) sm:text-base ${
               isOpen
                 ? "text-text-heading"
                 : "text-text-primary group-hover:text-text-heading"
@@ -689,14 +662,14 @@ function PricingFaqAccordionItem({
 
           <span
             aria-hidden="true"
-            className={`grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-300 ${
+            className={`grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-(--motion-interaction-duration) ${
               isOpen
-                ? "bg-[#7c3aed]/15 text-[#7c3aed] dark:bg-[#7c3aed]/25 dark:text-white"
-                : "bg-black/[0.05] text-text-muted group-hover:bg-[#7c3aed]/10 group-hover:text-text-heading dark:bg-white/[0.06] dark:group-hover:bg-[#7c3aed]/18"
+                ? "bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-white"
+                : "bg-black/[0.05] text-text-muted group-hover:bg-surface-elevated group-hover:text-text-heading dark:bg-white/[0.06] dark:group-hover:bg-surface-elevated"
             }`}
           >
             <Plus
-              className={`size-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              className={`size-4 transition-transform duration-(--motion-interaction-duration) ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 isOpen ? "rotate-45" : "rotate-0"
               }`}
               strokeWidth={1.9}
@@ -710,7 +683,7 @@ function PricingFaqAccordionItem({
         role="region"
         aria-labelledby={buttonId}
         aria-hidden={!isOpen}
-        className={`relative z-10 grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`relative z-10 grid transition-[grid-template-rows,opacity] duration-(--motion-interaction-duration) ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
@@ -720,7 +693,7 @@ function PricingFaqAccordionItem({
           </div>
         </div>
       </div>
-    </motion.article>
+    </RevealCard>
   );
 }
 
@@ -782,34 +755,29 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
     >
       {/* Hero & Controls */}
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-32 sm:pt-40 lg:px-12 lg:pt-44">
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          animate="visible"
+        <StaggerReveal trigger="load"
           className="mx-auto max-w-3xl text-center"
         >
-          <motion.div variants={eyebrowReveal}>
+          <RevealEyebrow as="div" >
             <span className="inline-flex items-center gap-2 rounded-full bg-surface-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
-              <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+              <span className="size-1.5 rounded-full bg-text-heading" />
               Pricing
             </span>
-          </motion.div>
+          </RevealEyebrow>
 
-          <motion.h1
-            variants={headingReveal}
+          <RevealHeading as="h1"
             className="mt-6 text-[2.75rem] font-semibold leading-[1.03] tracking-[-0.03em] text-text-heading sm:text-6xl lg:text-[4.5rem]"
           >
             Simple pricing for every voice workflow.
-          </motion.h1>
+          </RevealHeading>
 
-          <motion.p
-            variants={paragraphReveal}
+          <RevealParagraph
             className="mx-auto mt-6 max-w-2xl text-base leading-[1.6] text-text-muted sm:text-lg lg:text-[1.1875rem]"
           >
             Start free in the Studio, scale with predictable tiers, or build on
             our voice infrastructure.
-          </motion.p>
-        </motion.div>
+          </RevealParagraph>
+        </StaggerReveal>
 
         {/* 3-Tab Switcher + Monthly / Annual Toggle */}
         <div className="mt-12 flex flex-col items-center justify-between gap-5 lg:mt-16 lg:flex-row">
@@ -835,7 +803,7 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
                   tabIndex={isSelected ? 0 : -1}
                   onClick={() => selectTab(tab.id)}
                   onKeyDown={(event) => handleTabKeyDown(event, index)}
-                  className={`relative isolate inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition-colors duration-200 sm:px-5 sm:text-sm ${FOCUS_RING} ${
+                  className={`relative isolate inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition-colors duration-(--motion-interaction-duration) sm:px-5 sm:text-sm ${FOCUS_RING} ${
                     isSelected
                       ? "text-white dark:text-[#050505]"
                       : "text-text-muted hover:text-text-heading"
@@ -857,8 +825,8 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
                     <span
                       className={`hidden rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em] sm:inline-flex ${
                         isSelected
-                          ? "bg-[#7c3aed]/30 text-white dark:bg-[#7c3aed]/20 dark:text-[#7c3aed]"
-                          : "bg-[#7c3aed]/12 text-[#7c3aed] dark:bg-[#7c3aed]/20 dark:text-[#D1D1D1]"
+                          ? "bg-surface-elevated text-white dark:bg-surface-elevated dark:text-text-heading"
+                          : "bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-text-primary"
                       }`}
                     >
                       Preview
@@ -883,7 +851,7 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => setBillingCycle(cycle)}
-                  className={`relative isolate inline-flex h-10 cursor-pointer items-center gap-2 rounded-full px-4 text-xs font-semibold transition-colors duration-200 sm:text-sm ${FOCUS_RING} ${
+                  className={`relative isolate inline-flex h-10 cursor-pointer items-center gap-2 rounded-full px-4 text-xs font-semibold transition-colors duration-(--motion-interaction-duration) sm:text-sm ${FOCUS_RING} ${
                     isSelected
                       ? "text-text-heading"
                       : "text-text-muted hover:text-text-heading"
@@ -902,7 +870,7 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
                   )}
                   <span>{cycle === "monthly" ? "Monthly" : "Annual"}</span>
                   {cycle === "annual" && (
-                    <span className="rounded-full bg-[#7c3aed]/14 px-2.5 py-0.5 text-[11px] font-medium text-[#7c3aed] dark:bg-[#7c3aed]/25 dark:text-[#D1D1D1]">
+                    <span className="rounded-full bg-surface-elevated px-2.5 py-0.5 text-[11px] font-medium text-text-heading dark:bg-surface-elevated dark:text-text-primary">
                       Save 20%
                     </span>
                   )}
@@ -928,18 +896,15 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
           >
             {currentTabConfig.sectionNote && (
               <div className="mb-6 flex flex-wrap items-center gap-3 rounded-[20px] bg-surface-card px-5 py-3.5 text-xs leading-[1.5] text-text-primary sm:text-[13px]">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#7c3aed]/15 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-[#7c3aed] dark:bg-[#7c3aed]/25 dark:text-[#D1D1D1]">
-                  <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-elevated px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-text-heading dark:bg-surface-elevated dark:text-text-primary">
+                  <span className="size-1.5 rounded-full bg-text-heading" />
                   Preview
                 </span>
                 <span className="text-text-muted">{currentTabConfig.sectionNote}</span>
               </div>
             )}
 
-            <motion.div
-              variants={staggerContainer(0.05)}
-              initial="hidden"
-              animate="visible"
+            <StaggerReveal trigger="load"
               className={`grid items-stretch ${currentTabConfig.gridClass}`}
             >
               {currentTabConfig.tiers.map((tier) => (
@@ -950,7 +915,7 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
                   isPreviewTab={currentTabConfig.previewBadge}
                 />
               ))}
-            </motion.div>
+            </StaggerReveal>
 
             <ComparisonMatrix config={currentTabConfig} />
           </motion.div>
@@ -960,42 +925,31 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
       {/* Borderless Pricing FAQ Strip */}
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-12 lg:py-28">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(260px,0.78fr)_minmax(0,1.22fr)] lg:gap-20">
-          <motion.div
-            variants={staggerContainer(0.06)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={VIEWPORT_ONCE}
+          <StaggerReveal
             className="flex flex-col lg:sticky lg:top-28 lg:self-start"
           >
-            <motion.div
-              variants={eyebrowReveal}
+            <RevealEyebrow as="div"
               className="inline-flex w-fit items-center gap-2 rounded-full bg-surface-card px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
             >
-              <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+              <span className="size-1.5 rounded-full bg-text-heading" />
               Pricing · FAQ
-            </motion.div>
+            </RevealEyebrow>
 
-            <motion.h2
-              variants={headingReveal}
+            <RevealHeading
               className="mt-6 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
             >
               Questions about billing.
-            </motion.h2>
+            </RevealHeading>
 
-            <motion.p
-              variants={paragraphReveal}
+            <RevealParagraph
               className="mt-5 max-w-sm text-[15px] leading-[1.6] text-text-muted sm:text-base"
             >
               Straightforward answers on quotas, billing cycles, and private
               preview access.
-            </motion.p>
-          </motion.div>
+            </RevealParagraph>
+          </StaggerReveal>
 
-          <motion.div
-            variants={staggerContainer(0.05)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={VIEWPORT_EARLY}
+          <StaggerReveal
             className="flex w-full flex-col gap-3"
           >
             {PRICING_FAQS.map((item, index) => (
@@ -1009,18 +963,14 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
                 }
               />
             ))}
-          </motion.div>
+          </StaggerReveal>
         </div>
       </section>
 
       {/* Bottom CTA Banner */}
       <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-12 lg:pb-32">
-        <motion.div
-          variants={cardReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
-          className={`${FEATURED_CARD_SURFACE} surface-shadow-lg flex flex-col justify-between gap-8 rounded-[28px] p-8 sm:p-12 lg:flex-row lg:items-end`}
+        <RevealCard
+          className={`${FEATURED_CARD_SURFACE} surface-shadow-lg flex flex-col justify-between gap-8 rounded-4xl p-8 sm:p-12 lg:flex-row lg:items-end`}
         >
           <div className="max-w-xl">
             <span className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
@@ -1038,22 +988,22 @@ export default function PricingClient({ initialTab }: { initialTab: TabId }) {
           <div className="flex flex-wrap gap-3">
             <a
               href={VOICE_TECHNOLOGY.consoleUrl}
-              className={`group inline-flex h-12 items-center gap-2.5 rounded-full bg-[#1d1d1f] px-6 text-sm font-semibold text-white transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] dark:bg-white dark:text-[#050505] ${FOCUS_RING}`}
+              className={`group inline-flex h-12 items-center gap-2.5 rounded-full bg-[#1d1d1f] px-6 text-sm font-semibold text-white transition-[transform,opacity] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] dark:bg-white dark:text-[#050505] ${FOCUS_RING}`}
             >
               <span>Open Studio</span>
               <ArrowRight
-                className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                className="size-4 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
                 aria-hidden="true"
               />
             </a>
             <Link
               href="/resources/contact"
-              className={`inline-flex h-12 items-center gap-2 rounded-full bg-surface-page px-6 text-sm font-semibold text-text-heading transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-black/[0.08] active:scale-[0.98] dark:bg-white/[0.08] dark:hover:bg-white/[0.14] ${FOCUS_RING}`}
+              className={`inline-flex h-12 items-center gap-2 rounded-full bg-surface-page px-6 text-sm font-semibold text-text-heading transition-[transform,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:bg-black/[0.08] active:scale-[0.98] dark:bg-white/[0.08] dark:hover:bg-white/[0.14] ${FOCUS_RING}`}
             >
               <span>Contact sales</span>
             </Link>
           </div>
-        </motion.div>
+        </RevealCard>
       </section>
     </main>
   );

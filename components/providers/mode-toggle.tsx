@@ -26,19 +26,19 @@ export function ModeToggle({ className }: ModeToggleProps) {
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "relative inline-flex size-9 items-center justify-center rounded-full bg-black/[0.06] text-text-primary backdrop-blur transition-colors duration-200 hover:bg-black/[0.11] hover:text-text-heading focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2 dark:bg-white/[0.08] dark:hover:bg-white/[0.14]",
+        "relative inline-flex size-9 items-center justify-center rounded-full bg-black/[0.06] text-text-primary backdrop-blur transition-colors duration-(--motion-interaction-duration) hover:bg-black/[0.11] hover:text-text-heading focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 dark:bg-white/[0.08] dark:hover:bg-white/[0.14]",
         className,
       )}
     >
       <Sun
         className={cn(
-          "size-4 transition-all duration-300",
+          "size-4 transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration)",
           isDark ? "scale-0 -rotate-90 opacity-0" : "scale-100 rotate-0 opacity-100",
         )}
       />
       <Moon
         className={cn(
-          "absolute size-4 transition-all duration-300",
+          "absolute size-4 transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration)",
           isDark ? "scale-100 rotate-0 opacity-100" : "scale-0 rotate-90 opacity-0",
         )}
       />

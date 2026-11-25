@@ -33,16 +33,15 @@ function RobotEye({
         top: "40.8%",
         left: isRight ? undefined : "34.6%",
         right: isRight ? "34.6%" : undefined,
-        willChange: "transform",
       }}
     >
       {/* dış ışıma */}
       <div
-        className={`absolute left-1/2 top-1/2 h-[94px] w-[68px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#72b8ff]/30 blur-[20px] transition-all duration-100 ease-out ${shut}`}
+        className={`absolute left-1/2 top-1/2 h-[94px] w-[68px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#72b8ff]/30 blur-[20px] transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-100 ease-out ${shut}`}
       />
       {/* ikinci mavi ışıma */}
       <div
-        className={`absolute left-1/2 top-1/2 h-[78px] w-[50px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b9ddff]/30 blur-[12px] transition-all duration-100 ease-out ${shut}`}
+        className={`absolute left-1/2 top-1/2 h-[78px] w-[50px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b9ddff]/30 blur-[12px] transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-100 ease-out ${shut}`}
       />
 
       {/* göz */}

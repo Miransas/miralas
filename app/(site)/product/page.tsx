@@ -1,6 +1,7 @@
+import { StaggerReveal, RevealParagraph, RevealHeading } from "@/components/motion/primitives";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ScrollReveal, WordReveal } from "@/components/motion/reveal";
+
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -19,8 +20,8 @@ const products = [
 
 export default function ProductsPage() {
   return <main className="mx-auto max-w-7xl px-6 pb-24 pt-36 lg:px-12">
-    <ScrollReveal trigger="load" className="max-w-4xl"><p className="text-sm uppercase tracking-[0.16em] text-muted-foreground">Miralas products</p><h1 className="mt-6 text-5xl font-medium leading-[1.03] tracking-tight sm:text-7xl"><WordReveal trigger="load" delay={0.08} text="Voice, with a clear direction." /></h1><p className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground">Explore what powers Miralas today and what we’re working toward. Native Uzbek speech remains in development.</p></ScrollReveal>
-    <div className="mt-16 border-t border-border">{products.map(product => <article key={product.href} className="grid gap-5 border-b border-border py-9 md:grid-cols-2 md:gap-16"><div><p className="text-sm text-muted-foreground">{product.status}</p><h2 className="mt-3 text-3xl font-medium tracking-tight"><Link href={product.href} className="underline-offset-8 hover:underline">{product.title}</Link></h2></div><p className="max-w-xl text-base leading-8 text-muted-foreground">{product.description}</p></article>)}</div>
+    <StaggerReveal trigger="load" className="max-w-4xl"><RevealParagraph className="text-sm uppercase tracking-[0.16em] text-muted-foreground">Miralas products</RevealParagraph><RevealHeading as="h1" className="mt-6 text-5xl font-medium leading-[1.03] tracking-tight sm:text-7xl">{"Voice, with a clear direction."}</RevealHeading><RevealParagraph className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground">Explore what powers Miralas today and what we’re working toward. Native Uzbek speech remains in development.</RevealParagraph></StaggerReveal>
+    <div className="mt-16 border-t border-border">{products.map(product => <article key={product.href} className="grid gap-5 border-b border-border py-9 md:grid-cols-2 md:gap-16"><div><p className="text-sm text-muted-foreground">{product.status}</p><RevealHeading className="mt-3 text-3xl font-medium tracking-tight"><Link href={product.href} className="underline-offset-8 hover:underline">{product.title}</Link></RevealHeading></div><RevealParagraph className="max-w-xl text-base leading-8 text-muted-foreground">{product.description}</RevealParagraph></article>)}</div>
     <Link href="/product/models" className="mt-10 inline-flex min-h-12 items-center rounded-full bg-foreground px-6 text-sm font-semibold text-background">Explore the active engine</Link>
   </main>;
 }

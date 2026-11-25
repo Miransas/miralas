@@ -44,7 +44,7 @@ export function DocsSidebar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative flex items-center rounded-lg px-3 py-2 text-sm transition-colors duration-200 ease-out',
+                    'relative flex items-center rounded-lg px-3 py-2 text-sm transition-colors duration-(--motion-interaction-duration) ease-out',
                     isActive
                       ? 'text-foreground font-medium'
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'

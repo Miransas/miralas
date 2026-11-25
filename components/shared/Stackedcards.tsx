@@ -1,5 +1,6 @@
 "use client";
 
+import { RevealEyebrow, RevealHeading, RevealParagraph, StaggerReveal, RevealCard } from "@/components/motion/primitives";
 import { memo, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   animate,
@@ -11,15 +12,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import {
-  EASE_OUT_EXPO,
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-} from "@/lib/motion";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 /* -------------------------------------------------------------------------- */
 /* Video assets                                                               */
@@ -39,7 +32,7 @@ const workflowItems = [
 const INITIAL_MINUTES = 120;
 const INITIAL_RATE = 6;
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 /* -------------------------------------------------------------------------- */
 /* Shared UI                                                                   */
@@ -97,10 +90,6 @@ const VideoBackground = memo(function VideoBackground({
 
   return (
     <>
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_45%,rgba(124,58,237,0.08),transparent_56%)] dark:bg-[radial-gradient(ellipse_at_72%_45%,rgba(124,58,237,0.12),transparent_56%)]"
-      />
       <video
         ref={videoRef}
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-15 dark:opacity-35"
@@ -122,8 +111,8 @@ function CardOverlay({ variant = "standard" }: { variant?: "standard" | "soft" }
       aria-hidden="true"
       className={
         variant === "soft"
-          ? "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FFFFFF]/94 via-[#FFFFFF]/82 to-[#FFFFFF]/55 dark:from-[#000103]/94 dark:via-[#000103]/78 dark:to-[#000103]/42"
-          : "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FFFFFF]/96 via-[#FFFFFF]/86 to-[#FFFFFF]/58 dark:from-[#000103]/96 dark:via-[#000103]/82 dark:to-[#000103]/44"
+          ? "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FFFFFF]/94 via-[#FFFFFF]/82 to-[#FFFFFF]/55 dark:from-surface-card/94 dark:via-surface-card/78 dark:to-surface-card/42"
+          : "pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FFFFFF]/96 via-[#FFFFFF]/86 to-[#FFFFFF]/58 dark:from-surface-card/96 dark:via-surface-card/82 dark:to-surface-card/44"
       }
     />
   );
@@ -131,34 +120,31 @@ function CardOverlay({ variant = "standard" }: { variant?: "standard" | "soft" }
 
 function Pill({ children }: { children: ReactNode }) {
   return (
-    <motion.span
-      variants={eyebrowReveal}
+    <RevealEyebrow as="span"
       className="inline-flex w-fit items-center rounded-full bg-surface-page px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary dark:bg-white/[0.06] sm:text-[13px] md:px-5 md:py-2"
     >
       {children}
-    </motion.span>
+    </RevealEyebrow>
   );
 }
 
 function Heading({ children }: { children: ReactNode }) {
   return (
-    <motion.h2
-      variants={headingReveal}
+    <RevealHeading
       className="mt-4 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem] md:mt-6"
     >
       {children}
-    </motion.h2>
+    </RevealHeading>
   );
 }
 
 function Lead({ children }: { children: ReactNode }) {
   return (
-    <motion.p
-      variants={paragraphReveal}
+    <RevealParagraph
       className="mt-3 max-w-[520px] text-[15px] leading-[1.6] text-text-muted sm:text-base md:mt-5"
     >
       {children}
-    </motion.p>
+    </RevealParagraph>
   );
 }
 
@@ -175,7 +161,7 @@ function WorkflowMarquee({ reduceMotion }: { reduceMotion: boolean | null }) {
         key={`${copy}-${item.title}`}
         className="flex items-center gap-3 rounded-2xl bg-surface-page/90 px-4 py-3.5 dark:bg-[#050505]/90 md:gap-4 md:px-5 md:py-4"
       >
-        <span className="size-2 shrink-0 rounded-full bg-[#7c3aed]" />
+        <span className="size-2 shrink-0 rounded-full bg-text-heading" />
         <span className="min-w-0 flex-1">
           <span className="block truncate text-[15px] font-semibold text-text-heading sm:text-base">
             {item.title}
@@ -225,11 +211,7 @@ function CardOne({ reduceMotion }: { reduceMotion: boolean | null }) {
       <CardOverlay />
 
       <div className="relative z-10 grid h-full grid-cols-1 content-center gap-6 overflow-hidden p-5 sm:p-7 md:grid-cols-[0.95fr_1.05fr] md:items-center md:gap-12 md:p-11 lg:p-14">
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="flex flex-col justify-center"
         >
           <Pill>Voice generation · Workflow</Pill>
@@ -238,7 +220,7 @@ function CardOne({ reduceMotion }: { reduceMotion: boolean | null }) {
             Move from prepared text to generated speech through a focused voice
             workflow. Keep each stage clear, repeatable and ready for review.
           </Lead>
-        </motion.div>
+        </StaggerReveal>
 
         <div className="flex flex-col justify-center">
           <div className="mb-3 flex items-center justify-between gap-3 px-1">
@@ -292,9 +274,9 @@ function Range({
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
         aria-label={label}
-        className={`mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 [--range-track:rgba(0,0,0,0.1)] dark:bg-white/10 dark:[--range-track:rgba(255,255,255,0.12)] ${FOCUS_RING} [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#7c3aed] [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(124,58,237,0.18)] [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#7c3aed]`}
+        className={`mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 [--range-track:rgba(0,0,0,0.1)] dark:bg-white/10 dark:[--range-track:rgba(255,255,255,0.12)] ${FOCUS_RING} [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-text-heading [&::-webkit-slider-thumb]:ring-4 [&::-webkit-slider-thumb]:ring-text-heading/10 [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-text-heading`}
         style={{
-          background: `linear-gradient(to right, #7c3aed 0%, #7c3aed ${percentage}%, var(--range-track) ${percentage}%, var(--range-track) 100%)`,
+          background: `linear-gradient(to right, var(--text-heading) 0%, var(--text-heading) ${percentage}%, var(--range-track) ${percentage}%, var(--range-track) 100%)`,
         }}
       />
     </div>
@@ -331,11 +313,7 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
   return (
     <div className="relative z-10 grid h-full grid-cols-1 content-center gap-6 overflow-hidden p-5 sm:p-7 md:grid-cols-2 md:items-center md:gap-10 md:p-11 lg:gap-12 lg:p-14">
       <div className="flex flex-col justify-center">
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
         >
           <Pill>Voice production · Estimator</Pill>
           <Heading>See what recording time can add up to.</Heading>
@@ -344,7 +322,7 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
             recording budget. Use your own figures to make the calculation
             relevant to your production.
           </Lead>
-        </motion.div>
+        </StaggerReveal>
 
         <Range
           label="Audio minutes per month"
@@ -364,12 +342,8 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
       </div>
 
       {/* Primary Estimator output panel — Strategic Violet Gradient focal surface */}
-      <motion.div
-        variants={cardReveal}
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT_ONCE}
-        className="surface-accent surface-shadow flex flex-col justify-center rounded-[24px] p-6 sm:p-8 md:p-10"
+      <RevealCard
+        className="bg-surface-card surface-shadow flex flex-col justify-center rounded-4xl p-6 sm:p-8 md:p-10"
       >
         <span className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
           Estimated recording spend / month
@@ -385,7 +359,7 @@ function EstimatorInteractive({ reduceMotion }: { reduceMotion: boolean | null }
           per year at these assumptions. This is an illustrative estimate, not a
           quote or a guaranteed saving.
         </p>
-      </motion.div>
+      </RevealCard>
     </div>
   );
 }
@@ -428,11 +402,7 @@ function CardThree({ reduceMotion }: { reduceMotion: boolean | null }) {
       <CardOverlay variant="soft" />
 
       <div className="relative z-10 grid h-full grid-cols-1 content-center gap-6 overflow-hidden p-5 sm:p-7 md:grid-cols-2 md:items-center md:gap-12 md:p-11 lg:p-14">
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="flex flex-col justify-center"
         >
           <Pill>Voice cloning · In development</Pill>
@@ -443,28 +413,19 @@ function CardThree({ reduceMotion }: { reduceMotion: boolean | null }) {
             experience understandable from start to finish. This is a proposed
             workflow; public cloning access is not confirmed.
           </Lead>
-        </motion.div>
+        </StaggerReveal>
 
-        <motion.div
-          variants={staggerContainer(0.08, 0.04)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="flex flex-col justify-center gap-3"
         >
           <div className="mb-1 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
             From reference to output
           </div>
           {cloningSteps.map((step) => (
-            <motion.div
+            <RevealCard
               key={step.number}
-              variants={cardReveal}
-              className="group relative flex items-start gap-4 overflow-hidden rounded-2xl bg-surface-page/90 px-4 py-4 transition-[transform,background-color] duration-200 hover:-translate-y-0.5 dark:bg-[#050505]/90 md:gap-5 md:px-5 md:py-5"
+              className="group relative flex items-start gap-4 overflow-hidden rounded-2xl bg-surface-page/90 px-4 py-4 transition-[transform,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5 dark:bg-[#050505]/90 md:gap-5 md:px-5 md:py-5"
             >
-              <div
-                aria-hidden="true"
-                className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
               <span className="relative z-10 pt-0.5 font-mono text-sm tabular-nums text-text-muted md:text-base">
                 {step.number}
               </span>
@@ -476,9 +437,9 @@ function CardThree({ reduceMotion }: { reduceMotion: boolean | null }) {
                   {step.description}
                 </span>
               </span>
-            </motion.div>
+            </RevealCard>
           ))}
-        </motion.div>
+        </StaggerReveal>
       </div>
     </>
   );
@@ -531,9 +492,8 @@ function StackCard({
           scale: reduceMotion ? 1 : scale,
           y: reduceMotion ? 0 : lift,
           transformOrigin: "top center",
-          willChange: !isLast && !reduceMotion ? "transform" : undefined,
         }}
-        className="surface-shadow-lg relative h-[82svh] min-h-[540px] max-h-[780px] w-full max-w-[1220px] overflow-hidden rounded-[24px] bg-surface-card sm:rounded-[28px]"
+        className="surface-shadow-lg relative h-[82svh] min-h-[540px] max-h-[780px] w-full max-w-[1220px] overflow-hidden rounded-4xl bg-surface-card sm:rounded-4xl"
       >
         {children}
         <motion.div

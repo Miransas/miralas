@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from 'react';
-import { ScrollReveal } from '@/components/motion/reveal';
+import { StaggerReveal, RevealHeading, RevealParagraph } from '@/components/motion/primitives';
 
 import { PageActions } from '@/components/docs/page-actions';
 import type { TocItem } from '@/lib/docs-d';
@@ -27,15 +27,15 @@ export function DocPage({
 
   return (
     <div className="flex gap-8">
-      <ScrollReveal className="min-w-0 max-w-[780px] flex-1"><article>
-        <header className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+      <div className="min-w-0 max-w-[780px] flex-1"><article>
+        <StaggerReveal trigger="load" as="header" className="mb-8">
+          <RevealHeading as="h1" className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {title}
-          </h1>
+          </RevealHeading>
           {description && (
-            <p className="text-lg text-foreground ">{description}</p>
+            <RevealParagraph className="text-lg text-foreground ">{description}</RevealParagraph>
           )}
-        </header>
+        </StaggerReveal>
 
         <PageActions slug={slug} rawContent={rawContent} />
 
@@ -56,7 +56,7 @@ export function DocPage({
             </a>
           </p>
         </footer>
-      </article></ScrollReveal>
+      </article></div>
 
       {/* Right sidebar ToC */}
       <div className="hidden w-64 shrink-0 xl:block">

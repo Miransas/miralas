@@ -76,7 +76,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                 key={item.id}
                 data-toc-id={item.id}
                 className={cn(
-                  'transition-all',
+                  'transition-[color,background-color,border-color,box-shadow,opacity,transform]',
                   
                   item.level === 3 && 'pl-3'
                 )}
@@ -85,7 +85,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                   href={`#${item.id}`}
                   onClick={(e) => handleScroll(e, item.id)}
                   className={cn(
-                    'block text-[13px] leading-snug transition-all duration-200 ease-out',
+                    'block text-[13px] leading-snug transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration) ease-out',
                     isActive
                       ? 'font-medium text-md text-foreground/90 translate-x-0.5' 
                       : 'text-muted-foreground hover:text-foreground'

@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/motion/page-transition";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { DocsSidebar } from "../../components/docs/docs-sidebar";
@@ -16,7 +17,7 @@ export default function DocsLayout({
           <DocsSidebar />
         </aside>
         <main className="min-w-0 flex-1 px-6 py-8 md:px-12 md:py-10">
-          {children}
+          <PageTransition>{children}</PageTransition>
         </main>
       </div>
       <Footer />

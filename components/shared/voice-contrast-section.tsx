@@ -34,7 +34,7 @@ export function VoiceContrastSection() {
         </div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          <div className="space-y-6 rounded-[26px] bg-surface-card p-8 md:p-10">
+          <div className="space-y-6 rounded-4xl bg-surface-card p-8 md:p-10">
             <div className="space-y-2">
               <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
                 Flat speech
@@ -46,7 +46,7 @@ export function VoiceContrastSection() {
             <Bars heights={flat} className="bg-text-muted/45" />
           </div>
 
-          <div className="surface-accent surface-shadow space-y-6 rounded-[26px] p-8 md:p-10">
+          <div className="bg-surface-card surface-shadow space-y-6 rounded-4xl p-8 md:p-10">
             <div className="space-y-2">
               <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
                 Expressive speech
@@ -56,7 +56,7 @@ export function VoiceContrastSection() {
                 sentence.
               </p>
             </div>
-            <Bars heights={natural} className="bg-[#7c3aed] dark:bg-white" />
+            <Bars heights={natural} className="bg-text-heading dark:bg-white" />
           </div>
         </div>
 

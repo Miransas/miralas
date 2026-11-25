@@ -1,5 +1,7 @@
 "use client";
 
+import { StaggerReveal, RevealHeading, RevealParagraph, SectionReveal } from "@/components/motion/primitives";
+import { buttonVariants } from "@/components/ui/button";
 import { ScrollReveal as Reveal } from "@/components/motion/reveal";
 
 import { useEffect, useRef, type ReactNode } from "react";
@@ -119,7 +121,7 @@ export default function TTSPage() {
   const reduce = useReducedMotion();
 
   return (
-    <main className="overflow-hidden bg-[#EFEFEF] text-[#111111] transition-colors duration-500 dark:bg-[#050505] dark:text-[#F5F5F5]">
+    <main className="overflow-hidden bg-surface-page text-text-heading transition-colors duration-500">
       {/* HERO */}
       <section className="relative isolate min-h-[760px] overflow-hidden border-b border-black/[0.06] dark:border-white/[0.07]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_72%_38%,rgba(255,255,255,0.8),transparent_44%)] dark:bg-[radial-gradient(ellipse_at_72%_38%,rgba(255,255,255,0.07),transparent_44%)]" />
@@ -132,33 +134,33 @@ export default function TTSPage() {
               </div>
             </Reveal>
 
-            <Reveal trigger="load" delay={0.08}>
-              <h1 className="mt-7 max-w-[760px] text-[clamp(3.2rem,7vw,6.6rem)] font-semibold leading-[0.96] tracking-[-0.075em] text-neutral-950 dark:text-white">
+            <StaggerReveal trigger="load" delay={0.08}>
+              <RevealHeading as="h1" className="mt-7 max-w-[760px] text-[clamp(3.2rem,7vw,6.6rem)] font-semibold leading-[0.96] tracking-[-0.075em] text-text-heading">
                 Words become
-                <span className="block text-neutral-500 dark:text-neutral-400">voice.</span>
-              </h1>
-            </Reveal>
+                <span className="block text-text-muted">voice.</span>
+              </RevealHeading>
+            </StaggerReveal>
 
             <Reveal trigger="load" delay={0.16}>
-              <p className="mt-7 max-w-xl text-base leading-8 text-neutral-600 dark:text-neutral-400 sm:text-lg">
+              <RevealParagraph className="mt-7 max-w-xl text-base leading-8 text-text-primary sm:text-lg">
                 Turn written language into spoken audio with Miransas Text to
                 Speech, powered by Chatterbox Multilingual. Public access is not confirmed. A focused voice workflow for creators, product teams and
                 developers who want their words to be heard.
-              </p>
+              </RevealParagraph>
             </Reveal>
 
             <Reveal trigger="load" delay={0.24}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Link
                   href="https://console.miralas.io"
-                  className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#111111] px-6 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:bg-black dark:bg-white dark:text-[#080808] dark:hover:bg-neutral-200"
+                  className={buttonVariants({ className: "group" })}
                 >
                   Console access
-                  <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <ArrowUpRight className="size-4 transition-transform duration-(--motion-interaction-duration) group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
                 <a
                   href="#how-it-works"
-                  className="inline-flex h-12 items-center gap-2 rounded-full border border-black/10 bg-white/45 px-6 text-sm font-medium text-neutral-700 backdrop-blur transition-colors hover:bg-white/80 dark:border-white/15 dark:bg-white/[0.035] dark:text-neutral-300 dark:hover:bg-white/[0.08]"
+                  className={buttonVariants({ variant: "secondary" })}
                 >
                   Explore the process
                   <ArrowDown className="size-4" />
@@ -167,7 +169,7 @@ export default function TTSPage() {
             </Reveal>
 
             <Reveal trigger="load" delay={0.32}>
-              <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:border-white/10 dark:text-neutral-500">
+              <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-text-muted dark:border-white/10 dark:text-neutral-500">
                 <span>Written input</span>
                 <span className="text-neutral-300 dark:text-neutral-700">/</span>
                 <span>Voice output</span>
@@ -178,7 +180,7 @@ export default function TTSPage() {
           </div>
 
           <Reveal trigger="load" delay={0.12} className="relative">
-            <div className="relative aspect-[4/4.25] min-h-[420px] overflow-hidden rounded-[30px] border border-black/10 bg-[#111111] shadow-[0_35px_100px_-45px_rgba(0,0,0,0.38)] dark:border-white/10 dark:shadow-[0_35px_110px_-45px_rgba(0,0,0,0.85)] sm:aspect-[5/4] lg:aspect-[0.95/1]">
+            <div className="relative aspect-[4/4.25] min-h-[420px] overflow-hidden rounded-4xl border border-black/10 bg-[#111111] shadow-[0_35px_100px_-45px_rgba(0,0,0,0.38)] dark:border-white/10 dark:shadow-[0_35px_110px_-45px_rgba(0,0,0,0.85)] sm:aspect-[5/4] lg:aspect-[0.95/1]">
               <CinematicVideo
                 src="/stack-card-1.mp4"
                 poster="/img/ember.png"
@@ -223,13 +225,13 @@ export default function TTSPage() {
                 </div>
               </div>
             </div>
-            <div className="pointer-events-none absolute -bottom-5 -left-5 -z-10 h-2/3 w-2/3 rounded-[36px] border border-black/[0.06] dark:border-white/[0.07]" />
+            <div className="pointer-events-none absolute -bottom-5 -left-5 -z-10 h-2/3 w-2/3 rounded-4xl border border-black/[0.06] dark:border-white/[0.07]" />
           </Reveal>
         </div>
       </section>
 
       {/* VALUE STRIP */}
-      <section className="border-b border-black/[0.06] dark:border-white/[0.07]">
+      <SectionReveal className="border-b border-black/[0.06] dark:border-white/[0.07]">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-7 px-6 py-9 sm:grid-cols-3 sm:gap-8 lg:px-12">
           {[
             { icon: AudioLines, title: "Speech from text", text: "Move from a written script to spoken audio." },
@@ -244,35 +246,35 @@ export default function TTSPage() {
                     <Icon className="size-[18px]" />
                   </span>
                   <div>
-                    <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">{item.title}</h2>
-                    <p className="mt-1.5 max-w-xs text-sm leading-6 text-neutral-500 dark:text-neutral-500">{item.text}</p>
+                    <RevealHeading className="text-sm font-semibold text-text-heading">{item.title}</RevealHeading>
+                    <p className="mt-1.5 max-w-xs text-sm leading-6 text-text-muted">{item.text}</p>
                   </div>
                 </div>
               </Reveal>
             );
           })}
         </div>
-      </section>
+      </SectionReveal>
 
       {/* HOW IT WORKS */}
-      <section id="how-it-works" className="scroll-mt-24 py-24 sm:py-32">
+      <SectionReveal id="how-it-works" className="scroll-mt-24 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
-            <Reveal className="max-w-xl">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-500">A simple workflow</p>
-              <h2 className="mt-5 text-4xl font-semibold leading-[1.03] tracking-[-0.06em] text-neutral-950 dark:text-white sm:text-5xl">
+            <StaggerReveal className="max-w-xl">
+              <RevealParagraph className="text-[10px] font-semibold uppercase tracking-[0.22em] text-text-muted">A simple workflow</RevealParagraph>
+              <RevealHeading className="mt-5 text-4xl font-semibold leading-[1.03] tracking-[-0.06em] text-text-heading sm:text-5xl">
                 From script to speech, in three steps.
-              </h2>
-              <p className="mt-6 text-base leading-8 text-neutral-600 dark:text-neutral-400">
+              </RevealHeading>
+              <RevealParagraph className="mt-6 text-base leading-8 text-text-primary">
                 A clear process keeps the creative work in your hands. Prepare
                 the words, choose an available voice, then create and review
                 your audio.
-              </p>
+              </RevealParagraph>
               <Link href="https://console.miralas.io" className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 transition-colors hover:text-neutral-500 dark:text-white dark:hover:text-neutral-300">
                 View Console access
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
-            </Reveal>
+            </StaggerReveal>
 
             <div className="border-t border-black/10 dark:border-white/10">
               {steps.map((step, index) => {
@@ -280,14 +282,14 @@ export default function TTSPage() {
                 return (
                   <Reveal key={step.number} delay={index * 0.08}>
                     <div className="grid gap-4 border-b border-black/10 py-7 dark:border-white/10 sm:grid-cols-[64px_1fr_1fr] sm:items-start sm:gap-6 sm:py-9">
-                      <span className="font-mono text-xs tracking-wider text-neutral-400 dark:text-neutral-600">{step.number}</span>
+                      <span className="font-mono text-xs tracking-wider text-text-muted">{step.number}</span>
                       <div>
                         <span className="mb-4 grid size-10 place-items-center rounded-xl border border-black/10 bg-white/65 text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-300">
                           <Icon className="size-[18px]" />
                         </span>
-                        <h3 className="text-xl font-semibold tracking-tight text-neutral-950 dark:text-white">{step.title}</h3>
+                        <RevealHeading as="h3" className="text-xl font-semibold tracking-tight text-text-heading">{step.title}</RevealHeading>
                       </div>
-                      <p className="text-sm leading-7 text-neutral-600 dark:text-neutral-400">{step.description}</p>
+                      <RevealParagraph className="text-sm leading-7 text-text-primary">{step.description}</RevealParagraph>
                     </div>
                   </Reveal>
                 );
@@ -295,13 +297,13 @@ export default function TTSPage() {
             </div>
           </div>
         </div>
-      </section>
+      </SectionReveal>
 
       {/* LANGUAGE FOCUS */}
-      <section className="border-y border-black/[0.06] bg-[#F7F7F7] py-24 dark:border-white/[0.07] dark:bg-[#0D0D0D] sm:py-32">
+      <SectionReveal className="border-y border-black/[0.06] bg-surface-card py-24 dark:border-white/[0.07] dark:bg-surface-card sm:py-32">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1fr_0.95fr] lg:gap-24 lg:px-12">
           <Reveal>
-            <div className="relative aspect-[5/4] overflow-hidden rounded-[28px] border border-black/10 bg-[#111111] dark:border-white/10">
+            <div className="relative aspect-[5/4] overflow-hidden rounded-4xl border border-black/10 bg-[#111111] dark:border-white/10">
               <CinematicVideo src="/stack-card-2.mp4" poster="/img/violet.png" objectPosition="center" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white/80 backdrop-blur-md">
@@ -310,69 +312,69 @@ export default function TTSPage() {
               </div>
             </div>
           </Reveal>
-          <Reveal delay={0.1}>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-500">A language with a place of its own</p>
-            <h2 className="mt-5 max-w-xl text-4xl font-semibold leading-[1.03] tracking-[-0.06em] text-neutral-950 dark:text-white sm:text-5xl">
+          <StaggerReveal delay={0.1}>
+            <RevealParagraph className="text-[10px] font-semibold uppercase tracking-[0.22em] text-text-muted">A language with a place of its own</RevealParagraph>
+            <RevealHeading className="mt-5 max-w-xl text-4xl font-semibold leading-[1.03] tracking-[-0.06em] text-text-heading sm:text-5xl">
               Uzbek Speech — In Development
-            </h2>
-            <p className="mt-6 max-w-xl text-base leading-8 text-neutral-600 dark:text-neutral-400">
+            </RevealHeading>
+            <RevealParagraph className="mt-6 max-w-xl text-base leading-8 text-text-primary">
               We're working toward native Uzbek speech capabilities through
               research, data collection and model evaluation. Uzbek is separate
               from the engine's 23 supported languages and is not available for production inference.
-            </p>
+            </RevealParagraph>
             <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-3 text-sm text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-300">
               <span className="grid size-7 place-items-center rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">
                 <Languages className="size-3.5" />
               </span>
               <span className="font-medium">Research · Not available for inference</span>
             </div>
-          </Reveal>
+          </StaggerReveal>
         </div>
-      </section>
+      </SectionReveal>
 
       {/* USE CASES */}
-      <section className="py-24 sm:py-32">
+      <SectionReveal className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
-          <Reveal className="max-w-2xl">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-500">Where voice fits</p>
-            <h2 className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-neutral-950 dark:text-white sm:text-5xl">
+          <StaggerReveal className="max-w-2xl">
+            <RevealParagraph className="text-[10px] font-semibold uppercase tracking-[0.22em] text-text-muted">Where voice fits</RevealParagraph>
+            <RevealHeading className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-text-heading sm:text-5xl">
               Made for the moments that need a voice.
-            </h2>
-            <p className="mt-5 text-base leading-8 text-neutral-600 dark:text-neutral-400">
+            </RevealHeading>
+            <RevealParagraph className="mt-5 text-base leading-8 text-text-primary">
               From a single narration to a feature inside a product, generated
               speech can make information easier to experience.
-            </p>
-          </Reveal>
+            </RevealParagraph>
+          </StaggerReveal>
 
           <div className="mt-12 grid gap-0 border-t border-black/10 dark:border-white/10 md:grid-cols-3 md:divide-x md:divide-black/10 dark:md:divide-white/10">
             {useCases.map((item, index) => (
               <Reveal key={item.number} delay={index * 0.07}>
                 <div className="h-full border-b border-black/10 py-7 md:border-b-0 md:px-7 md:py-8 first:md:pl-0 last:md:pr-0 dark:border-white/10">
-                  <span className="font-mono text-xs tracking-wider text-neutral-400 dark:text-neutral-600">{item.number}</span>
-                  <h3 className="mt-7 text-xl font-semibold tracking-tight text-neutral-950 dark:text-white">{item.title}</h3>
-                  <p className="mt-3 max-w-sm text-sm leading-7 text-neutral-600 dark:text-neutral-400">{item.description}</p>
+                  <span className="font-mono text-xs tracking-wider text-text-muted">{item.number}</span>
+                  <RevealHeading as="h3" className="mt-7 text-xl font-semibold tracking-tight text-text-heading">{item.title}</RevealHeading>
+                  <RevealParagraph className="mt-3 max-w-sm text-sm leading-7 text-text-primary">{item.description}</RevealParagraph>
                 </div>
               </Reveal>
             ))}
           </div>
         </div>
-      </section>
+      </SectionReveal>
 
       {/* FINAL CTA */}
-      <section className="px-6 pb-24 sm:pb-32 lg:px-12">
+      <SectionReveal className="px-6 pb-24 sm:pb-32 lg:px-12">
         <Reveal>
-          <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[30px] bg-[#111111] px-7 py-14 text-white sm:px-12 sm:py-20 dark:bg-[#0D0D0D] dark:ring-1 dark:ring-white/10">
+          <div className="dark relative mx-auto max-w-7xl overflow-hidden rounded-4xl bg-surface-card px-7 py-14 text-white sm:px-12 sm:py-20 dark:bg-surface-card dark:ring-1 dark:ring-white/10">
             <div className="pointer-events-none absolute -right-24 -top-32 size-[420px] rounded-full border border-white/[0.07]" />
             <div className="pointer-events-none absolute -right-8 -top-16 size-[290px] rounded-full border border-white/[0.07]" />
             <div className="relative z-10 max-w-2xl">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/45">Start creating</p>
-              <h2 className="mt-5 text-4xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">Start creating</p>
+              <RevealHeading className="mt-5 text-4xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">
                 Give your words a voice.
-              </h2>
-              <p className="mt-5 max-w-xl text-sm leading-7 text-white/60 sm:text-base">
+              </RevealHeading>
+              <RevealParagraph className="mt-5 max-w-xl text-sm leading-7 text-white/60 sm:text-base">
                 Explore the Miransas Studio and follow the development of our
                 voice generation tools.
-              </p>
+              </RevealParagraph>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="https://console.miralas.io" className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-neutral-950 transition hover:-translate-y-0.5 hover:bg-neutral-200">
                   Console access <ArrowUpRight className="size-4" />
@@ -384,7 +386,7 @@ export default function TTSPage() {
             </div>
           </div>
         </Reveal>
-      </section>
+      </SectionReveal>
     </main>
   );
 }

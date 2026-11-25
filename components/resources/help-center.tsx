@@ -1,5 +1,6 @@
 "use client";
 
+import { RevealHeading, RevealParagraph } from "@/components/motion/primitives";
 import Link from "next/link";
 import { useId, useState, useSyncExternalStore } from "react";
 import { ChevronDown, Mail, Search, SearchX } from "lucide-react";
@@ -10,12 +11,12 @@ import { cn } from "@/lib/utils";
 const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 
 const surface =
-  "bg-white dark:bg-[#121214] dark:ring-1 dark:ring-white/[0.06]";
+  "bg-surface-card";
 
 const statusTone: Record<Status, string> = {
   "Internal testing": "bg-sky-500/10 text-sky-700 dark:text-sky-300",
   "In development": "bg-amber-500/10 text-amber-700 dark:text-amber-300",
-  Planned: "bg-zinc-500/10 text-zinc-600 dark:text-zinc-400",
+  Planned: "bg-zinc-500/10 text-text-primary",
 };
 
 // #konu-id ile doğrudan bağlantı (örn. /resources/help-center#voice-cloning)
@@ -54,31 +55,31 @@ function AccordionItem({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[28px] transition-colors duration-300",
+        "overflow-hidden rounded-4xl transition-colors duration-(--motion-interaction-duration)",
         open
-          ? "bg-white dark:bg-[#1b1b1e] dark:ring-1 dark:ring-white/10"
-          : "bg-white/60 hover:bg-white dark:bg-[#121214] dark:ring-1 dark:ring-white/[0.06] dark:hover:bg-[#18181b]",
+          ? "bg-surface-elevated"
+          : "bg-surface-card hover:bg-surface-card-hover",
       )}
     >
-      <h3>
+      <RevealHeading as="h3">
         <button
           id={`${id}-button`}
           type="button"
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={`${id}-panel`}
-          className="flex w-full items-center justify-between gap-6 rounded-[28px] px-7 py-4 text-left text-sm font-bold tracking-tight text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/30 dark:text-zinc-100 dark:focus-visible:ring-white/40 md:text-[16px]"
+          className="flex w-full items-center justify-between gap-6 rounded-4xl px-7 py-4 text-left text-sm font-bold tracking-tight text-zinc-900 focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-3 dark:text-zinc-100 dark:focus-visible:ring-white/40 md:text-[16px]"
         >
           <span>{article.question}</span>
           <ChevronDown
             className={cn(
-              "size-5 shrink-0 text-zinc-500 transition-transform duration-300 motion-reduce:transition-none",
+              "size-5 shrink-0 text-text-muted transition-transform duration-(--motion-interaction-duration) motion-reduce:transition-none",
               open && "rotate-180",
             )}
             strokeWidth={2.5}
           />
         </button>
-      </h3>
+      </RevealHeading>
 
       <div
         id={`${id}-panel`}
@@ -86,7 +87,7 @@ function AccordionItem({
         aria-labelledby={`${id}-button`}
         inert={!open}
         className={cn(
-          "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
+          "grid transition-[grid-template-rows,opacity] duration-(--motion-interaction-duration) ease-out motion-reduce:transition-none",
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
       >
@@ -163,7 +164,7 @@ export function HelpCenter() {
             surface,
           )}
         >
-          <Search className="size-5 shrink-0 text-zinc-400" />
+          <Search className="size-5 shrink-0 text-text-muted" />
           <input
             id="help-search"
             type="search"
@@ -171,7 +172,7 @@ export function HelpCenter() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for an answer"
             autoComplete="off"
-            className="h-14 min-w-0 flex-1 bg-transparent text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white dark:placeholder:text-zinc-600"
+            className="h-14 min-w-0 flex-1 bg-transparent text-[15px] text-text-heading focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-3 placeholder:text-text-muted dark:text-white dark:placeholder:text-text-muted"
           />
         </div>
         <p role="status" className="sr-only">
@@ -182,9 +183,9 @@ export function HelpCenter() {
       {/* Konular */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+          <RevealHeading className="text-xs font-bold uppercase tracking-wider text-text-muted">
             Topics
-          </h2>
+          </RevealHeading>
           {topic !== "all" && (
             <button
               type="button"
@@ -207,7 +208,7 @@ export function HelpCenter() {
                 aria-pressed={active}
                 onClick={() => selectTopic(active ? "all" : id)}
                 className={cn(
-                  "flex flex-col items-start  cursor-pointer gap-3 rounded-3xl p-5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/30 dark:focus-visible:ring-white/40",
+                  "flex flex-col items-start  cursor-pointer gap-3 rounded-3xl p-5 text-left transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration) focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-3 dark:focus-visible:ring-white/40",
                   surface,
                   active
                     ? "ring-2 ring-zinc-950 dark:ring-white"
@@ -218,15 +219,15 @@ export function HelpCenter() {
                   <Icon className="size-5" />
                 </span>
                 <span>
-                  <span className="block text-[15px] font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  <span className="block text-[15px] font-bold tracking-tight text-text-heading">
                     {title}
                   </span>
-                  <span className="mt-1 block text-sm text-zinc-500 dark:text-zinc-400">
+                  <span className="mt-1 block text-sm text-text-muted">
                     {summary}
                   </span>
                 </span>
                 <span className="mt-auto flex items-center gap-2 text-xs">
-                  <span className="text-zinc-500">
+                  <span className="text-text-muted">
                     {count} {count === 1 ? "answer" : "answers"}
                   </span>
                   {status && (
@@ -255,11 +256,11 @@ export function HelpCenter() {
               surface,
             )}
           >
-            <SearchX className="size-8 text-zinc-400" />
-            <p className="mt-4 text-[15px] font-bold text-zinc-900 dark:text-zinc-100">
+            <SearchX className="size-8 text-text-muted" />
+            <RevealParagraph className="mt-4 text-[15px] font-bold text-text-heading">
               No answers match &ldquo;{query.trim()}&rdquo;
-            </p>
-            <p className="mt-1 max-w-sm text-sm text-zinc-500 dark:text-zinc-400">
+            </RevealParagraph>
+            <p className="mt-1 max-w-sm text-sm text-text-muted">
               Try a shorter search, or browse the topics above.
             </p>
             <button
@@ -276,13 +277,13 @@ export function HelpCenter() {
         ) : (
           groups.map((group) => (
             <section key={group.id} aria-labelledby={`h-${group.id}`}>
-              <h2
+              <RevealHeading
                 id={`h-${group.id}`}
-                className="mb-4 flex items-center gap-2.5 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
+                className="mb-4 flex items-center gap-2.5 text-lg font-bold tracking-tight text-text-heading"
               >
-                <group.icon className="size-5 text-zinc-500" />
+                <group.icon className="size-5 text-text-muted" />
                 {group.title}
-              </h2>
+              </RevealHeading>
               <div className="flex flex-col gap-3">
                 {group.items.map(({ article, key }) => (
                   <AccordionItem
@@ -301,15 +302,15 @@ export function HelpCenter() {
       {/* İletişim */}
       <div
         className={cn(
-          "flex flex-col items-center justify-between gap-5 rounded-[28px] p-7 sm:flex-row",
+          "flex flex-col items-center justify-between gap-5 rounded-4xl p-7 sm:flex-row",
           surface,
         )}
       >
         <div className="text-center sm:text-left">
-          <p className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+          <RevealParagraph className="text-base font-bold text-text-heading">
             Did not find your answer?
-          </p>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          </RevealParagraph>
+          <p className="mt-1 text-sm text-text-muted">
             Check the changelog for the latest progress
             {SUPPORT_EMAIL ? ", or write to us." : "."}
           </p>

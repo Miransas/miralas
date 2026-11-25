@@ -1,9 +1,10 @@
 "use client";
 
+import { buttonVariants } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useReducedMotion } from "framer-motion";
 import {
   ChevronDown,
   Menu,
@@ -23,9 +24,10 @@ import { ModeToggle } from "../providers/mode-toggle";
 const HERO_HEIGHT = 72;
 const FALLBACK_SCROLL_THRESHOLD = 24;
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 export function Header() {
+  const reduced = useReducedMotion();
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { scrollY } = useScroll();
@@ -91,39 +93,31 @@ export function Header() {
   };
 
   const headerClass = overDarkHero
-    ? "bg-transparent text-white backdrop-blur-none"
-    : "bg-surface-page/85 text-text-heading shadow-[0_12px_32px_-12px_rgba(124,58,237,0.08)] dark:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)] backdrop-blur-xl";
+    ? "dark bg-transparent text-text-heading backdrop-blur-none"
+    : "bg-surface-page/85 text-text-heading surface-shadow backdrop-blur-xl";
 
   const navMuted = overDarkHero
-    ? "text-[#D1D1D1] hover:bg-white/[0.08] hover:text-white"
+    ? "text-text-primary hover:bg-white/[0.08] hover:text-white"
     : "text-text-muted hover:bg-surface-card hover:text-text-heading";
 
   const navActive = overDarkHero
     ? "bg-white/[0.10] text-white"
     : "bg-surface-card text-text-heading surface-shadow";
 
-  const dropdownSurface = overDarkHero
-    ? "bg-[#000103]/95 text-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)]"
-    : "bg-surface-card/95 text-text-heading surface-shadow-lg";
+  const dropdownSurface = "bg-surface-elevated/95 text-text-heading surface-shadow-lg";
 
-  const dropdownHeading = overDarkHero
-    ? "text-[#6E6E74]"
-    : "text-text-muted";
+  const dropdownHeading = "text-text-muted";
 
-  const dropdownItemHover = overDarkHero
-    ? "hover:bg-[#02040a]"
-    : "hover:bg-surface-card-hover";
+  const dropdownItemHover = "hover:bg-surface-card-hover";
 
   const dropdownItemTitle = overDarkHero
-    ? "text-[#D1D1D1] group-hover:text-white"
+    ? "text-text-primary group-hover:text-white"
     : "text-text-primary group-hover:text-text-heading";
 
-  const dropdownItemDescription = overDarkHero
-    ? "text-[#6E6E74]"
-    : "text-text-muted";
+  const dropdownItemDescription = "text-text-muted";
 
   const mobilePanel = overDarkHero
-    ? "bg-[#050505]/95 text-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)]"
+    ? "bg-[#050505]/95 text-white surface-shadow-lg"
     : "bg-surface-page/95 text-text-heading surface-shadow-lg";
 
   return (
@@ -140,7 +134,7 @@ export function Header() {
           setMobileMenuOpen(false);
         }
       }}
-      className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,backdrop-filter,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${headerClass}`}
+      className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,backdrop-filter,box-shadow] duration-(--motion-interaction-duration) ease-[cubic-bezier(0.22,1,0.36,1)] ${headerClass}`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-12">
         {/* Brand and desktop navigation */}
@@ -148,7 +142,7 @@ export function Header() {
           <Link
             href={HEADER_LINKS.home}
             className={`flex items-center gap-2.5 rounded-lg transition-opacity hover:opacity-80 ${FOCUS_RING}`}
-            aria-label="Miransas home"
+            aria-label="Miralas home"
           >
             <span className="flex size-9 items-center bg-accent justify-center rounded-xl  p-1.5">
                <img
@@ -195,13 +189,13 @@ export function Header() {
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => setActiveDropdown(isOpen ? null : item.label)}
-                      className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs sm:text-[13px] font-medium transition-colors duration-200 ${FOCUS_RING} ${
+                      className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs sm:text-[13px] font-medium transition-colors duration-(--motion-interaction-duration) ${FOCUS_RING} ${
                         isOpen ? navActive : navMuted
                       }`}
                     >
                       <span>{item.label}</span>
                       <ChevronDown
-                        className={`size-3.5 transition-transform duration-200 ${
+                        className={`size-3.5 transition-transform duration-(--motion-interaction-duration) ${
                           isOpen ? "rotate-180" : ""
                         }`}
                       />
@@ -209,7 +203,7 @@ export function Header() {
                   ) : (
                     <Link
                       href={item.href}
-                      className={`inline-flex rounded-full px-4 py-2 text-xs sm:text-[13px] font-medium transition-colors duration-200 ${FOCUS_RING} ${navMuted}`}
+                      className={`inline-flex rounded-full px-4 py-2 text-xs sm:text-[13px] font-medium transition-colors duration-(--motion-interaction-duration) ${FOCUS_RING} ${navMuted}`}
                     >
                       {item.label}
                     </Link>
@@ -221,14 +215,14 @@ export function Header() {
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 4 }}
-                        transition={{ duration: DURATION_MICRO, ease: EASE_OUT_EXPO }}
+                        transition={{ duration: reduced ? 0 : DURATION_MICRO, ease: EASE_OUT_EXPO }}
                         className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2.5 ${
                           isLargeMenu ? "w-[520px]" : "w-80"
                         }`}
                       >
                         <div
                           data-lenis-prevent
-                          className={`overflow-hidden rounded-[24px] p-3 backdrop-blur-2xl ${dropdownSurface}`}
+                          className={`overflow-hidden rounded-4xl p-3 backdrop-blur-2xl ${dropdownSurface}`}
                         >
                           {item.description && (
                             <div
@@ -258,9 +252,7 @@ export function Header() {
                                     {subItem.label}
                                     {subItem.target === "_blank" && (
                                       <ExternalLink
-                                        className={`size-3 ${
-                                          overDarkHero ? "text-[#6E6E74]" : "text-text-muted"
-                                        }`}
+                                        className={`size-3 text-text-muted`}
                                       />
                                     )}
                                   </span>
@@ -268,16 +260,16 @@ export function Header() {
                                     <span
                                       className={`rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] ${
                                         overDarkHero
-                                          ? "bg-[#7c3aed]/15 text-[#D1D1D1]"
-                                          : "bg-[#7c3aed]/10 text-[#7c3aed] dark:bg-[#7c3aed]/18 dark:text-[#D1D1D1]"
+                                          ? "bg-surface-elevated text-text-primary"
+                                          : "bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-text-primary"
                                       }`}
                                     >
                                       {subItem.badge}
                                     </span>
                                   ) : (
                                     <ArrowRight
-                                      className={`size-3.5 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 ${
-                                        overDarkHero ? "text-[#D1D1D1]" : "text-text-muted"
+                                      className={`size-3.5 -translate-x-1 opacity-0 transition-[color,background-color,border-color,box-shadow,opacity,transform] group-hover:translate-x-0 group-hover:opacity-100 ${
+                                        overDarkHero ? "text-text-primary" : "text-text-muted"
                                       }`}
                                     />
                                   )}
@@ -307,28 +299,24 @@ export function Header() {
           <ModeToggle
             className={
               overDarkHero
-                ? "bg-white/[0.08] text-[#D1D1D1] hover:bg-white/[0.14] hover:text-white"
+                ? "bg-white/[0.08] text-text-primary hover:bg-white/[0.14] hover:text-white"
                 : undefined
             }
           />
           <a
             href={HEADER_LINKS.consoleAuth}
-            className={`rounded-full px-4 py-2 text-xs sm:text-[13px] font-medium transition-[color,background-color,transform] duration-200 active:scale-[0.98] ${FOCUS_RING} ${navMuted}`}
+            className={`rounded-full px-4 py-2 text-xs sm:text-[13px] font-medium transition-[color,background-color,transform] duration-(--motion-interaction-duration) active:scale-[0.98] ${FOCUS_RING} ${navMuted}`}
           >
             Console access
           </a>
           <Link
             href={HEADER_LINKS.studio}
-            className={`group inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs sm:text-[13px] font-semibold transition-[transform,opacity,background-color] duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${FOCUS_RING} ${
-              overDarkHero
-                ? "bg-white text-[#050505] hover:bg-[#D1D1D1]"
-                : "bg-text-heading text-surface-page hover:opacity-90"
-            }`}
+            className={buttonVariants({ className: "group" })}
           >
-            <Sparkles className="size-3.5 transition-transform duration-200 group-hover:scale-105" />
+            <Sparkles className="size-3.5 transition-transform duration-(--motion-interaction-duration) group-hover:scale-105" />
             <span>Explore products</span>
             <ArrowRight
-              className="size-3 transition-transform duration-200 group-hover:translate-x-0.5"
+              className="size-3 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
               aria-hidden="true"
             />
           </Link>
@@ -339,7 +327,7 @@ export function Header() {
           <ModeToggle
             className={
               overDarkHero
-                ? "bg-white/[0.08] text-[#D1D1D1] hover:bg-white/[0.14] hover:text-white"
+                ? "bg-white/[0.08] text-text-primary hover:bg-white/[0.14] hover:text-white"
                 : undefined
             }
           />
@@ -368,7 +356,7 @@ export function Header() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
+            transition={{ duration: reduced ? 0 : DURATION_UI, ease: EASE_OUT_EXPO }}
             className={`backdrop-blur-2xl lg:hidden ${mobilePanel}`}
           >
             <div
@@ -382,9 +370,7 @@ export function Header() {
                 return (
                   <div
                     key={item.label}
-                    className={`rounded-2xl px-4 py-1 ${
-                      overDarkHero ? "bg-[#000103]" : "bg-surface-card"
-                    }`}
+                    className={`rounded-2xl px-4 py-1 bg-surface-card`}
                   >
                     {hasSubItems ? (
                       <div>
@@ -394,21 +380,21 @@ export function Header() {
                           aria-expanded={isExpanded}
                           className={`flex w-full items-center justify-between py-3 text-sm font-medium transition-colors ${FOCUS_RING} ${
                             overDarkHero
-                              ? "text-white hover:text-[#D1D1D1]"
+                              ? "text-white hover:text-text-primary"
                               : "text-text-heading hover:text-text-primary"
                           }`}
                         >
                           <span>{item.label}</span>
                           <ChevronDown
-                            className={`size-4 transition-transform duration-200 ${
+                            className={`size-4 transition-transform duration-(--motion-interaction-duration) ${
                               isExpanded ? "rotate-180" : ""
-                            } ${overDarkHero ? "text-[#6E6E74]" : "text-text-muted"}`}
+                            } text-text-muted`}
                           />
                         </button>
 
                         <div
                           aria-hidden={!isExpanded}
-                          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                          className={`grid transition-[grid-template-rows,opacity] duration-(--motion-interaction-duration) ease-[cubic-bezier(0.22,1,0.36,1)] ${
                             isExpanded
                               ? "grid-rows-[1fr] opacity-100"
                               : "grid-rows-[0fr] opacity-0"
@@ -426,7 +412,7 @@ export function Header() {
                                   onClick={() => setMobileMenuOpen(false)}
                                   className={`flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-xs transition-colors ${FOCUS_RING} ${
                                     overDarkHero
-                                      ? "text-[#D1D1D1] hover:bg-[#02040a] hover:text-white"
+                                      ? "text-text-primary hover:bg-surface-card-hover hover:text-white"
                                       : "text-text-primary hover:bg-surface-card-hover hover:text-text-heading"
                                   }`}
                                 >
@@ -442,9 +428,7 @@ export function Header() {
                                     </span>
                                     {sub.description && (
                                       <span
-                                        className={`text-xs leading-[1.45] ${
-                                          overDarkHero ? "text-[#6E6E74]" : "text-text-muted"
-                                        }`}
+                                        className={`text-xs leading-[1.45] text-text-muted`}
                                       >
                                         {sub.description}
                                       </span>
@@ -454,8 +438,8 @@ export function Header() {
                                     <span
                                       className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-medium ${
                                         overDarkHero
-                                          ? "bg-[#7c3aed]/18 text-[#D1D1D1]"
-                                          : "bg-[#7c3aed]/10 text-[#7c3aed] dark:bg-[#7c3aed]/18 dark:text-[#D1D1D1]"
+                                          ? "bg-surface-elevated text-text-primary"
+                                          : "bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-text-primary"
                                       }`}
                                     >
                                       {sub.badge}
@@ -473,7 +457,7 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className={`block py-3 text-sm font-medium transition-colors ${FOCUS_RING} ${
                           overDarkHero
-                            ? "text-white hover:text-[#D1D1D1]"
+                            ? "text-white hover:text-text-primary"
                             : "text-text-heading hover:text-text-primary"
                         }`}
                       >
@@ -490,7 +474,7 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`w-full rounded-full py-3 text-center text-xs font-medium transition-[color,background-color,transform] active:scale-[0.98] ${FOCUS_RING} ${
                     overDarkHero
-                      ? "bg-[#000103] text-[#D1D1D1] hover:bg-[#02040a] hover:text-white"
+                      ? "bg-surface-card text-text-primary hover:bg-surface-card-hover hover:text-white"
                       : "bg-surface-card text-text-primary hover:bg-surface-card-hover hover:text-text-heading"
                   }`}
                 >
@@ -499,11 +483,7 @@ export function Header() {
                 <Link
                   href={HEADER_LINKS.studio}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`w-full rounded-full py-3 text-center text-xs font-semibold transition-[opacity,transform] hover:opacity-90 active:scale-[0.98] ${FOCUS_RING} ${
-                    overDarkHero
-                      ? "bg-white text-[#050505]"
-                      : "bg-text-heading text-surface-page"
-                  }`}
+                  className={buttonVariants({ className: "w-full" })}
                 >
                   Explore products
                 </Link>

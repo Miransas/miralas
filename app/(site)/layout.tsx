@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/motion/page-transition";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -9,7 +10,7 @@ export default function SiteLayout({
   return (
     <>
       <Header />
-      {children}
+      <PageTransition>{children}</PageTransition>
       <Footer />
     </>
   );

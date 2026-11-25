@@ -1,5 +1,6 @@
 "use client";
 
+import { StaggerReveal, RevealCard, RevealParagraph } from "@/components/motion/primitives";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
@@ -7,15 +8,7 @@ import {
   useInView,
   useReducedMotion,
 } from "framer-motion";
-import {
-  DURATION_UI,
-  EASE_OUT_EXPO,
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  headingReveal,
-  staggerContainer,
-} from "@/lib/motion";
+import { DURATION_UI, EASE_OUT_EXPO } from "@/lib/motion";
 import {
   Activity,
   ArrowUpRight,
@@ -46,7 +39,7 @@ type Scene = {
 };
 
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 const SCENES: Scene[] = [
   {
@@ -170,7 +163,7 @@ function VideoVisual({ scene }: { scene: Scene }) {
   }, [scene.video, videoFailed]);
 
   return (
-    <div className="relative isolate min-h-[340px] overflow-hidden rounded-[22px] bg-[#000103] sm:min-h-[420px] lg:h-full lg:min-h-0">
+    <div className="dark relative isolate min-h-[340px] overflow-hidden rounded-4xl bg-surface-card sm:min-h-[420px] lg:h-full lg:min-h-0">
       {!videoFailed ? (
         <video
           key={scene.video}
@@ -188,26 +181,26 @@ function VideoVisual({ scene }: { scene: Scene }) {
       ) : (
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_68%_38%,rgba(124,58,237,0.28),transparent_44%),linear-gradient(135deg,#02040a,#000103_72%)]"
+          className="absolute inset-0 bg-surface-card"
         />
       )}
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#000103]/60 via-[#000103]/15 to-[#000103]/90"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface-card/60 via-surface-card/15 to-surface-card/90"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#000103]/40 via-transparent to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface-card/40 via-transparent to-transparent"
       />
 
       <div className="relative z-10 flex h-full min-h-[340px] flex-col justify-between p-5 text-white sm:min-h-[420px] sm:p-7 lg:min-h-0">
         <div className="flex items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#000103]/55 px-3.5 py-2 text-xs font-medium uppercase tracking-[0.12em] text-[#D1D1D1] backdrop-blur-md">
-            <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-surface-card/55 px-3.5 py-2 text-xs font-medium uppercase tracking-[0.12em] text-text-primary backdrop-blur-md">
+            <span className="size-1.5 rounded-full bg-text-heading" />
             Miransas / voice systems
           </div>
-          <span className="rounded-full bg-[#000103]/50 px-3 py-2 font-mono text-xs text-[#D1D1D1] backdrop-blur-md">
+          <span className="rounded-full bg-surface-card/50 px-3 py-2 font-mono text-xs text-text-primary backdrop-blur-md">
             0{SCENES.findIndex((item) => item.id === scene.id) + 1} / 0{SCENES.length}
           </span>
         </div>
@@ -221,13 +214,13 @@ function VideoVisual({ scene }: { scene: Scene }) {
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-[440px]"
           >
-            <p className="mb-3 text-xs font-medium uppercase tracking-[0.12em] text-[#D1D1D1]">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.12em] text-text-primary">
               {scene.status}
             </p>
             <h3 className="max-w-[420px] text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-2xl lg:text-[1.75rem]">
               {scene.visualTitle}
             </h3>
-            <p className="mt-3 max-w-sm text-[15px] leading-[1.6] text-[#D1D1D1] sm:text-base">
+            <p className="mt-3 max-w-sm text-[15px] leading-[1.6] text-text-primary sm:text-base">
               {scene.visualDescription}
             </p>
           </motion.div>
@@ -235,13 +228,13 @@ function VideoVisual({ scene }: { scene: Scene }) {
 
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#6E6E74]">
+            <p className="text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
               Current capability
             </p>
             <p className="mt-1 truncate text-sm font-medium text-white">{scene.label}</p>
           </div>
-          <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#000103]/55 px-3 py-2 text-xs text-[#D1D1D1] backdrop-blur-md">
-            <Activity className="size-3.5 text-[#7c3aed]" />
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-surface-card/55 px-3 py-2 text-xs text-text-primary backdrop-blur-md">
+            <Activity className="size-3.5 text-text-heading" />
             Visual preview
           </div>
         </div>
@@ -263,7 +256,7 @@ function VoiceWaveform({ active }: { active: boolean }) {
             <p className="mt-0.5 text-xs text-text-muted">Speech preview · waveform</p>
           </div>
         </div>
-        <AudioLines className="size-4 text-[#7c3aed]" />
+        <AudioLines className="size-4 text-text-heading" />
       </div>
       <div
         className="flex h-9 items-center justify-between gap-[3px] overflow-hidden px-0.5"
@@ -272,7 +265,7 @@ function VoiceWaveform({ active }: { active: boolean }) {
         {WAVE.map((height, index) => (
           <motion.span
             key={index}
-            className="w-[3px] min-w-[2px] rounded-full bg-[#7c3aed]/75 dark:bg-[#D1D1D1]"
+            className="w-[3px] min-w-[2px] rounded-full bg-surface-elevated dark:bg-[#D1D1D1]"
             style={{ height: `${height}%`, transformOrigin: "center" }}
             animate={active ? { scaleY: [0.38, 1, 0.58, 0.92, 0.38] } : { scaleY: 0.7 }}
             transition={{
@@ -377,7 +370,7 @@ export default function DemoCarousel() {
     return () => section.removeEventListener("keydown", handleKey);
   }, [index, go]);
 
-  const controlClass = `inline-flex size-10 items-center justify-center rounded-full bg-surface-card text-text-primary transition duration-200 hover:-translate-y-0.5 hover:bg-surface-card-hover hover:text-text-heading ${FOCUS_RING}`;
+  const controlClass = `inline-flex size-10 items-center justify-center rounded-full bg-surface-card text-text-primary transition duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:bg-surface-card-hover hover:text-text-heading ${FOCUS_RING}`;
 
   return (
     <section
@@ -390,39 +383,30 @@ export default function DemoCarousel() {
     >
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8 lg:px-10">
         {/* Section introduction */}
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="mb-10 grid gap-6 md:mb-14 md:grid-cols-[1.1fr_0.9fr] md:items-end"
         >
-          <motion.div variants={headingReveal}>
+          <RevealCard as="div" >
             <div className="mb-5 inline-flex items-center gap-2.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
-              <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+              <span className="size-1.5 rounded-full bg-text-heading" />
               Experience Miransas
             </div>
             <h2 className="max-w-[760px] text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]">
               See how voice becomes <span className="text-text-muted">conversation.</span>
             </h2>
-          </motion.div>
-          <motion.p
-            variants={headingReveal}
+          </RevealCard>
+          <RevealParagraph as="p"
             className="max-w-[440px] text-[15px] leading-[1.6] text-text-muted sm:text-base md:justify-self-end"
           >
             Explore the ideas behind the Miransas voice platform. Switch between
             capabilities and watch a guided product preview move from a written
             request to a voice response.
-          </motion.p>
-        </motion.div>
+          </RevealParagraph>
+        </StaggerReveal>
 
         {/* Main demo surface — Strategic Violet Gradient focal container */}
-        <motion.div
-          variants={cardReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_EARLY}
-          className="surface-accent surface-shadow-lg overflow-hidden rounded-[28px]"
+        <RevealCard
+          className="bg-surface-card surface-shadow-lg overflow-hidden rounded-4xl"
         >
           <div className="grid lg:min-h-[660px] lg:grid-cols-[1.02fr_0.98fr]">
             {/* Conversation panel */}
@@ -437,8 +421,8 @@ export default function DemoCarousel() {
                       <h3 className="text-base font-semibold tracking-[-0.02em] text-text-heading">
                         Miransas AI
                       </h3>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#7c3aed]/12 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#7c3aed] dark:bg-[#7c3aed]/20 dark:text-[#D1D1D1]">
-                        <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-elevated px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-text-heading dark:bg-surface-elevated dark:text-text-primary">
+                        <span className="size-1.5 rounded-full bg-text-heading" />
                         Interactive preview
                       </span>
                     </div>
@@ -498,7 +482,7 @@ export default function DemoCarousel() {
                         <span className="text-xs font-semibold text-text-heading">Miransas</span>
                         <span className="text-xs text-text-muted">Voice assistant</span>
                         {visiblePhase === "reply" && replyFinished && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#7c3aed]/12 px-2 py-0.5 text-[10px] font-medium text-[#7c3aed] dark:bg-[#7c3aed]/20 dark:text-[#D1D1D1]">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-surface-elevated px-2 py-0.5 text-[10px] font-medium text-text-heading dark:bg-surface-elevated dark:text-text-primary">
                             <Check className="size-3" />
                             Ready
                           </span>
@@ -513,7 +497,7 @@ export default function DemoCarousel() {
                           className="max-w-[95%] rounded-[19px] rounded-tl-md bg-surface-page p-4 dark:bg-white/[0.04]"
                         >
                           <div className="flex items-center gap-3">
-                            <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-surface-card text-[#7c3aed] dark:bg-white/[0.08]">
+                            <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-surface-card text-text-heading dark:bg-white/[0.08]">
                               <Sparkles className="size-4" />
                             </span>
                             <div className="min-w-0 flex-1">
@@ -528,7 +512,7 @@ export default function DemoCarousel() {
                               {[0, 1, 2].map((dot) => (
                                 <motion.span
                                   key={dot}
-                                  className="size-1.5 rounded-full bg-[#7c3aed]"
+                                  className="size-1.5 rounded-full bg-text-heading"
                                   animate={
                                     reduced
                                       ? { opacity: 1 }
@@ -546,7 +530,7 @@ export default function DemoCarousel() {
                           </div>
                           <div className="mt-3 h-1 overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
                             <motion.div
-                              className="h-full w-full origin-left rounded-full bg-[#7c3aed]"
+                              className="h-full w-full origin-left rounded-full bg-text-heading"
                               initial={{ scaleX: 0.08 }}
                               animate={reduced ? { scaleX: 1 } : { scaleX: [0.12, 0.54, 0.88] }}
                               transition={{ duration: THINK_DURATION / 1000, ease: "easeInOut" }}
@@ -560,7 +544,7 @@ export default function DemoCarousel() {
                             {!replyFinished && !reduced && isInView && (
                               <motion.span
                                 aria-hidden="true"
-                                className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[2px] rounded-full bg-[#7c3aed]"
+                                className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[2px] rounded-full bg-text-heading"
                                 animate={{ opacity: [1, 0.2, 1] }}
                                 transition={{ duration: 0.8, repeat: Infinity }}
                               />
@@ -590,7 +574,7 @@ export default function DemoCarousel() {
                     {composerText && !reduced && (
                       <motion.span
                         aria-hidden="true"
-                        className="ml-0.5 inline-block h-4 w-[2px] translate-y-[3px] rounded-full bg-[#7c3aed]"
+                        className="ml-0.5 inline-block h-4 w-[2px] translate-y-[3px] rounded-full bg-text-heading"
                         animate={{ opacity: [1, 0.15, 1] }}
                         transition={{ duration: 0.8, repeat: Infinity }}
                       />
@@ -630,7 +614,7 @@ export default function DemoCarousel() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </RevealCard>
 
         {/* Scene navigation */}
         <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
@@ -654,9 +638,9 @@ export default function DemoCarousel() {
                   aria-label={`Show ${item.label}`}
                   aria-current={itemIndex === index ? "true" : undefined}
                   onClick={() => go(itemIndex)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${FOCUS_RING} ${
+                  className={`h-1.5 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration) ${FOCUS_RING} ${
                     itemIndex === index
-                      ? "w-7 bg-[#7c3aed]"
+                      ? "w-7 bg-text-heading"
                       : "w-1.5 bg-text-muted/40 hover:bg-text-primary"
                   }`}
                 />
@@ -676,7 +660,7 @@ export default function DemoCarousel() {
                 aria-label={paused ? "Resume demo" : "Pause demo"}
                 aria-pressed={paused}
                 className={`${controlClass} ${
-                  paused ? "bg-[#7c3aed]/15 text-[#7c3aed] dark:bg-[#7c3aed]/25 dark:text-white" : ""
+                  paused ? "bg-surface-elevated text-text-heading dark:bg-surface-elevated dark:text-white" : ""
                 }`}
                 onClick={() => setPaused((value) => !value)}
               >
@@ -717,7 +701,7 @@ export default function DemoCarousel() {
                 role="tab"
                 aria-selected={active}
                 onClick={() => go(itemIndex)}
-                className={`relative rounded-full px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition-colors duration-200 ${FOCUS_RING} ${
+                className={`relative rounded-full px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition-colors duration-(--motion-interaction-duration) ${FOCUS_RING} ${
                   active
                     ? "text-surface-page"
                     : "text-text-muted hover:text-text-heading"

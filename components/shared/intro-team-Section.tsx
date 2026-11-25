@@ -1,20 +1,14 @@
 'use client';
 
+import { StaggerReveal, RevealCard, RevealEyebrow, RevealHeading, RevealParagraph } from "@/components/motion/primitives";
 import { useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import OrbitShader from '../shaders/orbit-shader';
-import {
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-} from '@/lib/motion';
+import { staggerContainer } from '@/lib/motion';
 
 const containerVariants = staggerContainer(0.06, 0.04);
 const FOCUS_RING =
-  'focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2';
+  'focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2';
 
 const capabilities = [
   {
@@ -48,12 +42,12 @@ function SignalMark({ active }: { active: boolean }) {
     <span className="relative flex size-2.5 shrink-0 items-center justify-center" aria-hidden="true">
       {active && (
         <motion.span
-          className="absolute inset-0 rounded-full bg-[#7c3aed]/40"
+          className="absolute inset-0 rounded-full bg-surface-elevated"
           animate={{ scale: [1, 1.9, 1.9], opacity: [0.65, 0, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
         />
       )}
-      <span className="relative size-1.5 rounded-full bg-[#7c3aed]" />
+      <span className="relative size-1.5 rounded-full bg-text-heading" />
     </span>
   );
 }
@@ -64,14 +58,9 @@ function CapabilityRow({
   item: (typeof capabilities)[number];
 }) {
   return (
-    <motion.div
-      variants={cardReveal}
-      className="group relative grid grid-cols-[38px_minmax(0,1fr)_auto] items-start gap-3 overflow-hidden rounded-[22px] bg-surface-card p-5 transition-colors duration-300 hover:bg-surface-card-hover md:grid-cols-[44px_minmax(0,1fr)_auto] md:gap-4"
+    <RevealCard
+      className="group relative grid grid-cols-[38px_minmax(0,1fr)_auto] items-start gap-3 overflow-hidden rounded-4xl bg-surface-card p-5 transition-colors duration-(--motion-interaction-duration) hover:bg-surface-card-hover md:grid-cols-[44px_minmax(0,1fr)_auto] md:gap-4"
     >
-      <div
-        aria-hidden="true"
-        className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-      />
       <span className="relative z-10 pt-0.5 font-mono text-xs tabular-nums tracking-[0.12em] text-text-muted">
         {item.number}
       </span>
@@ -86,7 +75,7 @@ function CapabilityRow({
       <span className="relative z-10 mt-0.5 hidden rounded-full bg-surface-page px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-text-muted dark:bg-white/[0.06] sm:inline-flex">
         {item.tag}
       </span>
-    </motion.div>
+    </RevealCard>
   );
 }
 
@@ -101,16 +90,12 @@ export default function IntroTeammateSection() {
       ref={sectionRef}
       className="relative isolate overflow-x-clip bg-surface-page px-5 py-20 text-text-heading sm:px-8 sm:py-24 lg:min-h-[900px] lg:px-12 lg:py-28"
     >
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT_ONCE}
+      <StaggerReveal
         className="relative z-10 mx-auto grid w-full max-w-[1180px] grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(320px,0.86fr)_minmax(0,1.14fr)] lg:gap-[clamp(56px,8vw,112px)]"
       >
-        {/* Left: featured agent preview card — Strategic Violet Gradient */}
-        <motion.div variants={cardReveal} className="mx-auto w-full max-w-[400px] lg:mx-0">
-          <div className="surface-accent surface-shadow-lg relative overflow-hidden rounded-[28px] p-5 sm:p-6">
+        {/* Left: featured agent preview card — neutral preview surface */}
+        <RevealCard  className="mx-auto w-full max-w-[400px] lg:mx-0">
+          <div className="bg-surface-card surface-shadow-lg relative overflow-hidden rounded-4xl p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3 px-1">
               <div>
                 <p className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
@@ -120,18 +105,14 @@ export default function IntroTeammateSection() {
                   Agent preview
                 </p>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#7c3aed]/12 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#7c3aed] dark:bg-[#7c3aed]/20 dark:text-[#D1D1D1]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-surface-elevated px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-text-heading dark:bg-surface-elevated dark:text-text-primary">
                 <SignalMark active={animateAmbient} />
                 System preview
               </div>
             </div>
 
             {/* Shader stage */}
-            <div className="relative my-5 h-[250px] overflow-hidden rounded-[22px] bg-surface-page/80 dark:bg-[#050505]/80 sm:h-[276px]">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.12),transparent_64%)]"
-              />
+            <div className="relative my-5 h-[250px] overflow-hidden rounded-4xl bg-surface-page/80 dark:bg-[#050505]/80 sm:h-[276px]">
               <div
                 className="relative z-10 flex h-full w-full items-center justify-center [&_canvas]:!block [&_canvas]:!h-full [&_canvas]:!w-full [&_canvas]:!max-w-full"
                 aria-label="Abstract animated voice agent visualization"
@@ -145,7 +126,7 @@ export default function IntroTeammateSection() {
               </div>
             </div>
 
-            <div className="rounded-[22px] bg-surface-page/75 p-4 dark:bg-white/[0.03] sm:p-5">
+            <div className="rounded-4xl bg-surface-page/75 p-4 dark:bg-white/[0.03] sm:p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-base font-semibold tracking-[-0.02em] text-text-heading">
@@ -169,7 +150,7 @@ export default function IntroTeammateSection() {
                 ].map(([label, value]) => (
                   <div
                     key={label}
-                    className="rounded-xl bg-surface-card px-3 py-2.5 dark:bg-[#000103]/80"
+                    className="rounded-xl bg-surface-card px-3 py-2.5 dark:bg-surface-card/80"
                   >
                     <p className="font-mono text-[10px] tracking-[0.12em] text-text-muted">
                       {label}
@@ -185,34 +166,31 @@ export default function IntroTeammateSection() {
           <p className="mt-4 text-center font-mono text-xs tracking-[0.12em] text-text-muted">
             AN EXAMPLE OF A MIRANSAS VOICE EXPERIENCE
           </p>
-        </motion.div>
+        </RevealCard>
 
         {/* Right: story and capabilities */}
         <div className="min-w-0">
-          <motion.div
-            variants={eyebrowReveal}
+          <RevealEyebrow as="div"
             className="mb-5 inline-flex items-center gap-2 rounded-full bg-surface-card px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
           >
-            <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+            <span className="size-1.5 rounded-full bg-text-heading" />
             Meet your AI teammate
-          </motion.div>
+          </RevealEyebrow>
 
-          <motion.h2
-            variants={headingReveal}
+          <RevealHeading
             className="max-w-[720px] text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
           >
             A better conversation starts with a{' '}
             <span className="text-text-muted">better voice.</span>
-          </motion.h2>
+          </RevealHeading>
 
-          <motion.p
-            variants={paragraphReveal}
+          <RevealParagraph
             className="mt-6 max-w-[590px] text-[15px] leading-[1.6] text-text-muted sm:text-base"
           >
             Bring natural voice, intelligent workflows and human handoff together.
             Build a voice agent around the way your business works — with the
             flexibility to shape each interaction.
-          </motion.p>
+          </RevealParagraph>
 
           <motion.div variants={containerVariants} className="mt-9 flex flex-col gap-3">
             {capabilities.map((item) => (
@@ -220,14 +198,14 @@ export default function IntroTeammateSection() {
             ))}
           </motion.div>
 
-          <motion.div variants={paragraphReveal} className="mt-8 flex flex-wrap items-center gap-4">
+          <RevealParagraph as="div"  className="mt-8 flex flex-wrap items-center gap-4">
             <a
               href="/product"
-              className={`group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-text-heading px-6 py-3 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
+              className={`group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-text-heading px-6 py-3 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
             >
               Explore products
               <span
-                className="text-base leading-none transition-transform duration-200 group-hover:translate-x-1"
+                className="text-base leading-none transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-1"
                 aria-hidden="true"
               >
                 →
@@ -236,9 +214,9 @@ export default function IntroTeammateSection() {
             <span className="text-xs leading-[1.45] text-text-muted sm:text-[13px]">
               Designed around the way your team works.
             </span>
-          </motion.div>
+          </RevealParagraph>
         </div>
-      </motion.div>
+      </StaggerReveal>
     </section>
   );
 }

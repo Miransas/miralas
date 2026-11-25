@@ -1,23 +1,17 @@
 'use client';
 
+import { StaggerReveal, RevealHeading, RevealCard } from "@/components/motion/primitives";
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
+import { modalMotion } from '@/lib/motion';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import {
-  DURATION_UI,
-  EASE_OUT_EXPO,
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  headingReveal,
-  staggerContainer,
-} from '@/lib/motion';
+import { DURATION_UI, EASE_OUT_EXPO, staggerContainer } from '@/lib/motion';
 
 const sectionStagger = staggerContainer(0.06);
 const FOCUS_RING =
-  'focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2';
+  'focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2';
 
 type Card = {
   eyebrow: string;
@@ -129,7 +123,7 @@ function PlusIcon({ open = false }: { open?: boolean }) {
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden
-      className={`transition-transform duration-300 ${open ? 'rotate-45' : ''}`}
+      className={`transition-transform duration-(--motion-interaction-duration) ${open ? 'rotate-45' : ''}`}
     >
       <path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
@@ -270,7 +264,7 @@ export default function WhyMiransas() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.22 }}
+          transition={{ duration: reduce ? 0 : DURATION_UI, ease: EASE_OUT_EXPO }}
           onClick={close}
           className="fixed inset-0 z-[100] flex items-end justify-center bg-black/65 p-0 backdrop-blur-md md:items-center md:p-6"
         >
@@ -278,12 +272,10 @@ export default function WhyMiransas() {
             data-lenis-prevent
             data-lenis-prevent-wheel
             data-lenis-prevent-touch
-            initial={{ opacity: 0, y: 24, scale: 0.985 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.985 }}
-            transition={{ duration: DURATION_UI, ease: EASE_OUT_EXPO }}
+            {...modalMotion}
+            transition={{ duration: reduce ? 0 : DURATION_UI, ease: EASE_OUT_EXPO }}
             onClick={(e) => e.stopPropagation()}
-            className="surface-shadow-lg flex max-h-[90dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-[28px] bg-surface-card text-text-heading md:max-h-[86dvh] md:rounded-[28px]"
+            className="surface-shadow-lg flex max-h-[90dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-[28px] bg-surface-card text-text-heading md:max-h-[86dvh] md:rounded-4xl"
           >
             {/* Sticky Modal Header — borderless */}
             <div className="flex shrink-0 items-center justify-between gap-4 px-6 py-4 md:px-10 md:py-5">
@@ -301,7 +293,7 @@ export default function WhyMiransas() {
                 type="button"
                 aria-label="Close modal"
                 onClick={close}
-                className={`flex size-9 shrink-0 items-center justify-center rounded-full bg-black/[0.06] text-text-heading transition hover:bg-black/[0.12] active:scale-95 dark:bg-white/[0.08] dark:hover:bg-white/[0.15] ${FOCUS_RING}`}
+                className={`flex size-9 shrink-0 items-center justify-center rounded-full bg-black/[0.06] text-text-heading transition hover:bg-black/[0.12] active:scale-[0.98] dark:bg-white/[0.08] dark:hover:bg-white/[0.15] ${FOCUS_RING}`}
               >
                 <PlusIcon open />
               </button>
@@ -334,7 +326,7 @@ export default function WhyMiransas() {
                     ))}
                   </div>
 
-                  <div className="surface-accent-soft mt-7 rounded-[22px] p-5 sm:p-6">
+                  <div className="bg-surface-elevated mt-7 rounded-4xl p-5 sm:p-6">
                     <p className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
                       Key highlights
                     </p>
@@ -346,7 +338,7 @@ export default function WhyMiransas() {
                         >
                           <span
                             aria-hidden
-                            className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#7c3aed]"
+                            className="mt-2.5 size-1.5 shrink-0 rounded-full bg-text-heading"
                           />
                           <span>{pt}</span>
                         </li>
@@ -388,7 +380,7 @@ export default function WhyMiransas() {
                 <span>{current.ctaLabel}</span>
                 <span
                   aria-hidden
-                  className="transition-transform duration-200 group-hover:translate-x-0.5"
+                  className="transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
                 >
                   →
                 </span>
@@ -401,69 +393,53 @@ export default function WhyMiransas() {
   );
 
   return (
-    <section className="overflow-x-clip bg-surface-page py-20 text-text-heading md:py-28">
+    <section className="overflow-x-clip bg-surface-page section-spacing text-text-heading">
       <div className="mx-auto max-w-6xl px-6">
         {/* Heading */}
-        <motion.div
-          variants={sectionStagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
         >
-          <motion.h2
-            variants={headingReveal}
+          <RevealHeading
             className="text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
           >
             Why people choose
             <br />
             Miransas.
-          </motion.h2>
-          <motion.div variants={headingReveal} className="shrink-0 pb-1">
+          </RevealHeading>
+          <RevealCard as="div"  className="shrink-0 pb-1">
             <Link
               href="/product"
               className={`group inline-flex items-center gap-1.5 rounded-full bg-surface-card px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface-card-hover hover:text-text-heading ${FOCUS_RING}`}
             >
               <span>Explore products</span>
               <span
-                className="transition-transform duration-200 group-hover:translate-x-0.5"
+                className="transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
                 aria-hidden="true"
               >
                 ›
               </span>
             </Link>
-          </motion.div>
-        </motion.div>
+          </RevealCard>
+        </StaggerReveal>
       </div>
 
       {/* Horizontal card strip */}
-      <motion.div
+      <StaggerReveal
         ref={scrollerRef}
         data-lenis-prevent-horizontal
-        variants={sectionStagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT_EARLY}
         style={{ WebkitOverflowScrolling: 'touch' }}
         className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain px-6 pb-4 [scrollbar-width:none] md:mt-16 md:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] [&::-webkit-scrollbar]:hidden"
       >
         {cards.map((c, i) => (
-          <motion.article
+          <RevealCard as="article"
             key={c.title}
-            variants={cardReveal}
             onClick={(e) => open(i, e.currentTarget)}
-            className={`group surface-shadow relative flex h-[560px] w-[82vw] max-w-[380px] shrink-0 cursor-pointer snap-start flex-col overflow-hidden rounded-[28px] p-8 transition-[transform,background-color] duration-200 hover:-translate-y-0.5 ${
+            className={`group surface-shadow relative flex h-[560px] w-[82vw] max-w-[380px] shrink-0 cursor-pointer snap-start flex-col overflow-hidden rounded-4xl p-8 transition-[transform,background-color] duration-(--motion-interaction-duration) hover:-translate-y-0.5 ${
               c.featured
-                ? 'surface-accent'
+                ? 'bg-surface-card'
                 : 'bg-surface-card hover:bg-surface-card-hover'
             }`}
           >
-            {!c.featured && (
-              <div
-                aria-hidden="true"
-                className="surface-hover-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
-            )}
 
             <div className="relative z-10 flex h-full flex-col">
               <span className="text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]">
@@ -489,13 +465,13 @@ export default function WhyMiransas() {
                 e.stopPropagation();
                 open(i, e.currentTarget);
               }}
-              className={`absolute bottom-5 right-5 z-20 flex size-10 items-center justify-center rounded-full bg-surface-page/90 text-text-heading backdrop-blur-sm transition-[transform,background-color] duration-200 hover:scale-105 hover:bg-surface-card active:scale-95 dark:bg-white/[0.12] dark:hover:bg-[#7c3aed]/30 ${FOCUS_RING}`}
+              className={`absolute bottom-5 right-5 z-20 flex size-10 items-center justify-center rounded-full bg-surface-page/90 text-text-heading backdrop-blur-sm transition-[transform,background-color] duration-(--motion-interaction-duration) hover:scale-105 hover:bg-surface-card active:scale-[0.98] dark:bg-white/[0.12] dark:hover:bg-surface-elevated ${FOCUS_RING}`}
             >
               <PlusIcon />
             </button>
-          </motion.article>
+          </RevealCard>
         ))}
-      </motion.div>
+      </StaggerReveal>
 
       {/* Previous / Next */}
       <div className="mx-auto mt-6 flex max-w-6xl justify-end gap-3 px-6">
@@ -505,7 +481,7 @@ export default function WhyMiransas() {
             type="button"
             aria-label={dir === -1 ? 'Previous' : 'Next'}
             onClick={() => scrollByCard(dir)}
-            className={`flex size-10 items-center justify-center rounded-full bg-surface-card text-text-primary transition-[background-color,color,transform] duration-200 hover:bg-surface-card-hover hover:text-text-heading active:scale-95 ${FOCUS_RING}`}
+            className={`flex size-10 items-center justify-center rounded-full bg-surface-card text-text-primary transition-[background-color,color,transform] duration-(--motion-interaction-duration) hover:bg-surface-card-hover hover:text-text-heading active:scale-[0.98] ${FOCUS_RING}`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path

@@ -4,7 +4,6 @@ import { useId, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Search } from "lucide-react";
 import { MODEL_LANGUAGES, VOICE_TECHNOLOGY } from "@/lib/voice-technology";
-import { WordReveal } from "@/components/motion/reveal";
 import {
   RevealCard,
   RevealContainer,
@@ -14,7 +13,7 @@ import {
 } from "@/components/motion/primitives";
 
 const FOCUS_RING =
-  "focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2";
+  "focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2";
 
 export default function LanguageCoverage() {
   const id = useId();
@@ -34,7 +33,7 @@ export default function LanguageCoverage() {
     <section
       id="languages"
       aria-labelledby={`${id}-heading`}
-      className="scroll-mt-24 overflow-x-clip bg-surface-page py-24 text-text-heading sm:py-32"
+      className="scroll-mt-24 overflow-x-clip bg-surface-page transition-colors duration-(--motion-theme-duration) section-spacing text-text-heading"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <RevealContainer className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-end">
@@ -46,7 +45,7 @@ export default function LanguageCoverage() {
               id={`${id}-heading`}
               className="mt-5 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
             >
-              <WordReveal text="More ways to be heard." />
+              More ways to be heard.
             </RevealHeading>
             <RevealParagraph className="mt-6 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base">
               {MODEL_LANGUAGES.length} model-supported languages. A foundation for multilingual
@@ -71,7 +70,7 @@ export default function LanguageCoverage() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search by name or code"
-                className={`surface-shadow h-14 w-full rounded-[20px] bg-surface-card pl-12 pr-4 text-base text-text-heading placeholder:text-text-muted transition-colors duration-200 hover:bg-surface-card-hover ${FOCUS_RING}`}
+                className={`surface-shadow h-14 w-full rounded-[20px] bg-surface-card pl-12 pr-4 text-base text-text-heading placeholder:text-text-muted transition-colors duration-(--motion-interaction-duration) hover:bg-surface-card-hover ${FOCUS_RING}`}
                 aria-controls={`${id}-results`}
               />
             </div>
@@ -93,7 +92,7 @@ export default function LanguageCoverage() {
           {languages.map((language) => (
             <li
               key={language.code}
-              className="flex items-center justify-between gap-3 rounded-2xl bg-surface-card px-4 py-4 transition-colors duration-200 hover:bg-surface-card-hover sm:px-5"
+              className="flex items-center justify-between gap-3 rounded-2xl bg-surface-card px-4 py-4 transition-colors duration-(--motion-interaction-duration) hover:bg-surface-card-hover sm:px-5"
             >
               <span className="text-[15px] font-medium text-text-primary sm:text-base">
                 {language.name}
@@ -128,7 +127,7 @@ export default function LanguageCoverage() {
         {/* Highlighted Uzbek Research Card — Strategic Violet Gradient */}
         <RevealCard
           standalone
-          className="surface-accent surface-shadow mt-12 rounded-[28px] p-7 sm:p-10"
+          className="bg-surface-card surface-shadow mt-12 rounded-4xl p-7 sm:p-10"
         >
           <div className="grid gap-6 lg:grid-cols-[1fr_1fr_auto] lg:items-center">
             <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-heading sm:text-2xl lg:text-[1.75rem]">
@@ -139,11 +138,11 @@ export default function LanguageCoverage() {
             </p>
             <Link
               href="/#research"
-              className={`group inline-flex w-fit items-center gap-2 rounded-full bg-text-heading px-5 py-2.5 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
+              className={`group inline-flex w-fit items-center gap-2 rounded-full bg-text-heading px-5 py-2.5 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-(--motion-interaction-duration) hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
             >
               <span>Follow the research</span>
               <ArrowRight
-                className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                className="size-3.5 transition-transform duration-(--motion-interaction-duration) group-hover:translate-x-0.5"
                 aria-hidden="true"
               />
             </Link>

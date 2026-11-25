@@ -5,7 +5,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* -------------------------------------------------------------------------- */
-/* Miransas design tokens — one source of truth                                */
+/* Miralas marketing design tokens — one source of truth                                */
 /* -------------------------------------------------------------------------- */
 @theme inline {
   /* Plus Jakarta Sans is the primary brand font. Plex/mono are for technical UI. */
@@ -19,7 +19,7 @@
   --color-surface-page: var(--surface-page);
   --color-surface-card: var(--surface-card);
   --color-surface-card-hover: var(--surface-card-hover);
-  --color-accent-violet: var(--accent-violet);
+  --color-surface-elevated: var(--surface-elevated);
 
   /* Strict 3-tier typography tokens */
   --color-text-heading: var(--text-heading);
@@ -76,153 +76,70 @@
 /* -------------------------------------------------------------------------- */
 :root {
   color-scheme: light;
-
-  /* Surface tokens (strict) */
   --surface-page: #efefef;
-  --surface-card: #ffffff;
-  --surface-card-hover: #fafafa;
-  --surface-accent-gradient: radial-gradient(
-    120% 110% at 100% 0%,
-    rgba(124, 58, 237, 0.12) 0%,
-    #ffffff 68%
-  );
-  --surface-accent-soft: radial-gradient(
-    115% 110% at 100% 0%,
-    rgba(124, 58, 237, 0.09) 0%,
-    #ffffff 70%
-  );
-  --surface-hover-sheen: radial-gradient(
-    90% 90% at 100% 0%,
-    rgba(124, 58, 237, 0.08) 0%,
-    transparent 65%
-  );
-  --accent-violet: #7c3aed;
+  --surface-card: #f8f8f8;
+  --surface-elevated: #ffffff;
+  --surface-card-hover: #e5e5e5;
+  --text-heading: #141414;
+  --text-primary: #555553;
+  --text-muted: #66666b;
+  --shadow-card: 0 8px 24px -12px rgb(0 0 0 / 0.08);
+  --shadow-card-lg: 0 16px 40px -16px rgb(0 0 0 / 0.12);
 
-  /* Typography color tokens (3-tier) */
-  --text-heading: #111111;
-  --text-primary: #2e2e32;
-  --text-muted: #64646a;
-
-  /* Borderless elevation shadows */
-  --shadow-card: 0 12px 32px -12px rgba(124, 58, 237, 0.08);
-  --shadow-card-lg: 0 20px 50px -20px rgba(124, 58, 237, 0.11);
-
-  /* Semantic aliases */
-  --background: var(--surface-page);
-  --foreground: var(--text-heading);
-
-  --card: var(--surface-card);
-  --card-foreground: var(--text-heading);
-
-  --popover: var(--surface-card);
-  --popover-foreground: var(--text-heading);
-
-  --primary: #111111;
-  --primary-foreground: #ffffff;
-
-  --secondary: #e6e6e8;
-  --secondary-foreground: #111111;
-
-  --muted: #e6e6e8;
-  --muted-foreground: var(--text-muted);
-
-  --accent: #e8e8ec;
-  --accent-foreground: #111111;
-
-  --destructive: #dc4545;
-
-  --border: transparent;
-  --input: transparent;
-  --ring: #7c3aed;
-
-  --radius: 1.5rem;
+  --destructive: #b42323;
+  --border: rgb(20 20 20 / 0.1);
+  --input: #808085;
+  --radius: 2rem;
 }
 
 .dark {
   color-scheme: dark;
-
-  /* Surface tokens (strict) */
   --surface-page: #050505;
-  --surface-card: #000103;
-  --surface-card-hover: #02040a;
-  --surface-accent-gradient: radial-gradient(
-    120% 110% at 0% 0%,
-    rgba(124, 58, 237, 0.24) 0%,
-    #000103 65%
-  );
-  --surface-accent-soft: radial-gradient(
-    115% 110% at 0% 0%,
-    rgba(124, 58, 237, 0.16) 0%,
-    #000103 68%
-  );
-  --surface-hover-sheen: radial-gradient(
-    90% 90% at 0% 0%,
-    rgba(124, 58, 237, 0.14) 0%,
-    transparent 65%
-  );
-  --accent-violet: #7c3aed;
+  --surface-card: #111111;
+  --surface-elevated: #1c1c1c;
+  --surface-card-hover: #262626;
+  --text-heading: #f2f2f0;
+  --text-primary: #b5b5b2;
+  --text-muted: #919195;
+  --shadow-card: 0 8px 24px -12px rgb(0 0 0 / 0.24);
+  --shadow-card-lg: 0 16px 40px -16px rgb(0 0 0 / 0.36);
+  --destructive: #f06b6b;
+  --border: rgb(242 242 240 / 0.1);
+  --input: #77777c;
+}
 
-  /* Typography color tokens (strict 3-tier dark) */
-  --text-heading: #ffffff;
-  --text-primary: #d1d1d1;
-  --text-muted: #6e6e74;
-
-  /* Borderless elevation shadows */
-  --shadow-card: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
-  --shadow-card-lg: 0 32px 80px -24px rgba(0, 0, 0, 0.85);
-
-  /* Semantic aliases */
+:root,
+.dark {
+  --ring: var(--text-heading);
   --background: var(--surface-page);
   --foreground: var(--text-heading);
-
   --card: var(--surface-card);
   --card-foreground: var(--text-heading);
-
-  --popover: var(--surface-card);
+  --popover: var(--surface-elevated);
   --popover-foreground: var(--text-heading);
-
-  --primary: #ffffff;
-  --primary-foreground: #050505;
-
-  --secondary: #02040a;
-  --secondary-foreground: #ffffff;
-
-  --muted: #02040a;
+  --primary: var(--text-heading);
+  --primary-foreground: var(--surface-page);
+  --secondary: var(--surface-elevated);
+  --secondary-foreground: var(--text-heading);
+  --muted: var(--surface-card);
   --muted-foreground: var(--text-muted);
-
-  --accent: #02040a;
-  --accent-foreground: #ffffff;
-
-  --destructive: #f06b6b;
-
-  --border: transparent;
-  --input: transparent;
-  --ring: #7c3aed;
+  --accent: var(--surface-card-hover);
+  --accent-foreground: var(--text-heading);
 }
 
 /* -------------------------------------------------------------------------- */
 /* Surface & elevation utilities                                               */
 /* -------------------------------------------------------------------------- */
-@utility surface-accent {
-  background-color: var(--surface-card);
-  background-image: var(--surface-accent-gradient);
-}
-
-@utility surface-accent-soft {
-  background-color: var(--surface-card);
-  background-image: var(--surface-accent-soft);
-}
-
-@utility surface-hover-sheen {
-  background-image: var(--surface-hover-sheen);
-}
-
 @utility surface-shadow {
   box-shadow: var(--shadow-card);
 }
 
 @utility surface-shadow-lg {
   box-shadow: var(--shadow-card-lg);
+}
+
+@utility section-spacing {
+  @apply py-24 sm:py-32;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -241,6 +158,11 @@
     background-color: var(--surface-page);
     color: var(--text-heading);
     font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
   }
 
   h1,
@@ -275,15 +197,23 @@
   }
 }
 
-/* Brand text selection */
-::selection {
-  background: rgba(124, 58, 237, 0.22);
-  color: #111111;
+/* Scope theme color interpolation to semantic surfaces and text. */
+[data-theme-changing] body,
+[data-theme-changing] :is(
+  .bg-surface-page, .bg-surface-card, .bg-surface-elevated,
+  .bg-background, .bg-card, .bg-primary, .bg-secondary,
+  .text-text-heading, .text-text-primary, .text-text-muted,
+  .text-foreground, .text-primary-foreground
+) {
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--motion-theme-duration);
+  transition-timing-function: var(--motion-ease);
 }
 
-.dark ::selection {
-  background: rgba(124, 58, 237, 0.35);
-  color: #ffffff;
+/* Neutral inverse selection in both themes. */
+::selection {
+  background: var(--text-heading);
+  color: var(--surface-page);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -312,40 +242,24 @@
   display: flex;
   flex-direction: column;
   animation: marqueeUp 35s linear infinite;
-  will-change: transform;
 }
 
 .marquee-down-container {
   display: flex;
   flex-direction: column;
   animation: marqueeDown 35s linear infinite;
-  will-change: transform;
 }
 
 .workflow-marquee-track {
   display: flex;
   flex-direction: column;
   animation: marqueeUp 24s linear infinite;
-  will-change: transform;
 }
 
 .marquee-up-container:hover,
 .marquee-down-container:hover,
 .workflow-marquee-track:hover {
   animation-play-state: paused;
-}
-
-/* Above-the-fold entrance for components/motion/reveal.tsx (trigger="load").  */
-/* CSS-only so it runs on first paint, before hydration, and ends visible.     */
-@keyframes reveal-rise {
-  from {
-    opacity: 0;
-    transform: translate3d(0, var(--reveal-distance, 0.35em), 0);
-  }
-}
-
-.reveal-rise {
-  animation: reveal-rise 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Visual fade utility used by media sections. */
@@ -382,8 +296,13 @@
   .workflow-marquee-track,
   .animate-waveform,
   .animate-card-float,
-  .reveal-rise {
+  [data-reveal],
+  [data-page-transition] {
     animation: none !important;
     transform: none !important;
+    opacity: 1 !important;
   }
+
+  [data-motion-text-line] { display: none !important; }
+  [data-motion-text-source] { opacity: 1 !important; }
 }

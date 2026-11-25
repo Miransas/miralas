@@ -34,7 +34,7 @@ const lines = [
 ];
 
 const cardClass =
-  "rounded-[8px] bg-[#000103]/90 shadow-lg md:rounded-[10px]";
+  "rounded-[8px] bg-surface-card/90 shadow-lg md:rounded-[10px]";
 
 export default function ImmersiveSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -63,7 +63,7 @@ export default function ImmersiveSection() {
       }
 
       // Başlangıç durumları
-      gsap.set(introRef.current, { opacity: 0, y: 18 });
+      gsap.set(introRef.current, { opacity: 0, y: 12 });
       gsap.set(sceneRef.current, { opacity: 0, scale: 0.92 });
       gsap.set(".stage-1", { opacity: 1, y: 0 });
       gsap.set(".stage-2, .stage-3", { opacity: 0, y: 22 });
@@ -71,7 +71,7 @@ export default function ImmersiveSection() {
       gsap.set(".progress-fill", { scaleX: 0, transformOrigin: "left center" });
       gsap.set(".s2-card", { opacity: 0, x: 26, scale: 0.96 });
       gsap.set(".s2-bar", { scaleX: 0, transformOrigin: "left center" });
-      gsap.set(".s3-item", { opacity: 0, y: 18 });
+      gsap.set(".s3-item", { opacity: 0, y: 12 });
       gsap.set(".s3-text", { clipPath: "inset(0 100% 0 0)" });
       gsap.set(".s3-bar", { scaleX: 0, transformOrigin: "left center" });
 
@@ -219,36 +219,35 @@ export default function ImmersiveSection() {
         <div className="pointer-events-none absolute left-0 top-[64%] z-[2] flex w-full -translate-y-1/2 justify-center md:top-[70%]">
           <div
             ref={sceneRef}
-            className={`relative aspect-[1672/941] w-[142vw] origin-center will-change-transform md:w-[112vw] md:max-w-[1480px] ${visibleWithoutMotion}`}
+            className={`relative aspect-[1672/941] w-[142vw] origin-center  md:w-[112vw] md:max-w-[1480px] ${visibleWithoutMotion}`}
           >
             {/* Tablet Ekranı */}
-            <div className="pointer-events-auto absolute left-[13.3%] top-[8%] z-10 h-[76.8%] w-[73.4%] overflow-hidden rounded-[10px] bg-[#000103]/95 text-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)] md:rounded-[18px]">
+            <div className="dark pointer-events-auto absolute left-[13.3%] top-[8%] z-10 h-[76.8%] w-[73.4%] overflow-hidden rounded-[10px] bg-surface-card/95 text-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)] md:rounded-[18px]">
               <div className="relative flex h-full flex-col">
                 <div className="relative min-h-0 flex-1">
-                  
                   {/* STAGE 1 */}
                   <div className="stage-1 absolute inset-0 grid grid-cols-[1.04fr_0.96fr] items-center gap-[3%] px-[4.5%] py-[2.5%]">
                     <div className="flex min-w-0 flex-col justify-center">
-                      <span className="text-[6px] font-semibold tracking-[0.2em] text-[#7c3aed] md:text-[9px]">
-                        AI VOICE CLONING <span className="text-[#D1D1D1]">/ 01</span>
+                      <span className="text-[6px] font-semibold tracking-[0.2em] text-text-heading md:text-[9px]">
+                        AI VOICE CLONING <span className="text-text-primary">/ 01</span>
                       </span>
 
                       <h3 className="mt-[5%] max-w-[440px] text-[clamp(13px,2.15vw,31px)] font-semibold leading-[1.08] tracking-[-0.02em] text-white">
                         A voice that feels unmistakably yours.
                       </h3>
 
-                      <p className="mt-[5%] max-w-[390px] text-[clamp(7px,0.88vw,12px)] leading-[1.6] text-[#D1D1D1]">
+                      <p className="mt-[5%] max-w-[390px] text-[clamp(7px,0.88vw,12px)] leading-[1.6] text-text-primary">
                         Start with a reference recording. The model learns its
                         vocal character — tone, rhythm and texture — to create
                         a reusable voice identity for generated speech.
                       </p>
 
                       <div className="mt-[8%] flex items-center gap-3 pt-[4%]">
-                        <span className="flex items-center gap-1.5 text-[6px] font-semibold tracking-[0.14em] text-[#D1D1D1] md:text-[8px]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#7c3aed]" />
+                        <span className="flex items-center gap-1.5 text-[6px] font-semibold tracking-[0.14em] text-text-primary md:text-[8px]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-text-heading" />
                           REFERENCE SAMPLE
                         </span>
-                        <span className="text-[7px] tabular-nums text-[#6E6E74] md:text-[9px]">
+                        <span className="text-[7px] tabular-nums text-text-muted md:text-[9px]">
                           00:18
                         </span>
                       </div>
@@ -260,17 +259,17 @@ export default function ImmersiveSection() {
                           aria-hidden="true"
                           animate={reduceMotion ? undefined : { rotate: 360 }}
                           transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
-                          className="absolute h-[84%] w-[84%] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.12)_0%,transparent_70%)]"
+                          className="absolute h-[84%] w-[84%] rounded-full bg-surface-elevated"
                         />
                         <motion.div
                           aria-hidden="true"
                           animate={reduceMotion ? undefined : { rotate: -360 }}
                           transition={{ duration: 27, repeat: Infinity, ease: "linear" }}
-                          className="absolute h-[66%] w-[66%] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.18)_0%,transparent_70%)]"
+                          className="absolute h-[66%] w-[66%] rounded-full bg-surface-elevated"
                         />
 
                         <div className="relative z-10 flex w-[78%] flex-col items-center">
-                          <span className="mb-[8%] text-[6px] font-semibold tracking-[0.2em] text-violet-200/70 md:text-[8px]">
+                          <span className="mb-[8%] text-[6px] font-semibold tracking-[0.2em] text-text-primary md:text-[8px]">
                             VOICEPRINT ANALYSIS
                           </span>
 
@@ -290,7 +289,7 @@ export default function ImmersiveSection() {
                                   repeat: Infinity,
                                   ease: "easeInOut",
                                 }}
-                                className="h-full min-w-[1px] flex-1 origin-center rounded-full bg-gradient-to-t from-sky-500 via-violet-400 to-rose-300 opacity-95"
+                                className="h-full min-w-[1px] flex-1 origin-center rounded-full bg-text-heading opacity-95"
                                 style={{ height: `${height}%` }}
                               />
                             ))}
@@ -303,7 +302,7 @@ export default function ImmersiveSection() {
                   {/* STAGE 2 */}
                   <div className="stage-2 absolute inset-0 grid grid-cols-[0.9fr_1.1fr] items-center gap-[4%] px-[4.5%] py-[2.5%] opacity-0">
                     <div className="flex min-w-0 flex-col justify-center">
-                      <span className="text-[6px] font-semibold tracking-[0.2em] text-violet-300 md:text-[9px]">
+                      <span className="text-[6px] font-semibold tracking-[0.2em] text-text-primary md:text-[9px]">
                         VOICE IDENTITY <span className="text-rose-400">/ 02</span>
                       </span>
 
@@ -312,7 +311,7 @@ export default function ImmersiveSection() {
                       </h3>
 
                       <div className="mt-[7%] flex items-baseline gap-[3%]">
-                        <span className="bg-gradient-to-r from-sky-500 via-violet-500 to-rose-400 bg-clip-text text-[clamp(16px,3.2vw,46px)] font-medium leading-none tracking-[-0.05em] tabular-nums text-transparent">
+                        <span className=" text-[clamp(16px,3.2vw,46px)] font-medium leading-none tracking-[-0.05em] tabular-nums text-text-heading">
                           <span ref={counterRef}>0.0</span>%
                         </span>
                         <span className="text-[6px] font-semibold tracking-[0.16em] text-white/50 md:text-[8px]">
@@ -335,7 +334,7 @@ export default function ImmersiveSection() {
                           <div className="mt-[3%] h-[3px] w-full overflow-hidden rounded-full bg-white/10 md:h-[4px]">
                             <div
                               data-v={item.value}
-                              className="s2-bar h-full w-full rounded-full bg-gradient-to-r from-sky-400 via-violet-400 to-rose-300"
+                              className="s2-bar h-full w-full rounded-full bg-text-heading"
                             />
                           </div>
                         </div>
@@ -346,7 +345,7 @@ export default function ImmersiveSection() {
                   {/* STAGE 3 */}
                   <div className="stage-3 absolute inset-0 grid grid-cols-[0.9fr_1.1fr] items-center gap-[4%] px-[4.5%] py-[2.5%] opacity-0">
                     <div className="flex min-w-0 flex-col justify-center">
-                      <span className="text-[6px] font-semibold tracking-[0.2em] text-violet-300 md:text-[9px]">
+                      <span className="text-[6px] font-semibold tracking-[0.2em] text-text-primary md:text-[9px]">
                         GENERATED SPEECH <span className="text-rose-400">/ 03</span>
                       </span>
 
@@ -358,7 +357,7 @@ export default function ImmersiveSection() {
                         {["EN", "TR", "UZ"].map((l) => (
                           <span
                             key={l}
-                            className="rounded-full bg-[#7c3aed]/20 px-[4%] py-[1%] text-[6px] font-semibold tracking-[0.14em] text-[#D1D1D1] md:text-[8px]"
+                            className="rounded-full bg-surface-elevated px-[4%] py-[1%] text-[6px] font-semibold tracking-[0.14em] text-text-primary md:text-[8px]"
                           >
                             {l}
                           </span>
@@ -378,7 +377,7 @@ export default function ImmersiveSection() {
                               {line.text}
                             </span>
                             <div className="mt-[3%] h-[2px] w-full overflow-hidden rounded-full bg-white/10 md:h-[3px]">
-                              <div className="s3-bar h-full w-full rounded-full bg-gradient-to-r from-sky-400 via-violet-400 to-rose-300" />
+                              <div className="s3-bar h-full w-full rounded-full bg-text-heading" />
                             </div>
                           </div>
                         </div>
@@ -395,7 +394,7 @@ export default function ImmersiveSection() {
                     <span className="step step-3">03 GENERATED SPEECH</span>
                   </div>
                   <div className="mt-[1.2%] h-px w-full bg-white/10">
-                    <div className="progress-fill h-full w-full origin-left bg-gradient-to-r from-sky-400 via-violet-400 to-rose-300" />
+                    <div className="progress-fill h-full w-full origin-left bg-text-heading" />
                   </div>
                 </div>
               </div>
@@ -414,7 +413,7 @@ export default function ImmersiveSection() {
         </div>
 
         {/* Alt Bilgi */}
-        <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap text-[8px] font-semibold tracking-[0.2em] text-white/40 md:bottom-7 md:text-[9px]">
+        <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap text-[8px] font-semibold tracking-[0.2em] text-white/70 md:bottom-7 md:text-[9px]">
           <span>SECURE</span>
           <span>·</span>
           <span>CONNECTED</span>

@@ -1,7 +1,8 @@
 "use client";
 
+import { RevealHeading, RevealParagraph } from "@/components/motion/primitives";
 import { useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import { StaggerReveal } from "@/components/motion/primitives";
 import {
   ArrowRight,
   CheckCircle2,
@@ -14,22 +15,6 @@ import {
 } from "lucide-react";
 import { CONTACT_DATA } from "@/constants/footer";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12 },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -63,29 +48,25 @@ export default function ContactSection() {
     <section className="min-h-screen bg-background font-sans text-foreground py-12 md:py-20">
       <main className="mx-auto max-w-[1200px] px-6">
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
+        <StaggerReveal
           className="space-y-16"
         >
           {/* HEADER */}
-          <motion.div variants={itemVariants} className="max-w-3xl">
+          <StaggerReveal  className="max-w-3xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/80 bg-muted/40 px-3.5 py-1.5 text-xs font-semibold text-foreground backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               <span>{CONTACT_DATA.header.badge}</span>
             </div>
-            <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl lg:text-6xl leading-[1.08]">
+            <RevealHeading as="h1" className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl lg:text-6xl leading-[1.08]">
               {CONTACT_DATA.header.title}
-            </h1>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+            </RevealHeading>
+            <RevealParagraph className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
               {CONTACT_DATA.header.description}
-            </p>
-          </motion.div>
+            </RevealParagraph>
+          </StaggerReveal>
 
           {/* DEPARTMENTS */}
-          <motion.div
-            variants={itemVariants}
+          <StaggerReveal
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >
             {CONTACT_DATA.departments.map((dept) => {
@@ -93,15 +74,15 @@ export default function ContactSection() {
               return (
                 <div
                   key={dept.title}
-                  className="group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-6 transition-all duration-300 hover:border-border hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20"
+                  className="group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-(--motion-interaction-duration) hover:border-border hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20"
                 >
                   <div>
                     <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border/80 bg-muted/50 text-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                       {Icon ? <Icon className="h-5 w-5" /> : <Mail className="h-5 w-5" />}
                     </div>
-                    <h3 className="text-base font-semibold text-foreground">
+                    <RevealHeading as="h3" className="text-base font-semibold text-foreground">
                       {dept.title}
-                    </h3>
+                    </RevealHeading>
                     <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
                       {dept.description}
                     </p>
@@ -116,20 +97,19 @@ export default function ContactSection() {
                 </div>
               );
             })}
-          </motion.div>
+          </StaggerReveal>
 
           {/* FORM & LOCATIONS */}
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 items-start">
 
             {/* FORM */}
-            <motion.div
-              variants={itemVariants}
+            <StaggerReveal
               className="lg:col-span-7 rounded-3xl border border-border/80 bg-card p-6 md:p-10 shadow-xl shadow-black/5 dark:shadow-black/20"
             >
               <div className="mb-8">
-                <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+                <RevealHeading className="text-2xl font-semibold tracking-tight text-foreground">
                   Send a Message
-                </h2>
+                </RevealHeading>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Share your project details, goals, or inquiries below.
                 </p>
@@ -138,13 +118,13 @@ export default function ContactSection() {
               {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-8 text-center text-emerald-600 dark:text-emerald-400">
                   <CheckCircle2 className="h-12 w-12 mb-3 shrink-0" />
-                  <h3 className="text-lg font-semibold">Message Received</h3>
+                  <RevealHeading as="h3" className="text-lg font-semibold">Message Received</RevealHeading>
                   <p className="mt-1 text-xs max-w-md leading-relaxed opacity-90">
                     Thank you for reaching out. A team member will review your message and respond shortly.
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-6 rounded-xl border border-emerald-500/30 bg-background px-4 py-2 text-xs font-semibold text-foreground transition-all hover:bg-muted"
+                    className="mt-6 rounded-xl border border-emerald-500/30 bg-background px-4 py-2 text-xs font-semibold text-foreground transition-[color,background-color,border-color,box-shadow,opacity,transform] hover:bg-muted"
                   >
                     Send another message
                   </button>
@@ -164,7 +144,7 @@ export default function ContactSection() {
                           setFormData({ ...formData, name: e.target.value })
                         }
                         placeholder="Alex Morgan"
-                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-[color,background-color,border-color,box-shadow,opacity,transform]"
                       />
                     </div>
 
@@ -180,7 +160,7 @@ export default function ContactSection() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         placeholder="alex@company.com"
-                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-[color,background-color,border-color,box-shadow,opacity,transform]"
                       />
                     </div>
                   </div>
@@ -197,7 +177,7 @@ export default function ContactSection() {
                           setFormData({ ...formData, subject: e.target.value })
                         }
                         placeholder="e.g. Design System & Product Design"
-                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-[color,background-color,border-color,box-shadow,opacity,transform]"
                       />
                     </div>
 
@@ -210,7 +190,7 @@ export default function ContactSection() {
                         onChange={(e) =>
                           setFormData({ ...formData, budget: e.target.value })
                         }
-                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-[color,background-color,border-color,box-shadow,opacity,transform]"
                       >
                         {CONTACT_DATA.budgetOptions.map((option) => (
                           <option key={option} value={option}>
@@ -233,14 +213,14 @@ export default function ContactSection() {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       placeholder="Briefly describe your objectives, scope, or timeline..."
-                      className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all resize-none"
+                      className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-[color,background-color,border-color,box-shadow,opacity,transform] resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-foreground py-4 text-sm font-semibold text-background shadow-sm transition-all hover:opacity-90 active:scale-[0.99] disabled:opacity-50"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-foreground py-4 text-sm font-semibold text-background shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform] hover:opacity-90 active:scale-[0.99] disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <span>Sending message...</span>
@@ -253,16 +233,16 @@ export default function ContactSection() {
                   </button>
                 </form>
               )}
-            </motion.div>
+            </StaggerReveal>
 
             {/* HUBS & PRESENCE */}
-            <motion.div variants={itemVariants} className="lg:col-span-5 space-y-6">
+            <StaggerReveal  className="lg:col-span-5 space-y-6">
 
               <div className="rounded-3xl border border-border/80 bg-muted/30 p-6 md:p-8 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                  <RevealHeading as="h3" className="text-lg font-semibold tracking-tight text-foreground">
                     {CONTACT_DATA.presence.title}
-                  </h3>
+                  </RevealHeading>
                   <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
                     {CONTACT_DATA.presence.description}
                   </p>
@@ -304,20 +284,19 @@ export default function ContactSection() {
                 </p>
               </div>
 
-            </motion.div>
+            </StaggerReveal>
 
           </div>
 
           {/* FAQS */}
-          <motion.div
-            variants={itemVariants}
+          <StaggerReveal
             className="pt-12 border-t border-border/60"
           >
             <div className="mb-8 flex items-center gap-2">
               <HelpCircle className="h-5 w-5 text-primary" />
-              <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+              <RevealHeading className="text-2xl font-semibold tracking-tight text-foreground">
                 Frequently Asked Questions
-              </h2>
+              </RevealHeading>
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -335,9 +314,9 @@ export default function ContactSection() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </StaggerReveal>
 
-        </motion.div>
+        </StaggerReveal>
 
       </main>
     </section>

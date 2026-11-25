@@ -5,7 +5,6 @@ import StackedCards from "@/components/shared/Stackedcards";
 import WhyMiralas from "@/components/shared/WhyMiralas";
 import LanguageCoverage from "@/components/shared/language-coverage";
 import { EngineeredAudio, VoiceTechnology, WhatsNext } from "@/components/shared/voice-technology";
-import { LandingSmoothScroll } from "@/components/motion/LandingSmoothScroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { FAQS } from "@/constants/faq";
 import { FOOTER_SECTIONS } from "@/constants/footer";
@@ -82,7 +81,6 @@ export default function HomePage() {
   };
 
   return (
-    <LandingSmoothScroll>
       <main id="main-content">
         <JsonLd id="ld-organization" data={organizationSchema} />
         <JsonLd id="ld-website" data={websiteSchema} />
@@ -97,6 +95,5 @@ export default function HomePage() {
         <WhatsNext />
         <FaqSection />
       </main>
-    </LandingSmoothScroll>
   );
 }

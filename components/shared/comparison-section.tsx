@@ -1,15 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  VIEWPORT_EARLY,
-  VIEWPORT_ONCE,
-  cardReveal,
-  eyebrowReveal,
-  headingReveal,
-  paragraphReveal,
-  staggerContainer,
-} from "@/lib/motion";
+import { StaggerReveal, RevealEyebrow, RevealHeading, RevealParagraph, RevealCard } from "@/components/motion/primitives";
+
+
 
 type ComparisonRow = {
   label: string;
@@ -61,41 +54,30 @@ export function ComparisonSection() {
   return (
     <section className="relative overflow-x-clip bg-surface-page py-24 text-text-heading md:py-32">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-6">
-        <motion.div
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
+        <StaggerReveal
           className="mx-auto max-w-2xl text-center"
         >
-          <motion.span
-            variants={eyebrowReveal}
+          <RevealEyebrow as="span"
             className="inline-flex items-center gap-2 rounded-full bg-surface-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] text-text-primary sm:text-[13px]"
           >
-            <span className="size-1.5 rounded-full bg-[#7c3aed]" />
+            <span className="size-1.5 rounded-full bg-text-heading" />
             The difference
-          </motion.span>
-          <motion.h2
-            variants={headingReveal}
+          </RevealEyebrow>
+          <RevealHeading
             className="mt-5 text-3xl font-semibold leading-[1.06] tracking-[-0.025em] text-text-heading sm:text-5xl lg:text-[3.5rem]"
           >
             A voice workflow built around your needs.
-          </motion.h2>
-          <motion.p
-            variants={paragraphReveal}
+          </RevealHeading>
+          <RevealParagraph
             className="mx-auto mt-5 max-w-xl text-[15px] leading-[1.6] text-text-muted sm:text-base"
           >
             Compare the approaches to creating voice content — from working
             with a voice actor to using an AI voice platform.
-          </motion.p>
-        </motion.div>
+          </RevealParagraph>
+        </StaggerReveal>
 
-        <motion.div
-          variants={cardReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_EARLY}
-          className="surface-shadow mt-12 overflow-hidden rounded-[28px] bg-surface-card md:mt-16"
+        <RevealCard
+          className="surface-shadow mt-12 overflow-hidden rounded-4xl bg-surface-card md:mt-16"
         >
           <div
             data-lenis-prevent
@@ -127,13 +109,13 @@ export function ComparisonSection() {
                       className={[
                         "px-6 py-7 text-base font-semibold tracking-[-0.02em] md:px-7",
                         column.featured
-                          ? "bg-[#7c3aed]/[0.07] text-text-heading dark:bg-[#7c3aed]/[0.14]"
+                          ? "bg-surface-elevated text-text-heading dark:bg-surface-elevated"
                           : "text-text-primary",
                       ].join(" ")}
                     >
                       <div className="flex items-center gap-2.5">
                         {column.featured && (
-                          <span className="size-2 rounded-full bg-[#7c3aed]" />
+                          <span className="size-2 rounded-full bg-text-heading" />
                         )}
                         {column.title}
                       </div>
@@ -162,7 +144,7 @@ export function ComparisonSection() {
                     >
                       {row.label}
                     </th>
-                    <td className="bg-[#7c3aed]/[0.06] px-6 py-6 text-[15px] leading-[1.6] text-text-heading dark:bg-[#7c3aed]/[0.11] md:px-7 md:py-7">
+                    <td className="bg-surface-elevated px-6 py-6 text-[15px] leading-[1.6] text-text-heading dark:bg-surface-elevated md:px-7 md:py-7">
                       {row.miransas}
                     </td>
                     <td className="px-6 py-6 text-[15px] leading-[1.6] text-text-muted md:px-7 md:py-7">
@@ -184,7 +166,7 @@ export function ComparisonSection() {
               MIRANSAS / OVERVIEW
             </span>
           </div>
-        </motion.div>
+        </RevealCard>
 
         <p className="mt-4 text-center text-xs text-text-muted md:hidden">
           Swipe horizontally to compare all columns.

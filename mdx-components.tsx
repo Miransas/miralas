@@ -1,13 +1,14 @@
 import React from "react";
+import { RevealHeading } from "@/components/motion/primitives";
 import type { MDXComponents } from "mdx/types";
 import { CodeBlock } from "@/components/docs/code-block";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    h1: (p) => <h1 className="mb-6 text-4xl font-semibold tracking-tight" {...p} />,
-    h2: (p) => <h2 className="mb-2 mt-12 text-2xl font-semibold" {...p} />,
+    h1: (p) => <RevealHeading as="h1" className="mb-6 text-4xl font-semibold tracking-tight" {...p} />,
+    h2: (p) => <RevealHeading className="mb-2 mt-12 text-2xl font-semibold" {...p} />,
     h3: (p) => (
-      <h3
+      <RevealHeading as="h3"
         className="mb-2 mt-6 text-sm font-medium uppercase tracking-wide text-muted-foreground"
         {...p}
       />

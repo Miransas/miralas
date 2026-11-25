@@ -1,5 +1,6 @@
 'use client';
 
+import { buttonVariants } from "@/components/ui/button";
 import React, { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useReducedMotion } from 'framer-motion';
@@ -24,7 +25,7 @@ export interface SpotlightFooterProps {
 
 const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 const FOCUS_RING =
-  'focus-visible:outline-2 focus-visible:outline-[#7c3aed] focus-visible:outline-offset-2';
+  'focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2';
 
 export function Footer({
   wordmark = 'MIRANSAS',
@@ -79,7 +80,7 @@ export function Footer({
     >
       <div className="relative z-10 mx-auto max-w-7xl space-y-12 px-6 pb-10 pt-20 sm:px-8 lg:px-12 lg:pt-24">
         {/* Brand and primary action — borderless floating card */}
-        <div className="surface-accent surface-shadow flex flex-col justify-between gap-9 rounded-[28px] p-7 sm:p-10 lg:flex-row lg:items-end">
+        <div className="bg-surface-card surface-shadow flex flex-col justify-between gap-9 rounded-4xl p-7 sm:p-10 lg:flex-row lg:items-end">
           <div className="max-w-xl">
             <Link
               href="/"
@@ -124,15 +125,15 @@ export function Footer({
             <div className="flex shrink-0 flex-wrap gap-2.5">
               <Link
                 href="https://console.miralas.io"
-                className={`group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-text-heading px-5 text-sm font-semibold text-surface-page transition-[transform,opacity] duration-200 hover:-translate-y-0.5 hover:opacity-90 active:scale-[0.98] ${FOCUS_RING}`}
+                className={buttonVariants({ className: "group" })}
               >
                 <span>Console access</span>
-                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <ArrowUpRight className="size-4 transition-transform duration-(--motion-interaction-duration) group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
               {SUPPORT_EMAIL ? (
                 <a
                   href={`mailto:${SUPPORT_EMAIL}`}
-                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-full bg-black/[0.06] px-5 text-sm font-medium text-text-primary transition-[transform,background-color,color] duration-200 hover:-translate-y-0.5 hover:bg-black/[0.1] hover:text-text-heading active:scale-[0.98] dark:bg-white/[0.07] dark:hover:bg-white/[0.12] ${FOCUS_RING}`}
+                  className={buttonVariants({ variant: "secondary" })}
                 >
                   <Mail className="size-4" /> Contact
                 </a>
@@ -142,7 +143,7 @@ export function Footer({
         </div>
 
         {/* Presence information — borderless card surface */}
-        <div className="grid grid-cols-1 gap-6 rounded-[24px] bg-surface-card p-7 sm:p-8 md:grid-cols-[minmax(220px,0.9fr)_2fr] md:gap-10">
+        <div className="grid grid-cols-1 gap-6 rounded-4xl bg-surface-card p-7 sm:p-8 md:grid-cols-[minmax(220px,0.9fr)_2fr] md:gap-10">
           <div className="flex items-start gap-3.5">
             <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl bg-black/[0.05] text-text-primary dark:bg-white/[0.06]">
               <Globe className="size-4" />
@@ -194,7 +195,7 @@ export function Footer({
                           href={link.href}
                           target={link.target}
                           rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                          className={`group inline-flex max-w-full items-center gap-1.5 rounded text-xs leading-[1.45] text-text-muted transition-colors duration-200 hover:text-text-heading sm:text-[13px] ${FOCUS_RING}`}
+                          className={`group inline-flex max-w-full items-center gap-1.5 rounded text-xs leading-[1.45] text-text-muted transition-colors duration-(--motion-interaction-duration) hover:text-text-heading sm:text-[13px] ${FOCUS_RING}`}
                         >
                           {Icon ? (
                             <Icon className="size-3.5 shrink-0 text-text-muted transition-colors group-hover:text-text-heading" />
@@ -259,7 +260,7 @@ export function Footer({
             <span
               aria-hidden="true"
               className={cn(
-                'pointer-events-none absolute inset-0 flex select-none items-center justify-center whitespace-nowrap font-black leading-none tracking-[-0.085em] text-text-heading transition-opacity duration-300',
+                'pointer-events-none absolute inset-0 flex select-none items-center justify-center whitespace-nowrap font-black leading-none tracking-[-0.085em] text-text-heading transition-opacity duration-(--motion-interaction-duration)',
                 spotlightActive ? 'opacity-100' : 'opacity-0',
               )}
               style={spotlightStyle}

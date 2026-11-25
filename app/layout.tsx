@@ -1,5 +1,6 @@
 
 import type { Metadata, Viewport } from "next";
+import { motionCssVariables } from "@/lib/motion";
 import { IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -140,6 +141,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      style={motionCssVariables}
       suppressHydrationWarning
       className={cn(
         "h-full antialiased",
@@ -147,12 +149,11 @@ export default function RootLayout({
         plexMono.variable,
       )}
     >
-      <body className="min-h-full overflow-x-clip bg-surface-page text-text-heading">
+      <body className="min-h-full overflow-x-clip bg-surface-page text-text-heading transition-colors duration-(--motion-theme-duration) ease-(--motion-ease)">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
           <MotionProvider>
             <PageViewTracker />
