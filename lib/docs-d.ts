@@ -1,6 +1,7 @@
 export interface NavItem {
   label: string;
   href: string;
+  status?: string;
 }
 
 export interface NavSection {
@@ -19,9 +20,11 @@ export const navigation: NavSection[] = [
   {
     title: 'Guides',
     items: [
-      { label: 'Overview', href: '/docs' },                 // satır 15
-      { label: 'Voice agents', href: '#' },                 // satır 22
-      { label: 'Voice cloning', href: '#' },                // satır 25
+      { label: 'Overview', href: '/docs' },
+      { label: 'Text-to-speech', href: '/docs/tts' },
+      { label: 'Speech-to-speech', href: '/docs/speech-to-speech', status: 'In development' },
+      { label: 'Voice agents', href: '#' },
+      { label: 'Voice cloning', href: '#' },
   
     ],
   },
@@ -38,4 +41,4 @@ export interface TocItem {
 }
 
 export const REPO_URL =
-  'https://github.com/miransas/miralas/';
+  'https://github.com/Miransas/miralas';

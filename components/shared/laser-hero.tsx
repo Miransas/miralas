@@ -3,7 +3,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
-import LaserFlow from "../LaserFlow";
+import { HeroLaser } from "../laser-flow/hero-laser";
 import VoiceStudioDemo from "./voice-studio-demo";
 import { TextReveal } from "@/components/motion/reveal";
 import { StaggerReveal, RevealEyebrow, RevealParagraph, RevealCard } from "@/components/motion/primitives";
@@ -22,31 +22,9 @@ const LaserHero = () => {
       className="dark relative isolate min-h-screen w-full overflow-clip bg-[#050505] text-white md:h-[1200px]"
       style={{ colorScheme: "dark" }}
     >
-      {/* Cinematic laser background — DPR capped at 1.5, paused when off-screen */}
-      <LaserFlow
-        surfaceRef={cardRef}
-        beamPosition={0.59}
-        color="#ad08ea"
-        intensity={1.8}
-        flare={1.5}
-        spread={1.5}
-        spill={1.15}
-        fog={0.55}
-        dust={1.2}
-        revealImage="/"
-        revealRadius={290}
-        revealOpacity={0.6}
-        beamWidth={1.2}
-        streaks={1.55}
-        dots={0.45}
-        pulse={1.25}
-        speed={2.2}
-        seed={8}
-        mouseInteraction
-        intro
-      />
-
-      {/* Visible server copy, enhanced with grouped line and paragraph reveals. */}
+      {/* One canvas fills the hero; phone/tablet settings use DPR 1. */}
+      <HeroLaser surfaceRef={cardRef} />
+      {/* Visible server copy, enhanced with grouped line and paragraph reveals. #FF0033  */}
       <StaggerReveal trigger="load" className="pointer-events-none relative z-10 mx-[7%] max-w-[700px] pb-12 pt-32 md:absolute md:left-[8%] md:right-[7%] md:top-[13%] md:mx-0 md:pb-0 md:pt-0">
         <RevealEyebrow as="div" className="pointer-events-auto">
           <span className="inline-flex items-center gap-2.5 rounded-full bg-white/[0.06] px-4 py-2 text-xs sm:text-[13px] font-medium uppercase tracking-[0.12em] text-text-primary backdrop-blur-md">
@@ -61,8 +39,8 @@ const LaserHero = () => {
         </h1>
 
         <RevealParagraph className="mt-6 max-w-[580px] text-base leading-[1.6] text-text-primary sm:text-lg lg:text-[1.1875rem]">
-            Create natural speech, shape unique voice identities, and build
-            real-time voice agents—all on one unified platform.
+          Create natural speech, shape unique voice identities, and build
+          real-time voice agents—all on one unified platform.
         </RevealParagraph>
 
         <RevealCard>

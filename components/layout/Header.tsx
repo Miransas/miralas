@@ -122,6 +122,7 @@ export function Header() {
 
   return (
     <header
+      data-site-header
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           const target = event.target as HTMLElement;
@@ -136,7 +137,7 @@ export function Header() {
       }}
       className={`fixed inset-x-0 top-0 z-50 w-full transition-[background-color,backdrop-filter,box-shadow] duration-(--motion-interaction-duration) ease-[cubic-bezier(0.22,1,0.36,1)] ${headerClass}`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-12">
+      <div className="mx-auto flex h-(--site-header-height) max-w-7xl items-center justify-between px-6 lg:px-12">
         {/* Brand and desktop navigation */}
         <div className="flex items-center gap-8">
           <Link

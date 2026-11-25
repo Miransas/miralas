@@ -7,9 +7,10 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useSpring,
-} from "motion/react"
+} from "framer-motion"
 
 import { cn } from "@/lib/utils"
+import { decodeHeadingHash, headingIndex, tocTree, type TocBranch } from "@/lib/docs-navigation"
 
 export type RailTocItem = { id: string; label: string; depth?: number }
 
@@ -68,7 +69,7 @@ const RailToc = ({
   className,
   items,
   containerRef,
-  offset = 96,
+  offset,
   indent = 14,
   title = "On this page",
   ...props
@@ -83,6 +84,9 @@ const RailToc = ({
 
   const [geometry, setGeometry] = React.useState<Geometry>()
   const [reached, setReached] = React.useState(1)
+  const [active, setActive] = React.useState(0)
+  const offsetRef = React.useRef(offset ?? 96)
+  const branches = React.useMemo(() => tocTree(items), [items])
 
   const lengths = React.useRef<number[]>([])
   const total = React.useRef(0)
@@ -146,10 +150,11 @@ const RailToc = ({
 
   const sync = React.useCallback(() => {
     const nodes = lengths.current
-    if (!nodes.length) return
+    if (!nodes.length || !listRef.current?.offsetWidth) return
 
     // a clicked heading holds the plane until the reader scrolls, since headings near the end can't scroll up to the anchor
     if (pinned.current !== null) {
+      setActive(pinned.current)
       aim(nodes[pinned.current] ?? nodes[0])
       return
     }
@@ -164,7 +169,7 @@ const RailToc = ({
 
     // the anchor starts at the top edge and sweeps to the bottom near the end, so the first and last headings are both reachable
     const remaining = Math.max(0, scrollHeight - viewHeight - scrollTop)
-    const line = Math.min(offset, scrollTop)
+    const line = Math.min(offsetRef.current, scrollTop)
     const anchor = line + Math.max(0, viewHeight - line - remaining)
 
     const tops = items.map((item) => {
@@ -173,6 +178,7 @@ const RailToc = ({
     })
 
     const index = tops.findLastIndex((top) => top <= anchor)
+    setActive(headingIndex(tops, anchor))
     let next: number
     if (index === -1) next = nodes[0]
     else if (index === nodes.length - 1) next = nodes[index]
@@ -191,18 +197,28 @@ const RailToc = ({
       pose(next)
       turn.jump(heading.get())
     }
-  }, [containerRef, items, offset, aim, travel, turn, heading, pose])
+  }, [containerRef, items, aim, travel, turn, heading, pose])
 
   useIsoLayoutEffect(() => {
     const list = listRef.current
     if (!list || !items.length) return
 
+    pinned.current = null
+    userScrolled.current = false
+    placed.current = false
+    let alive = true
+    let frame = 0
     const measure = () => {
+      if (!alive || !list.offsetWidth) return
+      const nav = list.closest("nav")
+      offsetRef.current = offset ?? (nav ? parseFloat(getComputedStyle(nav).scrollMarginTop) || 96 : 96)
+      const bounds = list.getBoundingClientRect()
       const nodes = items.map((item, i) => {
-        const row = rowRefs.current[i]
+        const row = rowRefs.current[i]?.querySelector("a")
+        const rect = row?.getBoundingClientRect()
         return {
           x: RAIL_X + (item.depth ?? 0) * indent,
-          y: row ? row.offsetTop + row.offsetHeight / 2 : 0,
+          y: rect ? rect.top - bounds.top + rect.height / 2 : 0,
         }
       })
       setGeometry({
@@ -213,12 +229,15 @@ const RailToc = ({
       })
     }
 
+    const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(measure) }
     measure()
-    const ro = new ResizeObserver(measure)
+    const ro = new ResizeObserver(schedule)
     ro.observe(list)
-    document.fonts?.ready.then(measure).catch(() => {})
-    return () => ro.disconnect()
-  }, [items, indent])
+    const article = document.getElementById("docs-content")
+    if (article) ro.observe(article)
+    void document.fonts?.ready.then(() => { if (alive) schedule() })
+    return () => { alive = false; cancelAnimationFrame(frame); ro.disconnect() }
+  }, [items, indent, offset])
 
   useIsoLayoutEffect(() => {
     const path = pathRef.current
@@ -233,46 +252,80 @@ const RailToc = ({
 
   React.useEffect(() => {
     const scroller = containerRef?.current ?? window
-    const onIntent = () => {
-      userScrolled.current = true
+    let frame = 0
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(() => { frame = 0; sync() })
     }
+    const onIntent = () => { userScrolled.current = true }
     const onScroll = () => {
       if (pinned.current !== null && userScrolled.current) pinned.current = null
-      sync()
+      schedule()
     }
+    const onHash = () => {
+      const index = items.findIndex(item => item.id === decodeHeadingHash(window.location.hash))
+      pinned.current = index >= 0 ? index : null
+      userScrolled.current = false
+      schedule()
+    }
+    onHash()
     scroller.addEventListener("scroll", onScroll, { passive: true })
     scroller.addEventListener("wheel", onIntent, { passive: true })
     scroller.addEventListener("touchstart", onIntent, { passive: true })
     scroller.addEventListener("pointerdown", onIntent)
     window.addEventListener("keydown", onIntent)
-    window.addEventListener("resize", sync)
+    window.addEventListener("resize", schedule)
+    window.addEventListener("hashchange", onHash)
     return () => {
+      cancelAnimationFrame(frame)
       scroller.removeEventListener("scroll", onScroll)
       scroller.removeEventListener("wheel", onIntent)
       scroller.removeEventListener("touchstart", onIntent)
       scroller.removeEventListener("pointerdown", onIntent)
       window.removeEventListener("keydown", onIntent)
-      window.removeEventListener("resize", sync)
+      window.removeEventListener("resize", schedule)
+      window.removeEventListener("hashchange", onHash)
     }
-  }, [containerRef, sync])
+  }, [containerRef, items, sync])
 
-  const select = (index: number) => {
-    const el = document.getElementById(items[index].id)
-    if (!el) return
+  React.useEffect(() => {
+    const nav = listRef.current?.closest("nav")
+    const row = rowRefs.current[active]
+    if (!nav || !row || nav.clientHeight >= nav.scrollHeight) return
+    const bounds = nav.getBoundingClientRect()
+    const rect = row.querySelector("a")?.getBoundingClientRect()
+    if (rect && rect.top < bounds.top) nav.scrollTop += rect.top - bounds.top - 8
+    else if (rect && rect.bottom > bounds.bottom) nav.scrollTop += rect.bottom - bounds.bottom + 8
+  }, [active])
+
+  const select = (event: React.MouseEvent<HTMLAnchorElement>, index: number) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     pinned.current = index
     userScrolled.current = false
+    setActive(index)
     sync()
+    // Native window anchors own URL/history and respect the shared CSS offset.
     const scroller = containerRef?.current
-    const top = scroller
-      ? el.getBoundingClientRect().top -
-        scroller.getBoundingClientRect().top +
-        scroller.scrollTop
-      : el.getBoundingClientRect().top + window.scrollY
-    const behavior = reduceMotion ? "auto" : "smooth"
-    ;(scroller ?? window).scrollTo({ top: top - offset, behavior })
+    const el = document.getElementById(items[index].id)
+    if (scroller && el) {
+      event.preventDefault()
+      window.history.pushState(null, "", `#${encodeURIComponent(items[index].id)}`)
+      scroller.scrollTo({ top: el.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - offsetRef.current, behavior: reduceMotion ? "auto" : "smooth" })
+    }
   }
 
-  const active = Math.max(0, reached - 1)
+  const renderBranch = ({ item, index, children }: TocBranch<RailTocItem>): React.ReactNode => (
+    <li key={item.id} ref={el => { rowRefs.current[index] = el }}>
+      <a href={`#${encodeURIComponent(item.id)}`} onClick={event => select(event, index)} aria-current={index === active ? "location" : undefined}
+        className={cn("block w-full rounded-md py-1.5 pr-2 text-left leading-6 transition-colors duration-150 [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-2", index === active ? "font-semibold text-text-heading" : "text-text-muted hover:text-text-heading")}
+        style={{ paddingLeft: RAIL_X + (item.depth ?? 0) * indent + LABEL_GAP }}>
+        {item.label}
+      </a>
+      {children.length > 0 && <ul>{children.map(renderBranch)}</ul>}
+    </li>
+  )
+
+  if (!items.length) return null
+
   const railColor =
     "[--rail:color-mix(in_oklab,var(--foreground)_45%,var(--background))]"
 
@@ -280,12 +333,12 @@ const RailToc = ({
     <nav
       data-slot="rail-toc"
       aria-label={title}
-      className={cn("w-max text-sm", railColor, className)}
+      className={cn("w-full min-w-0 scroll-mt-(--docs-anchor-offset) text-[13px]", railColor, className)}
       {...props}
     >
       <p
         data-slot="rail-toc-title"
-        className="mb-3 flex items-center gap-2 font-medium text-foreground/70"
+        className="mb-3 flex items-center gap-2 font-semibold text-text-primary"
       >
         <svg
           viewBox="0 0 16 16"
@@ -301,7 +354,7 @@ const RailToc = ({
         {title}
       </p>
 
-      <ul ref={listRef} data-slot="rail-toc-list" className="relative">
+      <div className="relative">
         {geometry && (
           <svg
             className="pointer-events-none absolute left-0 top-0 overflow-visible"
@@ -415,7 +468,7 @@ const RailToc = ({
         {geometry && (
           <motion.div
             data-slot="rail-toc-plane"
-            className="pointer-events-none absolute left-0 top-0 -ml-2 -mt-2 h-4 w-4 text-foreground [filter:drop-shadow(0_0_2px_rgb(0_0_0/0.35))]"
+            className="pointer-events-none absolute left-0 top-0 -ml-2 -mt-2 h-4 w-4 text-text-heading"
             style={{ x, y, rotate: reduceMotion ? heading : turn }}
             aria-hidden
           >
@@ -431,35 +484,10 @@ const RailToc = ({
           </motion.div>
         )}
 
-        {items.map((item, i) => {
-          const isActive = i === active
-          return (
-            <li
-              key={item.id}
-              ref={(el) => {
-                rowRefs.current[i] = el
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => select(i)}
-                aria-current={isActive ? "location" : undefined}
-                className={cn(
-                  "block w-full rounded-md py-1.5 pr-2 text-left leading-5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20",
-                  isActive
-                    ? "font-medium text-foreground"
-                    : "text-foreground/50 hover:text-foreground/80",
-                )}
-                style={{
-                  paddingLeft: RAIL_X + (item.depth ?? 0) * indent + LABEL_GAP,
-                }}
-              >
-                {item.label}
-              </button>
-            </li>
-          )
-        })}
-      </ul>
+        <ul ref={listRef} data-slot="rail-toc-list" className="relative">
+          {branches.map(renderBranch)}
+        </ul>
+      </div>
     </nav>
   )
 }

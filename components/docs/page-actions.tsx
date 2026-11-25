@@ -1,52 +1,14 @@
-'use client';
+import { Edit } from "lucide-react";
+import { getDocEditUrl } from "@/lib/docs";
+import { CopyButton } from "./copy-button";
 
-import { useState } from 'react';
-import { Check, Edit, FileText } from 'lucide-react';
-import { REPO_URL } from '@/lib/docs-d';
-
-interface PageActionsProps {
-  slug: string;
-  rawContent: string;
-}
-
-export function PageActions({ slug, rawContent }: PageActionsProps) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyMarkdown = () => {
-    navigator.clipboard.writeText(rawContent);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const editUrl = `${REPO_URL}/edit/main/content/docs/${slug}.mdx`;
-
+export function PageActions({ slug, rawContent }: { slug: string; rawContent: string }) {
   return (
-    <div className="flex items-center gap-2 border-b border-border pb-6">
-      <a
-        href={editUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-      >
-        <Edit className="h-3.5 w-3.5" />
-        Edit on GitHub
+    <div className="flex flex-wrap items-center gap-2 pb-2">
+      <a href={getDocEditUrl(slug)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-8 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-text-primary transition-colors duration-150 hover:bg-surface-card-hover hover:text-text-heading focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2">
+        <Edit className="size-3.5" aria-hidden="true" />Edit on GitHub
       </a>
-      <button
-        onClick={handleCopyMarkdown}
-        className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-      >
-        {copied ? (
-          <>
-            <Check className="h-3.5 w-3.5 text-green-500" />
-            <span className="text-green-500">Copied</span>
-          </>
-        ) : (
-          <>
-            <FileText className="h-3.5 w-3.5" />
-            Copy Markdown
-          </>
-        )}
-      </button>
+      <CopyButton text={rawContent} label="Copy Markdown" />
     </div>
   );
 }

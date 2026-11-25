@@ -75,6 +75,8 @@
 /* Theme palettes                                                              */
 /* -------------------------------------------------------------------------- */
 :root {
+  --site-header-height: 4rem;
+  --docs-anchor-offset: calc(var(--site-header-height) + 1.5rem);
   color-scheme: light;
   --surface-page: #efefef;
   --surface-card: #f8f8f8;
@@ -306,3 +308,24 @@
   [data-motion-text-line] { display: none !important; }
   [data-motion-text-source] { opacity: 1 !important; }
 }
+
+
+/* Documentation scrolls in the page viewport; only navigation rails can scroll independently. */
+html:has([data-docs-layout]) {
+  scroll-padding-top: var(--site-header-height);
+}
+[data-docs-layout] :is(h1, h2, h3, h4, h5, h6, #docs-content) {
+  scroll-margin-top: 1.5rem;
+}
+
+/* Functional syntax highlighting, from the single server-side rehype pipeline. */
+.docs-code { color: var(--text-heading); }
+.docs-code :is(.hljs-comment, .hljs-quote) { color: var(--text-muted); }
+.docs-code :is(.hljs-keyword, .hljs-selector-tag, .hljs-name, .hljs-tag, .hljs-section, .hljs-built_in, .hljs-title) { color: #23558a; }
+.docs-code :is(.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attr) { color: #276141; }
+.docs-code :is(.hljs-number, .hljs-literal, .hljs-symbol, .hljs-bullet, .hljs-type, .hljs-params, .hljs-variable) { color: #005a68; }
+.docs-code :is(.hljs-deletion, .hljs-meta) { color: #94364a; }
+.dark .docs-code :is(.hljs-keyword, .hljs-selector-tag, .hljs-name, .hljs-tag, .hljs-section, .hljs-built_in, .hljs-title) { color: #9ecbff; }
+.dark .docs-code :is(.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attr) { color: #a9d6b6; }
+.dark .docs-code :is(.hljs-number, .hljs-literal, .hljs-symbol, .hljs-bullet, .hljs-type, .hljs-params, .hljs-variable) { color: #8bd5d8; }
+.dark .docs-code :is(.hljs-deletion, .hljs-meta) { color: #ffb3bd; }

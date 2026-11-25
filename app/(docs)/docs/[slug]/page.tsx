@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { DocPage } from "@/components/docs/docs-page";
-import { getDoc } from "@/lib/docs";
+import { getDoc, getDocs } from "@/lib/docs";
 import { loadDoc } from "@/lib/mdx-loader";
 import { createPageMetadata } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return getDocs().map(doc => ({ slug: doc.slug }));
+}
 
 export async function generateMetadata({
   params,
