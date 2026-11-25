@@ -1,4 +1,4 @@
-# AGENTS.md — Miransas Console Engineering Rules
+# AGENTS.md — Miransas  Engineering Rules
 
 
 ## Git Workflow — Task Completion
