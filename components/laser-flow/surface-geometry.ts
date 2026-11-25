@@ -28,12 +28,16 @@ export function createSurfaceGeometry(container: HTMLElement, onChange: (resized
   const mutation = new MutationObserver(() => invalidate());
   const onScroll = () => invalidate(false);
   const onResize = () => invalidate(true, true);
+  const onFonts = () => invalidate(true, true);
   const onAnimation = (event: Event) => { if (lineage.includes(event.target as HTMLElement) || animationRoot.contains(event.target as Node)) invalidate(); };
   // Capture nested scrollers too. Rects are viewport-relative, so a scroll can
   // move either side independently (including sticky surfaces).
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
   window.addEventListener('scroll', onScroll, { passive: true, capture: true });
   window.addEventListener('resize', onResize, { passive: true });
+  const fontSet = container.ownerDocument.fonts;
+  fontSet?.addEventListener?.('loadingdone', onFonts);
+  void fontSet?.ready?.then?.(() => { if (element) onFonts(); });
   container.ownerDocument.addEventListener('animationstart', onAnimation, true);
   container.ownerDocument.addEventListener('animationend', onAnimation, true);
   container.ownerDocument.addEventListener('animationcancel', onAnimation, true);
@@ -60,7 +64,12 @@ export function createSurfaceGeometry(container: HTMLElement, onChange: (resized
     // shared hero can change the surface position without resizing the canvas.
     let common = container.parentElement;
     while (common && element && !common.contains(element)) common = common.parentElement;
-    if (common) mutation.observe(common, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'style', 'hidden'] });
+    if (common) {
+      mutation.observe(common, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'style', 'hidden'] });
+      for (const child of Array.from(common.children ?? [])) {
+        if (child instanceof HTMLElement && !ancestors.has(child)) resize.observe(child);
+      }
+    }
     animationRoot = common ?? container;
     animationNodes = [animationRoot, ...lineage.filter(node => node !== animationRoot && !animationRoot.contains(node))];
     dirty = radiusDirty = true;
@@ -119,6 +128,7 @@ export function createSurfaceGeometry(container: HTMLElement, onChange: (resized
       mutation.disconnect();
       window.removeEventListener('scroll', onScroll, true);
       window.removeEventListener('resize', onResize);
+      fontSet?.removeEventListener?.('loadingdone', onFonts);
       for (const event of ['animationstart', 'animationend', 'animationcancel', 'transitionrun', 'transitionend', 'transitioncancel']) container.ownerDocument.removeEventListener(event, onAnimation, true);
     },
   };

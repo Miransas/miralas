@@ -3,17 +3,32 @@ import { test } from 'node:test';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { HeroLaser } from '../components/laser-flow/hero-laser';
 import LaserHero from '../components/shared/laser-hero';
-import { DESKTOP_HERO_LASER, MOBILE_HERO_LASER, MOBILE_LASER_QUERY, mobileLaserSnapshot, serverLaserSnapshot, subscribeMobileLaser } from '../components/laser-flow/hero-presets';
+import {
+  DESKTOP_HERO_LASER,
+  HERO_LASER_PRESETS,
+  MOBILE_HERO_LASER,
+  MOBILE_LASER_QUERY,
+  TABLET_HERO_LASER,
+  TABLET_LASER_QUERY,
+  heroLaserSnapshot,
+  serverHeroLaserSnapshot,
+  subscribeHeroLaser,
+} from '../components/laser-flow/hero-presets';
 import { mountLaserFlow } from '../components/laser-flow/renderer';
 import { laserEnvironment } from './helpers/laser-environment';
 
-const widths = [320, 375, 390, 430, 768, 1440];
+const widths = [320, 360, 375, 390, 430, 768, 820, 1024, 1440];
 
-test('mobile and desktop presets match the requested/current settings exactly', () => {
+test('mobile, tablet and desktop presets match the requested settings exactly', () => {
   assert.deepEqual(MOBILE_HERO_LASER, {
-    beamPosition: .82, color: '#0F60E4', intensity: 1.15, flare: 1.1, spread: .95,
-    spill: .65, fog: .22, dust: .35, beamWidth: .85, streaks: .8, dots: .1,
-    pulse: .5, speed: 1.2, seed: 8, dpr: 1, mouseInteraction: false,
+    beamPosition: .5, color: '#0F60E4', intensity: 1.05, flare: .85, spread: .55,
+    spill: 0, fog: .18, dust: .3, beamWidth: .75, streaks: .7, dots: .08,
+    pulse: .45, speed: 1.15, seed: 8, dpr: 1, mouseInteraction: false,
+  });
+  assert.deepEqual(TABLET_HERO_LASER, {
+    beamPosition: .72, color: '#0F60E4', intensity: 1.35, flare: 1.2, spread: 1.05,
+    spill: .7, fog: .3, dust: .45, beamWidth: .95, streaks: 1.0, dots: .15,
+    pulse: .65, speed: 1.35, seed: 8, dpr: 1, mouseInteraction: false,
   });
   assert.deepEqual(DESKTOP_HERO_LASER, {
     beamPosition: .59, color: '#0F60E4', intensity: 1.65, flare: 1.4, spread: 1.35,
@@ -26,51 +41,62 @@ test('the media store updates and cleans up; SSR has one canvas and a stable hyd
   const env = laserEnvironment();
   let changes = 0; const queries: string[] = [];
   const match = env.win.matchMedia;
-  Reflect.set(env.win, 'matchMedia', (query: string) => { queries.push(query); return env.media; });
+  const mobileMedia = Object.assign(new EventTarget(), { matches: false });
+  const tabletMedia = Object.assign(new EventTarget(), { matches: false });
+  Reflect.set(env.win, 'matchMedia', (query: string) => {
+    queries.push(query);
+    return query === MOBILE_LASER_QUERY ? mobileMedia : tabletMedia;
+  });
   try {
-    env.media.matches = false;
-    const clean = subscribeMobileLaser(() => changes++);
-    assert.equal(mobileLaserSnapshot(), false);
-    env.media.matches = true; env.media.dispatchEvent(new Event('change'));
-    assert.equal(mobileLaserSnapshot(), true); assert.equal(changes, 1);
-    assert.equal(serverLaserSnapshot(), false);
-    assert.ok(queries.every(query => query === MOBILE_LASER_QUERY));
+    const clean = subscribeHeroLaser(() => changes++);
+    assert.equal(heroLaserSnapshot(), 'desktop');
+    tabletMedia.matches = true; tabletMedia.dispatchEvent(new Event('change'));
+    assert.equal(heroLaserSnapshot(), 'tablet'); assert.equal(changes, 1);
+    mobileMedia.matches = true; mobileMedia.dispatchEvent(new Event('change'));
+    assert.equal(heroLaserSnapshot(), 'mobile'); assert.equal(changes, 2);
+    assert.equal(serverHeroLaserSnapshot(), 'desktop');
+    assert.ok(queries.includes(MOBILE_LASER_QUERY));
+    assert.ok(queries.includes(TABLET_LASER_QUERY));
     const mobileSSR = renderToStaticMarkup(<HeroLaser surfaceRef={{ current: null }} />);
-    env.media.matches = false;
+    mobileMedia.matches = false; tabletMedia.matches = false;
     const desktopSSR = renderToStaticMarkup(<HeroLaser surfaceRef={{ current: null }} />);
     assert.equal(mobileSSR, desktopSSR);
     assert.equal((mobileSSR.match(/<canvas\b/g) ?? []).length, 1);
     assert.match(mobileSSR, /data-hero-laser="true" class="pointer-events-none absolute inset-0"/);
-    assert.match(mobileSSR, /data-laser-fallback/); assert.match(mobileSSR, /left-\[82%\]/);
+    assert.match(mobileSSR, /data-laser-fallback/);
+    assert.match(mobileSSR, /left-1\/2/);
+    assert.match(mobileSSR, /md:left-\[72%\]/);
+    assert.match(mobileSSR, /lg:left-\[59%\]/);
     assert.doesNotMatch(mobileSSR, /onTouch|touch-action/);
-    clean(); assert.equal(env.media.count(), 0);
+    clean();
   } finally { Reflect.set(env.win, 'matchMedia', match); env.restoreGlobals(); }
 });
 
 for (const width of widths) test(`controlled ${width}px viewport fixture preserves surface/beam alignment and canvas sizing`, () => {
   const env = laserEnvironment();
-  const mobile = width < 1024;
-  Object.assign(env.settings.current, mobile ? MOBILE_HERO_LASER : DESKTOP_HERO_LASER);
+  const tier = width < 768 ? 'mobile' : width < 1024 ? 'tablet' : 'desktop';
+  const preset = HERO_LASER_PRESETS[tier];
+  Object.assign(env.settings.current, preset);
   const height = width >= 768 ? 1200 : 1000;
   env.rawContainer.rect = { left: 0, top: 0, width, height };
-  const left = width >= 768 ? .18 * width : .05 * width;
-  const right = width >= 768 ? .88 * width : .95 * width;
+  const left = width >= 768 ? .18 * width : width >= 640 ? .05 * width : 16;
+  const right = width >= 768 ? .88 * width : width >= 640 ? .95 * width : width - 16;
   const top = width >= 768 ? .65 * height : 650;
   env.surface.rect = { left, top, width: right-left, height: height-top };
   const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
   try {
     env.intersect(true); env.tick();
     assert.deepEqual(env.uniforms.get('uResolution'), [width, height]);
-    const expectedRatio = mobile ? 1 : Math.min(2, 2048 / Math.max(width, height));
+    const expectedRatio = tier !== 'desktop' ? 1 : Math.min(2, 2048 / Math.max(width, height));
     assert.equal(env.rawCanvas.width, Math.round(width * expectedRatio));
     assert.equal(env.rawCanvas.height, Math.round(height * expectedRatio));
-    assert.equal(env.uniforms.get('uBeamX')?.[0], width * (mobile ? .82 : .59));
-    assert.deepEqual(env.uniforms.get('uSurface'), [left, top, right, height]);
-    assert.deepEqual(env.uniforms.get('uAmount'), mobile ? [1.15, .22, .35, .8] : [1.65, .45, .85, 1.45]);
+    assert.equal(env.uniforms.get('uBeamX')?.[0], width * (preset.beamPosition ?? .6));
+    assert.deepEqual(env.uniforms.get('uSurface'), [left, top, left + (right - left), height]);
+    assert.deepEqual(env.uniforms.get('uAmount'), [preset.intensity, preset.fog, preset.dust, preset.streaks]);
     const beam = env.uniforms.get('uBeamX')![0] as number;
     assert.ok(beam >= left + 38 && beam <= right - 38);
-    if (mobile) {
-      env.resetMetrics(); env.pointer(width*.82, 300); env.tick();
+    if (tier !== 'desktop') {
+      env.resetMetrics(); env.pointer(width * (preset.beamPosition ?? .6), 300); env.tick();
       assert.equal(env.metrics.rect, 0); assert.equal(env.uniforms.get('uLens')?.[3], 0);
     }
     env.intersect(false); env.resetMetrics(); env.wake.current?.(); env.tick(10);
@@ -86,10 +112,11 @@ test('orientation/breakpoint changes resize the same renderer without allocating
   const clean = mountLaserFlow(env.container, env.canvas, env.settings, env.wake)!;
   try {
     env.rawContainer.rect = { left: 0, top: 0, width: 390, height: 1000 };
-    env.surface.rect = { left: 19.5, top: 650, width: 351, height: 350 };
+    env.surface.rect = { left: 16, top: 650, width: 358, height: 350 };
     env.intersect(true); env.tick();
     for (const [width, height] of [[768, 1200], [1024, 1200], [390, 1100], [430, 1000], [1440, 1200], [320, 1200]]) {
-      env.settings.current = { ...env.settings.current, ...DESKTOP_HERO_LASER, dpr: undefined, ...(width < 1024 ? MOBILE_HERO_LASER : {}) };
+      const tier = width < 768 ? 'mobile' : width < 1024 ? 'tablet' : 'desktop';
+      env.settings.current = { ...env.settings.current, ...DESKTOP_HERO_LASER, dpr: undefined, ...HERO_LASER_PRESETS[tier] };
       env.rawContainer.rect.width = width;
       env.rawContainer.rect.height = height;
       env.surface.rect = { left: .05*width, top: .65*height, width: .9*width, height: .35*height };
