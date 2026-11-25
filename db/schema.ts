@@ -26,6 +26,7 @@ export const visitors = pgTable(
     firstCampaign: text("first_campaign"),
     firstContent: text("first_content"),
     firstTerm: text("first_term"),
+    firstCampaignId: text("first_campaign_id"),
     firstReferrer: text("first_referrer"),
     firstLandingUrl: text("first_landing_url"),
 
@@ -35,6 +36,7 @@ export const visitors = pgTable(
     lastCampaign: text("last_campaign"),
     lastContent: text("last_content"),
     lastTerm: text("last_term"),
+    lastCampaignId: text("last_campaign_id"),
     lastReferrer: text("last_referrer"),
     lastLandingUrl: text("last_landing_url"),
 
@@ -89,6 +91,10 @@ export const trackingEvents = pgTable(
     source: text("source"),
     medium: text("medium"),
     campaign: text("campaign"),
+    content: text("content"),
+    term: text("term"),
+    campaignId: text("campaign_id"),
+    referrer: text("referrer"),
 
     createdAt: timestamp("created_at", {
       withTimezone: true,

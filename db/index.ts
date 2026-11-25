@@ -1,7 +1,10 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 
-let _db: ReturnType<typeof createDb> | undefined;
+type DbClient = ReturnType<typeof createDb>;
+
+let _db: DbClient | undefined;
+let _overrideDb: unknown;
 
 function createDb() {
   const url = process.env.DATABASE_URL;
@@ -9,7 +12,14 @@ function createDb() {
   return drizzle({ client: neon(url) });
 }
 
-export function getDb() {
+export function setDbForTesting(mockDb?: unknown) {
+  _overrideDb = mockDb;
+}
+
+export function getDb(): DbClient {
+  if (_overrideDb !== undefined) {
+    return _overrideDb as DbClient;
+  }
   _db ??= createDb();
   return _db;
 }

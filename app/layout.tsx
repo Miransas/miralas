@@ -2,7 +2,6 @@
 import type { Metadata, Viewport } from "next";
 import { motionCssVariables } from "@/lib/motion";
 import { IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -19,10 +18,6 @@ import {
 import { cn } from "../lib/utils";
 import { PageViewTracker } from "../components/providers/page-view-tracker";
 import { CookieConsent } from "../components/providers/cookie-consent";
-
-const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
-
-
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -162,7 +157,6 @@ export default function RootLayout({
             <CookieConsent />
           </MotionProvider>
         </ThemeProvider>
-        {googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
       </body>
     </html>
   );

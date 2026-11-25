@@ -1,26 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  FIRST_TOUCH_COOKIE,
+  LAST_TOUCH_COOKIE,
+  parseAttributionCookie,
+} from "@/lib/attribution";
 
 export async function GET(request: NextRequest) {
-    const firstTouch = request.cookies.get("attribution_first")?.value;
-    const lastTouch = request.cookies.get("attribution_last")?.value;
+  const first = parseAttributionCookie(
+    request.cookies.get(FIRST_TOUCH_COOKIE)?.value
+  );
+  const last = parseAttributionCookie(
+    request.cookies.get(LAST_TOUCH_COOKIE)?.value
+  );
 
-    let first = null;
-    let last = null;
-
-    try {
-        first = firstTouch ? JSON.parse(firstTouch) : null;
-    } catch {
-        first = null;
-    }
-
-    try {
-        last = lastTouch ? JSON.parse(lastTouch) : null;
-    } catch {
-        last = null;
-    }
-
-    return NextResponse.json(
-   { first, last },
-   { headers: { "Cache-Control": "no-store" } }
-);
+  return NextResponse.json(
+    { first, last },
+    { headers: { "Cache-Control": "no-store" } }
+  );
 }
