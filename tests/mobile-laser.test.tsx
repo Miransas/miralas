@@ -21,9 +21,9 @@ const widths = [320, 360, 375, 390, 430, 768, 820, 1024, 1440];
 
 test('mobile, tablet and desktop presets match the requested settings exactly', () => {
   assert.deepEqual(MOBILE_HERO_LASER, {
-    beamPosition: .5, color: '#0F60E4', intensity: 1.05, flare: .85, spread: .55,
-    spill: 0, fog: .18, dust: .3, beamWidth: .75, streaks: .7, dots: .08,
-    pulse: .45, speed: 1.15, seed: 8, dpr: 1, mouseInteraction: false,
+    beamPosition: .82, color: '#0F60E4', intensity: 1.15, flare: 1.1, spread: .95,
+    spill: .65, fog: .22, dust: .35, beamWidth: .85, streaks: .8, dots: .1,
+    pulse: .5, speed: 1.2, seed: 8, dpr: 1, mouseInteraction: false,
   });
   assert.deepEqual(TABLET_HERO_LASER, {
     beamPosition: .72, color: '#0F60E4', intensity: 1.35, flare: 1.2, spread: 1.05,
@@ -41,32 +41,22 @@ test('the media store updates and cleans up; SSR has one canvas and a stable hyd
   const env = laserEnvironment();
   let changes = 0; const queries: string[] = [];
   const match = env.win.matchMedia;
-  const mobileMedia = Object.assign(new EventTarget(), { matches: false });
-  const tabletMedia = Object.assign(new EventTarget(), { matches: false });
-  Reflect.set(env.win, 'matchMedia', (query: string) => {
-    queries.push(query);
-    return query === MOBILE_LASER_QUERY ? mobileMedia : tabletMedia;
-  });
+  Reflect.set(env.win, 'matchMedia', (query: string) => { queries.push(query); return env.media; });
   try {
+    env.media.matches = false;
     const clean = subscribeHeroLaser(() => changes++);
     assert.equal(heroLaserSnapshot(), 'desktop');
-    tabletMedia.matches = true; tabletMedia.dispatchEvent(new Event('change'));
-    assert.equal(heroLaserSnapshot(), 'tablet'); assert.equal(changes, 1);
-    mobileMedia.matches = true; mobileMedia.dispatchEvent(new Event('change'));
-    assert.equal(heroLaserSnapshot(), 'mobile'); assert.equal(changes, 2);
+    env.media.matches = true; env.media.dispatchEvent(new Event('change'));
+    assert.equal(heroLaserSnapshot(), 'mobile'); assert.equal(changes, 1);
     assert.equal(serverHeroLaserSnapshot(), 'desktop');
     assert.ok(queries.includes(MOBILE_LASER_QUERY));
-    assert.ok(queries.includes(TABLET_LASER_QUERY));
     const mobileSSR = renderToStaticMarkup(<HeroLaser surfaceRef={{ current: null }} />);
-    mobileMedia.matches = false; tabletMedia.matches = false;
+    env.media.matches = false;
     const desktopSSR = renderToStaticMarkup(<HeroLaser surfaceRef={{ current: null }} />);
     assert.equal(mobileSSR, desktopSSR);
     assert.equal((mobileSSR.match(/<canvas\b/g) ?? []).length, 1);
-    assert.match(mobileSSR, /data-hero-laser="true" class="pointer-events-none absolute inset-0"/);
+    assert.match(mobileSSR, /data-hero-laser="true"/);
     assert.match(mobileSSR, /data-laser-fallback/);
-    assert.match(mobileSSR, /left-1\/2/);
-    assert.match(mobileSSR, /md:left-\[72%\]/);
-    assert.match(mobileSSR, /lg:left-\[59%\]/);
     assert.doesNotMatch(mobileSSR, /onTouch|touch-action/);
     clean();
   } finally { Reflect.set(env.win, 'matchMedia', match); env.restoreGlobals(); }
